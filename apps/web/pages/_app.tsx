@@ -95,11 +95,11 @@ function Web({ Component, pageProps, router }: AppProps) {
             position="bottom-center"
             reverseOrder={false}
             containerStyle={{
-              zIndex: 99999999, // For the container
+              zIndex: 99999999,
             }}
             toastOptions={{
               style: {
-                zIndex: 99999999, // For toasts
+                zIndex: 99999999,
               },
             }}
           />
