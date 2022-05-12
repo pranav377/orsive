@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overscroll-behavior-y: contain;
+}
+
+::-webkit-scrollbar {
+  width: 0.2rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2563eb;
+}
+
+.react-modal-sheet-container {
+  background-color: rgb(15 23 42) !important;
+}
+
+.text-break {
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.text-content * {
+  white-space: pre-wrap;
+  word-break: break-word;
+  word-wrap: break-word;
+  margin: 1rem;
+}
+
+.text-content a {
+  color: rgb(29 78 216);
+  margin: 0;
+}
+
+.text-content img {
+  display: block;
+  margin: 0 auto;
+}
+
+.text-content p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.text-content h1 {
+  font-size: 2.5rem !important;
+}
+
+.text-content h2 {
+  font-size: 2rem !important;
+}
+
+.text-content h3 {
+  font-size: 1.75rem !important;
+}
+
+.text-content h4 {
+  font-size: 1.5rem !important;
+}
+
+.text-content h5 {
+  font-size: 1.25rem !important;
+}
+
+.text-content h6 {
+  font-size: 1rem !important;
+}
+
+.tox-tinymce-aux {
+  z-index: 999999999 !important;
+}
+
+.tox-collection__item-label * {
+  background-color: transparent !important;
+}
+
+.floating {
+  animation-name: floating;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  margin-left: 30px;
+  margin-top: 5px;
+}
+
+@keyframes floating {
+  0% {
+    transform: translate(0, 0px);
+  }
+  50% {
+    transform: translate(0, 15px);
+  }
+  100% {
+    transform: translate(0, -0px);
+  }
+}

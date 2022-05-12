@@ -1,0 +1,231 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Like {
+  id            String               @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime             @default(now())
+  user          Profile              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String               @db.ObjectId
+  postId        String               @db.ObjectId
+  post          Post                 @relation(fields: [postId], references: [id], onDelete: Cascade)
+  reputationLog ReputationBlockLog[]
+}
+
+model Dislike {
+  id            String               @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime             @default(now())
+  user          Profile              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String               @db.ObjectId
+  postId        String               @db.ObjectId
+  post          Post                 @relation(fields: [postId], references: [id], onDelete: Cascade)
+  reputationLog ReputationBlockLog[]
+}
+
+model Post {
+  id             String               @id @default(auto()) @map("_id") @db.ObjectId
+  postType       PostType
+  image          Image?               @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId        String?              @unique @db.ObjectId
+  orsic          Orsic?               @relation(fields: [orsicId], references: [id], onDelete: Cascade)
+  orsicId        String?              @unique @db.ObjectId
+  comment        Comment?             @relation(fields: [commentId], references: [id])
+  commentId      String?              @unique @db.ObjectId
+  notification   NotificationForPost? @relation(fields: [notificationId], references: [id])
+  notificationId String?              @unique @db.ObjectId
+
+  createdAt    DateTime  @default(now())
+  likes        Like[]
+  dislikes     Dislike[]
+  uploadedBy   Profile   @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  uploadedById String    @db.ObjectId
+  reports      Report[]
+}
+
+enum PostType {
+  image
+  orsic
+  comment
+}
+
+model Profile {
+  id             String               @id @default(auto()) @map("_id") @db.ObjectId
+  username       String               @unique
+  email          String               @unique
+  password       String
+  name           String
+  avatar         String
+  banner         String?
+  bio            String               @default("")
+  joined         DateTime             @default(now())
+  authMethod     AuthMethod           @default(local)
+  discordId      String?              @unique
+  googleId       String?              @unique
+  likes          Like[]
+  dislikes       Dislike[]
+  history        History[]
+  posts          Post[]
+  followers      Profile[]            @relation("ProfileFollows", fields: [followersIDs], references: [id])
+  followersIDs   String[]             @db.ObjectId
+  following      Profile[]            @relation("ProfileFollows", fields: [followingIDs], references: [id])
+  followingIDs   String[]             @db.ObjectId
+  reputationLog  ReputationBlockLog[]
+  reports        Report[]
+  reportFavors   ReportFavor[]
+  reportAgainsts ReportAgainst[]
+
+  notifications Notification[]
+  roles         Role[]
+}
+
+model Role {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  user   Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String  @db.ObjectId
+  name   String
+  weight Float // between 0 and 1
+}
+
+enum AuthMethod {
+  local
+  google
+  discord
+}
+
+model OTP {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  otp        String
+  created_at DateTime @default(now())
+}
+
+model Image {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  image String
+  title String?
+  slug  String  @unique
+  post  Post?
+}
+
+model Orsic {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  title   String?
+  content String
+  slug    String  @unique
+  post    Post?
+}
+
+model History {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  postId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  parentId     String? @db.ObjectId //Comment id
+  parentPostId String? @db.ObjectId //Post id
+
+  post Post?
+
+  content String
+}
+
+model ReputationBlockLog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  like      Like?    @relation(fields: [likeId], references: [id], onDelete: Cascade)
+  likeId    String?  @db.ObjectId
+  dislike   Dislike? @relation(fields: [dislikeId], references: [id], onDelete: Cascade)
+  dislikeId String?  @db.ObjectId
+  amount    Int
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  forUser          Profile          @relation(fields: [forUserId], references: [id])
+  forUserId        String           @db.ObjectId
+  notificationType NotificationType @default(forPost)
+  seen             Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+
+  notificationForPost   NotificationForPost? @relation(fields: [notificationForPostId], references: [id], onDelete: Cascade)
+  notificationForPostId String?              @unique @db.ObjectId
+}
+
+enum NotificationType {
+  forPost
+}
+
+model NotificationForPost {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  post         Post?
+  notification Notification?
+}
+
+model Feature {
+  id     String        @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  status FeatureStatus
+}
+
+enum FeatureStatus {
+  enabled
+  disabled
+  comingsoon
+}
+
+model Report {
+  id        String          @id @default(auto()) @map("_id") @db.ObjectId
+  user      Profile         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String          @db.ObjectId
+  postId    String          @db.ObjectId
+  createdAt DateTime        @default(now())
+  favors    ReportFavor[]
+  against   ReportAgainst[]
+}
+
+// moderator elections?
+
+// mods require the mod role
+// neutral votes ==> number of moderators who didn't vote
+// if report gets more favors, post is not removed
+// if report gets more againsts, post is removed
+// if report gets more neutral votes, staff decides
+// polling happens after 3 days of the report
+// based on the result, the mods get Reputation. Decision won: 1k reputation, Decision Lost: 200 reputation
+// if neutral votes are more after polling, show staff a secret button to either approve post or to remove it
+// if all moderators have voted, execute decision immediately
+// create discord community for mods
+// certain posts may require immediate action, those posts will be discussed by the staff in the community discord server
+
+model ReportFavor {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  mod       Profile  @relation(fields: [modId], references: [id], onDelete: Cascade)
+  modId     String   @db.ObjectId
+  reportId  String   @db.ObjectId
+  report    Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+}
+
+model ReportAgainst {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  mod       Profile  @relation(fields: [modId], references: [id], onDelete: Cascade)
+  modId     String   @db.ObjectId
+  reportId  String   @db.ObjectId
+  report    Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+}
