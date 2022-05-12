@@ -110,8 +110,8 @@ model OTP {
 model Image {
   id     String  @id @default(auto()) @map("_id") @db.ObjectId
   image  String
-  width  Int?
-  height Int?
+  width  Int
+  height Int
   title  String?
   slug   String  @unique
   post   Post?
