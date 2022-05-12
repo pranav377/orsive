@@ -71,11 +71,13 @@ export default function Notifications() {
             </>
           )}
 
-          <OneTimePageSpinner
-            spinnerShown={spinnerShown}
-            data={notificationsQuery.data}
-            long
-          />
+          {user.is && (
+            <OneTimePageSpinner
+              spinnerShown={spinnerShown}
+              data={notificationsQuery.data}
+              long
+            />
+          )}
         </div>
       </Layout>
     </>
