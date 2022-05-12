@@ -9,13 +9,13 @@ export default function OneTimePageSpinner(props: {
     return (
       <div
         className={`flex items-center justify-center m-2 ${
-          props.long && "h-[70vh]"
+          props.long ? "h-[70vh]" : ""
         }`}
       >
         <Spinner />
       </div>
     );
+  } else {
+    return null;
   }
-
-  return null;
 }

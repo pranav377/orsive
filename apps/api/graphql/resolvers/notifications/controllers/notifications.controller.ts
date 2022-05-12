@@ -32,7 +32,16 @@ export async function GetMyNotifications(
   let page = (args.page || 1) - 1;
   let offset = page * COMMENT_PAGINATION_SET_SIZE;
 
-  let notificationsCount = await prisma.notification.count();
+  let notificationsCount = await prisma.notification.count({
+    where: {
+      forUserId: user.id,
+      notificationForPost: {
+        post: {
+          isNot: null,
+        },
+      },
+    },
+  });
 
   let hasNextPage =
     (args.page || 1) * COMMENT_PAGINATION_SET_SIZE < notificationsCount;
@@ -44,6 +53,11 @@ export async function GetMyNotifications(
         take: COMMENT_PAGINATION_SET_SIZE,
         where: {
           forUserId: user.id,
+          notificationForPost: {
+            post: {
+              isNot: null,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc",
