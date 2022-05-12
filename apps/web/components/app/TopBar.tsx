@@ -2,6 +2,7 @@ import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppState } from "../../hooks/app/useAppState";
+import { useScrollTop } from "../../hooks/app/useScrollTop";
 import Spinner from "./Spinner";
 
 interface TopBarPropTypes {
@@ -14,6 +15,7 @@ interface TopBarPropTypes {
 export default function TopBar(props: TopBarPropTypes) {
   const appState = useAppState();
   const router = useRouter();
+  useScrollTop();
 
   return (
     <div
@@ -21,7 +23,11 @@ export default function TopBar(props: TopBarPropTypes) {
         props.transparent ? "bg-transparent" : "bg-slate-900 bg-opacity-60"
       }`}
     >
-      <Link href={props.backLink} passHref>
+      <Link
+        scroll={props.backLink === "/feed" ? false : true}
+        href={props.backLink}
+        passHref
+      >
         <a>
           <ArrowLeftIcon className="h-10 w-10 md:h-12 md:w-12 rounded-full p-2" />
         </a>
