@@ -8,6 +8,8 @@ const GET_PROFILE_POSTS = gql`
         ... on Image {
           title
           image
+          width
+          height
           slug
           post {
             _count {
