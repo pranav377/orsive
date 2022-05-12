@@ -53,7 +53,7 @@ export default function RichEditor(props: {
 
             // image upload handling
             file_picker_types: "image",
-            image_dimensions: false,
+            image_dimensions: true,
             images_upload_handler: async (blobInfo) =>
               new Promise((resolve, reject) => {
                 let file = blobInfo.blob();

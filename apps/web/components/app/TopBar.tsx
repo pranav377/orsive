@@ -1,7 +1,5 @@
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useAppState } from "../../hooks/app/useAppState";
 import { useScrollTop } from "../../hooks/app/useScrollTop";
 import Spinner from "./Spinner";
 
@@ -13,8 +11,6 @@ interface TopBarPropTypes {
 }
 
 export default function TopBar(props: TopBarPropTypes) {
-  const appState = useAppState();
-  const router = useRouter();
   useScrollTop();
 
   return (

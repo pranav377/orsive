@@ -17,6 +17,7 @@ import getCommentTitle from "./getCommentTitle";
 import Replies from "./replies";
 import ReplyBox from "./replyBox";
 import Link from "next/link";
+import ContentParser from "../../app/ContentParser";
 
 export default function IndividualCommentPage(props: {
   getCommentQuery: QueryResult<
@@ -90,10 +91,9 @@ export default function IndividualCommentPage(props: {
               />
 
               <LinkifyContent>
-                <div
-                  className="text-content p-2"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
-                />
+                <div className="text-content p-2">
+                  {ContentParser(post.content)}
+                </div>
               </LinkifyContent>
               <Moment
                 className="self-end text-gray-300 p-2"

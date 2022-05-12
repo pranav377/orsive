@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import GET_POSTS_QUERY from "../../../app/post/queries/getPostsQuery";
 import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery";
 import AvatarArea from "../extra/AvatarArea";
+import ContentParser from "../../app/ContentParser";
 
 export default function OrsicPostCard(props: { post: any }) {
   let post = props.post;
@@ -39,10 +40,9 @@ export default function OrsicPostCard(props: { post: any }) {
                   </span>
                 )}
                 <LinkifyContent>
-                  <div
-                    className="text-content"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
-                  />
+                  <div className="text-content">
+                    {ContentParser(post.content)}
+                  </div>
                 </LinkifyContent>
                 {post.truncated && (
                   <div className="w-full p-1 bg-slate-700 hover:bg-slate-800 transition-all duration-300 font-semibold text-center rounded-b-xl">

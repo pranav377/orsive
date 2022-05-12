@@ -1,6 +1,7 @@
 import { UploadedBy } from "../../app/types";
 import Link from "next/link";
 import Options from "./Options";
+import Image from "next/image";
 
 export default function AvatarArea(props: {
   uploadedBy: UploadedBy;
@@ -8,13 +9,21 @@ export default function AvatarArea(props: {
 }) {
   return (
     <div className=" p-4 w-full flex relative">
-      <img
+      <div
+        className=" w-1/12"
         style={{
+          position: "relative",
           minWidth: "2rem",
         }}
-        src={props.uploadedBy.avatar}
-        className="flex rounded-full object-cover object-center w-1/12"
-      />
+      >
+        <Image
+          src={props.uploadedBy.avatar}
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
+          className="rounded-full"
+        />
+      </div>
       <div className="flex flex-col ml-2 w-10/12 text-sm md:text-base">
         <p className="font-semibold">{props.uploadedBy.name}</p>
         <Link href={`/${props.uploadedBy.username}`} passHref>

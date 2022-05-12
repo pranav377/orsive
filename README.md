@@ -4,12 +4,14 @@ I started making Orsive on 11 July, 2021. It was previously created with plan Re
 
 I will bring documentation and development environment setup soon.
 
-### Todo
+### Todo for now
 
 1. Send notifications when comment/reply is posted
 2. Moderator vote system
 3. Create PWA
 4. A page containing the people you follow
+5. Optimize images
+6. Create script to setup development environment
 
 ### Small things to know about
 
