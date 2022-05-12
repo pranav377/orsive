@@ -25,7 +25,7 @@ export default function validateHTMLContent(
   const sanitized = xss(value, {
     whiteList: {
       ...whiteList,
-      img: ["alt", "src"],
+      img: ["alt", "src", "width", "height"],
     },
   });
 
