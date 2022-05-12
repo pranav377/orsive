@@ -35,6 +35,11 @@ export async function GetMyNotifications(
   let notificationsCount = await prisma.notification.count({
     where: {
       forUserId: user.id,
+      notificationForPost: {
+        post: {
+          isNot: null,
+        },
+      },
     },
   });
 
@@ -48,6 +53,11 @@ export async function GetMyNotifications(
         take: COMMENT_PAGINATION_SET_SIZE,
         where: {
           forUserId: user.id,
+          notificationForPost: {
+            post: {
+              isNot: null,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc",
