@@ -3,6 +3,8 @@ import { gql } from "apollo-server-express";
 const IMAGE_SCHEMA = gql`
   type Image {
     image: String
+    width: Int
+    height: Int
     title: String
     slug: String
     post: Post

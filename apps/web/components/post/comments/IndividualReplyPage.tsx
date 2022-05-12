@@ -15,6 +15,7 @@ import AvatarArea from "../extra/AvatarArea";
 import ExtraButtons from "../extra/ExtraButtons";
 import getCommentTitle from "./getCommentTitle";
 import Link from "next/link";
+import ContentParser from "../../app/ContentParser";
 
 export default function IndividualReplyPage(props: {
   getReplyQuery: QueryResult<
@@ -90,10 +91,9 @@ export default function IndividualReplyPage(props: {
               />
 
               <LinkifyContent>
-                <div
-                  className="text-content p-2"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
-                />
+                <div className="text-content p-2">
+                  {ContentParser(post.content)}
+                </div>
               </LinkifyContent>
               <Moment
                 className="self-end text-gray-300 p-2"

@@ -20,6 +20,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "graphql": "^16.3.0",
+    "html-react-parser": "^1.4.12",
     "meilisearch": "^0.25.0",
     "moment": "^2.29.1",
     "next": "^12.1.5",

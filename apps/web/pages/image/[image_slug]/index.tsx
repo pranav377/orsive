@@ -16,10 +16,14 @@ import Comments from "../../../components/post/comments";
 import TopBar from "../../../components/app/TopBar";
 import { Layout } from "../../../components/app/Layout";
 import Link from "next/link";
+import Image from "next/image";
+import { generatePlaceholder } from "../../../components/app/ContentParser";
 
 interface ImagePostType {
   title: string | null;
   image: string;
+  width: number;
+  height: number;
   slug: string;
   post: {
     id: string;
@@ -109,15 +113,25 @@ export default function ImagePost(props: { post: ImagePostType | null }) {
                   <div className="text-break p-2 md:p-4">{post.title}</div>
                 </LinkifyContent>
               )}
-              <img
+              <div
                 className="p-2"
-                alt="user's posted photo"
                 style={{
-                  display: "block",
-                  margin: "0 auto",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
-                src={post.image}
-              />
+              >
+                <Image
+                  alt="user's posted photo"
+                  placeholder="blur"
+                  blurDataURL={generatePlaceholder(
+                    post.width.toString(),
+                    post.height.toString()
+                  )}
+                  src={post.image}
+                  width={post.width}
+                  height={post.height}
+                />
+              </div>
               <Moment
                 className="self-end text-gray-300 p-2"
                 date={post.post.createdAt}

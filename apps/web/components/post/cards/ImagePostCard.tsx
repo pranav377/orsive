@@ -8,6 +8,8 @@ import { useMutation } from "@apollo/client";
 import GET_POSTS_QUERY from "../../../app/post/queries/getPostsQuery";
 import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery";
 import AvatarArea from "../extra/AvatarArea";
+import Image from "next/image";
+import { generatePlaceholder } from "../../app/ContentParser";
 
 export default function ImagePostCard(props: { post: any }) {
   let post = props.post;
@@ -35,13 +37,23 @@ export default function ImagePostCard(props: { post: any }) {
               <LinkifyContent>
                 <div className="text-break p-2 text-content">{post.title}</div>
               </LinkifyContent>
-              <img
+              <div
                 style={{
-                  display: "block",
-                  margin: "0 auto",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
-                src={post.image}
-              />
+              >
+                <Image
+                  placeholder="blur"
+                  blurDataURL={generatePlaceholder(
+                    post.width.toString(),
+                    post.height.toString()
+                  )}
+                  src={post.image}
+                  width={post.width}
+                  height={post.height}
+                />
+              </div>
             </a>
           </Link>
           <ExtraButtons postUrl={postUrl} {...likeFeatures} />

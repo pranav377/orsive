@@ -18,6 +18,7 @@ import insertItem, {
 } from "../../../../utils/mepster/item/insertItem";
 import updateItem from "../../../../utils/mepster/item/updateItem";
 import deleteItem from "../../../../utils/mepster/item/deleteItem";
+import probe from "probe-image-size";
 
 export interface AddImagePostArgs {
   input: AddImageInput;
@@ -59,10 +60,14 @@ export async function AddImagePost(args: AddImagePostArgs, user: User) {
 
   let slug = generateSlug(data.title);
 
+  let { width, height } = await probe(image);
+
   let imagePost = await prisma.image.create({
     data: {
-      image: image,
-      slug: slug,
+      image,
+      width,
+      height,
+      slug,
       title: data.title,
       post: {
         create: {
@@ -132,12 +137,16 @@ export async function UpdateImagePost(args: UpdateImagePostArgs, user: User) {
     imageData
   );
 
+  let { width, height } = await probe(image);
+
   let post = await prisma.image.update({
     where: {
       slug: data.slug,
     },
     data: {
-      image: image,
+      image,
+      width,
+      height,
       title: data.title,
     },
     include: {

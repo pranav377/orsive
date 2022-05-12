@@ -12,6 +12,7 @@ import GET_REPLIES_QUERY from "./queries/getRepliesQuery";
 import AvatarArea from "../extra/AvatarArea";
 import OneTimePageSpinner from "../../app/OneTimePageSpinner";
 import { useOneTimePageSpinner } from "../../../hooks/app/useOneTimePageSpinner";
+import ContentParser from "../../app/ContentParser";
 
 export default function Comments(props: { postId: string; postUrl: string }) {
   const { allCommentsQuery, myCommentsQuery, loadMoreElement } = useComments(
@@ -103,10 +104,9 @@ export function SingleComment(props: {
         <Link href={`${props.commentUrl}`} passHref>
           <a>
             <LinkifyContent>
-              <div
-                className="text-content p-2"
-                dangerouslySetInnerHTML={{ __html: props.comment.content }}
-              />
+              <div className="text-content p-2">
+                {ContentParser(props.comment.content)}
+              </div>
             </LinkifyContent>
           </a>
         </Link>

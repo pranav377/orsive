@@ -5,6 +5,8 @@ const GET_IMAGE_POST_QUERY = gql`
     getImage(slug: $slug) {
       title
       image
+      width
+      height
       slug
       post {
         id

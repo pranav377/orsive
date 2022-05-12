@@ -10,8 +10,8 @@ const nextConfig = {
 
     return config;
   },
-  experimental: {
-    scrollRestoration: true,
+  images: {
+    domains: ["localhost", "cdn.orsive.com"],
   },
 };
 
