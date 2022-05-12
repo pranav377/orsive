@@ -25,7 +25,7 @@ export default function Section2() {
                   a Star!
                 </p>
                 <a
-                  href="https://github.com/orsive/orsive"
+                  href="https://github.com/pranav377/orsive"
                   target="_blank"
                   rel="noreferrer"
                   className="github-star mt-4 inline-block text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-4 ripple-bg-slate-700 uppercase text-sm"
