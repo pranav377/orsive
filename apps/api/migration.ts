@@ -37,4 +37,20 @@ import probe from "probe-image-size";
       },
     });
   });
+
+  let images = await prisma.image.findMany();
+
+  images.map(async (image) => {
+    let { width, height } = await probe(image.image);
+
+    await prisma.image.update({
+      where: {
+        id: image.id,
+      },
+      data: {
+        width,
+        height,
+      },
+    });
+  });
 })();

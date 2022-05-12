@@ -8,6 +8,8 @@ const GET_POSTS_QUERY = gql`
         ... on Image {
           title
           image
+          width
+          height
           slug
           post {
             uploadedBy {
