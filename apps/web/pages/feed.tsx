@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
 import { Layout } from "../components/app/Layout";
 import OneTimePageSpinner from "../components/app/OneTimePageSpinner";
 import Spinner from "../components/app/Spinner";
 import ImagePostCard from "../components/post/cards/ImagePostCard";
 import OrsicPostCard from "../components/post/cards/OrsicPostCard";
 import { useOneTimePageSpinner } from "../hooks/app/useOneTimePageSpinner";
+import { useScrollRestoring } from "../hooks/app/useScrollRestoring";
 import { useFeedPage } from "../hooks/pages/feed/useFeedPage";
 
 export default function Feed() {
   const { query, loadMoreElement } = useFeedPage();
 
   const { spinnerShown } = useOneTimePageSpinner(query.data);
+
+  useScrollRestoring();
 
   return (
     <>

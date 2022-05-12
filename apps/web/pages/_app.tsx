@@ -16,6 +16,10 @@ import { AnimatePresence } from "framer-motion";
 import LoginDialog from "../components/app/LoginDialog";
 import { useAnalytics } from "../hooks/app/useAnalytics";
 
+import { createContext, useRef } from "react";
+
+export const ScrollContext = createContext({});
+
 export const client = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
@@ -86,63 +90,69 @@ function Web({ Component, pageProps, router }: AppProps) {
   const url = `https://www.orsive.com${router.route}`;
   useAnalytics();
 
+  const scrollRef = useRef({
+    scrollPos: 0,
+  });
+
   return (
     <>
       <Provider store={store}>
         <ApolloProvider client={client}>
-          <AppMiddleware />
-          <Toaster
-            position="bottom-center"
-            reverseOrder={false}
-            containerStyle={{
-              zIndex: 99999999,
-            }}
-            toastOptions={{
-              style: {
+          <ScrollContext.Provider value={{ scrollRef: scrollRef }}>
+            <AppMiddleware />
+            <Toaster
+              position="bottom-center"
+              reverseOrder={false}
+              containerStyle={{
                 zIndex: 99999999,
-              },
-            }}
-          />
-          <DefaultSeo
-            additionalLinkTags={[
-              {
-                rel: "shortcut icon",
-                href: "/logo.png",
-                type: "image/x-icon",
-              },
-              {
-                rel: "icon",
-                href: "/logo.png",
-                type: "image/x-icon",
-              },
-            ]}
-            openGraph={{
-              type: "website",
-              locale: "en_US",
-              url: "https://www.orsive.com/",
-              title: "Orsive",
-              description: "An open source social media platform",
-              site_name: "Orsive",
-              images: [
-                {
-                  url: "https://www.orsive.com/logo.png",
+              }}
+              toastOptions={{
+                style: {
+                  zIndex: 99999999,
                 },
-              ],
-            }}
-          />
-          <Navbar />
-          <NextNProgress
-            showOnShallow={false}
-            options={{
-              showSpinner: false,
-            }}
-          />
-          <LoginDialog />
-          <AnimatePresence initial={false} exitBeforeEnter>
-            <Component {...pageProps} key={url} />
-          </AnimatePresence>
+              }}
+            />
+            <DefaultSeo
+              additionalLinkTags={[
+                {
+                  rel: "shortcut icon",
+                  href: "/logo.png",
+                  type: "image/x-icon",
+                },
+                {
+                  rel: "icon",
+                  href: "/logo.png",
+                  type: "image/x-icon",
+                },
+              ]}
+              openGraph={{
+                type: "website",
+                locale: "en_US",
+                url: "https://www.orsive.com/",
+                title: "Orsive",
+                description: "An open source social media platform",
+                site_name: "Orsive",
+                images: [
+                  {
+                    url: "https://www.orsive.com/logo.png",
+                  },
+                ],
+              }}
+            />
+            <Navbar />
+            <NextNProgress
+              showOnShallow={false}
+              options={{
+                showSpinner: false,
+              }}
+            />
+            <LoginDialog />
+            <AnimatePresence initial={false} exitBeforeEnter>
+              <Component {...pageProps} key={url} />
+            </AnimatePresence>
 
-          <BottomNavigation />
+            <BottomNavigation />
+          </ScrollContext.Provider>
         </ApolloProvider>
       </Provider>
     </>
