@@ -1,5 +1,5 @@
 import { getOrsicContent } from "../../../resolvers/post/controllers/post.controller";
-import sendNotificationsForPost from "../../data/notifications/sendNotifications";
+import sendNotificationsForPost from "../../data/notifications/sendNotificationsForPost";
 import recommenderClient from "../client";
 import { searchIndex } from "../searchClient";
 

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "dotenv -e .env.development -- nodemon",
     "start": "dotenv -e .env.production -- ts-node app.ts",
-    "migrate": "dotenv -e .env.production -- ts-node migration.ts",
+    "migrate": "dotenv -e .env.development -- ts-node migration.ts",
     "generate": "npx prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

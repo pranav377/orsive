@@ -3,6 +3,8 @@ import { User } from "../../../permissions/IsUserAuthenticated";
 import IsUserOwner from "../../../permissions/IsUserOwner";
 import getRepliesCount from "../../../utils/data/comments/getRepliesCount";
 import prisma from "../../../utils/data/dbClient";
+import sendNotificationsforComment from "../../../utils/data/notifications/sendNotificationsForComment";
+import sendNotificationsforReply from "../../../utils/data/notifications/sendNotificationsForReply";
 import validate from "../../../utils/data/validate";
 import GetObjOrNotFound from "../../../utils/objOrNotFound";
 import { POST_PRISMA_ARGS } from "../../post/controllers/post.controller";
@@ -127,6 +129,14 @@ export async function GetReplies(args: GetRepliesArgs) {
 export async function CreateComment(args: CreateCommentArgs, user: User) {
   let data: CreateCommentInput = validate(args.input, CREATE_COMMENT_VALIDATOR);
 
+  let parentPost = GetObjOrNotFound(
+    await prisma.post.findUnique({
+      where: {
+        id: data.post_id,
+      },
+    })
+  );
+
   let comment = await prisma.comment.create({
     data: {
       content: data.content,
@@ -141,6 +151,8 @@ export async function CreateComment(args: CreateCommentArgs, user: User) {
     },
     ...POST_PRISMA_ARGS,
   });
+
+  sendNotificationsforComment(parentPost!.uploadedById, comment.id);
 
   return { ...comment, replies: 0 };
 }
@@ -166,7 +178,7 @@ export async function CreateReply(args: CreateReplyArgs, user: User) {
     data: {
       content: data.content,
       parentId: data.parent_id,
-      parentPostId: parentComment!.post!.id,
+      parentPostId: parentComment!.parentPostId,
       post: {
         create: {
           postType: "comment",
@@ -176,6 +188,8 @@ export async function CreateReply(args: CreateReplyArgs, user: User) {
     },
     ...POST_PRISMA_ARGS,
   });
+
+  sendNotificationsforReply(parentComment!.post!.uploadedById, comment.id);
 
   return comment;
 }

@@ -138,6 +138,9 @@ model Comment {
   parentId     String? @db.ObjectId //Comment id
   parentPostId String? @db.ObjectId //Post id
 
+  notification   NotificationForComment? @relation(fields: [notificationId], references: [id])
+  notificationId String?                 @unique @db.ObjectId
+
   post Post?
 
   content String
@@ -165,15 +168,26 @@ model Notification {
 
   notificationForPost   NotificationForPost? @relation(fields: [notificationForPostId], references: [id], onDelete: Cascade)
   notificationForPostId String?              @unique @db.ObjectId
+
+  notificationForComment   NotificationForComment? @relation(fields: [notificationForCommentId], references: [id], onDelete: Cascade)
+  notificationForCommentId String?                 @unique @db.ObjectId
 }
 
 enum NotificationType {
   forPost
+  forComment
+  forReply
 }
 
 model NotificationForPost {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   post         Post?
+  notification Notification?
+}
+
+model NotificationForComment {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  comment      Comment?
   notification Notification?
 }
 

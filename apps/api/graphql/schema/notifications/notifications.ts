@@ -13,6 +13,13 @@ const NOTIFICATIONS_SCHEMA = gql`
     notification: BaseNotification
   }
 
+  type NotificationForComment {
+    id: ID!
+    url: String
+    comment: Comment
+    notification: BaseNotification
+  }
+
   type GetMyNotificationsResponse {
     data: [NotificationForPost]!
     hasNextPage: Boolean
