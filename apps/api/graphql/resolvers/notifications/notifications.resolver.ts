@@ -8,13 +8,13 @@ import {
 export const NOTIFICATIONS_RESOLVERS = {
   Notification: {
     __resolveType(notification: any) {
-      if (notification.notificationType === "forPost") {
+      if (notification.notification.notificationType === "forPost") {
         return "NotificationForPost";
       }
 
       if (
-        notification.notificationType === "forComment" ||
-        notification.notificationType === "forReply"
+        notification.notification.notificationType === "forComment" ||
+        notification.notification.notificationType === "forReply"
       ) {
         return "NotificationForComment";
       }

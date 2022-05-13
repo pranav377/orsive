@@ -1,4 +1,4 @@
-// send notification to the post owner when he/she gets a comment on their post
+// send notification to the post owner when he/she gets a comment on their post. send only if owner and comment owner are not same
 import prisma from "../dbClient";
 
 export default async function sendNotificationsforComment(
@@ -7,11 +7,7 @@ export default async function sendNotificationsforComment(
 ) {
   await prisma.notificationForComment.create({
     data: {
-      comment: {
-        connect: {
-          id: commentId,
-        },
-      },
+      commentId,
       notification: {
         create: {
           forUserId: postOwnerId,

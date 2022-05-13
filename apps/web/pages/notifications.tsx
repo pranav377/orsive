@@ -1,27 +1,15 @@
 import Empty from "../components/app/Empty";
 import { Layout } from "../components/app/Layout";
-import Notification from "../components/app/Notification";
+import {
+  NotificationForComment,
+  NotificationForPost,
+} from "../components/app/Notification";
 import OneTimePageSpinner from "../components/app/OneTimePageSpinner";
 import PostCards from "../components/app/PostCard/PostCards";
 import Spinner from "../components/app/Spinner";
 import AccessDenied from "../components/forms/content/accessDenied";
 import { useNotifications } from "../hooks/app/notifications/useNotifications";
 import { useOneTimePageSpinner } from "../hooks/app/useOneTimePageSpinner";
-
-export interface NotificationType {
-  post: {
-    uploadedBy: {
-      avatar: string;
-      username: string;
-      name: string;
-    };
-  };
-  notification: {
-    seen: boolean;
-    createdAt: Date;
-  };
-  url: string;
-}
 
 export default function Notifications() {
   const { notificationsQuery, user, loadMoreElement } = useNotifications();
@@ -43,10 +31,30 @@ export default function Notifications() {
               <PostCards>
                 <>
                   {notificationsQuery.data.getMyNotifications.data.map(
-                    (notification: NotificationType, idx: number) => {
-                      return (
-                        <Notification notification={notification} key={idx} />
-                      );
+                    (notification: any, idx: number) => {
+                      const notificationType =
+                        notification.notification.notificationType;
+                      if (notificationType === "forPost") {
+                        return (
+                          <NotificationForPost
+                            notification={notification}
+                            key={idx}
+                          />
+                        );
+                      } else if (
+                        (notificationType === "forComment" ||
+                          notificationType === "forReply") &&
+                        notification.url
+                      ) {
+                        return (
+                          <NotificationForComment
+                            notification={notification}
+                            key={idx}
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
                     }
                   )}
                 </>

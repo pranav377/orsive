@@ -46,53 +46,33 @@ export async function GetMyNotifications(
   let notificationsCount = await prisma.notification.count({
     where: {
       forUserId: user.id,
-      notificationForPost: {
-        post: {
-          isNot: null,
-        },
-      },
-      notificationForComment: {
-        comment: {
-          isNot: null,
-        },
-      },
     },
   });
 
   let hasNextPage =
     (args.page || 1) * COMMENT_PAGINATION_SET_SIZE < notificationsCount;
 
+  let allNotifications = await prisma.notification.findMany({
+    skip: offset,
+    take: COMMENT_PAGINATION_SET_SIZE,
+    where: {
+      forUserId: user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      notificationForPost: {
+        ...EXTRA_NOTIFICATIONS_POST_ARGS,
+      },
+      notificationForComment: {
+        ...EXTRA_NOTIFICATIONS_COMMENT_ARGS,
+      },
+    },
+  });
+
   return {
-    data: (
-      await prisma.notification.findMany({
-        skip: offset,
-        take: COMMENT_PAGINATION_SET_SIZE,
-        where: {
-          forUserId: user.id,
-          notificationForPost: {
-            post: {
-              isNot: null,
-            },
-          },
-          notificationForComment: {
-            comment: {
-              isNot: null,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-        include: {
-          notificationForPost: {
-            ...EXTRA_NOTIFICATIONS_POST_ARGS,
-          },
-          notificationForComment: {
-            ...EXTRA_NOTIFICATIONS_COMMENT_ARGS,
-          },
-        },
-      })
-    ).map(async (notification) => {
+    data: allNotifications.map(async (notification) => {
       if (notification.notificationType === "forPost") {
         let baseNotification = notification.notificationForPost;
 

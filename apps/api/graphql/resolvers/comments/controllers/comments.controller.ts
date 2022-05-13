@@ -287,6 +287,14 @@ export async function DeleteComment(args: GetCommentArgs, user: User) {
 
   IsUserOwner(user, comment);
 
+  if (!comment?.parentId) {
+    await prisma.comment.deleteMany({
+      where: {
+        parentId: comment!.id,
+      },
+    });
+  }
+
   await prisma.comment.delete({
     where: {
       id: comment!.id,

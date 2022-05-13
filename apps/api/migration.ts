@@ -4,32 +4,14 @@ Can include db operations, data transfer, data migration, etc.
 import prisma from "./graphql/utils/data/dbClient";
 
 (async () => {
-  let comments = await prisma.comment.findMany();
+  await prisma.notification.deleteMany();
+  await prisma.notificationForComment.deleteMany();
+  await prisma.notificationForPost.deleteMany();
+  await prisma.comment.deleteMany();
 
-  comments.map(async (comment) => {
-    if (comment.parentId) {
-      let parentComment = await prisma.comment.findUnique({
-        where: {
-          id: comment.parentId,
-        },
-      });
-
-      if (parentComment) {
-        await prisma.comment.update({
-          where: {
-            id: comment.id,
-          },
-          data: {
-            parentPostId: parentComment.parentPostId!,
-          },
-        });
-      } else {
-        await prisma.comment.delete({
-          where: {
-            id: comment.id,
-          },
-        });
-      }
-    }
+  await prisma.post.deleteMany({
+    where: {
+      postType: "comment",
+    },
   });
 })();

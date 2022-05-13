@@ -6,6 +6,13 @@ const NOTIFICATIONS_SCHEMA = gql`
   type BaseNotification {
     seen: Boolean
     createdAt: Date
+    notificationType: NotificationType
+  }
+
+  enum NotificationType {
+    forPost
+    forComment
+    forReply
   }
 
   type NotificationForPost {

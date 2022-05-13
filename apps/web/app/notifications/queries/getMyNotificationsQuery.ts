@@ -4,19 +4,40 @@ const GET_MY_NOTIFICATIONS_QUERY = gql`
   query getMyNotifications($page: Int) {
     getMyNotifications(page: $page) {
       data {
-        id
-        post {
-          uploadedBy {
-            avatar
-            username
-            name
+        ... on NotificationForPost {
+          id
+          post {
+            uploadedBy {
+              avatar
+              username
+              name
+            }
           }
+          notification {
+            seen
+            createdAt
+            notificationType
+          }
+          url
         }
-        notification {
-          seen
-          createdAt
+        ... on NotificationForComment {
+          id
+          comment {
+            post {
+              uploadedBy {
+                avatar
+                username
+                name
+              }
+            }
+          }
+          notification {
+            seen
+            createdAt
+            notificationType
+          }
+          url
         }
-        url
       }
 
       hasNextPage

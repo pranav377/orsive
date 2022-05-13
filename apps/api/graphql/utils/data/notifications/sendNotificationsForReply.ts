@@ -1,4 +1,4 @@
-// send notification to the comment owner when he/she gets a reply on their comment
+// send notification to the comment owner when he/she gets a reply on their comment. Send only if owner and reply owner are not same
 
 import prisma from "../dbClient";
 
