@@ -152,7 +152,9 @@ export async function CreateComment(args: CreateCommentArgs, user: User) {
     ...POST_PRISMA_ARGS,
   });
 
-  sendNotificationsforComment(parentPost!.uploadedById, comment.id);
+  if (parentPost!.uploadedById !== comment.post!.uploadedById) {
+    sendNotificationsforComment(parentPost!.uploadedById, comment.id);
+  }
 
   return { ...comment, replies: 0 };
 }
@@ -189,7 +191,9 @@ export async function CreateReply(args: CreateReplyArgs, user: User) {
     ...POST_PRISMA_ARGS,
   });
 
-  sendNotificationsforReply(parentComment!.post!.uploadedById, comment.id);
+  if (parentComment!.post!.uploadedById !== comment.post!.uploadedById) {
+    sendNotificationsforReply(parentComment!.post!.uploadedById, comment.id);
+  }
 
   return comment;
 }
