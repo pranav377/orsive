@@ -16,6 +16,7 @@ import ExtraButtons from "../extra/ExtraButtons";
 import getCommentTitle from "./getCommentTitle";
 import Link from "next/link";
 import ContentParser from "../../app/ContentParser";
+import Comp404 from "../../app/404";
 
 export default function IndividualReplyPage(props: {
   getReplyQuery: QueryResult<
@@ -106,6 +107,14 @@ export default function IndividualReplyPage(props: {
             <Divider />
           </div>
         </Layout>
+      </>
+    );
+  }
+
+  if (props.getReplyQuery.error) {
+    return (
+      <>
+        <Comp404 />
       </>
     );
   }
