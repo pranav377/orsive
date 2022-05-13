@@ -1,3 +1,4 @@
+// send notification to followers when new content is posted by the people they are following
 import prisma from "../dbClient";
 
 export default function sendNotificationsForPost(

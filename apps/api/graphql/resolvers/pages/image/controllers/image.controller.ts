@@ -191,5 +191,11 @@ export async function DeleteImagePost(args: DeleteImagePostArgs, user: User) {
     where: { slug: data.slug },
   });
 
+  await prisma.comment.deleteMany({
+    where: {
+      parentPostId: post!.post!.id,
+    },
+  });
+
   return "success";
 }

@@ -6,20 +6,31 @@ export interface GetMyNotificationsArgs {
   page?: number;
 }
 
-const EXTRA_NOTIFICATIONS_ARGS = {
+const EXTRA_NOTIFICATIONS_POST_ARGS = {
   include: {
     notification: true,
     post: {
       include: {
         uploadedBy: true,
-        _count: {
-          select: {
-            dislikes: true,
-            likes: true,
-          },
-        },
         image: true,
         orsic: true,
+      },
+    },
+  },
+};
+
+const EXTRA_NOTIFICATIONS_COMMENT_ARGS = {
+  include: {
+    notification: true,
+    comment: {
+      include: {
+        post: {
+          include: {
+            uploadedBy: true,
+            image: true,
+            orsic: true,
+          },
+        },
       },
     },
   },
@@ -35,58 +46,105 @@ export async function GetMyNotifications(
   let notificationsCount = await prisma.notification.count({
     where: {
       forUserId: user.id,
-      notificationForPost: {
-        post: {
-          isNot: null,
-        },
-      },
     },
   });
 
   let hasNextPage =
     (args.page || 1) * COMMENT_PAGINATION_SET_SIZE < notificationsCount;
 
+  let allNotifications = await prisma.notification.findMany({
+    skip: offset,
+    take: COMMENT_PAGINATION_SET_SIZE,
+    where: {
+      forUserId: user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      notificationForPost: {
+        ...EXTRA_NOTIFICATIONS_POST_ARGS,
+      },
+      notificationForComment: {
+        ...EXTRA_NOTIFICATIONS_COMMENT_ARGS,
+      },
+    },
+  });
+
   return {
-    data: (
-      await prisma.notification.findMany({
-        skip: offset,
-        take: COMMENT_PAGINATION_SET_SIZE,
-        where: {
-          forUserId: user.id,
-          notificationForPost: {
-            post: {
-              isNot: null,
-            },
+    data: allNotifications.map(async (notification) => {
+      if (notification.notificationType === "forPost") {
+        let baseNotification = notification.notificationForPost;
+
+        let slug = "";
+
+        switch (baseNotification?.post?.postType) {
+          case "image":
+            slug = baseNotification.post.image?.slug!;
+            break;
+
+          case "orsic":
+            slug = baseNotification.post.orsic?.slug!;
+            break;
+        }
+
+        return {
+          ...notification.notificationForPost,
+          url: `/${baseNotification?.post?.postType}/${slug}`,
+        };
+      } else if (notification.notificationType === "forComment") {
+        let baseNotification = notification.notificationForComment;
+        let baseComment = baseNotification?.comment;
+        let parentPost = await prisma.post.findUnique({
+          where: {
+            id: baseComment!.parentPostId!,
           },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-        include: {
-          notificationForPost: {
-            ...EXTRA_NOTIFICATIONS_ARGS,
+          include: {
+            image: true,
+            orsic: true,
           },
-        },
-      })
-    ).map((notification) => {
-      const baseNotification = notification.notificationForPost;
+        });
 
-      let slug = "";
+        let slug = "";
 
-      switch (baseNotification?.post?.postType) {
-        case "image":
-          slug = baseNotification.post.image?.slug!;
-          break;
+        switch (parentPost?.postType) {
+          case "image":
+            slug = `/image/${parentPost.image?.slug}/comments/${baseComment?.id}`;
+            break;
 
-        case "orsic":
-          slug = baseNotification.post.orsic?.slug!;
-          break;
+          case "orsic":
+            slug = `/orsic/${parentPost.orsic?.slug}/comments/${baseComment?.id}`;
+            break;
+        }
+
+        return { ...baseNotification, url: slug };
+      } else {
+        let baseNotification = notification.notificationForComment;
+        let baseReply = baseNotification?.comment;
+        let parentPost = await prisma.post.findUnique({
+          where: {
+            id: baseReply?.parentPostId!,
+          },
+          include: {
+            image: true,
+            orsic: true,
+          },
+        });
+
+        let slug = "";
+
+        switch (parentPost?.postType) {
+          case "image":
+            slug = `/image/${parentPost.image?.slug}/comments/${baseReply?.parentId}/replies/${baseReply?.id}`;
+            break;
+
+          case "orsic":
+            slug = `/orsic/${parentPost.orsic?.slug}/comments/${baseReply?.parentId}/replies/${baseReply?.id}`;
+            break;
+        }
+
+        return { ...baseNotification, url: slug };
       }
-
-      return {
-        ...notification.notificationForPost,
-        url: `/${baseNotification?.post?.postType}/${slug}`,
-      };
     }),
     hasNextPage,
   };

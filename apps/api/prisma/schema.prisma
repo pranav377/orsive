@@ -30,17 +30,18 @@ model Dislike {
   reputationLog ReputationBlockLog[]
 }
 
+// Comment is a separate post!
+
 model Post {
-  id             String               @id @default(auto()) @map("_id") @db.ObjectId
-  postType       PostType
-  image          Image?               @relation(fields: [imageId], references: [id], onDelete: Cascade)
-  imageId        String?              @unique @db.ObjectId
-  orsic          Orsic?               @relation(fields: [orsicId], references: [id], onDelete: Cascade)
-  orsicId        String?              @unique @db.ObjectId
-  comment        Comment?             @relation(fields: [commentId], references: [id])
-  commentId      String?              @unique @db.ObjectId
-  notification   NotificationForPost? @relation(fields: [notificationId], references: [id])
-  notificationId String?              @unique @db.ObjectId
+  id           String                @id @default(auto()) @map("_id") @db.ObjectId
+  postType     PostType
+  image        Image?                @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId      String?               @unique @db.ObjectId
+  orsic        Orsic?                @relation(fields: [orsicId], references: [id], onDelete: Cascade)
+  orsicId      String?               @unique @db.ObjectId
+  comment      Comment?              @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId    String?               @unique @db.ObjectId
+  notification NotificationForPost[]
 
   createdAt    DateTime  @default(now())
   likes        Like[]
@@ -138,6 +139,8 @@ model Comment {
   parentId     String? @db.ObjectId //Comment id
   parentPostId String? @db.ObjectId //Post id
 
+  notification NotificationForComment[]
+
   post Post?
 
   content String
@@ -165,15 +168,28 @@ model Notification {
 
   notificationForPost   NotificationForPost? @relation(fields: [notificationForPostId], references: [id], onDelete: Cascade)
   notificationForPostId String?              @unique @db.ObjectId
+
+  notificationForComment   NotificationForComment? @relation(fields: [notificationForCommentId], references: [id], onDelete: Cascade)
+  notificationForCommentId String?                 @unique @db.ObjectId
 }
 
 enum NotificationType {
   forPost
+  forComment
+  forReply
 }
 
 model NotificationForPost {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  post         Post?
+  post         Post?         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId       String?       @db.ObjectId
+  notification Notification?
+}
+
+model NotificationForComment {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  comment      Comment?      @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId    String?       @db.ObjectId
   notification Notification?
 }
 
