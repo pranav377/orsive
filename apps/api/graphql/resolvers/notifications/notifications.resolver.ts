@@ -6,6 +6,23 @@ import {
 } from "./controllers/notifications.controller";
 
 export const NOTIFICATIONS_RESOLVERS = {
+  Notification: {
+    __resolveType(notification: any) {
+      if (notification.notificationType === "forPost") {
+        return "NotificationForPost";
+      }
+
+      if (
+        notification.notificationType === "forComment" ||
+        notification.notificationType === "forReply"
+      ) {
+        return "NotificationForComment";
+      }
+
+      return null; // GraphQLError is thrown
+    },
+  },
+
   Query: {
     getMyNotifications(_: void, args: GetMyNotificationsArgs, context: any) {
       IsUserAuthenticated(context);

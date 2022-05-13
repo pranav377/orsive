@@ -1,6 +1,8 @@
 import { gql } from "apollo-server-express";
 
 const NOTIFICATIONS_SCHEMA = gql`
+  union Notification = NotificationForPost | NotificationForComment
+
   type BaseNotification {
     seen: Boolean
     createdAt: Date
@@ -21,7 +23,7 @@ const NOTIFICATIONS_SCHEMA = gql`
   }
 
   type GetMyNotificationsResponse {
-    data: [NotificationForPost]!
+    data: [Notification]!
     hasNextPage: Boolean
   }
 
