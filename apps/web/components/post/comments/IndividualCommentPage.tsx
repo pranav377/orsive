@@ -18,6 +18,7 @@ import Replies from "./replies";
 import ReplyBox from "./replyBox";
 import Link from "next/link";
 import ContentParser from "../../app/ContentParser";
+import Comp404 from "../../app/404";
 
 export default function IndividualCommentPage(props: {
   getCommentQuery: QueryResult<
@@ -112,6 +113,14 @@ export default function IndividualCommentPage(props: {
           </div>
         </Layout>
         <ReplyBox type="reply" pId={post.post.id} />
+      </>
+    );
+  }
+
+  if (props.getCommentQuery.error) {
+    return (
+      <>
+        <Comp404 />
       </>
     );
   }
