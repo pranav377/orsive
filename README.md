@@ -6,12 +6,11 @@ I will bring documentation and development environment setup soon.
 
 ### Todo for now
 
-1. Send notifications when comment/reply is posted
-2. Moderator vote system
-3. Create PWA
-4. A page containing the people you follow
-5. Create script to setup development environment
-6. Setup Testing
+1. Moderator vote system
+2. Create PWA
+3. A page containing the people you follow
+4. Create script to setup development environment
+5. Setup Testing
 
 ### Small things to know about
 

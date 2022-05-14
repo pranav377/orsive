@@ -2,23 +2,52 @@
 
 import prisma from "../dbClient";
 
+const THRESHOLD = 100;
+
+function sendNotification(
+  commentOwnerId: string,
+  replyId: string,
+  percentage: number
+) {
+  var random = Math.floor(Math.random() * 101);
+  if (random <= percentage) {
+    return prisma.notificationForComment.create({
+      data: {
+        comment: {
+          connect: {
+            id: replyId,
+          },
+        },
+        notification: {
+          create: {
+            forUserId: commentOwnerId,
+            notificationType: "forReply",
+          },
+        },
+      },
+    });
+  } else {
+    return null;
+  }
+}
+
 export default async function sendNotificationsforReply(
   commentOwnerId: string,
   replyId: string
 ) {
-  await prisma.notificationForComment.create({
-    data: {
-      comment: {
-        connect: {
-          id: replyId,
-        },
-      },
-      notification: {
-        create: {
-          forUserId: commentOwnerId,
-          notificationType: "forReply",
-        },
-      },
+  let reply = await prisma.comment.findUnique({
+    where: {
+      id: replyId,
     },
   });
+
+  let allRepliesCount = await prisma.comment.count({
+    where: {
+      parentId: reply!.parentId,
+    },
+  });
+
+  let percentage = (THRESHOLD / allRepliesCount) * 100;
+
+  sendNotification(commentOwnerId, replyId, percentage);
 }
