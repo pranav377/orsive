@@ -13,11 +13,7 @@ function sendNotification(
   if (random <= percentage) {
     return prisma.notificationForComment.create({
       data: {
-        comment: {
-          connect: {
-            id: replyId,
-          },
-        },
+        commentId: replyId,
         notification: {
           create: {
             forUserId: commentOwnerId,
@@ -49,5 +45,5 @@ export default async function sendNotificationsforReply(
 
   let percentage = (THRESHOLD / allRepliesCount) * 100;
 
-  sendNotification(commentOwnerId, replyId, percentage);
+  await sendNotification(commentOwnerId, replyId, percentage);
 }

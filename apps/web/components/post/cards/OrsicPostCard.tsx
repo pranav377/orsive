@@ -10,9 +10,12 @@ import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery
 import AvatarArea from "../extra/AvatarArea";
 import ContentParser from "../../app/ContentParser";
 
-export default function OrsicPostCard(props: { post: any }) {
+export default function OrsicPostCard(props: {
+  post: any;
+  searchResult?: boolean;
+}) {
   let post = props.post;
-  const likeFeatures = useLike(post);
+  const likeFeatures = useLike(post, props.searchResult);
 
   const [deleteOrsicPost] = useMutation(DELETE_ORSIC_POST_MUTATION, {
     variables: {

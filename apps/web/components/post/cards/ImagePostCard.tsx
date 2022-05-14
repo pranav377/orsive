@@ -11,9 +11,12 @@ import AvatarArea from "../extra/AvatarArea";
 import Image from "next/image";
 import { generatePlaceholder } from "../../app/ContentParser";
 
-export default function ImagePostCard(props: { post: any }) {
+export default function ImagePostCard(props: {
+  post: any;
+  searchResult?: boolean;
+}) {
   let post = props.post;
-  const likeFeatures = useLike(post);
+  const likeFeatures = useLike(post, props.searchResult);
 
   const [deleteImagePost] = useMutation(DELETE_IMAGE_POST_MUTATION, {
     variables: {
