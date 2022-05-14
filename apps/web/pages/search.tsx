@@ -42,10 +42,22 @@ export default function Search() {
         {results.map((result: any) => {
           if (result.type === "Post") {
             if (result.post.postType === "image") {
-              return <ImagePostCard post={result} key={result.post.id} />;
+              return (
+                <ImagePostCard
+                  searchResult
+                  post={result}
+                  key={result.post.id}
+                />
+              );
             }
             if (result.post.postType === "orsic") {
-              return <OrsicPostCard post={result} key={result.post.id} />;
+              return (
+                <OrsicPostCard
+                  searchResult
+                  post={result}
+                  key={result.post.id}
+                />
+              );
             }
           }
 
