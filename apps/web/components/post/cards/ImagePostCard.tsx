@@ -32,7 +32,7 @@ export default function ImagePostCard(props: { post: any }) {
           delete={deleteImagePost}
         />
         <div className="w-full">
-          <Link href={postUrl} passHref>
+          <Link href={postUrl} passHref scroll={false}>
             <a>
               <LinkifyContent>
                 <div className="text-break p-2 text-content">{post.title}</div>

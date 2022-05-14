@@ -31,7 +31,7 @@ export default function OrsicPostCard(props: { post: any }) {
           delete={deleteOrsicPost}
         />
         <div className="w-full">
-          <Link href={postUrl} passHref>
+          <Link href={postUrl} passHref scroll={false}>
             <a>
               <div>
                 {post.title && (
