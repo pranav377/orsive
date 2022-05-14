@@ -26,8 +26,6 @@ export default function OrsicPostCard(props: {
 
   let postUrl = `/orsic/${post.slug}`;
 
-  console.log(likeFeatures.likes);
-
   return (
     <Ripples>
       <div className="bg-slate-900 rounded-md p-2 flex flex-col w-[90vw] md:max-w-3xl my-2">
