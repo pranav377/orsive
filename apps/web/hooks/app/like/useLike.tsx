@@ -12,10 +12,8 @@ import LIKE_STATUS_QUERY from "./likeStatusQuery";
 export const useLike = (post: any, client_side_fetch?: boolean) => {
   const likeStore = useSelector((state: typeof initialState) => state.like);
   const dispatch = useDispatch();
-  let initialLikeCount = client_side_fetch
-    ? undefined
-    : post?.post?._count?.likes || 0;
-  const [likes, setLikes] = useState<number | undefined>(initialLikeCount);
+  let initialLikeCount = client_side_fetch ? 0 : post?.post?._count?.likes || 0;
+  const [likes, setLikes] = useState<number>(initialLikeCount);
 
   useEffect(() => {
     if (post?.post?._count?.likes && !client_side_fetch) {
@@ -79,11 +77,11 @@ export const useLike = (post: any, client_side_fetch?: boolean) => {
   const like = async () => {
     if (user.is) {
       if (likeStatus === "nope" || likeStatus === "dislike") {
-        setLikes((prevLikes) => (prevLikes || -1) + 1);
+        setLikes((prevLikes) => prevLikes + 1);
         setLikeStatus("like");
       } else {
         setLikeStatus("nope");
-        setLikes((prevLikes) => (prevLikes || 1) - 1);
+        setLikes((prevLikes) => prevLikes - 1);
       }
 
       await addLikeMutation({
@@ -101,7 +99,7 @@ export const useLike = (post: any, client_side_fetch?: boolean) => {
     if (user.is) {
       if (likeStatus === "nope" || likeStatus === "like") {
         if (likeStatus === "like") {
-          setLikes((prevLikes) => (prevLikes || 1) - 1);
+          setLikes((prevLikes) => prevLikes - 1);
         }
         setLikeStatus("dislike");
       } else {

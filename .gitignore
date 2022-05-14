@@ -38,3 +38,7 @@ package-lock.json
 # turbo
 .turbo
 .vercel
+
+# external dependencies
+gorse
+meilisearch
