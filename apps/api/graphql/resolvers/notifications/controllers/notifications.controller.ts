@@ -109,11 +109,11 @@ export async function GetMyNotifications(
 
         switch (parentPost?.postType) {
           case "image":
-            slug = `/image/${parentPost.image?.slug}/comments/${baseComment?.id}`;
+            slug = `/image/${parentPost.image?.slug}/comments/${baseComment?.post?.id}`;
             break;
 
           case "orsic":
-            slug = `/orsic/${parentPost.orsic?.slug}/comments/${baseComment?.id}`;
+            slug = `/orsic/${parentPost.orsic?.slug}/comments/${baseComment?.post?.id}`;
             break;
         }
 
@@ -135,11 +135,11 @@ export async function GetMyNotifications(
 
         switch (parentPost?.postType) {
           case "image":
-            slug = `/image/${parentPost.image?.slug}/comments/${baseReply?.parentId}/replies/${baseReply?.id}`;
+            slug = `/image/${parentPost.image?.slug}/comments/${baseReply?.parentId}/replies/${baseReply?.post?.id}`;
             break;
 
           case "orsic":
-            slug = `/orsic/${parentPost.orsic?.slug}/comments/${baseReply?.parentId}/replies/${baseReply?.id}`;
+            slug = `/orsic/${parentPost.orsic?.slug}/comments/${baseReply?.parentId}/replies/${baseReply?.post?.id}`;
             break;
         }
 

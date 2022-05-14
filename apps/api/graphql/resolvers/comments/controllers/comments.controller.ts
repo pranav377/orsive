@@ -192,7 +192,7 @@ export async function CreateReply(args: CreateReplyArgs, user: User) {
   });
 
   if (parentComment!.post!.uploadedById !== comment.post!.uploadedById) {
-    sendNotificationsforReply(parentComment!.post!.uploadedById, comment.id);
+    sendNotificationsforReply(parentComment!.post!.uploadedById, comment.post!.uploadedById);
   }
 
   return comment;
