@@ -44,7 +44,7 @@ export default function IndividualCommentPage(props: {
     likeStatus: "like" | "dislike" | "nope" | undefined;
     like: () => Promise<void>;
     dislike: () => Promise<void>;
-    likes: number | undefined;
+    likes: number;
   };
 }) {
   if (props.getCommentQuery.loading) {

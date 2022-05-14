@@ -41,9 +41,7 @@ export default function ExtraButtons(props: {
         >
           <ThumbUpIcon className="h-7 m-1" />{" "}
         </button>
-        <span className="ml-1">
-          {<>{nFormatter(props.likes!, 2)}</> || null}
-        </span>
+        <span className="ml-1">{nFormatter(props.likes || 0, 2)}</span>
       </div>
       <div className="flex items-center justify-center flex-1">
         <button
