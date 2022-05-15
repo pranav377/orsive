@@ -10,7 +10,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "setup": "node setup.js",
+    "setup": "node setup.mjs",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
@@ -25,7 +25,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "axios-retry": "^3.2.5",
-    "mongodb": "^4.6.0",
-    "terminal-kit": "^2.4.0"
+    "chalk": "^5.0.1",
+    "mongo-connection-string": "^0.1.5",
+    "mongodb": "^4.6.0"
   }
 }
