@@ -7,6 +7,7 @@
     "start": "dotenv -e .env.production -- ts-node app.ts",
     "migrate": "dotenv -e .env.production -- ts-node migration.ts",
     "generate": "npx prisma generate",
+    "test-users": "dotenv -e .env.development -- ts-node initTestUsers.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
