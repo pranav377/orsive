@@ -27,7 +27,7 @@ All packages and apps are 100% [TypeScript](https://www.typescriptlang.org/). (E
 
 ### Running locally / Development
 
-See [here](/pranav377/orsive/blob/main/DEVELOPMENT_SETUP.md)
+See [here](DEVELOPMENT_SETUP.md)
 
 ### Utilities
 
