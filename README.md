@@ -2,15 +2,12 @@
 
 I started making Orsive on 11 July, 2021. It was previously created with plan React(Frontend) and Django(Python Backend). It turned out to be the biggest mistake ever! I wasn't productive enough. And Django was not very flexible for me. I switched to Next.Js for Frontend and GraphQL with apollo-server for backend. A lot of things are coming up, so stay tuned!
 
-I will bring documentation and development environment setup soon.
-
 ### Todo for now
 
 1. Moderator vote system
 2. Create PWA
 3. A page containing the people you follow
-4. Create script to setup development environment
-5. Setup Testing
+4. Setup Testing
 
 ### Small things to know about
 
@@ -21,10 +18,16 @@ I will bring documentation and development environment setup soon.
 - `web`: a [Next.js](https://nextjs.org) app
 - `api`: a GraphQL API made with apollo-server
 - `belly`: a storage engine to handle file uploads for Local file storage and S3 cloud upload
+- `gorse-starter`: A script which starts the Gorse instance
+- `meilisearch-starter`: A script which starts the Meilisearch instance
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+All packages and apps are 100% [TypeScript](https://www.typescriptlang.org/). (Except starter packages.)
+
+### Running locally / Development
+
+See [here](/pranav377/orsive/blob/main/DEVELOPMENT_SETUP.md)
 
 ### Utilities
 
@@ -34,18 +37,6 @@ This turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Jest](https://jestjs.io) test runner for all things JavaScript
 - [Prettier](https://prettier.io) for code formatting
-
-## Setup
-
-This repository is used in the `npx create-turbo@latest` command, and selected when choosing which package manager you wish to use with your monorepo (NPM).
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-npm run dev
-```
 
 ### Remote Caching
 
