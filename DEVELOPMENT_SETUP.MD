@@ -7,11 +7,9 @@
 ### Setup
 
 ```
-
 npm install
 
 npm run setup
-
 ```
 
 The setup will install all necessary packages and setup external dependencies. After installing basic packages, the setup will ask to provide a MongoDB connection string. eg: `mongodb+srv://user:password@cluster0.iqods.mongodb.net/test-database?retryWrites=true&w=majority`.
