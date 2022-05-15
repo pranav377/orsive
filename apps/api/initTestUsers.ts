@@ -60,6 +60,39 @@ async function initTestUsers() {
   await prisma.profile.createMany({
     data: await USERS,
   });
+
+  await prisma.feature.createMany({
+    data: [
+      {
+        name: "post-like",
+        status: "enabled",
+      },
+      {
+        name: "post-comment",
+        status: "enabled",
+      },
+      {
+        name: "post-orsic",
+        status: "enabled",
+      },
+      {
+        name: "edit-profile",
+        status: "enabled",
+      },
+      {
+        name: "post-image",
+        status: "enabled",
+      },
+      {
+        name: "auth",
+        status: "enabled",
+      },
+      {
+        name: "delete-post",
+        status: "enabled",
+      },
+    ],
+  });
 }
 
 initTestUsers();
