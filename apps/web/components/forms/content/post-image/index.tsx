@@ -13,6 +13,9 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import AccessDenied from "../accessDenied";
 import { useUser } from "../../../../hooks/auth/useUser";
+import { client } from "../../../../pages/_app";
+import GET_POSTS_QUERY from "../../../../app/post/queries/getPostsQuery";
+import GET_PROFILE_POSTS from "../../../../app/profile/queries/getProfilePostsQuery";
 
 function closePostImageModal() {
   store.dispatch({ type: CONTENT_CASES.HIDE_POST_IMAGE });
@@ -67,7 +70,15 @@ function PostImageForm() {
                 let slug = response.data.addImagePost.slug;
 
                 closePostImageModal();
-                router.push(`/image/${slug}`);
+                router.push(`/image/${slug}`).then(() => {
+                  client.refetchQueries({
+                    include: [GET_POSTS_QUERY, GET_PROFILE_POSTS],
+                    updateCache(cache) {
+                      cache.evict({ fieldName: "getPosts" });
+                      cache.evict({ fieldName: "getProfilePosts" });
+                    },
+                  });
+                });
               })
               .catch((err) => console.error(err))
               .finally(() => setSubmitting(false));

@@ -29,6 +29,7 @@ body {
 .text-break {
   word-break: break-word;
   word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .text-content * {

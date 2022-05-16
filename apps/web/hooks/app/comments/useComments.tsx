@@ -60,7 +60,7 @@ export const useComments = (postId: string) => {
     allCommentsQuery.data?.getComments?.hasNextPage,
   ]);
 
-  useClearApolloCacheOnExit();
+  useClearApolloCacheOnExit("getComments");
 
   return { allCommentsQuery, myCommentsQuery, loadMoreElement };
 };

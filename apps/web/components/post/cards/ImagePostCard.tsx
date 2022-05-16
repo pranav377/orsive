@@ -38,7 +38,7 @@ export default function ImagePostCard(props: {
           <Link href={postUrl} passHref scroll={false}>
             <a>
               <LinkifyContent>
-                <div className="text-break p-2 text-content">{post.title}</div>
+                <div className="p-2 text-break">{post.title}</div>
               </LinkifyContent>
               <div
                 style={{

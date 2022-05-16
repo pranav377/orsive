@@ -29,7 +29,7 @@ export const useSingleCommentPage = (backLink: string, router: NextRouter) => {
     },
   });
 
-  useClearApolloCacheOnExit();
+  useClearApolloCacheOnExit("getComment");
 
   return { getCommentQuery, likeFeatures, deleteCommentMutation };
 };

@@ -8,7 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.8",
+    "@apollo/client": "^3.6.2",
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.5",
     "@tailwindcss/forms": "^0.4.0",
