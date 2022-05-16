@@ -47,9 +47,7 @@ export default function PostImage() {
 }
 
 function PostImageForm() {
-  const [addImagePost] = useMutation(ADD_IMAGE_POST_MUTATION, {
-    refetchQueries: [GET_POSTS_QUERY, GET_PROFILE_POSTS],
-  });
+  const [addImagePost] = useMutation(ADD_IMAGE_POST_MUTATION);
   const router = useRouter();
 
   return (
@@ -72,7 +70,15 @@ function PostImageForm() {
                 let slug = response.data.addImagePost.slug;
 
                 closePostImageModal();
-                router.push(`/image/${slug}`);
+                router.push(`/image/${slug}`).then(() => {
+                  client.refetchQueries({
+                    include: [GET_POSTS_QUERY, GET_PROFILE_POSTS],
+                    updateCache(cache) {
+                      cache.evict({ fieldName: "getPosts" });
+                      cache.evict({ fieldName: "getProfilePosts" });
+                    },
+                  });
+                });
               })
               .catch((err) => console.error(err))
               .finally(() => setSubmitting(false));

@@ -6,6 +6,10 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+body {
+  overscroll-behavior-y: contain;
+}
+
 ::-webkit-scrollbar {
   width: 0.2rem;
 }
