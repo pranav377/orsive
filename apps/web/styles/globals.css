@@ -101,3 +101,8 @@ body {
     transform: translate(0, -0px);
   }
 }
+
+/* for refreshing */
+.lds-ellipsis div {
+  background: rgb(96 165 250) !important;
+}
