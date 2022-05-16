@@ -9,5 +9,5 @@ export const useOneTimePageSpinner = (data: any) => {
     }
   }, [data]);
 
-  return { spinnerShown };
+  return { spinnerShown, setSpinnerShown };
 };
