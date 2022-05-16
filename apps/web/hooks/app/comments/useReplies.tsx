@@ -46,7 +46,7 @@ export const useReplies = (parentId: string) => {
     };
   }, [loadMoreElement.current, allRepliesQuery.data?.getReplies?.hasNextPage]);
 
-  useClearApolloCacheOnExit();
+  useClearApolloCacheOnExit("getReplies");
 
   return { allRepliesQuery, loadMoreElement };
 };

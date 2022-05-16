@@ -8,7 +8,6 @@ import { Formik, Form } from "formik";
 import Button from "../../base/button";
 import CREATE_REPLY_MUTATION from "./mutation/createReplyMutation";
 import GET_REPLIES_QUERY from "./queries/getRepliesQuery";
-import GET_COMMENTS_QUERY from "./queries/getCommentsQuery";
 import Modal from "../../app/Modal";
 import dynamic from "next/dynamic";
 import { useUser } from "../../../hooks/auth/useUser";
@@ -17,6 +16,7 @@ import { useAppState } from "../../../hooks/app/useAppState";
 import { useDispatch } from "react-redux";
 import APP_CASES from "../../../app/store/reducers/app/cases";
 import { RichEditorSkeleton } from "../../app/RichEditor";
+import GET_MY_COMMENTS_QUERY from "./queries/getMyCommentsQuery";
 
 const RichEditor = dynamic(() => import("../../app/RichEditor"), {
   ssr: false,
@@ -109,7 +109,7 @@ export default function ReplyBox(props: ReplyBoxProps) {
 
 function ReplyBoxForm(props: ReplyBoxFormProps) {
   const [createCommentMutation] = useMutation(CREATE_COMMENT_MUTATION, {
-    refetchQueries: [GET_COMMENTS_QUERY, "GetCommentsQuery"],
+    refetchQueries: [GET_MY_COMMENTS_QUERY],
   });
   const [createReplyMutation] = useMutation(CREATE_REPLY_MUTATION, {
     refetchQueries: [GET_REPLIES_QUERY],

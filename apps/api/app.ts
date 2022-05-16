@@ -118,7 +118,13 @@ async function startServer() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.use(graphqlUploadExpress());
+  app.use(
+    graphqlUploadExpress({
+      maxFileSize: 20000000,
+      maxFiles: 10,
+      maxFieldSize: 20000000,
+    })
+  );
 
   app.get("/auth/discord", passport.authenticate("discord"));
   app.get(

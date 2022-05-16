@@ -14,6 +14,9 @@ import AccessDenied from "../accessDenied";
 import { useUser } from "../../../../hooks/auth/useUser";
 import dynamic from "next/dynamic";
 import { RichEditorSkeleton } from "../../../app/RichEditor";
+import { client } from "../../../../pages/_app";
+import GET_POSTS_QUERY from "../../../../app/post/queries/getPostsQuery";
+import GET_PROFILE_POSTS from "../../../../app/profile/queries/getProfilePostsQuery";
 
 const RichEditor = dynamic(() => import("../../../app/RichEditor"), {
   ssr: false,
@@ -73,7 +76,15 @@ function PostOrsicForm() {
                 let slug = response.data.addOrsicPost.slug;
 
                 closePostOrsicModal();
-                router.push(`/orsic/${slug}`);
+                router.push(`/orsic/${slug}`).then(() => {
+                  client.refetchQueries({
+                    include: [GET_POSTS_QUERY, GET_PROFILE_POSTS],
+                    updateCache(cache) {
+                      cache.evict({ fieldName: "getPosts" });
+                      cache.evict({ fieldName: "getProfilePosts" });
+                    },
+                  });
+                });
               })
               .catch((err) => console.error(err))
               .finally(() => setSubmitting(false));

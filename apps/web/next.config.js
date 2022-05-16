@@ -11,7 +11,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["localhost", "cdn.orsive.com"],
+    domains: ["localhost", "cdn.orsive.com", "cdn.discordapp.com"],
   },
 };
 

@@ -60,7 +60,7 @@ export async function AddImagePost(args: AddImagePostArgs, user: User) {
 
   let slug = generateSlug(data.title);
 
-  let { width, height } = await probe(image);
+  let { width, height } = await probe(imageData.createReadStream());
 
   let imagePost = await prisma.image.create({
     data: {
@@ -137,7 +137,7 @@ export async function UpdateImagePost(args: UpdateImagePostArgs, user: User) {
     imageData
   );
 
-  let { width, height } = await probe(image);
+  let { width, height } = await probe(imageData.createReadStream());
 
   let post = await prisma.image.update({
     where: {

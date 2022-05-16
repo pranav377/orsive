@@ -45,7 +45,7 @@ export const useProfilePosts = (profile: ProfileType) => {
     };
   }, [loadMoreElement.current, query.data?.getProfilePosts?.hasNextPage]);
 
-  useClearApolloCacheOnExit();
+  useClearApolloCacheOnExit("getProfilePosts");
 
   return { query, fetchMore, loadMoreElement };
 };
