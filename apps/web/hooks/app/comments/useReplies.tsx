@@ -4,11 +4,10 @@ import GET_REPLIES_QUERY from "../../../components/post/comments/queries/getRepl
 import { useClearApolloCacheOnExit } from "../useClearApolloCacheOnExit";
 
 export const useReplies = (parentId: string) => {
-  const [currPage, setCurrPage] = useState(1);
   const allRepliesQuery = useQuery(GET_REPLIES_QUERY, {
     variables: {
       parentId,
-      page: currPage,
+      page: 1,
     },
   });
 
@@ -17,12 +16,8 @@ export const useReplies = (parentId: string) => {
   const fetchMore = () => {
     let pageInfo = allRepliesQuery.data.getReplies;
     if (pageInfo.hasNextPage) {
-      setCurrPage((prevPage) => {
-        allRepliesQuery.fetchMore({
-          variables: { parentId, page: prevPage + 1 },
-        });
-
-        return prevPage + 1;
+      allRepliesQuery.fetchMore({
+        variables: { parentId, page: pageInfo.nextPage },
       });
     }
   };
@@ -44,7 +39,11 @@ export const useReplies = (parentId: string) => {
     return () => {
       observer.unobserve(el);
     };
-  }, [loadMoreElement.current, allRepliesQuery.data?.getReplies?.hasNextPage]);
+  }, [
+    loadMoreElement.current,
+    allRepliesQuery.data?.getReplies?.hasNextPage,
+    allRepliesQuery.data?.getReplies?.nextPage,
+  ]);
 
   useClearApolloCacheOnExit("getReplies");
 

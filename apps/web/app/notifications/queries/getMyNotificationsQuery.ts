@@ -41,6 +41,7 @@ const GET_MY_NOTIFICATIONS_QUERY = gql`
       }
 
       hasNextPage
+      nextPage
     }
   }
 `;

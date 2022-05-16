@@ -51,6 +51,7 @@ export async function GetMyNotifications(
 
   let hasNextPage =
     (args.page || 1) * COMMENT_PAGINATION_SET_SIZE < notificationsCount;
+  let nextPage = (args.page || 1) + 1;
 
   let allNotifications = await prisma.notification.findMany({
     skip: offset,
@@ -147,6 +148,7 @@ export async function GetMyNotifications(
       }
     }),
     hasNextPage,
+    nextPage,
   };
 }
 

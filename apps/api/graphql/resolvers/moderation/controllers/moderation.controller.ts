@@ -11,7 +11,7 @@ export interface GetReportsArgs {
 }
 
 export async function GetReports(_args: GetReportsArgs) {
-  return { data: [], hasNextPage: false };
+  return { data: [], hasNextPage: false, nextPage: 2 };
 }
 
 export async function AddReport(args: AddReportInterface, user: User) {

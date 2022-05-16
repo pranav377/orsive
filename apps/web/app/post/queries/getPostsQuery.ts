@@ -42,6 +42,7 @@ const GET_POSTS_QUERY = gql`
         }
       }
       hasNextPage
+      nextPage
     }
   }
 `;

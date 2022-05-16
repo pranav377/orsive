@@ -32,6 +32,7 @@ const NOTIFICATIONS_SCHEMA = gql`
   type GetMyNotificationsResponse {
     data: [Notification]!
     hasNextPage: Boolean
+    nextPage: Int
   }
 
   type Query {

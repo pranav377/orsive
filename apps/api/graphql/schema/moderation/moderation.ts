@@ -16,6 +16,7 @@ const MODERATION_SCHEMA = gql`
   type GetReportsResponse {
     data: [Report!]
     hasNextPage: Boolean
+    nextPage: Int
   }
 
   type Query {

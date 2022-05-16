@@ -20,6 +20,7 @@ const GET_REPLIES_QUERY = gql`
       }
 
       hasNextPage
+      nextPage
     }
   }
 `;

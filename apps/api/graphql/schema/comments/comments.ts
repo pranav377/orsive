@@ -17,11 +17,13 @@ const COMMENTS_SCHEMA = gql`
   type GetCommentsResponse {
     data: [Comment]!
     hasNextPage: Boolean
+    nextPage: Int
   }
 
   type GetRepliesResponse {
     data: [Reply]!
     hasNextPage: Boolean
+    nextPage: Int
   }
 
   type Query {

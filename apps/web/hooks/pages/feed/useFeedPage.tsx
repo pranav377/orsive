@@ -1,25 +1,21 @@
 import { useQuery } from "@apollo/client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import GET_POSTS_QUERY from "../../../app/post/queries/getPostsQuery";
 
 export const useFeedPage = () => {
-  const [currPage, setCurrPage] = useState(1);
   const query = useQuery(GET_POSTS_QUERY, {
     variables: {
-      page: currPage,
+      page: 1,
     },
     notifyOnNetworkStatusChange: true,
   });
   const loadMoreElement: any = useRef(null);
 
   const fetchMore = () => {
-    if (query.data.getPosts.hasNextPage) {
-      setCurrPage((prevPage) => {
-        query.fetchMore({
-          variables: { page: prevPage + 1 },
-        });
-
-        return prevPage + 1;
+    let pageInfo = query.data.getPosts;
+    if (pageInfo.hasNextPage) {
+      query.fetchMore({
+        variables: { page: pageInfo.nextPage },
       });
     }
   };
@@ -41,7 +37,11 @@ export const useFeedPage = () => {
     return () => {
       observer.unobserve(el);
     };
-  }, [loadMoreElement.current, query.data?.getPosts?.hasNextPage]);
+  }, [
+    loadMoreElement.current,
+    query.data?.getPosts?.hasNextPage,
+    query.data?.getPosts?.nextPage,
+  ]);
 
-  return { query, fetchMore, loadMoreElement };
+  return { query, loadMoreElement };
 };
