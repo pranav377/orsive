@@ -59,6 +59,7 @@ export async function GetProfilePosts(args: GetProfilePostsArgs) {
   });
 
   let hasNextPage = (args.page || 1) * PAGINATION_SET_SIZE < postsCount;
+  let nextPage = (args.page || 1) + 1;
 
   let profilePosts = await prisma.post.findMany({
     skip: offset,
@@ -85,6 +86,7 @@ export async function GetProfilePosts(args: GetProfilePostsArgs) {
   return {
     data: getPostsData(profilePosts),
     hasNextPage,
+    nextPage,
   };
 }
 

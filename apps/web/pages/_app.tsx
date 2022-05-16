@@ -31,6 +31,7 @@ export const client = new ApolloClient({
               return {
                 data: _.uniqBy([...existing.data, ...incoming.data], "slug"),
                 hasNextPage: incoming.hasNextPage,
+                nextPage: incoming.nextPage,
               };
             },
           },
@@ -40,6 +41,7 @@ export const client = new ApolloClient({
               return {
                 data: _.uniqBy([...existing.data, ...incoming.data], "__ref"),
                 hasNextPage: incoming.hasNextPage,
+                nextPage: incoming.nextPage,
               };
             },
           },
@@ -52,6 +54,7 @@ export const client = new ApolloClient({
                   "post.__ref"
                 ),
                 hasNextPage: incoming.hasNextPage,
+                nextPage: incoming.nextPage,
               };
             },
           },
@@ -61,6 +64,7 @@ export const client = new ApolloClient({
               return {
                 data: _.uniqBy([...existing.data, ...incoming.data], "__ref"),
                 hasNextPage: incoming.hasNextPage,
+                nextPage: incoming.nextPage,
               };
             },
           },
@@ -73,6 +77,7 @@ export const client = new ApolloClient({
                   "post.__ref"
                 ),
                 hasNextPage: incoming.hasNextPage,
+                nextPage: incoming.nextPage,
               };
             },
           },

@@ -59,6 +59,7 @@ export async function GetComments(args: GetCommentsArgs, user: User | null) {
 
   let hasNextPage =
     (args.page || 1) * COMMENT_PAGINATION_SET_SIZE < commentsCount;
+  let nextPage = (args.page || 1) + 1;
 
   let comments = await prisma.comment.findMany({
     skip: offset,
@@ -92,6 +93,7 @@ export async function GetComments(args: GetCommentsArgs, user: User | null) {
       };
     }),
     hasNextPage,
+    nextPage,
   };
 }
 
@@ -105,6 +107,7 @@ export async function GetReplies(args: GetRepliesArgs) {
 
   let hasNextPage =
     (args.page || 1) * COMMENT_PAGINATION_SET_SIZE < repliesCount;
+  let nextPage = (args.page || 1) + 1;
 
   let replies = await prisma.comment.findMany({
     skip: offset,
@@ -123,6 +126,7 @@ export async function GetReplies(args: GetRepliesArgs) {
   return {
     data: replies,
     hasNextPage,
+    nextPage,
   };
 }
 

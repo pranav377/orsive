@@ -12,11 +12,10 @@ export const useNotifications = () => {
 
   const [makeNotificationsRead] = useMutation(MAKE_NOTIFICATIONS_READ);
 
-  const [currPage, setCurrPage] = useState(1);
   const notificationsQuery = useQuery(GET_MY_NOTIFICATIONS_QUERY, {
     skip: !user.is,
     variables: {
-      page: currPage,
+      page: 1,
     },
     notifyOnNetworkStatusChange: true,
     onCompleted: async (data) => {
@@ -29,11 +28,10 @@ export const useNotifications = () => {
 
   const fetchMore = () => {
     if (notificationsQuery.data.getMyNotifications.hasNextPage) {
-      setCurrPage((prevPage) => {
-        notificationsQuery.fetchMore({
-          variables: { page: prevPage + 1 },
-        });
-        return prevPage + 1;
+      notificationsQuery.fetchMore({
+        variables: {
+          page: notificationsQuery.data.getMyNotifications.nextPage,
+        },
       });
     }
   };
@@ -61,6 +59,7 @@ export const useNotifications = () => {
   }, [
     loadMoreElement.current,
     notificationsQuery.data?.getMyNotifications?.hasNextPage,
+    notificationsQuery.data?.getMyNotifications?.nextPage,
   ]);
 
   return { notificationsQuery, user, loadMoreElement };

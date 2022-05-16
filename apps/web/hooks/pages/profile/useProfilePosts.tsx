@@ -16,12 +16,11 @@ export const useProfilePosts = (profile: ProfileType) => {
 
   const fetchMore = () => {
     if (query.data.getProfilePosts.hasNextPage) {
-      setCurrPage((prevPage) => {
-        query.fetchMore({
-          variables: { page: prevPage + 1, username: profile.username },
-        });
-
-        return prevPage + 1;
+      query.fetchMore({
+        variables: {
+          page: query.data.getProfilePosts.nextPage,
+          username: profile.username,
+        },
       });
     }
   };
@@ -43,7 +42,11 @@ export const useProfilePosts = (profile: ProfileType) => {
     return () => {
       observer.unobserve(el);
     };
-  }, [loadMoreElement.current, query.data?.getProfilePosts?.hasNextPage]);
+  }, [
+    loadMoreElement.current,
+    query.data?.getProfilePosts?.hasNextPage,
+    query.data?.getProfilePosts?.nextPage,
+  ]);
 
   useClearApolloCacheOnExit("getProfilePosts");
 

@@ -18,6 +18,7 @@ const POST_SCHEMA = gql`
   type GetPostsResponse {
     data: [PostUnion!]
     hasNextPage: Boolean
+    nextPage: Int
   }
 
   type CUDResponse {

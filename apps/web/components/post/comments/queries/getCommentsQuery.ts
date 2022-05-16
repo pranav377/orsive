@@ -22,6 +22,7 @@ const GET_COMMENTS_QUERY = gql`
       }
 
       hasNextPage
+      nextPage
     }
   }
 `;

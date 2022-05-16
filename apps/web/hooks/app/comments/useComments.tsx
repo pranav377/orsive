@@ -5,11 +5,10 @@ import GET_MY_COMMENTS_QUERY from "../../../components/post/comments/queries/get
 import { useClearApolloCacheOnExit } from "../useClearApolloCacheOnExit";
 
 export const useComments = (postId: string) => {
-  const [currPage, setCurrPage] = useState(1);
   const allCommentsQuery = useQuery(GET_COMMENTS_QUERY, {
     variables: {
       postId,
-      page: currPage,
+      page: 1,
     },
     notifyOnNetworkStatusChange: true,
   });
@@ -25,12 +24,8 @@ export const useComments = (postId: string) => {
   const fetchMore = () => {
     let pageInfo = allCommentsQuery.data.getComments;
     if (pageInfo.hasNextPage) {
-      setCurrPage((prevPage) => {
-        allCommentsQuery.fetchMore({
-          variables: { postId, page: prevPage + 1 },
-        });
-
-        return prevPage + 1;
+      allCommentsQuery.fetchMore({
+        variables: { postId, page: pageInfo.nextPage },
       });
     }
   };
@@ -58,6 +53,7 @@ export const useComments = (postId: string) => {
   }, [
     loadMoreElement.current,
     allCommentsQuery.data?.getComments?.hasNextPage,
+    allCommentsQuery.data?.getComments?.nextPage,
   ]);
 
   useClearApolloCacheOnExit("getComments");
