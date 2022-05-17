@@ -32,6 +32,17 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+**/public/precache.*.*.js
+**/public/sw.js
+**/public/workbox-*.js
+**/public/worker-*.js
+**/public/fallback-*.js
+**/public/precache.*.*.js.map
+**/public/sw.js.map
+**/public/workbox-*.js.map
+**/public/worker-*.js.map
+**/public/fallback-*.js
+
 package-lock.json
 !apps/web/package-lock.json
 

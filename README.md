@@ -8,6 +8,7 @@ I started making Orsive on 11 July, 2021. It was previously created with plan Re
 2. Create PWA
 3. A page containing the people you follow
 4. Setup Testing
+5. Reactions?
 
 ### Small things to know about
 

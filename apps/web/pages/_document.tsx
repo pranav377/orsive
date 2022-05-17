@@ -32,6 +32,40 @@ class MyDocument extends Document {
             `,
             }}
           />
+
+          <meta name="application-name" content="Orsive" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="default"
+          />
+          <meta name="apple-mobile-web-app-title" content="Orsive" />
+          <meta
+            name="description"
+            content="An open source social media platform"
+          />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta
+            name="msapplication-config"
+            content="/icons/browserconfig.xml"
+          />
+          <meta name="msapplication-tap-highlight" content="no" />
+          <meta name="theme-color" content="#0f172a" />
+
+          <link rel="apple-touch-icon" href="/icons/apple-icon.png" />
+          <link
+            rel="apple-touch-icon"
+            sizes="152x152"
+            href="/icons/apple-icon-152x152.png"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/icons/apple-icon-180x180.png"
+          />
+
+          <link rel="manifest" href="/manifest.json" />
         </Head>
         <body className="bg-slate-800 text-white">
           <Main />

@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const withPWA = require("next-pwa");
+
 const nextConfig = {
   reactStrictMode: true,
   webpack(config) {
@@ -13,6 +15,10 @@ const nextConfig = {
   images: {
     domains: ["localhost", "cdn.orsive.com", "cdn.discordapp.com"],
   },
+  pwa: {
+    dest: "public",
+    disable: false,
+  },
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);
