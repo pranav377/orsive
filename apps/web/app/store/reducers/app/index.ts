@@ -4,7 +4,6 @@ import APP_CASES from "./cases";
 export const initialAppState = {
   showBars: true,
   showReply: false,
-  offline: false,
 };
 
 export default function app(state = initialAppState, action: ActionType) {
@@ -20,9 +19,6 @@ export default function app(state = initialAppState, action: ActionType) {
 
     case APP_CASES.HIDE_REPLY:
       return { ...state, showReply: false };
-
-    case APP_CASES.SET_OFFLINE:
-      return { ...state, offline: action.payload.offline };
 
     default:
       return state;
