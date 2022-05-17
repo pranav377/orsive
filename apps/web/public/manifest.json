@@ -37,11 +37,6 @@
       "sizes": "192x192",
       "type": "image/png",
       "density": "4.0"
-    },
-    {
-      "src": "/logo.png",
-      "purpose": "maskable any",
-      "sizes": "any"
     }
   ],
   "theme_color": "#0f172a",
