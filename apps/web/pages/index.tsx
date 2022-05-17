@@ -4,15 +4,27 @@ import Section2 from "../components/home/section2";
 
 import "animate.css/animate.min.css";
 import { Layout } from "../components/app/Layout";
-import { useAuthRedirect } from "../hooks/app/useAuthRedirect";
+import { useHome } from "../hooks/pages/useHome";
+import Spinner from "../components/app/Spinner";
 
 const Home: NextPage = () => {
-  useAuthRedirect();
+  const { loading } = useHome();
+
   return (
     <>
       <Layout title={"Home | Orsive"}>
-        <Section1 />
-        <Section2 />
+        {loading ? (
+          <>
+            <div className={`flex items-center justify-center m-2 h-[70vh]`}>
+              <Spinner />
+            </div>
+          </>
+        ) : (
+          <>
+            <Section1 />
+            <Section2 />
+          </>
+        )}
       </Layout>
     </>
   );

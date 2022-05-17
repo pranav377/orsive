@@ -7,9 +7,6 @@ import { gql } from "@apollo/client";
 import FEATURES_CASES from "../../app/store/reducers/features/cases";
 import { removeCookies, setCookies } from "cookies-next";
 import { USER_COOKIE_KEY } from "../../config";
-import { useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-import APP_CASES from "../../app/store/reducers/app/cases";
 
 export function setUser(user: {
   username: string;
@@ -60,20 +57,10 @@ async function checkFeatures() {
 }
 
 export default function AppMiddleware() {
-  const dispatch = useDispatch();
-  const router = useRouter();
-
   useEffect(() => {
     userCheckLogin();
     checkFeatures();
   }, []);
-
-  useEffect(() => {
-    dispatch({
-      type: APP_CASES.SET_HISTORY,
-      payload: { history: router.asPath },
-    });
-  }, [router.asPath]);
 
   return null;
 }
