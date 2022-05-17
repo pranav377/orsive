@@ -17,8 +17,9 @@ const nextConfig = {
   },
   pwa: {
     dest: "public",
-    register: true,
+    register: false,
     cacheOnFrontEndNav: true,
+    skipWaiting: false,
     disable: false,
     dynamicStartUrlRedirect: true,
   },
