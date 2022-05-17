@@ -2,7 +2,6 @@ import { useOneTimePageSpinner } from "../../hooks/app/useOneTimePageSpinner";
 import { useProfilePosts } from "../../hooks/pages/profile/useProfilePosts";
 import { ProfileType } from "../../pages/[profile_slug]";
 import OneTimePageSpinner from "../app/OneTimePageSpinner";
-import Spinner from "../app/Spinner";
 import ImagePostCard from "../post/cards/ImagePostCard";
 import OrsicPostCard from "../post/cards/OrsicPostCard";
 import BruhSVG from "../svgs/bruh.svg";
