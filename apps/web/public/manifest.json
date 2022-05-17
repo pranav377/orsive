@@ -1,0 +1,16 @@
+{
+  "name": "Orsive",
+  "short_name": "Orsive",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "purpose": "maskable any",
+      "sizes": "any"
+    }
+  ],
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
