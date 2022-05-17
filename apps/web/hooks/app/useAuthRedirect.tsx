@@ -17,7 +17,7 @@ export const useAuthRedirect = () => {
   });
 };
 
-function getCook(cookiename: string, cookieString: string) {
+export function getCook(cookiename: string, cookieString: string) {
   var cookiestring = RegExp(cookiename + "=[^;]+").exec(cookieString);
   return decodeURIComponent(
     !!cookiestring ? cookiestring.toString().replace(/^[^=]+./, "") : ""

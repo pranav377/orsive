@@ -4,7 +4,6 @@ import APP_CASES from "./cases";
 export const initialAppState = {
   showBars: true,
   showReply: false,
-  history: [],
 };
 
 export default function app(state = initialAppState, action: ActionType) {
@@ -14,9 +13,6 @@ export default function app(state = initialAppState, action: ActionType) {
 
     case APP_CASES.HIDE_BARS:
       return { ...state, showBars: false };
-
-    case APP_CASES.SET_HISTORY:
-      return { ...state, history: [...state.history, action.payload.history] };
 
     case APP_CASES.SHOW_REPLY:
       return { ...state, showReply: true };
