@@ -46,7 +46,7 @@
   ],
   "theme_color": "#0f172a",
   "background_color": "#0f172a",
-  "start_url": "/",
+  "start_url": "/feed",
   "display": "standalone",
   "orientation": "portrait"
 }
