@@ -17,6 +17,7 @@ import LoginDialog from "../components/app/LoginDialog";
 import { useAnalytics } from "../hooks/app/useAnalytics";
 
 import { createContext, useRef } from "react";
+import { usePWA } from "../hooks/app/usePWA";
 
 export const ScrollContext = createContext({});
 
@@ -98,6 +99,8 @@ function Web({ Component, pageProps, router }: AppProps) {
   const scrollRef = useRef({
     scrollPos: 0,
   });
+
+  usePWA();
 
   return (
     <>
