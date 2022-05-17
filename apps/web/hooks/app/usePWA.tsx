@@ -18,11 +18,7 @@ export const usePWA = () => {
         // `event.wasWaitingBeforeRegister` will be false if this is the first time the updated service worker is waiting.
         // When `event.wasWaitingBeforeRegister` is true, a previously updated service worker is still waiting.
         // You may want to customize the UI prompt accordingly.
-        if (
-          confirm(
-            "A newer version of this web app is available, reload to update?"
-          )
-        ) {
+        if (confirm("A new version of Orsive is available 🚀, wanna update?")) {
           wb.addEventListener("controlling", (event: any) => {
             window.location.reload();
           });
