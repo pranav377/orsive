@@ -9,6 +9,16 @@ export default function Modal(props: {
 }) {
   return (
     <>
+      {props.show && (
+        <style jsx global>{`
+          html,
+          body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+          }
+        `}</style>
+      )}
       <Sheet isOpen={props.show} onClose={() => props.closeModal()}>
         <Sheet.Container>
           <Sheet.Header />
