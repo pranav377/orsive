@@ -5,10 +5,9 @@ I started making Orsive on 11 July, 2021. It was previously created with plan Re
 ### Todo for now
 
 1. Moderator vote system
-2. Create PWA
-3. A page containing the people you follow
-4. Setup Testing
-5. Reactions?
+2. A page containing the people you follow
+3. Setup Testing
+4. Reactions?
 
 ### Small things to know about
 

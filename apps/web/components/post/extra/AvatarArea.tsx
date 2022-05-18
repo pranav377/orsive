@@ -22,6 +22,7 @@ export default function AvatarArea(props: {
           objectFit="cover"
           objectPosition="center"
           className="rounded-full"
+          priority
         />
       </div>
       <div className="flex flex-col ml-2 w-10/12 text-sm md:text-base">
