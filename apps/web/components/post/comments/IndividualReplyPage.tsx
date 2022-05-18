@@ -17,6 +17,7 @@ import getCommentTitle from "./getCommentTitle";
 import Link from "next/link";
 import ContentParser from "../../app/ContentParser";
 import Comp404 from "../../app/404";
+import TextContent from "../../app/TextContent";
 
 export default function IndividualReplyPage(props: {
   getReplyQuery: QueryResult<
@@ -92,9 +93,9 @@ export default function IndividualReplyPage(props: {
               />
 
               <LinkifyContent>
-                <div className="text-content p-2">
+                <TextContent className="p-2">
                   {ContentParser(post.content)}
-                </div>
+                </TextContent>
               </LinkifyContent>
               <Moment
                 className="self-end text-gray-300 p-2"

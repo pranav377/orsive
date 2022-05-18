@@ -18,6 +18,7 @@ import { Layout } from "../../../components/app/Layout";
 import Link from "next/link";
 import Image from "next/image";
 import { generatePlaceholder } from "../../../components/app/ContentParser";
+import TextContent from "../../../components/app/TextContent";
 
 interface ImagePostType {
   title: string | null;
@@ -110,7 +111,9 @@ export default function ImagePost(props: { post: ImagePostType | null }) {
 
               {post.title && (
                 <LinkifyContent>
-                  <div className="text-break p-2 md:p-4">{post.title}</div>
+                  <TextContent className="text-break p-2 md:p-4">
+                    {post.title}
+                  </TextContent>
                 </LinkifyContent>
               )}
               <div

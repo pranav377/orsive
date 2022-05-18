@@ -17,6 +17,7 @@ import TopBar from "../../../components/app/TopBar";
 import { Layout } from "../../../components/app/Layout";
 import Link from "next/link";
 import ContentParser from "../../../components/app/ContentParser";
+import TextContent from "../../../components/app/TextContent";
 
 interface OrsicPostType {
   title: string | null;
@@ -111,9 +112,7 @@ export default function OrsicPost(props: { post: OrsicPostType | null }) {
                 </span>
               )}
               <LinkifyContent>
-                <div className="text-content">
-                  {ContentParser(post.content)}
-                </div>
+                <TextContent>{ContentParser(post.content)}</TextContent>
               </LinkifyContent>
               <Moment
                 className="self-end text-gray-300 p-2"

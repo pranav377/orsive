@@ -10,6 +10,7 @@ import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery
 import AvatarArea from "../extra/AvatarArea";
 import Image from "next/image";
 import { generatePlaceholder } from "../../app/ContentParser";
+import TextContent from "../../app/TextContent";
 
 export default function ImagePostCard(props: {
   post: any;
@@ -38,7 +39,9 @@ export default function ImagePostCard(props: {
           <Link href={postUrl} passHref scroll={false}>
             <a>
               <LinkifyContent>
-                <div className="p-2 text-break">{post.title}</div>
+                <TextContent className="p-2 text-break">
+                  {post.title}
+                </TextContent>
               </LinkifyContent>
               <div
                 style={{
