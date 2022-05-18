@@ -5,7 +5,6 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    typography: (theme) => ({}),
     ripple: (theme) => ({
       colors: theme("colors"),
     }),

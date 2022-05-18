@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useTimer } from "react-timer-hook";
 import LinkifyContent from "../app/LinkifyContent";
 import Ripples from "../app/Ripple";
+import TextContent from "../app/TextContent";
 import AvatarArea from "../post/extra/AvatarArea";
 
 export default function ModerationImagePostCard() {
@@ -43,7 +44,7 @@ export default function ModerationImagePostCard() {
         />
         <div className="w-full">
           <LinkifyContent>
-            <div className="text-break p-2 text-content">Test Post</div>
+            <TextContent className="text-break p-2">Test Post</TextContent>
           </LinkifyContent>
           <img
             style={{

@@ -34,7 +34,7 @@ export default function BottomNavigation() {
   if (appState.showBars) {
     return (
       <>
-        <div className="fixed left-0 right-0 bottom-2  p-5 px-6 m-2   flex items-center justify-between   bg-gray-900 shadow-3xl text-gray-400 rounded-2xl cursor-pointer">
+        <div className="fixed left-0 right-0 bottom-2  p-5 px-6 m-2   flex items-center justify-between   bg-gray-900 shadow-3xl text-gray-400 rounded-2xl">
           <Link
             href={{
               pathname: homeUrl,
@@ -163,14 +163,13 @@ function AddPostDropup() {
           </>
         }
       />
-      <div className="flex flex-col items-center outline-none shadow-none">
+      <div className="flex flex-col items-center">
         <button
           onClick={() => {
-            addPostButton.current!.blur();
             dispatch({ type: CONTENT_CASES.SHOW_POST_CONTENT });
           }}
           ref={addPostButton}
-          className="absolute bottom-5 shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50 bg-blue-500 w-20 h-20 p-2 text-white transition ease-in duration-200 "
+          className="absolute bottom-5 outline-none shadow-none text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50 bg-blue-500 w-20 h-20 p-2 text-white"
         >
           <PlusIcon />
         </button>

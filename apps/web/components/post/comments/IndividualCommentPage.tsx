@@ -19,6 +19,7 @@ import ReplyBox from "./replyBox";
 import Link from "next/link";
 import ContentParser from "../../app/ContentParser";
 import Comp404 from "../../app/404";
+import TextContent from "../../app/TextContent";
 
 export default function IndividualCommentPage(props: {
   getCommentQuery: QueryResult<
@@ -92,9 +93,9 @@ export default function IndividualCommentPage(props: {
               />
 
               <LinkifyContent>
-                <div className="text-content p-2">
+                <TextContent className="p-2">
                   {ContentParser(post.content)}
-                </div>
+                </TextContent>
               </LinkifyContent>
               <Moment
                 className="self-end text-gray-300 p-2"
