@@ -1,6 +1,5 @@
 import { XIcon } from "@heroicons/react/solid";
 import Sheet from "react-modal-sheet";
-import React from "react";
 
 export default function Modal(props: {
   closeModal: () => void;
@@ -18,7 +17,12 @@ export default function Modal(props: {
           }
         `}</style>
       )}
-      <Sheet isOpen={props.show} onClose={() => props.closeModal()}>
+      <Sheet
+        isOpen={props.show}
+        onClose={() => {
+          props.closeModal();
+        }}
+      >
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>

@@ -23,6 +23,7 @@ import { useHomeUrl } from "../../../hooks/app/useHomeUrl";
 import { useAppState } from "../../../hooks/app/useAppState";
 import { useUser } from "../../../hooks/auth/useUser";
 import { showLoginDialog } from "../../../app/auth/showLoginDialog";
+import { useRef } from "react";
 
 export default function BottomNavigation() {
   const router = useRouter();
@@ -114,6 +115,7 @@ function AddPostDropup() {
   const dispatch = useDispatch();
 
   const postContentState = usePostContentState();
+  const addPostButton = useRef<HTMLButtonElement>(null);
 
   return (
     <>
@@ -162,7 +164,10 @@ function AddPostDropup() {
         }
       />
       <button
-        onClick={() => dispatch({ type: CONTENT_CASES.SHOW_POST_CONTENT })}
+        onClick={() => {
+          addPostButton.current?.blur();
+          dispatch({ type: CONTENT_CASES.SHOW_POST_CONTENT });
+        }}
         className="flex flex-col items-center outline-none shadow-none"
       >
         <div className="absolute bottom-5 shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50 bg-blue-500 w-20 h-20 p-2 text-white transition ease-in duration-200 ">

@@ -33,7 +33,6 @@ export function userCheckLogin() {
       setUser(data);
     })
     .catch((error) => {
-      console.error(error);
       removeCookies(USER_COOKIE_KEY);
     });
 }
