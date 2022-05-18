@@ -164,6 +164,7 @@ function AddPostDropup() {
         }
       />
       <button
+        ref={addPostButton}
         onClick={() => {
           addPostButton.current?.blur();
           dispatch({ type: CONTENT_CASES.SHOW_POST_CONTENT });
