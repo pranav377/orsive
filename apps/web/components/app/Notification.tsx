@@ -1,27 +1,36 @@
 import { NotificationLinkifyContent } from "./LinkifyContent";
 import Link from "next/link";
+import Image from "next/image";
 
 export function NotificationForPost(props: { notification: any }) {
   const uploadedBy = props.notification.post.uploadedBy;
   return (
     <>
-      <div className="lg:flex items-center justify-center w-full my-2">
+      <div className="md:flex items-center justify-center w-full my-2">
         <div
-          className={`focus:outline-none lg:w-4/12 lg:mr-7 lg:mb-0 mb-7 p-6 shadow rounded ${
+          className={`focus:outline-none lg:w-4/12 md:w-7/12 lg:mr-7 lg:mb-0 mb-7 p-6 shadow rounded ${
             props.notification.notification.seen
               ? "bg-slate-900"
               : "bg-slate-700"
           }`}
         >
           <div className="flex items-center border-b border-gray-700 pb-6 w-full">
-            <img
-              src={uploadedBy.avatar}
+            <div
+              className="max-w-[20%] aspect-square"
               style={{
+                position: "relative",
                 minWidth: "2rem",
-                minHeight: "2rem",
               }}
-              className="flex rounded-full object-cover object-center max-w-[20%] md:max-w-[10%] aspect-square"
-            />
+            >
+              <Image
+                src={uploadedBy.avatar}
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                className="rounded-full"
+                priority
+              />
+            </div>
             <div className="flex items-start justify-between w-full">
               <div className="pl-3 w-full">
                 <p
@@ -64,21 +73,29 @@ export function NotificationForComment(props: { notification: any }) {
     <>
       <div className="lg:flex items-center justify-center w-full my-2">
         <div
-          className={`focus:outline-none lg:w-4/12 lg:mr-7 lg:mb-0 mb-7 p-6 shadow rounded ${
+          className={`focus:outline-none lg:w-4/12 md:w-7/12 lg:mr-7 lg:mb-0 mb-7 p-6 shadow rounded ${
             props.notification.notification.seen
               ? "bg-slate-900"
               : "bg-slate-700"
           }`}
         >
           <div className="flex items-center border-b border-gray-700 pb-6 w-full">
-            <img
-              src={uploadedBy.avatar}
+            <div
+              className="max-w-[20%] aspect-square"
               style={{
+                position: "relative",
                 minWidth: "2rem",
-                minHeight: "2rem",
               }}
-              className="flex rounded-full object-cover object-center max-w-[20%] md:max-w-[10%] aspect-square"
-            />
+            >
+              <Image
+                src={uploadedBy.avatar}
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                className="rounded-full"
+                priority
+              />
+            </div>
             <div className="flex items-start justify-between w-full">
               <div className="pl-3 w-full">
                 <p
