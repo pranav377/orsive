@@ -6,10 +6,9 @@ I started making Orsive on 11 July, 2021. It was previously created with plan Re
 
 1. Moderator vote system with content reporting
 2. A page containing the people you follow
-3. Content Sharing
-4. Content Edit
-5. Orsive clans (kinda like a group where people can share posts only the members can see)
-6. Setup Testing
+3. Content Edit
+4. Orsive clans (kinda like a group where people can share posts only the members can see)
+5. Setup Testing
 
 ### Small things to know about
 

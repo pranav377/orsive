@@ -112,7 +112,7 @@ export function SingleComment(props: {
             </LinkifyContent>
           </a>
         </Link>
-        <ExtraButtons {...likeFeatures} />
+        <ExtraButtons url={props.commentUrl} {...likeFeatures} />
         {props.comment.replies && props.comment.replies > 0 ? (
           <Link href={props.commentUrl} passHref>
             <a>

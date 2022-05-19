@@ -55,7 +55,7 @@ export default function OrsicPostCard(props: {
               </div>
             </a>
           </Link>
-          <ExtraButtons postUrl={postUrl} {...likeFeatures} />
+          <ExtraButtons url={postUrl} postUrl={postUrl} {...likeFeatures} />
         </div>
       </div>
     </Ripples>
