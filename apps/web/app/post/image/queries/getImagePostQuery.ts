@@ -16,6 +16,7 @@ const GET_IMAGE_POST_QUERY = gql`
           name
         }
         createdAt
+        updatedAt
       }
     }
   }

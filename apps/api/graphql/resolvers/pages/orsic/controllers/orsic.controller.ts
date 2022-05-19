@@ -140,6 +140,11 @@ export async function UpdateOrsicPost(args: UpdateOrsicPostArgs, user: User) {
       title: data.title,
       content: data.content,
       slug: newSlug,
+      post: {
+        update: {
+          updatedAt: new Date(),
+        },
+      },
     },
 
     include: {

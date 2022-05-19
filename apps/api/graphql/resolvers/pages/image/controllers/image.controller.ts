@@ -161,6 +161,11 @@ export async function UpdateImagePost(args: UpdateImagePostArgs, user: User) {
       }),
       slug: newSlug,
       title: data.title,
+      post: {
+        update: {
+          updatedAt: new Date(),
+        },
+      },
     },
     include: {
       post: {
