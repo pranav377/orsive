@@ -32,20 +32,6 @@ export default function ExtraButtons(props: {
         setShareOpen={setShareOpen}
       />
       <div className="flex p-4 text-gray-300">
-        {props.postUrl && (
-          <div
-            className="flex items-center justify-center flex-1"
-            onClick={() => {
-              router.push(`${props.postUrl}`).finally(() => {
-                dispatch({ type: APP_CASES.SHOW_REPLY });
-              });
-            }}
-          >
-            <button className="rounded-full p-2">
-              <ChatIcon className="h-7 m-1" />{" "}
-            </button>
-          </div>
-        )}
         <div className="flex items-center justify-center flex-1">
           <button
             onClick={() => {
@@ -77,6 +63,20 @@ export default function ExtraButtons(props: {
             <ShareIcon className="h-7 m-1" />{" "}
           </button>
         </div>
+        {props.postUrl && (
+          <div
+            className="flex items-center justify-center flex-1"
+            onClick={() => {
+              router.push(`${props.postUrl}`).finally(() => {
+                dispatch({ type: APP_CASES.SHOW_REPLY });
+              });
+            }}
+          >
+            <button className="rounded-full p-2">
+              <ChatIcon className="h-7 m-1" />{" "}
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
