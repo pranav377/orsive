@@ -6,6 +6,7 @@ import EDITOR_IMAGE_UPLOAD_MUTATION from "../../app/editor/editorImageUploadMuta
 export default function RichEditor(props: {
   value: string;
   onChange: (data: string) => void;
+  darkBg?: boolean;
 }) {
   const { editorInstance, loading, setLoading } = useRichTextEditor(
     props.onChange
@@ -14,13 +15,14 @@ export default function RichEditor(props: {
   return (
     <>
       <div className="overflow-hidden h-[60vh]">
-        {loading && <RichEditorSkeleton />}
+        {loading && <RichEditorSkeleton dark={props.darkBg} />}
         <Editor
           apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
           onInit={(evt, editor) => {
             editorInstance.current = editor;
             setLoading(false);
           }}
+          initialValue={props.value}
           onChange={() => {
             props.onChange(editorInstance.current.getContent());
           }}
@@ -79,10 +81,12 @@ export default function RichEditor(props: {
   );
 }
 
-export function RichEditorSkeleton() {
+export function RichEditorSkeleton(props: { dark?: boolean }) {
   return (
     <div
-      className="rounded-lg bg-slate-800 flex items-center justify-center"
+      className={`rounded-lg ${
+        props.dark ? "bg-slate-900" : "bg-slate-800"
+      } bg-slate-800 flex items-center justify-center`}
       style={{ minHeight: "60vh" }}
     >
       <Spinner />

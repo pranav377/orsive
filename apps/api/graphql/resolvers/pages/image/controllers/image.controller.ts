@@ -34,7 +34,7 @@ export interface AddImageInput {
 }
 
 export interface UpdateImageInput {
-  image: FileUpload;
+  image?: FileUpload;
   title?: string;
   slug: string;
 }
@@ -126,28 +126,46 @@ export async function UpdateImagePost(args: UpdateImagePostArgs, user: User) {
       where: {
         slug: data.slug,
       },
+      include: {
+        post: true,
+      },
     })
   );
   IsUserOwner(user, oldPost);
 
-  let imageData = await data.image;
-  await IsImageFileValid(imageData);
-  let image = await saveFile(
-    `images/${generateFilename(imageData.filename)}`,
-    imageData
-  );
+  let image;
+  let width, height;
+  let newSlug = generateSlug(data.title);
 
-  let { width, height } = await probe(imageData.createReadStream());
+  if (data.image) {
+    let imageData = await data.image;
+    await IsImageFileValid(imageData);
+    image = await saveFile(
+      `images/${generateFilename(imageData.filename)}`,
+      imageData
+    );
+    const result = await probe(imageData.createReadStream());
+    width = result.width;
+    height = result.height;
+  }
 
   let post = await prisma.image.update({
     where: {
       slug: data.slug,
     },
     data: {
-      image,
-      width,
-      height,
+      ...(image && {
+        image,
+        width,
+        height,
+      }),
+      slug: newSlug,
       title: data.title,
+      post: {
+        update: {
+          updatedAt: new Date(),
+        },
+      },
     },
     include: {
       post: {

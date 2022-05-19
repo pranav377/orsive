@@ -7,6 +7,7 @@ const POST_SCHEMA = gql`
     id: ID
     uploadedBy: User
     createdAt: Date
+    updatedAt: Date
     _count: PostLikeObjCount
   }
 

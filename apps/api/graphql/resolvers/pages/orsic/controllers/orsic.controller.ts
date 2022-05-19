@@ -122,9 +122,14 @@ export async function UpdateOrsicPost(args: UpdateOrsicPostArgs, user: User) {
       where: {
         slug: data.slug,
       },
+      include: {
+        post: true,
+      },
     })
   );
   IsUserOwner(user, oldPost);
+
+  let newSlug = generateSlug(data.title);
 
   let post = await prisma.orsic.update({
     where: {
@@ -134,6 +139,12 @@ export async function UpdateOrsicPost(args: UpdateOrsicPostArgs, user: User) {
     data: {
       title: data.title,
       content: data.content,
+      slug: newSlug,
+      post: {
+        update: {
+          updatedAt: new Date(),
+        },
+      },
     },
 
     include: {

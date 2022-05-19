@@ -30,6 +30,7 @@ interface ImagePostType {
     id: string;
     uploadedBy: UploadedBy;
     createdAt: string;
+    updatedAt?: string;
   };
 }
 
@@ -105,6 +106,7 @@ export default function ImagePost(props: { post: ImagePostType | null }) {
           <div className="flex flex-col w-full items-center mt-20 ">
             <div className="flex flex-col bg-slate-900 rounded-none w-full md:max-w-3xl md:rounded-md my-2">
               <AvatarArea
+                canEdit
                 url={postUrl}
                 uploadedBy={post.post.uploadedBy}
                 delete={deleteImagePost}
@@ -136,11 +138,16 @@ export default function ImagePost(props: { post: ImagePostType | null }) {
                   height={post.height}
                 />
               </div>
-              <Moment
-                className="self-end text-gray-300 p-2"
-                date={post.post.createdAt}
-                format="MMM DD, YYYY"
-              />
+              {post.post.updatedAt && (
+                <span className="self-end text-gray-300 pr-2 mt-2 text-sm">
+                  Edited on{" "}
+                  <Moment date={post.post.updatedAt} format="MMM DD, YYYY" />
+                </span>
+              )}
+              <span className="self-end text-gray-300 pr-2 text-sm">
+                Created on{" "}
+                <Moment date={post.post.createdAt} format="MMM DD, YYYY" />
+              </span>
               <ExtraButtons url={postUrl} {...likeFeatures} />
             </div>
 

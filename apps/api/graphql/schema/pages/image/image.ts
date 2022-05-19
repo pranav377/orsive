@@ -16,7 +16,7 @@ const IMAGE_SCHEMA = gql`
   }
 
   input ImagePostUpdateInput {
-    image: Upload!
+    image: Upload
     title: String
     slug: String!
   }

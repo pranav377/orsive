@@ -15,6 +15,7 @@ const GET_ORSIC_POST_QUERY = gql`
           name
         }
         createdAt
+        updatedAt
       }
     }
   }
