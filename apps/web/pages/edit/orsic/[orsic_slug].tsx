@@ -59,7 +59,6 @@ export default function EditOrsic() {
                 <Formik
                   initialValues={{
                     title: getOrsicQuery.data.getOrsic.title,
-                    content: getOrsicQuery.data.getOrsic.content,
                   }}
                   validationSchema={POST_ORSIC_SCHEMA}
                   onSubmit={(values, { setSubmitting }) => {
@@ -104,6 +103,7 @@ export default function EditOrsic() {
                       </p>
                       {RichEditor ? (
                         <RichEditor
+                          initialValue={getOrsicQuery.data.getOrsic.content}
                           darkBg
                           value={values.content}
                           onChange={(data) => setFieldValue("content", data)}
