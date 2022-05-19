@@ -7,6 +7,7 @@ export default function AvatarArea(props: {
   uploadedBy: UploadedBy;
   delete: () => Promise<any>;
   url: string;
+  canEdit?: boolean;
 }) {
   return (
     <div className=" p-4 w-full flex relative">
@@ -38,6 +39,7 @@ export default function AvatarArea(props: {
       </div>
       <span style={{ minWidth: "2rem", maxWidth: "3rem" }} className="w-1/12">
         <Options
+          canEdit={props.canEdit}
           url={props.url}
           delete={props.delete}
           uploadedByUsername={props.uploadedBy.username}

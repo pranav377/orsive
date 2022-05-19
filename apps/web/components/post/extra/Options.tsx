@@ -6,14 +6,17 @@ import classNames from "../../utils/classnames";
 import Button from "../../base/button";
 import DeleteModalDialog from "../../app/DeleteModalDialog";
 import ShareModal from "../../app/ShareModalDialog";
+import { useRouter } from "next/router";
 
 export default function Options(props: {
   delete: () => Promise<any>;
   uploadedByUsername: string;
   url: string;
+  canEdit?: boolean;
 }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -55,30 +58,24 @@ export default function Options(props: {
                 </Button>
               )}
             </Menu.Item>
-            <Menu.Item>
-              {() => (
-                <Button
-                  darkText
-                  className={classNames(
-                    "block px-4 py-2 text-sm bg-slate-800 transition-all duration-300 disabled"
-                  )}
-                >
-                  Report (coming soon)
-                </Button>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {() => (
-                <Button
-                  darkText
-                  className={classNames(
-                    "block px-4 py-2 text-sm bg-slate-800 transition-all duration-300 disabled"
-                  )}
-                >
-                  Edit (coming soon)
-                </Button>
-              )}
-            </Menu.Item>
+
+            {props.canEdit && (
+              <Menu.Item>
+                {({ active }) => (
+                  <Button
+                    onClick={() => {
+                      router.push(`/edit${props.url}`);
+                    }}
+                    className={classNames(
+                      active ? "bg-slate-700" : "",
+                      "block w-full text-left rounded-none px-4 py-2 text-sm bg-slate-800 transition-all duration-300"
+                    )}
+                  >
+                    Edit
+                  </Button>
+                )}
+              </Menu.Item>
+            )}
             <Menu.Item>
               {({ active }) => (
                 <Button
@@ -89,6 +86,18 @@ export default function Options(props: {
                   )}
                 >
                   Delete
+                </Button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {() => (
+                <Button
+                  darkText
+                  className={classNames(
+                    "block px-4 py-2 text-sm bg-slate-800 transition-all duration-300 disabled"
+                  )}
+                >
+                  Report (coming soon)
                 </Button>
               )}
             </Menu.Item>
