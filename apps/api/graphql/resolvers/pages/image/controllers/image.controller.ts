@@ -130,6 +130,8 @@ export async function UpdateImagePost(args: UpdateImagePostArgs, user: User) {
   );
   IsUserOwner(user, oldPost);
 
+  let newSlug = generateSlug(data.title);
+
   let imageData = await data.image;
   await IsImageFileValid(imageData);
   let image = await saveFile(
@@ -147,6 +149,7 @@ export async function UpdateImagePost(args: UpdateImagePostArgs, user: User) {
       image,
       width,
       height,
+      slug: newSlug,
       title: data.title,
     },
     include: {

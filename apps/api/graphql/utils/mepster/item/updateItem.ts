@@ -1,5 +1,4 @@
 import recommenderClient from "../client";
-import NextJsRevalidate from "../nextJsRevalidate";
 import { searchIndex } from "../searchClient";
 
 export default function updateItem(itemId: string, post: any) {
@@ -28,5 +27,4 @@ export default function updateItem(itemId: string, post: any) {
   recommenderClient.patch(`/item/${itemId}/`, {
     Timestamp: new Date().toISOString(),
   });
-  NextJsRevalidate(basePost.postType, post.slug);
 }
