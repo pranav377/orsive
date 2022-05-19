@@ -5,6 +5,7 @@ import { client } from "../../pages/_app";
 import EDITOR_IMAGE_UPLOAD_MUTATION from "../../app/editor/editorImageUploadMutation";
 export default function RichEditor(props: {
   value: string;
+  initialValue?: string;
   onChange: (data: string) => void;
   darkBg?: boolean;
 }) {
@@ -22,7 +23,7 @@ export default function RichEditor(props: {
             editorInstance.current = editor;
             setLoading(false);
           }}
-          initialValue={props.value}
+          initialValue={props.initialValue}
           onChange={() => {
             props.onChange(editorInstance.current.getContent());
           }}
