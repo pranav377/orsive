@@ -5,6 +5,7 @@ export default function Modal(props: {
   closeModal: () => void;
   show: boolean;
   content: React.ReactElement;
+  snapPoints?: Array<number>;
 }) {
   return (
     <>
@@ -18,6 +19,9 @@ export default function Modal(props: {
         `}</style>
       )}
       <Sheet
+        {...(props.snapPoints && {
+          snapPoints: props.snapPoints,
+        })}
         isOpen={props.show}
         onClose={() => {
           props.closeModal();

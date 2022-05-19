@@ -105,6 +105,7 @@ export default function ImagePost(props: { post: ImagePostType | null }) {
           <div className="flex flex-col w-full items-center mt-20 ">
             <div className="flex flex-col bg-slate-900 rounded-none w-full md:max-w-3xl md:rounded-md my-2">
               <AvatarArea
+                url={postUrl}
                 uploadedBy={post.post.uploadedBy}
                 delete={deleteImagePost}
               />
