@@ -120,7 +120,7 @@ export default function OrsicPost(props: { post: OrsicPostType | null }) {
                 date={post.post.createdAt}
                 format="MMM DD, YYYY"
               />
-              <ExtraButtons {...likeFeatures} />
+              <ExtraButtons url={postUrl} {...likeFeatures} />
             </div>
 
             <Divider />

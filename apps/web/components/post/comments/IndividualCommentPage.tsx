@@ -104,7 +104,7 @@ export default function IndividualCommentPage(props: {
                 date={post.post.createdAt}
                 format="MMM DD, YYYY"
               />
-              <ExtraButtons {...props.likeFeatures} />
+              <ExtraButtons url={postUrl} {...props.likeFeatures} />
             </div>
 
             <Divider />

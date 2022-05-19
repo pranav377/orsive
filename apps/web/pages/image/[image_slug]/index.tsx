@@ -141,7 +141,7 @@ export default function ImagePost(props: { post: ImagePostType | null }) {
                 date={post.post.createdAt}
                 format="MMM DD, YYYY"
               />
-              <ExtraButtons {...likeFeatures} />
+              <ExtraButtons url={postUrl} {...likeFeatures} />
             </div>
 
             <Divider />
