@@ -1,7 +1,6 @@
-import Head from "next/head";
 import SpaceShip from "../components/svgs/space-ship.svg";
-import GoogleSVG from "../components/svgs/google-logo.svg";
-import DiscordSVG from "../components/svgs/discord-logo.svg";
+import GoogleSVG from "../components/svgs/google-color-logo.svg";
+import DiscordSVG from "../components/svgs/discord-color-logo.svg";
 import AuthSVG from "../components/svgs/auth.svg";
 import LoginSVG from "../components/svgs/login.svg";
 import SignUpForm from "../components/forms/signup-form";
@@ -45,16 +44,16 @@ function ExtraAuthButtons() {
         <div>
           <button
             onClick={() => router.push(GOOGLE_AUTH_URL)}
-            className=" inline-flex justify-center w-full px-4 py-2 text-sm font-medium ripple-bg-slate-700 rounded-md shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-wait"
+            className=" inline-flex justify-center w-full px-4 py-2 text-sm font-medium ripple-bg-gray-200 rounded-md shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-wait"
           >
             <span className="sr-only">Sign up with Google</span>
-            <GoogleSVG className="w-6 h-6" />
+            <GoogleSVG className="w-5 h-6" />
           </button>
         </div>
         <div>
           <button
             onClick={() => router.push(DISCORD_AUTH_URL)}
-            className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium ripple-bg-slate-700 rounded-md shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-wait"
+            className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium ripple-bg-gray-200 rounded-md shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-wait"
           >
             <span className="sr-only">Sign up with GitHub</span>
             <DiscordSVG className="w-6 h-6" />
