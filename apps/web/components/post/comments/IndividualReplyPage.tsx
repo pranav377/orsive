@@ -61,6 +61,7 @@ export default function IndividualReplyPage(props: {
 
   if (props.getReplyQuery.data) {
     let post = props.getReplyQuery.data.getReply;
+    let postUrl = `${props.backLink}/replies/${post.post.id}`;
     return (
       <>
         <NextSeo
@@ -88,6 +89,7 @@ export default function IndividualReplyPage(props: {
           <div className="flex flex-col w-full items-center mt-20 ">
             <div className="flex flex-col bg-slate-900 rounded-md p-5 w-[90vw] md:max-w-3xl my-2">
               <AvatarArea
+                url={postUrl}
                 uploadedBy={post.post.uploadedBy}
                 delete={props.deleteCommentMutation}
               />

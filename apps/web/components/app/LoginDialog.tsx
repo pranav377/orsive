@@ -19,7 +19,7 @@ export default function LoginDialog() {
         open={loginDialog}
         setOpen={setLoginDialogOpen}
         heading="Join Orsive"
-        description={
+        content={
           <>
             <div className="flex flex-col w-full items-center justify-center min-w-[80vw] md:min-w-fit">
               <img src="/cool.webp" className="my-3 w-[50%]" />

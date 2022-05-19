@@ -31,6 +31,7 @@ export default function OrsicPostCard(props: {
     <Ripples>
       <div className="bg-slate-900 rounded-md p-2 flex flex-col w-[90vw] md:max-w-3xl my-2">
         <AvatarArea
+          url={postUrl}
           uploadedBy={post.post.uploadedBy}
           delete={deleteOrsicPost}
         />

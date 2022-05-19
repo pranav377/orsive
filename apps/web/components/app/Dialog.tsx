@@ -8,6 +8,7 @@ export default function ModalDialog(props: {
   icon?: React.ReactNode;
   heading?: string;
   description?: React.ReactNode;
+  content?: React.ReactNode;
   button?: React.ReactNode;
 }) {
   const cancelButtonRef = useRef(null);
@@ -65,6 +66,7 @@ export default function ModalDialog(props: {
                       {props.heading}
                     </Dialog.Title>
                     <div className="mt-2 w-full">
+                      {props.content}
                       <p className="text-sm text-gray-200 w-full">
                         {props.description}
                       </p>
@@ -73,7 +75,7 @@ export default function ModalDialog(props: {
                 </div>
               </div>
               <div className="bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                {props.button && props.button}
+                {props.button}
                 <Button
                   className="mt-3 w-full inline-flex justify-center shadow-sm px-4 py-2 ripple-bg-slate-700 text-base font-medium sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={() => props.setOpen(false)}
@@ -89,8 +91,3 @@ export default function ModalDialog(props: {
     </Transition.Root>
   );
 }
-
-ModalDialog.defaultProps = {
-  heading: "Modal Dialog",
-  description: "This is a modal dialog.",
-};

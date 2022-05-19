@@ -32,6 +32,7 @@ export default function ModerationImagePostCard() {
           )}
         </span>
         <AvatarArea
+          url="/image/test"
           uploadedBy={{
             bio: "",
             name: "Bruh Bruh",
