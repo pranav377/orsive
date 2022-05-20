@@ -76,7 +76,7 @@ export function SingleComment(props: {
       uploadedBy: UploadedBy;
       createdAt: string;
       _count: {
-        likes: number;
+        likes: number | undefined;
       };
     };
   };
