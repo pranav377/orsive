@@ -39,6 +39,12 @@ body {
   white-space: pre-wrap;
 }
 
+.text-content ol,
+.text-content ul,
+.text-content li {
+  margin: 0;
+}
+
 .text-content a {
   margin: 0;
 }
