@@ -11,7 +11,7 @@ export const useOrsicPost = (post: any) => {
   useHideBars();
   useHistory(post);
 
-  const likeFeatures = useLike(post, true);
+  const likeFeatures = useLike(post);
 
   const router = useRouter();
 

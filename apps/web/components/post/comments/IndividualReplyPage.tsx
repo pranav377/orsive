@@ -43,7 +43,7 @@ export default function IndividualReplyPage(props: {
     likeStatus: "like" | "dislike" | "nope" | undefined;
     like: () => Promise<void>;
     dislike: () => Promise<void>;
-    likes: number;
+    likes: number | undefined;
   };
 }) {
   if (props.getReplyQuery.loading) {

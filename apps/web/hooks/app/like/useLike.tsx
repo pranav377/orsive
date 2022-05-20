@@ -9,18 +9,13 @@ import { useUser } from "../../auth/useUser";
 import ADD_LIKE_MUTATION from "./addLikeMutation";
 import LIKE_STATUS_QUERY from "./likeStatusQuery";
 
-export const useLike = (post: any, client_side_fetch?: boolean) => {
+export const useLike = (post: any) => {
   const likeStore = useSelector((state: typeof initialState) => state.like);
   const dispatch = useDispatch();
-  let initialLikeCount = client_side_fetch ? 0 : post?.post?._count?.likes || 0;
-  const [likes, setLikes] = useState<number>(initialLikeCount);
+  const [likes, setLikes] = useState<number | undefined>();
 
   useEffect(() => {
-    if (post?.post?._count?.likes && !client_side_fetch) {
-      setLikes(post.post._count.likes);
-    }
-
-    if (post && client_side_fetch) {
+    if (post) {
       client
         .query({
           query: gql`
@@ -31,6 +26,7 @@ export const useLike = (post: any, client_side_fetch?: boolean) => {
           variables: {
             postId: post?.post?.id,
           },
+          fetchPolicy: "network-only",
         })
         .then((response) => {
           let numOfLikes = response.data.getLikes;
@@ -77,11 +73,11 @@ export const useLike = (post: any, client_side_fetch?: boolean) => {
   const like = async () => {
     if (user.is) {
       if (likeStatus === "nope" || likeStatus === "dislike") {
-        setLikes((prevLikes) => prevLikes + 1);
+        setLikes((prevLikes) => (prevLikes || 0) + 1);
         setLikeStatus("like");
       } else {
+        setLikes((prevLikes) => prevLikes! - 1);
         setLikeStatus("nope");
-        setLikes((prevLikes) => prevLikes - 1);
       }
 
       await addLikeMutation({
@@ -99,7 +95,7 @@ export const useLike = (post: any, client_side_fetch?: boolean) => {
     if (user.is) {
       if (likeStatus === "nope" || likeStatus === "like") {
         if (likeStatus === "like") {
-          setLikes((prevLikes) => prevLikes - 1);
+          setLikes((prevLikes) => prevLikes! - 1);
         }
         setLikeStatus("dislike");
       } else {

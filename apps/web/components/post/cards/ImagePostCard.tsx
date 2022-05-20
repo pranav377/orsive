@@ -12,12 +12,9 @@ import Image from "next/image";
 import { generatePlaceholder } from "../../app/ContentParser";
 import TextContent from "../../app/TextContent";
 
-export default function ImagePostCard(props: {
-  post: any;
-  searchResult?: boolean;
-}) {
+export default function ImagePostCard(props: { post: any }) {
   let post = props.post;
-  const likeFeatures = useLike(post, props.searchResult);
+  const likeFeatures = useLike(post);
 
   const [deleteImagePost] = useMutation(DELETE_IMAGE_POST_MUTATION, {
     variables: {
