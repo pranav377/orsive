@@ -5,6 +5,13 @@ const USER_CHECK_QUERY = gql`
     me {
       username
       avatar
+    }
+  }
+`;
+
+export const getUnreadNotificationsQuery = gql`
+  query {
+    me {
       unreadNotifications
     }
   }

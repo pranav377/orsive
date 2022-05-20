@@ -34,6 +34,9 @@ body {
 
 .text-content * {
   margin: 1rem;
+  word-break: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .text-content a {

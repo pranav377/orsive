@@ -1,5 +1,7 @@
 import { useEffect } from "react";
-import USER_CHECK_QUERY from "../../app/auth/queries/userCheck";
+import USER_CHECK_QUERY, {
+  getUnreadNotificationsQuery,
+} from "../../app/auth/queries/userCheck";
 import { client } from "../../pages/_app";
 import USER_CASES from "../../app/store/reducers/user/cases";
 import store from "../../app/store/store";
@@ -8,11 +10,7 @@ import FEATURES_CASES from "../../app/store/reducers/features/cases";
 import { removeCookies, setCookies } from "cookies-next";
 import { USER_COOKIE_KEY } from "../../config";
 
-export function setUser(user: {
-  username: string;
-  avatar: string;
-  unreadNotifications: boolean;
-}) {
+export function setUser(user: { username: string; avatar: string }) {
   setCookies(USER_COOKIE_KEY, "true", {
     maxAge: 1000 * 60 * 60 * 24 * 365,
   });
@@ -35,6 +33,20 @@ export function userCheckLogin() {
     .catch((error) => {
       removeCookies(USER_COOKIE_KEY);
     });
+}
+
+async function checkNotifications() {
+  let response = await client.query({
+    query: getUnreadNotificationsQuery,
+    fetchPolicy: "network-only",
+  });
+
+  store.dispatch({
+    type: USER_CASES.SET_NOTIFICATIONS,
+    payload: {
+      unreadNotifications: response.data.me.unreadNotifications,
+    },
+  });
 }
 
 async function checkFeatures() {
@@ -60,6 +72,11 @@ export default function AppMiddleware() {
     userCheckLogin();
     checkFeatures();
   }, []);
+
+  useEffect(() => {
+    console.log("notifications check");
+    checkNotifications();
+  });
 
   return null;
 }

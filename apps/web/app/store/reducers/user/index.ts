@@ -8,14 +8,17 @@ export const initialUserState = {
   unreadNotifications: false,
 };
 
-export default function user(state = initialUserState, action: ActionType) {
+export default function user(
+  state = initialUserState,
+  action: ActionType
+): typeof initialUserState {
   switch (action.type) {
     case USER_CASES.LOGIN:
       return {
+        ...state,
         is: true,
         username: action.payload.username,
         avatar: action.payload.avatar,
-        unreadNotifications: action.payload.unreadNotifications,
       };
 
     case USER_CASES.LOGOUT:
@@ -23,6 +26,12 @@ export default function user(state = initialUserState, action: ActionType) {
 
     case USER_CASES.NOTIFICATIONS_READ:
       return { ...state, unreadNotifications: false };
+
+    case USER_CASES.SET_NOTIFICATIONS:
+      return {
+        ...state,
+        unreadNotifications: action.payload.unreadNotifications,
+      };
 
     default:
       return state;

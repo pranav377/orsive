@@ -5,8 +5,11 @@ import MAKE_NOTIFICATIONS_READ from "../../../app/notifications/mutations/makeNo
 import GET_MY_NOTIFICATIONS_QUERY from "../../../app/notifications/queries/getMyNotificationsQuery";
 import USER_CASES from "../../../app/store/reducers/user/cases";
 import { useUser } from "../../auth/useUser";
+import { useClearApolloCacheOnExit } from "../useClearApolloCacheOnExit";
+import { useScrollTop } from "../useScrollTop";
 
 export const useNotifications = () => {
+  useScrollTop();
   const user = useUser();
   const dispatch = useDispatch();
 
@@ -61,6 +64,8 @@ export const useNotifications = () => {
     notificationsQuery.data?.getMyNotifications?.hasNextPage,
     notificationsQuery.data?.getMyNotifications?.nextPage,
   ]);
+
+  useClearApolloCacheOnExit("getMyNotifications");
 
   return { notificationsQuery, user, loadMoreElement };
 };
