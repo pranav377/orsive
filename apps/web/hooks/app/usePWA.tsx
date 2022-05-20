@@ -35,10 +35,6 @@ export const usePWA = () => {
       wb.addEventListener("waiting", promptNewVersionAvailable);
 
       wb.register();
-
-      if (Notification.permission === "default") {
-        Notification.requestPermission();
-      }
     }
   }, []);
 };

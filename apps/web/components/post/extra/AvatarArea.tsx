@@ -11,22 +11,13 @@ export default function AvatarArea(props: {
 }) {
   return (
     <div className=" p-4 w-full flex relative">
-      <div
-        className=" w-1/12"
-        style={{
-          position: "relative",
-          minWidth: "2rem",
-        }}
-      >
-        <Image
-          src={props.uploadedBy.avatar}
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          className="rounded-full"
-          priority
-        />
-      </div>
+      <Image
+        src={props.uploadedBy.avatar}
+        height={48}
+        width={48}
+        className="rounded-full"
+        priority
+      />
       <div className="flex flex-col ml-2 w-10/12 text-sm md:text-base">
         <p className="font-semibold">{props.uploadedBy.name}</p>
         <Link href={`/${props.uploadedBy.username}`} passHref>
