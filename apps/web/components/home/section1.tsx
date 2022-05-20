@@ -54,7 +54,7 @@ export default function Section1() {
                 <span className="text-white font-semibold mx-3">Or</span>
                 <Link href={"/feed"} passHref>
                   <a className="ripple-bg-slate-700 p-2 rounded-md text-base lg:text-xl text-white">
-                    Explore
+                    View All
                   </a>
                 </Link>
               </div>
