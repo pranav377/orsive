@@ -9,7 +9,7 @@ import { useUser } from "../../auth/useUser";
 import ADD_LIKE_MUTATION from "./addLikeMutation";
 import LIKE_STATUS_QUERY from "./likeStatusQuery";
 
-export const useLike = (post: any, client_side_fetch?: boolean) => {
+export const useLike = (post: any) => {
   const likeStore = useSelector((state: typeof initialState) => state.like);
   const dispatch = useDispatch();
   const [likes, setLikes] = useState<number | undefined>();
