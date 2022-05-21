@@ -4,7 +4,9 @@ import NotificationClient from "./client";
 
 export default function sendNotificationsForPost(
   ownerId: string,
-  postId: string
+  postId: string,
+  postType: "image" | "orsic",
+  postSlug: string
 ) {
   Promise.all([
     new Promise(async (resolve) => {
@@ -28,6 +30,7 @@ export default function sendNotificationsForPost(
               title: "New Post",
               body: `${owner!.name} uploaded a new post`,
               for: follower.username,
+              url: `/${postType}/${postSlug}`,
             },
           });
         });

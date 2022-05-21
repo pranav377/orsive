@@ -24,13 +24,17 @@ initMessaging.setBackgroundMessageHandler((payload) => {
       registration.showNotification(data.title, {
         body: data.body,
         icon: "/icons/android-icon-192x192.png",
+        data: {
+          url: data.url,
+        },
       });
     }
   });
 });
 
 self.addEventListener("notificationclick", function (event) {
-  let url = new URL("notifications", location).href;
+  let url = new URL(event.notification.data.url || "notifications", location)
+    .href;
   event.notification.close(); // Android needs explicit close.
   event.waitUntil(
     clients.matchAll({ type: "window" }).then((windowClients) => {
