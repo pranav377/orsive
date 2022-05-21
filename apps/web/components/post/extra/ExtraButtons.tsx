@@ -13,8 +13,11 @@ import { nFormatter } from "../../app/nFormatter";
 import ShareModal from "../../app/ShareModalDialog";
 
 export default function ExtraButtons(props: {
-  likes?: number;
-  likeStatus: "like" | "dislike" | "nope" | undefined;
+  likeStatus?: {
+    postId: string;
+    type: "like" | "dislike" | "nope" | undefined;
+    likes: number;
+  };
   like: () => Promise<void>;
   dislike: () => Promise<void>;
   postUrl?: string;
@@ -38,20 +41,22 @@ export default function ExtraButtons(props: {
               props.like();
             }}
             className={`rounded-full p-1 transition-all duration-150 ${
-              props.likeStatus === "like" ? "bg-blue-700" : ""
+              props.likeStatus?.type === "like" ? "bg-blue-700" : ""
             }`}
           >
             <ThumbUpIcon className="h-7 m-1" />{" "}
           </button>
           <span className="ml-1">
-            {props.likes ? nFormatter(props.likes, 2) : <></>}
+            {props.likeStatus && props.likeStatus.likes !== 0
+              ? nFormatter(props.likeStatus.likes, 2)
+              : null}
           </span>
         </div>
         <div className="flex items-center justify-center flex-1">
           <button
             onClick={props.dislike}
             className={`rounded-full p-1 transition-all duration-150 ${
-              props.likeStatus === "dislike" ? "bg-blue-700" : ""
+              props.likeStatus?.type === "dislike" ? "bg-blue-700" : ""
             }`}
           >
             <ThumbDownIcon className="h-7 m-1" />{" "}
