@@ -23,7 +23,7 @@ initMessaging.setBackgroundMessageHandler((payload) => {
     if (username === data.for) {
       registration.showNotification(data.title, {
         body: data.body,
-        icon: "/icons/android-chrome-192x192.png",
+        icon: "/icons/android-icon-192x192.png",
       });
     }
   });
