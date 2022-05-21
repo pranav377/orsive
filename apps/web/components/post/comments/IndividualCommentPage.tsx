@@ -42,10 +42,13 @@ export default function IndividualCommentPage(props: {
       | undefined
   ) => Promise<any>;
   likeFeatures: {
-    likeStatus: "like" | "dislike" | "nope" | undefined;
+    likeStatus: {
+      postId: string;
+      type: "like" | "dislike" | "nope" | undefined;
+      likes: number;
+    };
     like: () => Promise<void>;
     dislike: () => Promise<void>;
-    likes: number | undefined;
   };
 }) {
   if (props.getCommentQuery.loading) {

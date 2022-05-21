@@ -4,6 +4,7 @@ import LIKE_CASES from "./cases";
 export const initialLikeState: Array<{
   postId: string;
   type: "like" | "dislike" | "nope" | undefined;
+  likes: number;
 }> = [];
 
 export default function like(state = initialLikeState, action: ActionType) {

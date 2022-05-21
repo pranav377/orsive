@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoginDialog } from "../../../app/auth/showLoginDialog";
 import LIKE_CASES from "../../../app/store/reducers/like/cases";
@@ -12,41 +12,18 @@ import LIKE_STATUS_QUERY from "./likeStatusQuery";
 export const useLike = (post: any) => {
   const likeStore = useSelector((state: typeof initialState) => state.like);
   const dispatch = useDispatch();
-  const [likes, setLikes] = useState<number | undefined>();
-
-  useEffect(() => {
-    if (post) {
-      client
-        .query({
-          query: gql`
-            query GetLikes($postId: ID!) {
-              getLikes(post_id: $postId)
-            }
-          `,
-          variables: {
-            postId: post?.post?.id,
-          },
-          fetchPolicy: "network-only",
-        })
-        .then((response) => {
-          let numOfLikes = response.data.getLikes;
-
-          setLikes(numOfLikes);
-        });
-    }
-  }, [post]);
 
   const likeStatus = useMemo(() => {
-    return likeStore.filter((likeObj) => likeObj.postId === post?.post?.id)[0]
-      ?.type;
+    return likeStore.filter((likeObj) => likeObj.postId === post?.post?.id)[0];
   }, [likeStore]);
 
-  const setLikeStatus = (type: "like" | "dislike" | "nope") => {
+  const setLikeStatus = (type: "like" | "dislike" | "nope", likes: number) => {
     dispatch({
       type: LIKE_CASES.SET_LIKE,
       payload: {
         postId: post?.post?.id,
         type,
+        likes,
       },
     });
   };
@@ -65,19 +42,18 @@ export const useLike = (post: any) => {
       });
 
       let likeType = response.data.likeStatus;
+      let numOfLikes = response.data.getLikes;
 
-      setLikeStatus(likeType);
+      setLikeStatus(likeType, numOfLikes);
     }
   }, [post, user]);
 
   const like = async () => {
     if (user.is) {
-      if (likeStatus === "nope" || likeStatus === "dislike") {
-        setLikes((prevLikes) => (prevLikes || 0) + 1);
-        setLikeStatus("like");
+      if (likeStatus.type === "nope" || likeStatus.type === "dislike") {
+        setLikeStatus("like", likeStatus.likes + 1);
       } else {
-        setLikes((prevLikes) => prevLikes! - 1);
-        setLikeStatus("nope");
+        setLikeStatus("nope", likeStatus.likes - 1);
       }
 
       await addLikeMutation({
@@ -93,13 +69,14 @@ export const useLike = (post: any) => {
 
   const dislike = async () => {
     if (user.is) {
-      if (likeStatus === "nope" || likeStatus === "like") {
-        if (likeStatus === "like") {
-          setLikes((prevLikes) => prevLikes! - 1);
+      if (likeStatus.type === "nope" || likeStatus.type === "like") {
+        if (likeStatus.type === "like") {
+          setLikeStatus("dislike", likeStatus.likes - 1);
+        } else {
+          setLikeStatus("dislike", likeStatus.likes);
         }
-        setLikeStatus("dislike");
       } else {
-        setLikeStatus("nope");
+        setLikeStatus("nope", likeStatus.likes);
       }
 
       await addLikeMutation({
@@ -113,5 +90,5 @@ export const useLike = (post: any) => {
     }
   };
 
-  return { likeStatus, like, dislike, likes };
+  return { likeStatus, like, dislike };
 };
