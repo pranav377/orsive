@@ -23,8 +23,9 @@ const Layout = ({ children, title }: LayoutProps) => (
       variants={{
         hidden: { opacity: 0, x: -200, y: 0 },
         enter: { opacity: 1, x: 0, y: 0 },
-        exit: { opacity: 0, x: 0, y: -100 },
+        exit: { opacity: 0, x: -200, y: 0 },
       }}
+      className="overflow-x-hidden"
       transition={{ type: "linear" }}
     >
       <div className="mb-24">{children}</div>
