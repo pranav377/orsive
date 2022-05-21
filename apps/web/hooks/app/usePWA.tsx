@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import firebase from "../../firebase";
 import { gql } from "@apollo/client";
-import { useUser } from "../auth/useUser";
 import { client } from "../../pages/_app";
 
 const UPDATE_NOTIFICATION_TOKEN_MUTATION = gql`
@@ -11,8 +10,6 @@ const UPDATE_NOTIFICATION_TOKEN_MUTATION = gql`
 `;
 
 export const usePWA = () => {
-  const user = useUser();
-
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
@@ -55,12 +52,10 @@ export const usePWA = () => {
           return messaging.getToken();
         })
         .then((token) => {
-          if (user.is) {
-            client.mutate({
-              mutation: UPDATE_NOTIFICATION_TOKEN_MUTATION,
-              variables: { token },
-            });
-          }
+          client.mutate({
+            mutation: UPDATE_NOTIFICATION_TOKEN_MUTATION,
+            variables: { token },
+          });
         })
         .catch((err) => console.error(err));
     }

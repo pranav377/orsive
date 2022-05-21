@@ -1,15 +1,38 @@
 // send notification to the post owner when he/she gets a comment on their post. send only if owner and comment owner are not same
 import prisma from "../dbClient";
+import NotificationClient from "./client";
 
 const THRESHOLD = 300;
 
-function sendNotification(
+async function sendNotification(
   postOwnerId: string,
   commentId: string,
+  commentUploadedById: string,
   percentage: number
 ) {
-  var random = Math.floor(Math.random() * 101);
+  let random = Math.floor(Math.random() * 101);
   if (random <= percentage) {
+    let postOwner = await prisma.profile.findUnique({
+      where: {
+        id: postOwnerId,
+      },
+    });
+
+    let commentedBy = await prisma.profile.findUnique({
+      where: {
+        id: commentUploadedById,
+      },
+    });
+    postOwner?.notificationToken?.map(async (notificationToken) => {
+      await NotificationClient.post("", {
+        to: notificationToken,
+        data: {
+          title: "New Comment",
+          body: `${commentedBy!.name} commented on your post`,
+          for: postOwner!.username,
+        },
+      });
+    });
     return prisma.notificationForComment.create({
       data: {
         commentId,
@@ -34,6 +57,9 @@ export default async function sendNotificationsforComment(
     where: {
       id: commentId,
     },
+    include: {
+      post: true,
+    },
   });
 
   let postCommentsCount = await prisma.comment.count({
@@ -45,5 +71,10 @@ export default async function sendNotificationsforComment(
 
   let percentage = (THRESHOLD / postCommentsCount) * 100;
 
-  await sendNotification(postOwnerId, commentId, percentage);
+  await sendNotification(
+    postOwnerId,
+    commentId,
+    comment!.post!.uploadedById,
+    percentage
+  );
 }
