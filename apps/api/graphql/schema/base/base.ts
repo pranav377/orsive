@@ -8,11 +8,11 @@ const BASE_SCHEMA = gql`
     file: String
   }
 
-  type Query @rateLimit(limit: 100, duration: 60) {
+  type Query @rateLimit(limit: 900, duration: 60) {
     hello: String
   }
 
-  type Mutation @rateLimit(limit: 100, duration: 60) {
+  type Mutation @rateLimit(limit: 500, duration: 60) {
     hello: String
     editorImageUpload(file: Upload!): EditorImageUploadResponse!
   }
