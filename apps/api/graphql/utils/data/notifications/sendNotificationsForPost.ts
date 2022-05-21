@@ -1,5 +1,6 @@
 // send notification to followers when new content is posted by the people they are following
 import prisma from "../dbClient";
+import NotificationClient from "./client";
 
 export default function sendNotificationsForPost(
   ownerId: string,
@@ -19,6 +20,17 @@ export default function sendNotificationsForPost(
 
       for (let index = 0; index < followers.length; index++) {
         const follower = followers[index];
+
+        follower?.notificationToken?.map(async (notificationToken) => {
+          await NotificationClient.post("", {
+            to: notificationToken,
+            data: {
+              title: "New Post",
+              body: `${owner!.name} uploaded a new post`,
+              for: follower.username,
+            },
+          });
+        });
 
         await prisma.notificationForPost.create({
           data: {

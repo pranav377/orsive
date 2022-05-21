@@ -1,4 +1,13 @@
 import { useEffect } from "react";
+import firebase from "../../firebase";
+import { gql } from "@apollo/client";
+import { client } from "../../pages/_app";
+
+const UPDATE_NOTIFICATION_TOKEN_MUTATION = gql`
+  mutation UpdateNotificationToken($token: String!) {
+    updateNotificationToken(token: $token)
+  }
+`;
 
 export const usePWA = () => {
   useEffect(() => {
@@ -35,6 +44,20 @@ export const usePWA = () => {
       wb.addEventListener("waiting", promptNewVersionAvailable);
 
       wb.register();
+      const messaging = firebase.messaging();
+
+      messaging
+        .requestPermission()
+        .then(() => {
+          return messaging.getToken();
+        })
+        .then((token) => {
+          client.mutate({
+            mutation: UPDATE_NOTIFICATION_TOKEN_MUTATION,
+            variables: { token },
+          });
+        })
+        .catch((err) => console.error(err));
     }
   }, []);
 };

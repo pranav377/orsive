@@ -3,6 +3,8 @@ import {
   GetMyNotifications,
   GetMyNotificationsArgs,
   MakeNotificationsRead,
+  UpdateNotificationToken,
+  UpdateNotificationTokenArgs,
 } from "./controllers/notifications.controller";
 
 export const NOTIFICATIONS_RESOLVERS = {
@@ -35,6 +37,15 @@ export const NOTIFICATIONS_RESOLVERS = {
       IsUserAuthenticated(context);
 
       return MakeNotificationsRead(context.getUser());
+    },
+    updateNotificationToken(
+      _: void,
+      args: UpdateNotificationTokenArgs,
+      context: any
+    ) {
+      IsUserAuthenticated(context);
+
+      return UpdateNotificationToken(args, context.getUser());
     },
   },
 };
