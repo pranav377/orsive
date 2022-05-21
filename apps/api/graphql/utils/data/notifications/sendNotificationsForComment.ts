@@ -8,7 +8,8 @@ async function sendNotification(
   postOwnerId: string,
   commentId: string,
   commentUploadedById: string,
-  percentage: number
+  percentage: number,
+  url: string
 ) {
   let random = Math.floor(Math.random() * 101);
   if (random <= percentage) {
@@ -30,6 +31,7 @@ async function sendNotification(
           title: "New Comment",
           body: `${commentedBy!.name} commented on your post`,
           for: postOwner!.username,
+          url,
         },
       });
     });
@@ -51,7 +53,9 @@ async function sendNotification(
 
 export default async function sendNotificationsforComment(
   postOwnerId: string,
-  commentId: string
+  commentId: string,
+  postType: "image" | "orsic",
+  postSlug: string
 ) {
   let comment = await prisma.comment.findUnique({
     where: {
@@ -70,11 +74,13 @@ export default async function sendNotificationsforComment(
   });
 
   let percentage = (THRESHOLD / postCommentsCount) * 100;
+  let url = `/${postType}/${postSlug}/comments/${comment!.post!.id}`;
 
   await sendNotification(
     postOwnerId,
     commentId,
     comment!.post!.uploadedById,
-    percentage
+    percentage,
+    url
   );
 }

@@ -9,7 +9,8 @@ async function sendNotification(
   commentOwnerId: string,
   replyId: string,
   replyUploadedById: string,
-  percentage: number
+  percentage: number,
+  url: string
 ) {
   var random = Math.floor(Math.random() * 101);
   if (random <= percentage) {
@@ -31,6 +32,7 @@ async function sendNotification(
           title: "New Reply",
           body: `${repliedBy!.name} replied on your comment`,
           for: commentOwner!.username,
+          url,
         },
       });
     });
@@ -53,7 +55,8 @@ async function sendNotification(
 
 export default async function sendNotificationsforReply(
   commentOwnerId: string,
-  replyId: string
+  replyId: string,
+  url: string
 ) {
   let reply = await prisma.comment.findUnique({
     where: {
@@ -76,6 +79,7 @@ export default async function sendNotificationsforReply(
     commentOwnerId,
     replyId,
     reply!.post!.uploadedById,
-    percentage
+    percentage,
+    url
   );
 }

@@ -134,9 +134,16 @@ export async function CreateComment(args: CreateCommentArgs, user: User) {
   let data: CreateCommentInput = validate(args.input, CREATE_COMMENT_VALIDATOR);
 
   let parentPost = GetObjOrNotFound(
-    await prisma.post.findUnique({
+    await prisma.post.findFirst({
       where: {
         id: data.post_id,
+        postType: {
+          in: ["image", "orsic"],
+        },
+      },
+      include: {
+        image: true,
+        orsic: true,
       },
     })
   );
@@ -157,7 +164,15 @@ export async function CreateComment(args: CreateCommentArgs, user: User) {
   });
 
   if (parentPost!.uploadedById !== comment.post!.uploadedById) {
-    sendNotificationsforComment(parentPost!.uploadedById, comment.id);
+    sendNotificationsforComment(
+      parentPost!.uploadedById,
+      comment.id,
+      // @ts-ignore
+      parentPost!.postType,
+      parentPost!.postType === "image"
+        ? parentPost!.image!.slug
+        : parentPost!.orsic!.slug
+    );
   }
 
   return { ...comment, replies: 0 };
@@ -180,6 +195,21 @@ export async function CreateReply(args: CreateReplyArgs, user: User) {
     "Parent comment not found."
   );
 
+  let parentPost = GetObjOrNotFound(
+    await prisma.post.findFirst({
+      where: {
+        id: parentComment!.parentPostId!,
+        postType: {
+          in: ["image", "orsic"],
+        },
+      },
+      include: {
+        image: true,
+        orsic: true,
+      },
+    })
+  );
+
   let comment = await prisma.comment.create({
     data: {
       content: data.content,
@@ -195,8 +225,18 @@ export async function CreateReply(args: CreateReplyArgs, user: User) {
     ...POST_PRISMA_ARGS,
   });
 
+  let url = `/${parentPost!.postType}/${
+    parentPost!.postType === "image"
+      ? parentPost!.image!.slug
+      : parentPost!.orsic!.slug
+  }/comments/${parentComment!.post!.id}/replies/${comment.post!.id}`;
+
   if (parentComment!.post!.uploadedById !== comment.post!.uploadedById) {
-    sendNotificationsforReply(parentComment!.post!.uploadedById, comment.id);
+    sendNotificationsforReply(
+      parentComment!.post!.uploadedById,
+      comment.id,
+      url
+    );
   }
 
   return comment;

@@ -27,7 +27,12 @@ export const EXTRA_POST_ARGS = {
 
 export default function insertItem(item: ItemType, post: any) {
   let basePost = post.post;
-  sendNotificationsForPost(basePost.uploadedBy.id, basePost.id);
+  sendNotificationsForPost(
+    basePost.uploadedBy.id,
+    basePost.id,
+    basePost.postType,
+    post.slug
+  );
   searchIndex.addDocuments([
     {
       ...post,
