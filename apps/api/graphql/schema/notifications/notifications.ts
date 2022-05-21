@@ -41,6 +41,7 @@ const NOTIFICATIONS_SCHEMA = gql`
 
   type Mutation {
     makeNotificationsRead: String!
+    updateNotificationToken(token: String!): String!
   }
 `;
 

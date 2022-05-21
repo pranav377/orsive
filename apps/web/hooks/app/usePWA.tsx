@@ -1,6 +1,18 @@
 import { useEffect } from "react";
+import firebase from "../../firebase";
+import { gql } from "@apollo/client";
+import { useUser } from "../auth/useUser";
+import { client } from "../../pages/_app";
+
+const UPDATE_NOTIFICATION_TOKEN_MUTATION = gql`
+  mutation UpdateNotificationToken($token: String!) {
+    updateNotificationToken(token: $token)
+  }
+`;
 
 export const usePWA = () => {
+  const user = useUser();
+
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
@@ -35,6 +47,22 @@ export const usePWA = () => {
       wb.addEventListener("waiting", promptNewVersionAvailable);
 
       wb.register();
+      const messaging = firebase.messaging();
+
+      messaging
+        .requestPermission()
+        .then(() => {
+          return messaging.getToken();
+        })
+        .then((token) => {
+          if (user.is) {
+            client.mutate({
+              mutation: UPDATE_NOTIFICATION_TOKEN_MUTATION,
+              variables: { token },
+            });
+          }
+        })
+        .catch((err) => console.error(err));
     }
   }, []);
 };

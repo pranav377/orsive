@@ -1,4 +1,5 @@
 import { removeCookies } from "cookies-next";
+import localforage from "localforage";
 import { USER_COOKIE_KEY } from "../../config";
 import { client } from "../../pages/_app";
 import LIKE_CASES from "../store/reducers/like/cases";
@@ -8,6 +9,7 @@ import LOGOUT_MUTATION_SCHEMA from "./mutations/logoutMutate";
 
 export default async function signOut() {
   removeCookies(USER_COOKIE_KEY);
+  localforage.removeItem("username");
   await client.mutate({
     mutation: LOGOUT_MUTATION_SCHEMA,
   });

@@ -59,30 +59,31 @@ enum PostType {
 }
 
 model Profile {
-  id             String               @id @default(auto()) @map("_id") @db.ObjectId
-  username       String               @unique
-  email          String               @unique
-  password       String
-  name           String
-  avatar         String
-  banner         String?
-  bio            String               @default("")
-  joined         DateTime             @default(now())
-  authMethod     AuthMethod           @default(local)
-  discordId      String?              @unique
-  googleId       String?              @unique
-  likes          Like[]
-  dislikes       Dislike[]
-  history        History[]
-  posts          Post[]
-  followers      Profile[]            @relation("ProfileFollows", fields: [followersIDs], references: [id])
-  followersIDs   String[]             @db.ObjectId
-  following      Profile[]            @relation("ProfileFollows", fields: [followingIDs], references: [id])
-  followingIDs   String[]             @db.ObjectId
-  reputationLog  ReputationBlockLog[]
-  reports        Report[]
-  reportFavors   ReportFavor[]
-  reportAgainsts ReportAgainst[]
+  id                String               @id @default(auto()) @map("_id") @db.ObjectId
+  username          String               @unique
+  email             String               @unique
+  password          String
+  name              String
+  avatar            String
+  banner            String?
+  bio               String               @default("")
+  joined            DateTime             @default(now())
+  authMethod        AuthMethod           @default(local)
+  discordId         String?              @unique
+  googleId          String?              @unique
+  notificationToken String[]
+  likes             Like[]
+  dislikes          Dislike[]
+  history           History[]
+  posts             Post[]
+  followers         Profile[]            @relation("ProfileFollows", fields: [followersIDs], references: [id])
+  followersIDs      String[]             @db.ObjectId
+  following         Profile[]            @relation("ProfileFollows", fields: [followingIDs], references: [id])
+  followingIDs      String[]             @db.ObjectId
+  reputationLog     ReputationBlockLog[]
+  reports           Report[]
+  reportFavors      ReportFavor[]
+  reportAgainsts    ReportAgainst[]
 
   notifications Notification[]
   roles         Role[]

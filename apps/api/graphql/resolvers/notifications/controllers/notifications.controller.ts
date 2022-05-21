@@ -1,9 +1,14 @@
+import invariant from "tiny-invariant";
 import { COMMENT_PAGINATION_SET_SIZE } from "../../../config";
 import { User } from "../../../permissions/IsUserAuthenticated";
 import prisma from "../../../utils/data/dbClient";
 
 export interface GetMyNotificationsArgs {
   page?: number;
+}
+
+export interface UpdateNotificationTokenArgs {
+  token: string;
 }
 
 const EXTRA_NOTIFICATIONS_POST_ARGS = {
@@ -162,6 +167,31 @@ export async function MakeNotificationsRead(user: User) {
       seen: true,
     },
   });
+
+  return "ok";
+}
+
+export async function UpdateNotificationToken(
+  args: UpdateNotificationTokenArgs,
+  user: User
+) {
+  let me = await prisma.profile.findUnique({
+    where: {
+      id: user.id,
+    },
+  });
+  invariant(me);
+
+  if (!me.notificationToken.includes(args.token)) {
+    await prisma.profile.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        notificationToken: [...me.notificationToken, args.token],
+      },
+    });
+  }
 
   return "ok";
 }
