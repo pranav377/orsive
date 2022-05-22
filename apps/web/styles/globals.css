@@ -49,6 +49,10 @@ body {
   margin: 0;
 }
 
+.text-content strong {
+  margin: 0;
+}
+
 .tox-tinymce-aux {
   z-index: 999999999 !important;
 }
