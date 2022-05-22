@@ -23,7 +23,7 @@ const Home: NextPage = () => {
           </>
         ) : (
           <>
-            <div className="relative -mb-24">
+            <div className="relative h-screen -mb-24">
               <Hero />
               <div className="w-full flex flex-col items-center mt-20 mb-20 home">
                 <LogoSVG className="w-32 floating" />
