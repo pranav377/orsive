@@ -71,7 +71,7 @@ body {
     transform: translate(0, 0px);
   }
   50% {
-    transform: translate(0, 15px);
+    transform: translate(0, 10px);
   }
   100% {
     transform: translate(0, -0px);
@@ -81,4 +81,8 @@ body {
 /* for refreshing */
 .lds-ellipsis div {
   background: rgb(96 165 250) !important;
+}
+
+.home * {
+  z-index: 9999999999 !important;
 }

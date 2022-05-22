@@ -38,17 +38,20 @@ export function userCheckLogin() {
 }
 
 async function checkNotifications() {
-  let response = await client.query({
-    query: getUnreadNotificationsQuery,
-    fetchPolicy: "network-only",
-  });
-
-  store.dispatch({
-    type: USER_CASES.SET_NOTIFICATIONS,
-    payload: {
-      unreadNotifications: response.data.me.unreadNotifications,
-    },
-  });
+  client
+    .query({
+      query: getUnreadNotificationsQuery,
+      fetchPolicy: "network-only",
+    })
+    .then((response) => {
+      store.dispatch({
+        type: USER_CASES.SET_NOTIFICATIONS,
+        payload: {
+          unreadNotifications: response.data.me.unreadNotifications,
+        },
+      });
+    })
+    .catch((err) => {});
 }
 
 async function checkFeatures() {
