@@ -14,11 +14,23 @@ import { useRouter } from "next/router";
 export default function Navbar() {
   const user = useUser();
   const appState = useAppState();
+  const withoutNavbarPaths = [
+    "/auth",
+    "/image/[image_slug]",
+    "/orsic/[orsic_slug]",
+    "/image/[image_slug]/comments/[comment_slug]",
+    "/orsic/[orsic_slug]/comments/[comment_slug]",
+    "/image/[image_slug]/comments/[comment_slug]/replies/[reply_slug]",
+    "/orsic/[orsic_slug]/comments/[comment_slug]/replies/[reply_slug]",
+    "/edit/image/[image_slug]",
+    "/edit/orsic/[orsic_slug]",
+    "/[profile_slug]",
+  ];
   const router = useRouter();
 
   const homeUrl = useHomeUrl();
 
-  if (appState.showBars) {
+  if (!withoutNavbarPaths.includes(router.pathname) && appState.showBars) {
     return (
       <>
         <div className="bg-slate-900 p-5 w-full grid grid-cols-6 gap-0">
