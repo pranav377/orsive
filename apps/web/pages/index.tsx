@@ -7,7 +7,7 @@ import Spinner from "../components/app/Spinner";
 import Hero from "../components/home/Hero";
 import LogoSVG from "../components/svgs/logo.svg";
 import HomeButtons from "../components/home/HomeButtons";
-import Footer from "../components/home/footer";
+import FooBar from "../components/home/FooBar";
 
 const Home: NextPage = () => {
   const { loading } = useHome();
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
                 </span>
                 <HomeButtons />
               </div>
-              <Footer />
+              <FooBar />
             </div>
           </>
         )}

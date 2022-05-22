@@ -1,4 +1,4 @@
-export default function Footer() {
+export default function FooBar() {
   return (
     <footer className="text-center bg-gray-900 text-white absolute bottom-0 w-full">
       <div
