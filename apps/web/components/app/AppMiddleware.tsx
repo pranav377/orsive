@@ -11,7 +11,11 @@ import { removeCookies, setCookies } from "cookies-next";
 import { USER_COOKIE_KEY } from "../../config";
 import localforage from "localforage";
 
-export function setUser(user: { username: string; avatar: string }) {
+export function setUser(user: {
+  username: string;
+  avatar: string;
+  name: string;
+}) {
   setCookies(USER_COOKIE_KEY, "true", {
     maxAge: 1000 * 60 * 60 * 24 * 365,
   });
