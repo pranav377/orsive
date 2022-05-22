@@ -15,6 +15,7 @@ export default function Navbar() {
   const user = useUser();
   const appState = useAppState();
   const withoutNavbarPaths = [
+    "/",
     "/auth",
     "/image/[image_slug]",
     "/orsic/[orsic_slug]",

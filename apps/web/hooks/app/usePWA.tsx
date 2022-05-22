@@ -52,10 +52,12 @@ export const usePWA = () => {
           return messaging.getToken();
         })
         .then((token) => {
-          client.mutate({
-            mutation: UPDATE_NOTIFICATION_TOKEN_MUTATION,
-            variables: { token },
-          });
+          client
+            .mutate({
+              mutation: UPDATE_NOTIFICATION_TOKEN_MUTATION,
+              variables: { token },
+            })
+            .catch((err) => {});
         })
         .catch((err) => console.error(err));
     }
