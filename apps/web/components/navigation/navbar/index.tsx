@@ -1,7 +1,5 @@
-import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
+import { useState } from "react";
 import Link from "next/link";
-import classNames from "../../utils/classnames";
 import signOut from "../../../app/auth/signOut";
 import toast from "react-hot-toast";
 import LogoSVG from "../../svgs/logo.svg";
@@ -10,23 +8,27 @@ import Button from "../../base/button";
 import { useAppState } from "../../../hooks/app/useAppState";
 import { useUser } from "../../../hooks/auth/useUser";
 import { useRouter } from "next/router";
+import Drawer from "react-modern-drawer";
+
+import "react-modern-drawer/dist/index.css";
+
+export const withoutNavbarPaths = [
+  "/",
+  "/auth",
+  "/image/[image_slug]",
+  "/orsic/[orsic_slug]",
+  "/image/[image_slug]/comments/[comment_slug]",
+  "/orsic/[orsic_slug]/comments/[comment_slug]",
+  "/image/[image_slug]/comments/[comment_slug]/replies/[reply_slug]",
+  "/orsic/[orsic_slug]/comments/[comment_slug]/replies/[reply_slug]",
+  "/edit/image/[image_slug]",
+  "/edit/orsic/[orsic_slug]",
+  "/[profile_slug]",
+];
 
 export default function Navbar() {
   const user = useUser();
   const appState = useAppState();
-  const withoutNavbarPaths = [
-    "/",
-    "/auth",
-    "/image/[image_slug]",
-    "/orsic/[orsic_slug]",
-    "/image/[image_slug]/comments/[comment_slug]",
-    "/orsic/[orsic_slug]/comments/[comment_slug]",
-    "/image/[image_slug]/comments/[comment_slug]/replies/[reply_slug]",
-    "/orsic/[orsic_slug]/comments/[comment_slug]/replies/[reply_slug]",
-    "/edit/image/[image_slug]",
-    "/edit/orsic/[orsic_slug]",
-    "/[profile_slug]",
-  ];
   const router = useRouter();
 
   const homeUrl = useHomeUrl();
@@ -47,7 +49,7 @@ export default function Navbar() {
           </Link>
           <div className="flex flex-row col-start-2 col-end-7 items-center justify-end">
             {user.is ? (
-              <ProfileDropdown avatar={user.avatar} username={user.username} />
+              <ProfileDropdown />
             ) : (
               <Link href="/auth" passHref>
                 <a>
@@ -66,61 +68,83 @@ export default function Navbar() {
   }
 }
 
-function ProfileDropdown(props: { avatar: string; username: string }) {
+function ProfileDropdown() {
+  const user = useUser();
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDrawer = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+
   return (
-    <Menu as="div" className="ml-3 relative">
-      <div>
-        <Menu.Button className="bg-gray-800 flex text-sm rounded-full">
-          <span className="sr-only">Open user menu</span>
-          <img
-            className="h-8 w-8 rounded-full"
-            src={props.avatar}
-            alt="user avatar"
-          />
-        </Menu.Button>
-      </div>
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
+    <>
+      <button
+        className="bg-gray-800 flex text-sm rounded-full"
+        onClick={toggleDrawer}
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-slate-700 z-50">
-          <Menu.Item>
-            {({ active }) => (
-              <Link href={`/${props.username}`} passHref>
-                <a
-                  className={classNames(
-                    active ? "bg-slate-500" : "",
-                    "block px-4 py-2 text-sm bg-slate-700 transition-all duration-300"
-                  )}
-                >
-                  Your Profile
-                </a>
-              </Link>
-            )}
-          </Menu.Item>
-          <Menu.Item>
-            {({ active }) => (
-              <button
-                className={classNames(
-                  active ? "bg-slate-500" : "",
-                  "block px-4 py-2 text-sm w-full text-left bg-slate-700 transition-all duration-300"
-                )}
-                onClick={async () => {
-                  await signOut();
-                  toast.success("Successfully Signed out!");
-                }}
+        <span className="sr-only">Open user menu</span>
+        <img
+          className="h-8 w-8 rounded-full"
+          src={user.avatar}
+          alt="user avatar"
+        />
+      </button>
+      {isOpen && (
+        <style jsx global>{`
+          html,
+          body {
+            margin: 0;
+            overflow: hidden;
+          }
+        `}</style>
+      )}
+      <Drawer
+        overlayOpacity={0.2}
+        open={isOpen}
+        onClose={toggleDrawer}
+        direction="right"
+        className="!bg-slate-900"
+      >
+        <div className="p-4">
+          <Link href={`/${user.username}`} passHref>
+            <a>
+              <div className="flex-col">
+                <img
+                  src={user.avatar}
+                  className="flex rounded-full h-20 w-20 object-cover object-center"
+                />
+                <div className="flex flex-col justify-center ml-2">
+                  <span className="font-semibold text-xl">{user.name}</span>
+                  <p className="font-normal text-gray-300">${user.username}</p>
+                </div>
+              </div>
+            </a>
+          </Link>
+
+          <div className="flex flex-col w-full mt-3 gap-2">
+            <Link href={`/${user.username}`} passHref>
+              <a
+                className={
+                  "font-medium p-2 rounded-md text-sm w-full text-left ripple-bg-slate-800"
+                }
               >
-                Sign out
-              </button>
-            )}
-          </Menu.Item>
-        </Menu.Items>
-      </Transition>
-    </Menu>
+                View Profile
+              </a>
+            </Link>
+            <Button
+              className={"text-sm w-full text-left ripple-bg-red-600"}
+              onClick={() => {
+                toast.promise(signOut(), {
+                  loading: "Signing out...",
+                  success: "Successfully Signed out!",
+                  error: "Something went wrong. Try again",
+                });
+              }}
+            >
+              Sign out
+            </Button>
+          </div>
+        </div>
+      </Drawer>
+    </>
   );
 }

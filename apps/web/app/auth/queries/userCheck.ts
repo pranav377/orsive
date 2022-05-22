@@ -5,6 +5,7 @@ const USER_CHECK_QUERY = gql`
     me {
       username
       avatar
+      name
     }
   }
 `;

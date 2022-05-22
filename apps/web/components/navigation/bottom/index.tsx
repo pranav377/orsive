@@ -24,6 +24,7 @@ import { useAppState } from "../../../hooks/app/useAppState";
 import { useUser } from "../../../hooks/auth/useUser";
 import { showLoginDialog } from "../../../app/auth/showLoginDialog";
 import { useRef } from "react";
+import { withoutNavbarPaths } from "../navbar";
 
 export default function BottomNavigation() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function BottomNavigation() {
   const user = useUser();
   const homeUrl = useHomeUrl();
 
-  if (appState.showBars) {
+  if (!withoutNavbarPaths.includes(router.pathname) && appState.showBars) {
     return (
       <>
         <div className="fixed left-0 right-0 bottom-2  p-5 px-6 m-2   flex items-center justify-between   bg-gray-900 shadow-3xl text-gray-400 rounded-2xl">

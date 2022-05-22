@@ -19,6 +19,7 @@ const SIGN_UP_MUTATION_SCHEMA = gql`
     ) {
       username
       avatar
+      name
     }
   }
 `;

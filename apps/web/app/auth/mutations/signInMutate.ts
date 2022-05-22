@@ -5,6 +5,7 @@ const SIGN_IN_MUTATION_SCHEMA = gql`
     signIn(input: { email: $email, password: $password }) {
       username
       avatar
+      name
     }
   }
 `;
