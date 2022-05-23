@@ -16,6 +16,7 @@ import insertItem, {
 import updateItem from "../../../../utils/mepster/item/updateItem";
 import deleteItem from "../../../../utils/mepster/item/deleteItem";
 import { JSDOM } from "jsdom";
+import validateAsync from "../../../../utils/data/validateAsync";
 
 export interface AddOrsicPostArgs {
   input: AddOrsicPostInput;
@@ -49,8 +50,10 @@ function getFirstImage(content: string) {
 }
 
 export async function AddOrsicPost(args: AddOrsicPostArgs, user: User) {
-  let data: AddOrsicPostInput = validate(args.input, ADD_ORSIC_POST_VALIDATOR);
-
+  let data: AddOrsicPostInput = await validateAsync(
+    args.input,
+    ADD_ORSIC_POST_VALIDATOR
+  );
   let slug = generateSlug(data.title);
 
   let orsicPost = await prisma.orsic.create({
@@ -112,7 +115,7 @@ export async function GetOrsicPost(args: GetOrsicPostArgs) {
 }
 
 export async function UpdateOrsicPost(args: UpdateOrsicPostArgs, user: User) {
-  let data: UpdateOrsicPostInput = validate(
+  let data: UpdateOrsicPostInput = await validateAsync(
     args.input,
     UPDATE_ORSIC_POST_VALIDATOR
   );

@@ -4,13 +4,13 @@ import validateHTMLContent from "../../../utils/validators/html/validateHTMLCont
 export const CREATE_COMMENT_VALIDATOR = Joi.object({
   content: Joi.string()
     .required()
-    .custom(validateHTMLContent, "HTML content validation"),
+    .external(validateHTMLContent, "HTML content validation"),
   post_id: Joi.string().required(),
 });
 
 export const CREATE_REPLY_VALIDATOR = Joi.object({
   content: Joi.string()
     .required()
-    .custom(validateHTMLContent, "HTML content validation"),
+    .external(validateHTMLContent, "HTML content validation"),
   parent_id: Joi.string().required(),
 });

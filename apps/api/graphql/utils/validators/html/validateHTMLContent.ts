@@ -1,10 +1,11 @@
 import Joi from "joi";
 import { JSDOM } from "jsdom";
+import probe from "probe-image-size";
 import xss, { whiteList } from "xss";
 
-export default function validateHTMLContent(
+export default async function validateHTMLContent(
   value: string,
-  helpers: Joi.CustomHelpers<any>
+  _helpers: Joi.ExternalHelpers
 ) {
   const dom = new JSDOM();
 
@@ -16,10 +17,17 @@ export default function validateHTMLContent(
     div[index].innerHTML = div[index].innerHTML.replace(/\&nbsp;/g, "");
   }
 
+  let images = container.getElementsByTagName("img");
+  for (let index = 0; index < images.length; ++index) {
+    let { width, height } = await probe(images[index].src);
+    images[index].height = height;
+    images[index].width = width;
+  }
+
   value = container.innerHTML;
 
   if (value.length < 7) {
-    return helpers.error("any.invalid");
+    throw new Error("Value not valid");
   }
 
   const sanitized = xss(value, {

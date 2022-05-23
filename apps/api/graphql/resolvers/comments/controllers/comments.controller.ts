@@ -5,7 +5,7 @@ import getRepliesCount from "../../../utils/data/comments/getRepliesCount";
 import prisma from "../../../utils/data/dbClient";
 import sendNotificationsforComment from "../../../utils/data/notifications/sendNotificationsForComment";
 import sendNotificationsforReply from "../../../utils/data/notifications/sendNotificationsForReply";
-import validate from "../../../utils/data/validate";
+import validateAsync from "../../../utils/data/validateAsync";
 import GetObjOrNotFound from "../../../utils/objOrNotFound";
 import { POST_PRISMA_ARGS } from "../../post/controllers/post.controller";
 import {
@@ -131,7 +131,10 @@ export async function GetReplies(args: GetRepliesArgs) {
 }
 
 export async function CreateComment(args: CreateCommentArgs, user: User) {
-  let data: CreateCommentInput = validate(args.input, CREATE_COMMENT_VALIDATOR);
+  let data: CreateCommentInput = await validateAsync(
+    args.input,
+    CREATE_COMMENT_VALIDATOR
+  );
 
   let parentPost = GetObjOrNotFound(
     await prisma.post.findFirst({
@@ -179,7 +182,10 @@ export async function CreateComment(args: CreateCommentArgs, user: User) {
 }
 
 export async function CreateReply(args: CreateReplyArgs, user: User) {
-  let data: CreateReplyInput = validate(args.input, CREATE_REPLY_VALIDATOR);
+  let data: CreateReplyInput = await validateAsync(
+    args.input,
+    CREATE_REPLY_VALIDATOR
+  );
 
   let parentComment = GetObjOrNotFound(
     await prisma.comment.findFirst({
