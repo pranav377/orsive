@@ -5,14 +5,14 @@ export const ADD_ORSIC_POST_VALIDATOR = Joi.object({
   title: Joi.string().allow("").optional().max(255),
   content: Joi.string()
     .required()
-    .custom(validateHTMLContent, "HTML content validation"),
+    .external(validateHTMLContent, "HTML content validation"),
 });
 
 export const UPDATE_ORSIC_POST_VALIDATOR = Joi.object({
   title: Joi.string().allow("").optional().max(255),
   content: Joi.string()
     .required()
-    .custom(validateHTMLContent, "HTML content validation"),
+    .external(validateHTMLContent, "HTML content validation"),
   slug: Joi.string().required(),
 });
 
