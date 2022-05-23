@@ -15,7 +15,7 @@ export const useLike = (post: any) => {
 
   const likeStatus = useMemo(() => {
     return likeStore.filter((likeObj) => likeObj.postId === post?.post?.id)[0];
-  }, [likeStore]);
+  }, [likeStore, post]);
 
   const setLikeStatus = (type: "like" | "dislike" | "nope", likes: number) => {
     dispatch({
