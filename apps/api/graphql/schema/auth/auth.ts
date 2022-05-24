@@ -55,8 +55,9 @@ const AUTH_SCHEMA = gql`
     password: String!
   }
 
-  input PasswordChangeInput {
+  input PasswordResetInput {
     otp: String!
+    email: String!
     new_password: String!
   }
 
@@ -73,6 +74,7 @@ const AUTH_SCHEMA = gql`
   type Mutation {
     signUp(input: SignUpInput!): User!
     signIn(input: SignInInput!): User!
+    passwordReset(input: PasswordResetInput!): String!
     logout: String!
     followUser(username: String!): String!
   }

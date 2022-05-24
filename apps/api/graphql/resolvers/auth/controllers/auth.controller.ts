@@ -23,6 +23,7 @@ import insertUser from "../../../utils/mepster/user/insertUser";
 import getUserReputation from "../../../utils/data/reputation/getUserReputation";
 import updateUser from "../../../utils/mepster/user/updateUser";
 import sendPasswordResetOTP from "../../../utils/email/sendPasswordResetOTP";
+import IsPasswordResetValid from "../validators/extra/passwordResetValidator";
 
 const otp_nanoid = customAlphabet("1234567890", 4);
 
@@ -45,6 +46,16 @@ export interface SignInArgs {
 export interface SignInInput {
   email: string;
   password: string;
+}
+
+export interface PasswordResetArgs {
+  input: PasswordResetInput;
+}
+
+export interface PasswordResetInput {
+  otp: string;
+  email: string;
+  new_password: string;
 }
 
 export interface GetOTPArgs {
@@ -151,6 +162,25 @@ export async function SignIn(args: SignInArgs, context: any) {
   let password = data.password;
 
   return simpleSignIn(context, email, password);
+}
+
+export async function PasswordReset(args: PasswordResetArgs) {
+  const data = args.input;
+
+  await IsPasswordResetValid(data.email, data.otp);
+
+  const hashed = await bcrypt.hash(data.new_password, 10);
+
+  await prisma.profile.update({
+    where: {
+      email: data.email,
+    },
+    data: {
+      password: hashed,
+    },
+  });
+
+  return "Password reset successful!";
 }
 
 export async function GetOTP(args: GetOTPArgs) {
