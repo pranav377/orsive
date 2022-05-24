@@ -10,6 +10,7 @@ import FEATURE_SCHEMA from "./features/features";
 import NOTIFICATIONS_SCHEMA from "./notifications/notifications";
 import SITEMAP_SCHEMA from "./sitemap/sitemap";
 import MODERATION_SCHEMA from "./moderation/moderation";
+import SUPPORT_SCHEMA from "./support/support";
 
 const typeDefs = [
   BASE_SCHEMA,
@@ -23,6 +24,7 @@ const typeDefs = [
   PROFILE_SCHEMA,
   NOTIFICATIONS_SCHEMA,
   MODERATION_SCHEMA,
+  SUPPORT_SCHEMA,
   SITEMAP_SCHEMA,
 ];
 
