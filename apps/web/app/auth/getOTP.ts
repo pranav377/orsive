@@ -7,5 +7,6 @@ export default function getOTP(email: string) {
     variables: {
       email,
     },
+    fetchPolicy: "network-only",
   });
 }

@@ -55,8 +55,16 @@ const AUTH_SCHEMA = gql`
     password: String!
   }
 
+  input PasswordResetInput {
+    otp: String!
+    email: String!
+    new_password: String!
+  }
+
   type Query {
     getOTP(email: String!): String! @rateLimit(limit: 1, duration: 60)
+    getPasswordResetOTP(email: String!): String!
+      @rateLimit(limit: 1, duration: 60)
     getUser(username: String!): GetUserResponse!
     me: MeResponse!
     checkUsername(username: String!): String!
@@ -66,6 +74,7 @@ const AUTH_SCHEMA = gql`
   type Mutation {
     signUp(input: SignUpInput!): User!
     signIn(input: SignInInput!): User!
+    passwordReset(input: PasswordResetInput!): String!
     logout: String!
     followUser(username: String!): String!
   }

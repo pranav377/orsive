@@ -7,9 +7,12 @@ import {
   FollowUserInput,
   GetOTP,
   GetOTPArgs,
+  GetPasswordResetOTP,
   GetUser,
   GetUserInput,
   Me,
+  PasswordReset,
+  PasswordResetArgs,
   SignIn,
   SignInArgs,
   SignUp,
@@ -22,6 +25,9 @@ const AUTH_RESOLVERS = {
       GetOTP(args);
 
       return "OTP sent successfully!";
+    },
+    getPasswordResetOTP(_: void, args: GetOTPArgs) {
+      return GetPasswordResetOTP(args);
     },
 
     getUser(_: void, args: GetUserInput) {
@@ -50,6 +56,10 @@ const AUTH_RESOLVERS = {
 
     signIn(_: void, args: SignInArgs, context: any) {
       return SignIn(args, context);
+    },
+
+    passwordReset(_: void, args: PasswordResetArgs) {
+      return PasswordReset(args);
     },
 
     logout(_: void, _args: any, context: any) {

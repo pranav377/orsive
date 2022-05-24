@@ -7,7 +7,7 @@ import {
   SIGNIN_VALIDATOR,
   SIGNUP_VALIDATOR,
 } from "../validators";
-import sendOTP from "../../../../graphql/utils/sendOTP";
+import sendOTP from "../../../utils/email/sendOTP";
 import { ApolloError, AuthenticationError } from "apollo-server-express";
 import bcrypt from "bcrypt";
 import { createAvatar } from "@dicebear/avatars";
@@ -22,6 +22,8 @@ import invariant from "tiny-invariant";
 import insertUser from "../../../utils/mepster/user/insertUser";
 import getUserReputation from "../../../utils/data/reputation/getUserReputation";
 import updateUser from "../../../utils/mepster/user/updateUser";
+import sendPasswordResetOTP from "../../../utils/email/sendPasswordResetOTP";
+import IsPasswordResetValid from "../validators/extra/passwordResetValidator";
 
 const otp_nanoid = customAlphabet("1234567890", 4);
 
@@ -44,6 +46,16 @@ export interface SignInArgs {
 export interface SignInInput {
   email: string;
   password: string;
+}
+
+export interface PasswordResetArgs {
+  input: PasswordResetInput;
+}
+
+export interface PasswordResetInput {
+  otp: string;
+  email: string;
+  new_password: string;
 }
 
 export interface GetOTPArgs {
@@ -152,6 +164,25 @@ export async function SignIn(args: SignInArgs, context: any) {
   return simpleSignIn(context, email, password);
 }
 
+export async function PasswordReset(args: PasswordResetArgs) {
+  const data = args.input;
+
+  await IsPasswordResetValid(data.email, data.otp);
+
+  const hashed = await bcrypt.hash(data.new_password, 10);
+
+  await prisma.profile.update({
+    where: {
+      email: data.email,
+    },
+    data: {
+      password: hashed,
+    },
+  });
+
+  return "Password reset successful!";
+}
+
 export async function GetOTP(args: GetOTPArgs) {
   const data: GetOTPArgs = validate(args, OTP_VALIDATOR);
 
@@ -165,6 +196,32 @@ export async function GetOTP(args: GetOTPArgs) {
   });
 
   sendOTP(data.email, randomOTP);
+}
+
+export async function GetPasswordResetOTP(args: GetOTPArgs) {
+  const data: GetOTPArgs = validate(args, OTP_VALIDATOR);
+  GetObjOrNotFound(
+    await prisma.profile.findFirst({
+      where: {
+        email: data.email,
+        authMethod: "local",
+      },
+    }),
+    "User not found"
+  );
+
+  let randomOTP = otp_nanoid(9);
+
+  await prisma.passwordResetOTP.create({
+    data: {
+      email: data.email,
+      otp: randomOTP,
+    },
+  });
+
+  sendPasswordResetOTP(data.email, randomOTP);
+
+  return "ok";
 }
 
 export async function GetUser(args: GetUserInput) {
