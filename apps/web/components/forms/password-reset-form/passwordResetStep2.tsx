@@ -38,7 +38,7 @@ export default function PasswordResetStep2(props: {
 
           toast
             .promise(PasswordReset(newState), {
-              loading: "Signing Up.....",
+              loading: "Reseting.....",
               error: "OTP is not valid!😑",
               success:
                 "Password reset successful. Please Sign in with your new password",
