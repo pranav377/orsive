@@ -1,6 +1,7 @@
 import { User } from "../../../permissions/IsUserAuthenticated";
 import prisma from "../../../utils/data/dbClient";
 import validate from "../../../utils/data/validate";
+import emailApi from "../../../utils/email/client";
 import { ADD_CONTACT_VALIDATOR } from "../validators";
 
 export interface AddContactArgs {
@@ -20,6 +21,16 @@ export async function AddContact(args: AddContactArgs, user: User) {
       contactType: data.type,
       content: data.content,
       uploadedById: user.id,
+    },
+  });
+
+  emailApi.sendTransacEmail({
+    templateId: 3,
+    params: {
+      username: user.username,
+      userId: user.id,
+      contactType: data.type,
+      content: data.content,
     },
   });
 
