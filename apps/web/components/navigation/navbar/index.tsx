@@ -104,7 +104,7 @@ function ProfileDropdown() {
         direction="right"
         className="!bg-slate-900"
       >
-        <div className="p-4">
+        <div className="p-4 h-full">
           <Link href={`/${user.username}`} passHref>
             <a>
               <div className="flex-col">
@@ -120,7 +120,7 @@ function ProfileDropdown() {
             </a>
           </Link>
 
-          <div className="flex flex-col w-full mt-3 gap-2">
+          <div className="flex flex-col w-full mt-3 gap-2 h-[90%]">
             <Link href={`/${user.username}`} passHref>
               <a
                 className={
@@ -142,6 +142,15 @@ function ProfileDropdown() {
             >
               Sign out
             </Button>
+            <Link href={`/support`} passHref>
+              <a
+                className={
+                  "font-medium p-2 rounded-md text-sm w-full text-left ripple-bg-slate-800 mt-auto mb-20"
+                }
+              >
+                Support
+              </a>
+            </Link>
           </div>
         </div>
       </Drawer>
