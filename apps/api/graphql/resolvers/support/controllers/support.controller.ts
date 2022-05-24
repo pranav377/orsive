@@ -1,3 +1,4 @@
+import { ADMIN_MAIL_ID } from "../../../config";
 import { User } from "../../../permissions/IsUserAuthenticated";
 import prisma from "../../../utils/data/dbClient";
 import validate from "../../../utils/data/validate";
@@ -25,6 +26,11 @@ export async function AddContact(args: AddContactArgs, user: User) {
   });
 
   emailApi.sendTransacEmail({
+    to: [
+      {
+        email: ADMIN_MAIL_ID,
+      },
+    ],
     templateId: 3,
     params: {
       username: user.username,
