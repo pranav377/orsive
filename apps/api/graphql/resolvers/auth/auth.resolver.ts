@@ -7,6 +7,7 @@ import {
   FollowUserInput,
   GetOTP,
   GetOTPArgs,
+  GetPasswordResetOTP,
   GetUser,
   GetUserInput,
   Me,
@@ -20,6 +21,11 @@ const AUTH_RESOLVERS = {
   Query: {
     getOTP(_: void, args: GetOTPArgs) {
       GetOTP(args);
+
+      return "OTP sent successfully!";
+    },
+    getPasswordResetOTP(_: void, args: GetOTPArgs) {
+      GetPasswordResetOTP(args);
 
       return "OTP sent successfully!";
     },

@@ -7,7 +7,7 @@ import {
   SIGNIN_VALIDATOR,
   SIGNUP_VALIDATOR,
 } from "../validators";
-import sendOTP from "../../../../graphql/utils/sendOTP";
+import sendOTP from "../../../utils/email/sendOTP";
 import { ApolloError, AuthenticationError } from "apollo-server-express";
 import bcrypt from "bcrypt";
 import { createAvatar } from "@dicebear/avatars";
@@ -22,6 +22,7 @@ import invariant from "tiny-invariant";
 import insertUser from "../../../utils/mepster/user/insertUser";
 import getUserReputation from "../../../utils/data/reputation/getUserReputation";
 import updateUser from "../../../utils/mepster/user/updateUser";
+import sendPasswordResetOTP from "../../../utils/email/sendPasswordResetOTP";
 
 const otp_nanoid = customAlphabet("1234567890", 4);
 
@@ -165,6 +166,21 @@ export async function GetOTP(args: GetOTPArgs) {
   });
 
   sendOTP(data.email, randomOTP);
+}
+
+export async function GetPasswordResetOTP(args: GetOTPArgs) {
+  const data: GetOTPArgs = validate(args, OTP_VALIDATOR);
+
+  let randomOTP = otp_nanoid(9);
+
+  await prisma.passwordResetOTP.create({
+    data: {
+      email: data.email,
+      otp: randomOTP,
+    },
+  });
+
+  sendPasswordResetOTP(data.email, randomOTP);
 }
 
 export async function GetUser(args: GetUserInput) {

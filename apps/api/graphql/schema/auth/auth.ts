@@ -55,8 +55,15 @@ const AUTH_SCHEMA = gql`
     password: String!
   }
 
+  input PasswordChangeInput {
+    otp: String!
+    new_password: String!
+  }
+
   type Query {
     getOTP(email: String!): String! @rateLimit(limit: 1, duration: 60)
+    getPasswordResetOTP(email: String!): String!
+      @rateLimit(limit: 1, duration: 60)
     getUser(username: String!): GetUserResponse!
     me: MeResponse!
     checkUsername(username: String!): String!

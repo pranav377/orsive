@@ -105,7 +105,14 @@ enum AuthMethod {
 
 model OTP {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  email      String   @unique
+  email      String
+  otp        String
+  created_at DateTime @default(now())
+}
+
+model PasswordResetOTP {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String
   otp        String
   created_at DateTime @default(now())
 }
