@@ -10,6 +10,7 @@ import FEATURE_RESOLVERS from "./features/features.resolver";
 import { NOTIFICATIONS_RESOLVERS } from "./notifications/notifications.resolver";
 import SITEMAP_RESOLVERS from "./sitemap/sitemap.resolver";
 import MODERATION_RESOLVERS from "./moderation/moderation.resolver";
+import SUPPORT_RESOLVERS from "./support/support.resolver";
 
 const resolvers = [
   BASE_RESOLVERS,
@@ -23,6 +24,7 @@ const resolvers = [
   PROFILE_RESOLVERS,
   NOTIFICATIONS_RESOLVERS,
   MODERATION_RESOLVERS,
+  SUPPORT_RESOLVERS,
   SITEMAP_RESOLVERS,
 ];
 

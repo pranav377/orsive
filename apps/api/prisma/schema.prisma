@@ -87,6 +87,7 @@ model Profile {
 
   notifications Notification[]
   roles         Role[]
+  contacts      Contact[]
 }
 
 model Role {
@@ -255,4 +256,18 @@ model ReportAgainst {
   modId     String   @db.ObjectId
   reportId  String   @db.ObjectId
   report    Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+}
+
+model Contact {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  uploadedBy   Profile     @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  uploadedById String      @db.ObjectId
+  contactType  ContactType
+  content      String
+}
+
+enum ContactType {
+  bug_report
+  feature_request
+  business_inquiry
 }
