@@ -8,9 +8,10 @@ export default async function IsPasswordResetValid(
   user_generated_otp: string
 ) {
   GetObjOrNotFound(
-    await prisma.profile.findUnique({
+    await prisma.profile.findFirst({
       where: {
         email,
+        authMethod: "local",
       },
     })
   );

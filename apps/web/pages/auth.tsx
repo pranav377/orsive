@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { DISCORD_AUTH_URL, GOOGLE_AUTH_URL } from "../config";
 import { Layout } from "../components/app/Layout";
+import PasswordResetForm from "../components/forms/password-reset-form";
 
 export default function Auth() {
   const { currPage, setCurrPage, feature } = useAuthPage();
@@ -18,10 +19,10 @@ export default function Auth() {
   if (feature.status === "enabled") {
     return (
       <div className="mt-12 -mb-24">
-        {currPage === "signup" ? (
-          <SignUpPage setCurrPage={setCurrPage} />
-        ) : (
-          <LoginPage setCurrPage={setCurrPage} />
+        {currPage === "signup" && <SignUpPage setCurrPage={setCurrPage} />}
+        {currPage === "login" && <LoginPage setCurrPage={setCurrPage} />}
+        {currPage === "password_reset" && (
+          <PasswordResetPage setCurrPage={setCurrPage} />
         )}
       </div>
     );
@@ -64,6 +65,51 @@ function ExtraAuthButtons() {
       <span className="flex items-center justify-center w-full mt-2 font-medium">
         Or
       </span>
+    </>
+  );
+}
+
+function PasswordResetPage(props: { setCurrPage: any }) {
+  return (
+    <>
+      <Layout title={"Reset your Password | Orsive"}>
+        <div className="flex items-center min-h-[80vh]">
+          <div className="flex-1 h-full max-w-4xl mx-auto rounded-lg ">
+            <div className="flex flex-col lg:flex-row">
+              <div className="h-32 lg:h-auto lg:w-1/2 flex  min-h-[30vh] justify-center mt-9 lg:mt-0">
+                <AuthSVG />
+              </div>
+              <div className="flex items-center justify-center p-6 sm:p-12 lg:w-1/2">
+                <div className="w-full">
+                  <h3 className="mb-4 text-2xl font-bold text-center ">
+                    Reset your password
+                  </h3>
+
+                  <PasswordResetForm setCurrPage={props.setCurrPage} />
+
+                  <div className="mt-4 text-center">
+                    <p className="text-sm">
+                      Already a Smarty Capty?{" "}
+                      <button
+                        onClick={() => props.setCurrPage("login")}
+                        className="text-blue-600 hover:underline"
+                      >
+                        Sign In.
+                      </button>
+                    </p>
+                    <Link href="/" passHref>
+                      <a className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600">
+                        <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to
+                        Orsive
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Layout>
     </>
   );
 }
@@ -139,6 +185,12 @@ function LoginPage(props: { setCurrPage: any }) {
                   <ExtraAuthButtons />
 
                   <LoginForm />
+                  <button
+                    onClick={() => props.setCurrPage("password_reset")}
+                    className="text-blue-600 hover:underline text-sm mt-1"
+                  >
+                    Forgot Password?
+                  </button>
 
                   <div className="mt-2 text-center">
                     <p className="text-sm">

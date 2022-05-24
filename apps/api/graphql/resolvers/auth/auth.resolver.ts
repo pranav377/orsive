@@ -27,9 +27,7 @@ const AUTH_RESOLVERS = {
       return "OTP sent successfully!";
     },
     getPasswordResetOTP(_: void, args: GetOTPArgs) {
-      GetPasswordResetOTP(args);
-
-      return "OTP sent successfully!";
+      return GetPasswordResetOTP(args);
     },
 
     getUser(_: void, args: GetUserInput) {

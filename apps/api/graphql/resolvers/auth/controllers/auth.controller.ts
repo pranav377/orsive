@@ -200,6 +200,15 @@ export async function GetOTP(args: GetOTPArgs) {
 
 export async function GetPasswordResetOTP(args: GetOTPArgs) {
   const data: GetOTPArgs = validate(args, OTP_VALIDATOR);
+  GetObjOrNotFound(
+    await prisma.profile.findFirst({
+      where: {
+        email: data.email,
+        authMethod: "local",
+      },
+    }),
+    "User not found"
+  );
 
   let randomOTP = otp_nanoid(9);
 
@@ -211,6 +220,8 @@ export async function GetPasswordResetOTP(args: GetOTPArgs) {
   });
 
   sendPasswordResetOTP(data.email, randomOTP);
+
+  return "ok";
 }
 
 export async function GetUser(args: GetUserInput) {
