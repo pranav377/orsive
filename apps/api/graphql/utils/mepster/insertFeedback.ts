@@ -11,13 +11,21 @@ export default function insertFeedback(
 
   if (feedback === "view" && didUserDislike) {
     Timestamp = new Date().toISOString();
+    return recommenderClient.put("feedback/", [
+      {
+        UserId,
+        ItemId,
+        Timestamp,
+        FeedbackType: feedback,
+      },
+    ]);
   } else if (feedback === "view") {
     Timestamp = moment(new Date()).add(1, "M").toISOString();
   } else {
     Timestamp = moment(new Date()).add(1, "week").toISOString();
   }
 
-  return recommenderClient.put("feedback/", [
+  return recommenderClient.post("feedback/", [
     {
       UserId,
       ItemId,
