@@ -223,7 +223,8 @@ model Report {
   postId    String          @db.ObjectId
   createdAt DateTime        @default(now())
   favors    ReportFavor[]
-  against   ReportAgainst[]
+  againsts  ReportAgainst[]
+  closed    Boolean         @default(false)
 }
 
 // moderator elections?
