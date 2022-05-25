@@ -4,16 +4,24 @@ import moment from "moment";
 export default function insertFeedback(
   UserId: string,
   ItemId: string,
-  feedback: "like" | "view"
+  feedback: "like" | "view",
+  didUserDislike?: boolean
 ) {
-  return recommenderClient.post("feedback/", [
+  let Timestamp;
+
+  if (feedback === "view" && didUserDislike) {
+    Timestamp = new Date().toISOString();
+  } else if (feedback === "view") {
+    Timestamp = moment(new Date()).add(1, "M").toISOString();
+  } else {
+    Timestamp = moment(new Date()).add(1, "week").toISOString();
+  }
+
+  return recommenderClient.put("feedback/", [
     {
       UserId,
       ItemId,
-      Timestamp:
-        feedback === "view"
-          ? moment(new Date()).add(1, "M").toISOString()
-          : moment(new Date()).add(1, "week").toISOString(),
+      Timestamp,
       FeedbackType: feedback,
     },
   ]);
