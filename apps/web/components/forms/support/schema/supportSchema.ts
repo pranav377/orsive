@@ -4,7 +4,7 @@ export const SUPPORT_SCHEMA = yup.object({
   type: yup
     .string()
     .required("Type is required")
-    .oneOf(["bug_report", "feature_request", "business_inquiry"]),
+    .oneOf(["bug_report", "feature_request", "business_inquiry", "others"]),
   content: yup
     .string()
     .required("Content is required")

@@ -5,6 +5,7 @@ const SUPPORT_SCHEMA = gql`
     bug_report
     feature_request
     business_inquiry
+    others
   }
 
   input AddContactInput {

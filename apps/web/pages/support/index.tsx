@@ -13,10 +13,11 @@ import { ADD_CONTACT_MUTATION } from "../../components/forms/support/mutations/a
 import toast from "react-hot-toast";
 import { useUser } from "../../hooks/auth/useUser";
 import AccessDenied from "../../components/forms/content/accessDenied";
+import { DotsCircleHorizontalIcon } from "@heroicons/react/outline";
 
 export default function Support() {
   const [selectedSupport, setSelectedSupport] = useState<
-    "bug_report" | "feature_request" | "business_inquiry" | undefined
+    "bug_report" | "feature_request" | "business_inquiry" | "others" | undefined
   >();
   const [open, setOpen] = useState(false);
 
@@ -62,6 +63,16 @@ export default function Support() {
           <BriefcaseIcon className="fill-gray-300 w-12 h-12" />
           Business Inquiry
         </button>
+        <button
+          onClick={() => {
+            setSelectedSupport("others");
+            showModal();
+          }}
+          className="w-[12rem] flex flex-col items-center justify-center font-semibold bg-slate-900 p-9 rounded-md relative transition-all duration-150 ease-in top-0 hover:-top-1"
+        >
+          <DotsCircleHorizontalIcon className="w-12 h-12" />
+          Others
+        </button>
       </div>
 
       <ModalDialog
@@ -104,6 +115,7 @@ export default function Support() {
                         "Business Inquiry"}
                       {selectedSupport === "feature_request" &&
                         "Feature Request"}
+                      {selectedSupport === "others" && "Others"}
                     </span>
                     <InputField type="hidden" name="type" label="" />
                     <TextField name="content" label="Content" />
