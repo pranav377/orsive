@@ -7,7 +7,6 @@ import {
 } from "../../../utils/data/reputation";
 import validate from "../../../utils/data/validate";
 import insertFeedback from "../../../utils/mepster/insertFeedback";
-import removeFeedback from "../../../utils/mepster/removeFeedback";
 import GetObjOrNotFound from "../../../utils/objOrNotFound";
 import { ADD_LIKE_VALIDATOR } from "../validators";
 
@@ -43,8 +42,6 @@ export async function AddLike(args: AddLikeArgs, user: User) {
 
   if (alreadyLikeStatus !== "nope") {
     if (alreadyLikeStatus === data.like_type) {
-      removeFeedback(user.id, data.id);
-
       if (alreadyLiked) {
         await prisma.like.delete({
           where: {
@@ -60,7 +57,7 @@ export async function AddLike(args: AddLikeArgs, user: User) {
       }
     } else {
       if (data.like_type === "like") {
-        insertFeedback(user.id, data.id, "like");
+        await insertFeedback(user.id, data.id, "like");
         await prisma.dislike.delete({
           where: {
             id: alreadyDisliked!.id,
@@ -75,7 +72,7 @@ export async function AddLike(args: AddLikeArgs, user: User) {
 
         await likeReputation(post!.uploadedById, userLike.id, user.id);
       } else {
-        removeFeedback(user.id, data.id);
+        await insertFeedback(user.id, data.id, "view", true);
         await prisma.like.delete({
           where: {
             id: alreadyLiked!.id,
@@ -92,7 +89,7 @@ export async function AddLike(args: AddLikeArgs, user: User) {
     }
   } else {
     if (data.like_type === "like") {
-      insertFeedback(user.id, data.id, "like");
+      await insertFeedback(user.id, data.id, "like");
 
       let userLike = await prisma.like.create({
         data: {
@@ -103,6 +100,8 @@ export async function AddLike(args: AddLikeArgs, user: User) {
 
       await likeReputation(post!.uploadedById, userLike.id, user.id);
     } else {
+      await insertFeedback(user.id, data.id, "view", true);
+
       let userDislike = await prisma.dislike.create({
         data: {
           userId: user.id,
