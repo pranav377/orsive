@@ -270,4 +270,5 @@ enum ContactType {
   bug_report
   feature_request
   business_inquiry
+  others
 }

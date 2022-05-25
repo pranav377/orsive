@@ -10,7 +10,7 @@ export interface AddContactArgs {
 }
 
 export interface AddContactInput {
-  type: "bug_report" | "feature_request" | "business_inquiry";
+  type: "bug_report" | "feature_request" | "business_inquiry" | "others";
   content: string;
 }
 
@@ -20,6 +20,7 @@ export async function AddContact(args: AddContactArgs, user: User) {
   await prisma.contact.create({
     data: {
       contactType: data.type,
+
       content: data.content,
       uploadedById: user.id,
     },
