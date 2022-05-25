@@ -6,6 +6,7 @@ const SIGN_IN_MUTATION_SCHEMA = gql`
       username
       avatar
       name
+      setupComplete
     }
   }
 `;

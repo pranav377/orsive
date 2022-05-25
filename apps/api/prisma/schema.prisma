@@ -10,6 +10,85 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Languages {
+  cmn
+  spa
+  eng
+  rus
+  arb
+  ben
+  hin
+  por
+  ind
+  jpn
+  fra
+  deu
+  jav
+  kor
+  tel
+  vie
+  mar
+  ita
+  tam
+  tur
+  urd
+  guj
+  pol
+  ukr
+  kan
+  mai
+  mal
+  pes
+  mya
+  swh
+  sun
+  ron
+  pan
+  bho
+  amh
+  hau
+  fuv
+  bos
+  hrv
+  nld
+  srp
+  tha
+  ckb
+  yor
+  uzn
+  zlm
+  ibo
+  npi
+  ceb
+  skr
+  tgl
+  hun
+  azj
+  sin
+  koi
+  ell
+  ces
+  mag
+  run
+  bel
+  plt
+  qug
+  mad
+  nya
+  zyb
+  pbu
+  kin
+  zul
+  bul
+  swe
+  lin
+  som
+  hms
+  hnj
+  ilo
+  kaz
+}
+
 model Like {
   id            String               @id @default(auto()) @map("_id") @db.ObjectId
   createdAt     DateTime             @default(now())
@@ -88,6 +167,9 @@ model Profile {
   notifications Notification[]
   roles         Role[]
   contacts      Contact[]
+
+  setupComplete     Boolean     @default(false)
+  preferedLanguages Languages[]
 }
 
 model Role {
