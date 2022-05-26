@@ -79,6 +79,15 @@ export async function GetPosts(user: User | null, args: GetPostsArgs) {
       postType: {
         in: ["image", "orsic"],
       },
+      ...(user && {
+        dislikes: {
+          every: {
+            userId: {
+              not: user.id,
+            },
+          },
+        },
+      }),
     },
     include: {
       image: {
