@@ -3,6 +3,7 @@ import { gql } from "apollo-server-express";
 const PROFILE_SCHEMA = gql`
   type Query {
     getProfilePosts(username: String!, page: Int): GetPostsResponse
+    getFollowingPosts(page: Int): GetPostsResponse
     amIFollowing(username: String!): Boolean!
   }
 
