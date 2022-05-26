@@ -53,3 +53,6 @@ package-lock.json
 # external dependencies
 gorse
 meilisearch
+
+# cluster config
+ecosystem.config.js

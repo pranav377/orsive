@@ -3,7 +3,7 @@ import {
   AccountApiApiKeys,
   TransactionalEmailsApi,
   TransactionalEmailsApiApiKeys,
-} from "sib-api-v3-typescript";
+} from "@sendinblue/client";
 
 let apiInstance = new AccountApi();
 
