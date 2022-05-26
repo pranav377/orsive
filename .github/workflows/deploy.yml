@@ -21,5 +21,8 @@ jobs:
             npm install
             npm run generate
             npm run migrate
-            pm2 reload orsive-api
+            npm run build
+            cd ..
+            cd ..
+            pm2 reload ecosystem.config.js
             echo 'Deployment successful to DigitalOcean'
