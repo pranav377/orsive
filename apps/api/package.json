@@ -4,7 +4,6 @@
   "description": "",
   "scripts": {
     "dev": "dotenv -e .env.development -- nodemon",
-    "start": "dotenv -e .env -- node build/server.js",
     "build": "webpack",
     "migrate": "dotenv -e .env -- ts-node migration.ts",
     "generate": "npx prisma generate",

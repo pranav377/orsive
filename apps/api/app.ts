@@ -126,6 +126,9 @@ async function startServer() {
     })
   );
 
+  app.get("/", (_req, res) => {
+    res.end("Cluster Up and running");
+  });
   app.get("/auth/discord", passport.authenticate("discord"));
   app.get(
     "/auth/discord/callback",
