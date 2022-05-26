@@ -1,4 +1,5 @@
 import { FileUpload } from "graphql-upload";
+import invariant from "tiny-invariant";
 import { PAGINATION_SET_SIZE } from "../../../config";
 import { User } from "../../../permissions/IsUserAuthenticated";
 import prisma from "../../../utils/data/dbClient";
@@ -21,6 +22,10 @@ export interface GetProfilePostsArgs {
   page?: number;
 }
 
+export interface GetFollowingPostsArgs {
+  page: number;
+}
+
 export interface AmIFollowingArgs {
   username: string;
 }
@@ -35,6 +40,65 @@ export interface EditProfileInput {
   avatar?: FileUpload;
   banner?: FileUpload;
   bio?: string;
+}
+
+export async function GetFollowingPosts(
+  args: GetFollowingPostsArgs,
+  user: User
+) {
+  let me = await prisma.profile.findUnique({
+    where: {
+      id: user.id,
+    },
+  });
+  invariant(me);
+
+  let page = (args.page || 1) - 1;
+  let offset = page * PAGINATION_SET_SIZE;
+
+  let followingPostsCount = await prisma.post.count({
+    where: {
+      postType: {
+        in: ["image", "orsic"],
+      },
+      uploadedById: {
+        in: me.followingIDs,
+      },
+    },
+  });
+
+  let hasNextPage =
+    (args.page || 1) * PAGINATION_SET_SIZE < followingPostsCount;
+  let nextPage = (args.page || 1) + 1;
+  let followingPosts = await prisma.post.findMany({
+    skip: offset,
+    take: PAGINATION_SET_SIZE,
+    where: {
+      postType: {
+        in: ["image", "orsic"],
+      },
+      uploadedById: {
+        in: me.followingIDs,
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      image: {
+        ...POST_PRISMA_ARGS,
+      },
+      orsic: {
+        ...POST_PRISMA_ARGS,
+      },
+    },
+  });
+
+  return {
+    data: getPostsData(followingPosts),
+    hasNextPage,
+    nextPage,
+  };
 }
 
 export async function GetProfilePosts(args: GetProfilePostsArgs) {
