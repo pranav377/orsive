@@ -6,6 +6,7 @@ const USER_CHECK_QUERY = gql`
       username
       avatar
       name
+      setupComplete
     }
   }
 `;

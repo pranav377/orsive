@@ -4,8 +4,8 @@ I started making Orsive on 11 July, 2021. It was previously created with plan Re
 
 ### Todo for now
 
-1. Handle spam content
-2. Improve recommendation algorithm
+1. Improve recommendation algorithm
+2. Handle spam content
 3. A page containing the people you follow
 4. Password change option
 5. Moderator vote system with content reporting

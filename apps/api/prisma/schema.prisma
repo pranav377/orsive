@@ -88,6 +88,8 @@ model Profile {
   notifications Notification[]
   roles         Role[]
   contacts      Contact[]
+
+  setupComplete Boolean @default(false)
 }
 
 model Role {

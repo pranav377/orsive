@@ -40,6 +40,7 @@ const AUTH_SCHEMA = gql`
     joined: Date
     _count: UserCount
     unreadNotifications: Boolean
+    setupComplete: Boolean
   }
 
   input SignUpInput {
@@ -72,8 +73,8 @@ const AUTH_SCHEMA = gql`
   }
 
   type Mutation {
-    signUp(input: SignUpInput!): User!
-    signIn(input: SignInInput!): User!
+    signUp(input: SignUpInput!): MeResponse!
+    signIn(input: SignInInput!): MeResponse!
     passwordReset(input: PasswordResetInput!): String!
     logout: String!
     followUser(username: String!): String!
