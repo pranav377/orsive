@@ -59,6 +59,7 @@ export default function EditOrsic() {
                 <Formik
                   initialValues={{
                     title: getOrsicQuery.data.getOrsic.title,
+                    content: getOrsicQuery.data.getOrsic.content,
                   }}
                   validationSchema={POST_ORSIC_SCHEMA}
                   onSubmit={(values, { setSubmitting }) => {
