@@ -1,0 +1,75 @@
+import PullToRefresh from "react-simple-pull-to-refresh";
+import Empty from "../components/app/Empty";
+import { Layout } from "../components/app/Layout";
+import OneTimePageSpinner from "../components/app/OneTimePageSpinner";
+import Spinner from "../components/app/Spinner";
+import AccessDenied from "../components/forms/content/accessDenied";
+import ImagePostCard from "../components/post/cards/ImagePostCard";
+import OrsicPostCard from "../components/post/cards/OrsicPostCard";
+import { useOneTimePageSpinner } from "../hooks/app/useOneTimePageSpinner";
+import { useScrollRestoring } from "../hooks/app/useScrollRestoring";
+import { useFollowingPage } from "../hooks/pages/following/useFollowingPage";
+import { client } from "./_app";
+
+export default function Following() {
+  const { query, loadMoreElement, user } = useFollowingPage();
+  const { spinnerShown, setSpinnerShown } = useOneTimePageSpinner(query.data);
+  useScrollRestoring();
+
+  return (
+    <Layout title="Following | Orsive">
+      <PullToRefresh
+        pullingContent={""}
+        onRefresh={async () => {
+          setSpinnerShown(false);
+          client.cache.reset();
+          client.resetStore();
+        }}
+      >
+        <div className="flex items-center mb-1 flex-col">
+          {!user.is && (
+            <div className="h-[60vh] md:h-[90vh] flex">
+              <AccessDenied />
+            </div>
+          )}
+
+          {query.data && (
+            <>
+              {query.data.getFollowingPosts.data.map((post: any) => {
+                if (post.__typename === "Image") {
+                  return <ImagePostCard post={post} key={post.post.id} />;
+                }
+                if (post.__typename === "Orsic") {
+                  return <OrsicPostCard post={post} key={post.post.id} />;
+                }
+              })}
+
+              {query.data.getFollowingPosts.hasNextPage && (
+                <div
+                  ref={loadMoreElement}
+                  className={`flex items-center justify-center m-2`}
+                >
+                  <Spinner />
+                </div>
+              )}
+
+              {query.data.getFollowingPosts.data.length === 0 && user.is && (
+                <div className="pt-20 w-full">
+                  <Empty message="No posts from the people you follow :(" />
+                </div>
+              )}
+            </>
+          )}
+
+          {user.is && (
+            <OneTimePageSpinner
+              spinnerShown={spinnerShown}
+              data={query.data}
+              long
+            />
+          )}
+        </div>
+      </PullToRefresh>
+    </Layout>
+  );
+}

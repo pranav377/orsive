@@ -8,7 +8,9 @@ export default function Empty(props: { message: string }) {
           <EmptySVG className="w-[80%] max-w-sm" />
         </div>
         <div className="flex flex-col m-2 max-w-xl self-center">
-          <span className="font-semibold text-2xl m-1">{props.message}</span>
+          <span className="font-semibold text-2xl m-1 text-center">
+            {props.message}
+          </span>
         </div>
       </div>
     </>

@@ -11,6 +11,9 @@ import { useRouter } from "next/router";
 import Drawer from "react-modern-drawer";
 
 import "react-modern-drawer/dist/index.css";
+import classNames from "../../utils/classnames";
+import { BellIcon } from "@heroicons/react/outline";
+import { BellIcon as BellIconSolid } from "@heroicons/react/solid";
 
 export const withoutNavbarPaths = [
   "/",
@@ -49,7 +52,33 @@ export default function Navbar() {
           </Link>
           <div className="flex flex-row col-start-2 col-end-7 items-center justify-end">
             {user.is ? (
-              <ProfileDropdown />
+              <>
+                <Link href={"/notifications"} passHref>
+                  <span className="relative inline-flex mr-5 cursor-pointer">
+                    <a
+                      className={classNames(
+                        router.pathname === "/notifications"
+                          ? "text-blue-400"
+                          : "text-gray-300",
+                        "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
+                      )}
+                    >
+                      {router.pathname === "/notifications" ? (
+                        <BellIconSolid className="h-6 w-6" />
+                      ) : (
+                        <BellIcon className="h-6 w-6" />
+                      )}
+                    </a>
+                    {user.unreadNotifications && (
+                      <span className="flex absolute h-2 w-2 top-0 right-0 -mt-1 -mr-1">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                      </span>
+                    )}
+                  </span>
+                </Link>
+                <ProfileDropdown />
+              </>
             ) : (
               <Link href="/auth" passHref>
                 <a>
