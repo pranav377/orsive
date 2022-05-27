@@ -3,6 +3,9 @@ import { Editor } from "@tinymce/tinymce-react";
 import Spinner from "./Spinner";
 import { client } from "../../pages/_app";
 import EDITOR_IMAGE_UPLOAD_MUTATION from "../../app/editor/editorImageUploadMutation";
+import parse, { HTMLReactParserOptions, Element } from "html-react-parser";
+import { renderToString } from "react-dom/server";
+
 export default function RichEditor(props: {
   value: string;
   initialValue?: string;
@@ -93,4 +96,20 @@ export function RichEditorSkeleton(props: { dark?: boolean }) {
       <Spinner />
     </div>
   );
+}
+
+const contentParserOptions: HTMLReactParserOptions = {
+  replace: (domNode) => {
+    if (domNode instanceof Element && domNode.attribs) {
+      if (domNode.tagName === "img") {
+        let src = domNode.attribs.src;
+        return <img src={src} />;
+      }
+    }
+  },
+};
+
+export function RichEditorContentParser(html: string) {
+  // @ts-ignore
+  return renderToString(parse(html, contentParserOptions));
 }
