@@ -13,8 +13,14 @@ import {
   SearchIcon,
   UserIcon,
   HomeIcon,
-  BellIcon,
   PlusIcon,
+  LibraryIcon,
+} from "@heroicons/react/outline";
+import {
+  HomeIcon as HomeIconSolid,
+  LibraryIcon as LibraryIconSolid,
+  SearchIcon as SearchIconSolid,
+  UserIcon as UserIconSolid,
 } from "@heroicons/react/solid";
 import PostCards from "../../app/PostCard/PostCards";
 import PostCard from "../../app/PostCard";
@@ -48,9 +54,29 @@ export default function BottomNavigation() {
                 "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
               )}
             >
-              <HomeIcon className="h-6 w-6" />
+              {router.pathname === homeUrl ? (
+                <HomeIconSolid className="h-6 w-6" />
+              ) : (
+                <HomeIcon className="h-6 w-6" />
+              )}
             </a>
           </Link>
+          <Link href={"/following"} passHref>
+            <a
+              className={classNames(
+                router.pathname === "/following" && "text-blue-400",
+                "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
+              )}
+            >
+              {router.pathname === "/following" ? (
+                <LibraryIconSolid className="h-6 w-6" />
+              ) : (
+                <LibraryIcon className="h-6 w-6" />
+              )}
+            </a>
+          </Link>
+
+          <AddPostDropup />
           <Link href={"/search"} passHref>
             <a
               className={classNames(
@@ -58,28 +84,12 @@ export default function BottomNavigation() {
                 "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
               )}
             >
-              <SearchIcon className="h-6 w-6" />
-            </a>
-          </Link>
-
-          <AddPostDropup />
-          <Link href={"/notifications"} passHref>
-            <span className="relative inline-flex">
-              <a
-                className={classNames(
-                  router.pathname === "/notifications" && "text-blue-400",
-                  "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
-                )}
-              >
-                <BellIcon className="h-6 w-6" />
-              </a>
-              {user.unreadNotifications && (
-                <span className="flex absolute h-2 w-2 top-0 right-0 -mt-1 -mr-1">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
-                </span>
+              {router.pathname === "/search" ? (
+                <SearchIconSolid className="h-6 w-6" />
+              ) : (
+                <SearchIcon className="h-6 w-6" />
               )}
-            </span>
+            </a>
           </Link>
           {user.is ? (
             <Link href={`/${user.username}`} passHref>
@@ -91,7 +101,11 @@ export default function BottomNavigation() {
                   "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
                 )}
               >
-                <UserIcon className="h-6 w-6" />
+                {router.pathname === `/${user.username}` ? (
+                  <UserIconSolid className="h-6 w-6" />
+                ) : (
+                  <UserIcon className="h-6 w-6" />
+                )}
               </a>
             </Link>
           ) : (

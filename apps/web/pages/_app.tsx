@@ -36,6 +36,16 @@ export const client = new ApolloClient({
               };
             },
           },
+          getFollowingPosts: {
+            keyArgs: false,
+            merge(existing = { data: [] }, incoming) {
+              return {
+                data: _.uniqBy([...existing.data, ...incoming.data], "slug"),
+                hasNextPage: incoming.hasNextPage,
+                nextPage: incoming.nextPage,
+              };
+            },
+          },
           getMyNotifications: {
             keyArgs: false,
             merge(existing = { data: [] }, incoming) {
