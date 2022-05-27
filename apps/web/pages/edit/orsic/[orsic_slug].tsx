@@ -5,7 +5,10 @@ import AccessDenied from "../../../components/forms/content/accessDenied";
 import { POST_ORSIC_SCHEMA } from "../../../components/forms/content/post-orsic/validation_schema/postOrsicSchema";
 import { useEditOrsic } from "../../../hooks/pages/edit/orsic/useEditOrsic";
 import dynamic from "next/dynamic";
-import { RichEditorSkeleton } from "../../../components/app/RichEditor";
+import {
+  RichEditorContentParser,
+  RichEditorSkeleton,
+} from "../../../components/app/RichEditor";
 import InputField from "../../../components/forms/fields/inputField";
 import Button from "../../../components/base/button";
 import toast from "react-hot-toast";
@@ -104,7 +107,9 @@ export default function EditOrsic() {
                       </p>
                       {RichEditor ? (
                         <RichEditor
-                          initialValue={getOrsicQuery.data.getOrsic.content}
+                          initialValue={RichEditorContentParser(
+                            getOrsicQuery.data.getOrsic.content
+                          )}
                           darkBg
                           value={values.content}
                           onChange={(data) => setFieldValue("content", data)}
