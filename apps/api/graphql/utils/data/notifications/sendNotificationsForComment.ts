@@ -24,17 +24,21 @@ async function sendNotification(
         id: commentUploadedById,
       },
     });
-    postOwner?.notificationToken?.map(async (notificationToken) => {
-      await NotificationClient.post("", {
-        to: notificationToken,
-        data: {
-          title: "New Comment",
-          body: `${commentedBy!.name} commented on your post`,
-          for: postOwner!.username,
-          url,
-        },
-      });
-    });
+
+    await Promise.all(
+      postOwner!.notificationToken?.map(async (notificationToken) => {
+        await NotificationClient.post("", {
+          to: notificationToken,
+          data: {
+            title: "New Comment",
+            body: `${commentedBy!.name} commented on your post`,
+            for: postOwner!.username,
+            url,
+          },
+        });
+      })
+    );
+
     return prisma.notificationForComment.create({
       data: {
         commentId,
