@@ -6,12 +6,11 @@ I started making Orsive on 11 July, 2021. It was previously created with plan Re
 
 1. Improve recommendation algorithm
 2. Handle spam content
-3. A page containing the people you follow
-4. Password change option
-5. Moderator vote system with content reporting
-6. Account delete option
-7. Orsive clans (kinda like a group where people can share posts only the members can see)
-8. Setup Testing
+3. Password change option
+4. Moderator vote system with content reporting
+5. Account delete option
+6. Orsive clans (kinda like a group where people can share posts only the members can see)
+7. Setup Testing
 
 ### Small things to know about
 

@@ -2,6 +2,7 @@ import { useOneTimePageSpinner } from "../../hooks/app/useOneTimePageSpinner";
 import { useProfilePosts } from "../../hooks/pages/profile/useProfilePosts";
 import { ProfileType } from "../../pages/[profile_slug]";
 import OneTimePageSpinner from "../app/OneTimePageSpinner";
+import Spinner from "../app/Spinner";
 import ImagePostCard from "../post/cards/ImagePostCard";
 import OrsicPostCard from "../post/cards/OrsicPostCard";
 import BruhSVG from "../svgs/bruh.svg";
@@ -31,9 +32,12 @@ export default function ProfilePosts(props: { profile: ProfileType }) {
           })}
 
           {query.data.getProfilePosts.hasNextPage && (
-            <span className="text-center" ref={loadMoreElement}>
-              There's more coming up🚀
-            </span>
+            <div
+              ref={loadMoreElement}
+              className={`flex items-center justify-center m-2`}
+            >
+              <Spinner />
+            </div>
           )}
         </>
       )}
