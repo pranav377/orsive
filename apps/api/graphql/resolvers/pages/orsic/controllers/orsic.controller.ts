@@ -179,17 +179,7 @@ export async function DeleteOrsicPost(args: DeleteOrsicPostArgs, user: User) {
         slug: data.slug,
       },
       include: {
-        post: {
-          include: {
-            uploadedBy: true,
-            _count: {
-              select: {
-                dislikes: true,
-                likes: true,
-              },
-            },
-          },
-        },
+        post: true,
       },
     })
   );

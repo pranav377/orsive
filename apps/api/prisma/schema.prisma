@@ -226,7 +226,6 @@ model Report {
   createdAt DateTime        @default(now())
   favors    ReportFavor[]
   againsts  ReportAgainst[]
-  closed    Boolean         @default(false)
 }
 
 // moderator elections?
@@ -238,7 +237,7 @@ model Report {
 // if report gets more neutral votes, staff decides
 // polling happens after 3 days of the report
 // based on the result, the mods get Reputation. Decision won: 1k reputation, Decision Lost: 200 reputation
-// if neutral votes are more after polling, show staff a secret button to either approve post or to remove it
+// sometimes, the post may need immediate attention. Staff can approve or reject posts immediately
 // if all moderators have voted, execute decision immediately
 // create discord community for mods
 // certain posts may require immediate action, those posts will be discussed by the staff in the community discord server

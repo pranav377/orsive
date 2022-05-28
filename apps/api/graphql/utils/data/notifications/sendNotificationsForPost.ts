@@ -2,13 +2,13 @@
 import prisma from "../dbClient";
 import NotificationClient from "./client";
 
-export default function sendNotificationsForPost(
+export default async function sendNotificationsForPost(
   ownerId: string,
   postId: string,
   postType: "image" | "orsic",
   postSlug: string
 ) {
-  return Promise.all([
+  await Promise.all([
     new Promise(async (resolve) => {
       let owner = await prisma.profile.findUnique({
         where: {
