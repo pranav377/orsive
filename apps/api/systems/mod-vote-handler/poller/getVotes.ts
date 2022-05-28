@@ -7,7 +7,7 @@ export default async function getVotes(reportId: string) {
     },
   });
 
-  let againsts = await prisma.reportFavor.count({
+  let againsts = await prisma.reportAgainst.count({
     where: {
       reportId,
     },

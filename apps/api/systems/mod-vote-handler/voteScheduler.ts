@@ -1,8 +1,8 @@
 import moment from "moment";
-import schedule from "node-schedule";
 import prisma from "../../graphql/utils/data/dbClient";
 import GetObjOrNotFound from "../../graphql/utils/objOrNotFound";
 import poller from "./poller";
+import agenda from "./poller/scheduler";
 
 export default async function VoteScheduler(reportId: string) {
   let report = GetObjOrNotFound(
@@ -15,5 +15,9 @@ export default async function VoteScheduler(reportId: string) {
 
   let pollTime = moment(report!.createdAt).add(3, "days").toDate();
 
-  schedule.scheduleJob(pollTime, poller.bind(null, reportId));
+  agenda.define(`report_${reportId}`, poller);
+  await agenda.start();
+  await agenda.schedule(pollTime, `report_${reportId}`, {
+    reportId,
+  });
 }
