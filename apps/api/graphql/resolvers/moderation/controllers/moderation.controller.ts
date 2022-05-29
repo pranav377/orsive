@@ -1,9 +1,11 @@
 import { ApolloError } from "apollo-server-express";
 import { User } from "../../../permissions/IsUserAuthenticated";
 import prisma from "../../../utils/data/dbClient";
+import { ReportReason } from "@prisma/client";
 
 export interface AddReportInterface {
   post_id: string;
+  reason: ReportReason;
 }
 
 export interface GetReportsArgs {
@@ -23,11 +25,20 @@ export async function AddReport(args: AddReportInterface, user: User) {
   });
 
   if (reportAlreadyExists) {
+    await prisma.report.update({
+      where: {
+        id: reportAlreadyExists!.id,
+      },
+      data: {
+        createdAt: new Date(),
+      },
+    });
     throw new ApolloError("Report already exists!");
   }
 
   await prisma.report.create({
     data: {
+      reason: args.reason,
       postId: args.post_id,
       userId: user.id,
     },

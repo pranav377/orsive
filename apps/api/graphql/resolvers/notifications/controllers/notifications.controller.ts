@@ -2,6 +2,7 @@ import invariant from "tiny-invariant";
 import { COMMENT_PAGINATION_SET_SIZE } from "../../../config";
 import { User } from "../../../permissions/IsUserAuthenticated";
 import prisma from "../../../utils/data/dbClient";
+import generatePostUrl from "../../../utils/data/url";
 
 export interface GetMyNotificationsArgs {
   page?: number;
@@ -82,74 +83,25 @@ export async function GetMyNotifications(
       if (notification.notificationType === "forPost") {
         let baseNotification = notification.notificationForPost;
 
-        let slug = "";
-
-        switch (baseNotification?.post?.postType) {
-          case "image":
-            slug = baseNotification.post.image?.slug!;
-            break;
-
-          case "orsic":
-            slug = baseNotification.post.orsic?.slug!;
-            break;
-        }
-
         return {
           ...notification.notificationForPost,
-          url: `/${baseNotification?.post?.postType}/${slug}`,
+          url: generatePostUrl(baseNotification!.postId!),
         };
       } else if (notification.notificationType === "forComment") {
         let baseNotification = notification.notificationForComment;
-        let baseComment = baseNotification?.comment;
-        let parentPost = await prisma.post.findUnique({
-          where: {
-            id: baseComment!.parentPostId!,
-          },
-          include: {
-            image: true,
-            orsic: true,
-          },
-        });
 
-        let slug = "";
-
-        switch (parentPost?.postType) {
-          case "image":
-            slug = `/image/${parentPost.image?.slug}/comments/${baseComment?.post?.id}`;
-            break;
-
-          case "orsic":
-            slug = `/orsic/${parentPost.orsic?.slug}/comments/${baseComment?.post?.id}`;
-            break;
-        }
-
-        return { ...baseNotification, url: slug };
+        return {
+          ...baseNotification,
+          url: generatePostUrl(baseNotification!.comment!.post!.id),
+        };
       } else {
         let baseNotification = notification.notificationForComment;
         let baseReply = baseNotification?.comment;
-        let parentPost = await prisma.post.findUnique({
-          where: {
-            id: baseReply?.parentPostId!,
-          },
-          include: {
-            image: true,
-            orsic: true,
-          },
-        });
 
-        let slug = "";
-
-        switch (parentPost?.postType) {
-          case "image":
-            slug = `/image/${parentPost.image?.slug}/comments/${baseReply?.parentId}/replies/${baseReply?.post?.id}`;
-            break;
-
-          case "orsic":
-            slug = `/orsic/${parentPost.orsic?.slug}/comments/${baseReply?.parentId}/replies/${baseReply?.post?.id}`;
-            break;
-        }
-
-        return { ...baseNotification, url: slug };
+        return {
+          ...baseNotification,
+          url: generatePostUrl(baseReply!.post!.id),
+        };
       }
     }),
     hasNextPage,

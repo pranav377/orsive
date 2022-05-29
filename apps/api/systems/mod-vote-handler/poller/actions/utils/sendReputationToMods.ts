@@ -23,10 +23,26 @@ export default async function sendReputationToMods(
   if (winDecision === "favor") {
     await Promise.all(
       favors.map(async (favor) => {
-        await prisma.reputationBlockLog.create({
+        const reputation = await prisma.reputationBlockLog.create({
           data: {
             userId: favor.modId,
             amount: DECISION_WON_REPUTATION,
+          },
+        });
+
+        await prisma.notificationForReputation.create({
+          data: {
+            reputation: {
+              connect: {
+                id: reputation.id,
+              },
+            },
+            notification: {
+              create: {
+                forUserId: favor.modId,
+                notificationType: "forReputation",
+              },
+            },
           },
         });
       })
@@ -34,10 +50,26 @@ export default async function sendReputationToMods(
 
     await Promise.all(
       againsts.map(async (against) => {
-        await prisma.reputationBlockLog.create({
+        const reputation = await prisma.reputationBlockLog.create({
           data: {
             userId: against.modId,
             amount: DECISION_LOST_REPUTATION,
+          },
+        });
+
+        await prisma.notificationForReputation.create({
+          data: {
+            reputation: {
+              connect: {
+                id: reputation.id,
+              },
+            },
+            notification: {
+              create: {
+                forUserId: against.modId,
+                notificationType: "forReputation",
+              },
+            },
           },
         });
       })
@@ -45,10 +77,26 @@ export default async function sendReputationToMods(
   } else {
     await Promise.all(
       againsts.map(async (against) => {
-        await prisma.reputationBlockLog.create({
+        const reputation = await prisma.reputationBlockLog.create({
           data: {
             userId: against.modId,
             amount: DECISION_WON_REPUTATION,
+          },
+        });
+
+        await prisma.notificationForReputation.create({
+          data: {
+            reputation: {
+              connect: {
+                id: reputation.id,
+              },
+            },
+            notification: {
+              create: {
+                forUserId: against.modId,
+                notificationType: "forReputation",
+              },
+            },
           },
         });
       })
@@ -56,10 +104,26 @@ export default async function sendReputationToMods(
 
     await Promise.all(
       favors.map(async (favor) => {
-        await prisma.reputationBlockLog.create({
+        const reputation = await prisma.reputationBlockLog.create({
           data: {
             userId: favor.modId,
             amount: DECISION_LOST_REPUTATION,
+          },
+        });
+
+        await prisma.notificationForReputation.create({
+          data: {
+            reputation: {
+              connect: {
+                id: reputation.id,
+              },
+            },
+            notification: {
+              create: {
+                forUserId: favor.modId,
+                notificationType: "forReputation",
+              },
+            },
           },
         });
       })

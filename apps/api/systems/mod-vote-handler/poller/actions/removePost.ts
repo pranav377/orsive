@@ -4,8 +4,23 @@ import GetObjOrNotFound from "../../../../graphql/utils/objOrNotFound";
 import invariant from "tiny-invariant";
 import deletePost from "./utils/deletePost";
 import agenda from "../scheduler";
+import { ReportReason } from "@prisma/client";
+import sendEmailToPostOwner from "./utils/sendEmailToPostOwner";
 
-export default async function removePost(postId: string) {
+export default async function removePost(postId: string, reason: ReportReason) {
+  let post = GetObjOrNotFound(
+    await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      include: {
+        uploadedBy: true,
+      },
+    })
+  );
+
+  sendEmailToPostOwner(postId, post!.uploadedById, reason);
+
   let deleteTime = moment(new Date()).add(5, "minutes").toDate();
 
   agenda.define(`delete_${postId}`, async function (job: any) {

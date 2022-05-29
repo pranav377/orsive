@@ -5,6 +5,7 @@ import getRepliesCount from "../../../utils/data/comments/getRepliesCount";
 import prisma from "../../../utils/data/dbClient";
 import sendNotificationsforComment from "../../../utils/data/notifications/sendNotificationsForComment";
 import sendNotificationsforReply from "../../../utils/data/notifications/sendNotificationsForReply";
+import generateCommentUrl from "../../../utils/data/url/generateCommentUrl";
 import validateAsync from "../../../utils/data/validateAsync";
 import GetObjOrNotFound from "../../../utils/objOrNotFound";
 import { POST_PRISMA_ARGS } from "../../post/controllers/post.controller";
@@ -201,21 +202,6 @@ export async function CreateReply(args: CreateReplyArgs, user: User) {
     "Parent comment not found."
   );
 
-  let parentPost = GetObjOrNotFound(
-    await prisma.post.findFirst({
-      where: {
-        id: parentComment!.parentPostId!,
-        postType: {
-          in: ["image", "orsic"],
-        },
-      },
-      include: {
-        image: true,
-        orsic: true,
-      },
-    })
-  );
-
   let comment = await prisma.comment.create({
     data: {
       content: data.content,
@@ -231,11 +217,7 @@ export async function CreateReply(args: CreateReplyArgs, user: User) {
     ...POST_PRISMA_ARGS,
   });
 
-  let url = `/${parentPost!.postType}/${
-    parentPost!.postType === "image"
-      ? parentPost!.image!.slug
-      : parentPost!.orsic!.slug
-  }/comments/${parentComment!.post!.id}/replies/${comment.post!.id}`;
+  let url = await generateCommentUrl(comment.post!.id);
 
   if (parentComment!.post!.uploadedById !== comment.post!.uploadedById) {
     sendNotificationsforReply(

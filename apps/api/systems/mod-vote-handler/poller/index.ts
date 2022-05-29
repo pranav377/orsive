@@ -38,7 +38,7 @@ export default async function poller(job: any) {
       await removeReport(reportId);
       await sendReputationToMods(reportId, "favor");
     } else if (againsts > favors) {
-      await removePost(report!.postId);
+      await removePost(report!.postId, report!.reason);
       await removeReport(reportId);
       await sendReputationToMods(reportId, "against");
     } else {

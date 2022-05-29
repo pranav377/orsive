@@ -159,15 +159,16 @@ model Comment {
 }
 
 model ReputationBlockLog {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user      Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @db.ObjectId
-  like      Like?    @relation(fields: [likeId], references: [id], onDelete: Cascade)
-  likeId    String?  @db.ObjectId
-  dislike   Dislike? @relation(fields: [dislikeId], references: [id], onDelete: Cascade)
-  dislikeId String?  @db.ObjectId
-  amount    Int
-  createdAt DateTime @default(now())
+  id           String                      @id @default(auto()) @map("_id") @db.ObjectId
+  user         Profile                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String                      @db.ObjectId
+  like         Like?                       @relation(fields: [likeId], references: [id], onDelete: Cascade)
+  likeId       String?                     @db.ObjectId
+  dislike      Dislike?                    @relation(fields: [dislikeId], references: [id], onDelete: Cascade)
+  dislikeId    String?                     @db.ObjectId
+  amount       Int
+  createdAt    DateTime                    @default(now())
+  notification NotificationForReputation[]
 }
 
 model Notification {
@@ -183,6 +184,9 @@ model Notification {
 
   notificationForComment   NotificationForComment? @relation(fields: [notificationForCommentId], references: [id], onDelete: Cascade)
   notificationForCommentId String?                 @unique @db.ObjectId
+
+  notificationForReputation   NotificationForReputation? @relation(fields: [notificationForReputationId], references: [id], onDelete: Cascade)
+  notificationForReputationId String?                    @unique @db.ObjectId
 }
 
 enum NotificationType {
@@ -206,6 +210,13 @@ model NotificationForComment {
   notification Notification?
 }
 
+model NotificationForReputation {
+  id           String              @id @default(auto()) @map("_id") @db.ObjectId
+  reputation   ReputationBlockLog? @relation(fields: [reputationId], references: [id], onDelete: Cascade)
+  reputationId String?             @db.ObjectId
+  notification Notification?
+}
+
 model Feature {
   id     String        @id @default(auto()) @map("_id") @db.ObjectId
   name   String
@@ -224,9 +235,16 @@ model Report {
   post      Post            @relation(fields: [postId], references: [id], onDelete: Cascade)
   userId    String          @db.ObjectId
   postId    String          @db.ObjectId
+  reason    ReportReason
   createdAt DateTime        @default(now())
   favors    ReportFavor[]
   againsts  ReportAgainst[]
+}
+
+enum ReportReason {
+  sus_spam
+  sensitive_content
+  harmful
 }
 
 // moderator elections?
