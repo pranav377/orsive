@@ -1,11 +1,14 @@
 import IsUserAuthenticated from "../../permissions/IsUserAuthenticated";
 import IsUserMod from "../../permissions/IsUserMod";
+import IsUserStaffPlusMod from "../../permissions/IsUserStaffPlusMod";
 import {
   AddReport,
   AddReportInterface,
   DeleteReport,
   GetReports,
   GetReportsArgs,
+  ImmediateStaffAgainstReport,
+  ImmediateStaffFavorReport,
   ReportAgainst,
   ReportFavor,
   ReportHandleInterface,
@@ -44,6 +47,27 @@ const MODERATION_RESOLVERS = {
       IsUserMod(context);
 
       return ReportAgainst(args, context.getUser());
+    },
+
+    // Immediate reporting for staff
+    immediateStaffFavorReport(
+      _: void,
+      args: ReportHandleInterface,
+      context: any
+    ) {
+      IsUserStaffPlusMod(context);
+
+      return ImmediateStaffFavorReport(args);
+    },
+
+    immediateStaffAgainstReport(
+      _: void,
+      args: ReportHandleInterface,
+      context: any
+    ) {
+      IsUserStaffPlusMod(context);
+
+      return ImmediateStaffAgainstReport(args);
     },
   },
 };

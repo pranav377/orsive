@@ -5,6 +5,9 @@ import { ReportReason } from "@prisma/client";
 import VoteScheduler from "../../../../systems/mod-vote-handler/voteScheduler";
 import GetObjOrNotFound from "../../../utils/getObjOrNotFound";
 import agenda from "../../../../systems/mod-vote-handler/poller/scheduler";
+import removeReport from "../../../../systems/mod-vote-handler/poller/actions/removeReport";
+import sendReputationToMods from "../../../../systems/mod-vote-handler/poller/actions/utils/sendReputationToMods";
+import removePost from "../../../../systems/mod-vote-handler/poller/actions/removePost";
 
 export interface AddReportInterface {
   post_id: string;
@@ -142,4 +145,31 @@ export async function ReportAgainst(args: ReportHandleInterface, user: User) {
   } else {
     throw new ApolloError("You have already voted!");
   }
+}
+
+export async function ImmediateStaffFavorReport(args: ReportHandleInterface) {
+  let report = GetObjOrNotFound(
+    await prisma.report.findFirst({
+      where: {
+        postId: args.post_id,
+      },
+    })
+  );
+
+  await removeReport(report!.id);
+  await sendReputationToMods(report!.id, "favor");
+}
+
+export async function ImmediateStaffAgainstReport(args: ReportHandleInterface) {
+  let report = GetObjOrNotFound(
+    await prisma.report.findFirst({
+      where: {
+        postId: args.post_id,
+      },
+    })
+  );
+
+  await removePost(report!.postId, report!.reason);
+  await removeReport(report!.id);
+  await sendReputationToMods(report!.id, "against");
 }
