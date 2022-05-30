@@ -9,7 +9,7 @@ import generateFilename from "../../../utils/files/generateFilename";
 import IsImageFileValid from "../../../utils/files/isImageFileValid";
 import saveFile from "../../../utils/files/saveFile";
 import updateUser from "../../../utils/mepster/user/updateUser";
-import GetObjOrNotFound from "../../../utils/objOrNotFound";
+import GetObjOrNotFound from "../../../utils/getObjOrNotFound";
 import { userOptions } from "../../auth/controllers/auth.controller";
 import {
   getPostsData,

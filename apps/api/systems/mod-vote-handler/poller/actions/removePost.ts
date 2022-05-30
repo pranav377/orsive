@@ -1,6 +1,6 @@
 import moment from "moment";
 import prisma from "../../../../graphql/utils/data/dbClient";
-import GetObjOrNotFound from "../../../../graphql/utils/objOrNotFound";
+import GetObjOrNotFound from "../../../../graphql/utils/getObjOrNotFound";
 import invariant from "tiny-invariant";
 import deletePost from "./utils/deletePost";
 import agenda from "../scheduler";

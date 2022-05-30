@@ -1,7 +1,8 @@
 import prisma from "../../../graphql/utils/data/dbClient";
-import GetObjOrNotFound from "../../../graphql/utils/objOrNotFound";
+import GetObjOrNotFound from "../../../graphql/utils/getObjOrNotFound";
 import removePost from "./actions/removePost";
 import removeReport from "./actions/removeReport";
+import staffDecision from "./actions/staffDecision";
 import sendReputationToMods from "./actions/utils/sendReputationToMods";
 import getVotes from "./getVotes";
 
@@ -32,9 +33,9 @@ export default async function poller(job: any) {
 
   if (shouldStaffDecide) {
     // Staff decision
+    await staffDecision(reportId);
   } else {
     if (favors > againsts) {
-      // Post is not removed
       await removeReport(reportId);
       await sendReputationToMods(reportId, "favor");
     } else if (againsts > favors) {
@@ -42,7 +43,8 @@ export default async function poller(job: any) {
       await removeReport(reportId);
       await sendReputationToMods(reportId, "against");
     } else {
-      // Staff decision -- send mail to all staff members
+      // Staff decision
+      await staffDecision(reportId);
     }
   }
 }

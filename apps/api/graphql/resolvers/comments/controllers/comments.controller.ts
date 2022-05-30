@@ -7,7 +7,7 @@ import sendNotificationsforComment from "../../../utils/data/notifications/sendN
 import sendNotificationsforReply from "../../../utils/data/notifications/sendNotificationsForReply";
 import generateCommentUrl from "../../../utils/data/url/generateCommentUrl";
 import validateAsync from "../../../utils/data/validateAsync";
-import GetObjOrNotFound from "../../../utils/objOrNotFound";
+import GetObjOrNotFound from "../../../utils/getObjOrNotFound";
 import { POST_PRISMA_ARGS } from "../../post/controllers/post.controller";
 import {
   CREATE_COMMENT_VALIDATOR,

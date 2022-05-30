@@ -1,4 +1,4 @@
-import GetObjOrNotFound from "../../objOrNotFound";
+import GetObjOrNotFound from "../../getObjOrNotFound";
 import prisma from "../dbClient";
 import generateCommentUrl from "./generateCommentUrl";
 import generateContentPostUrl from "./generateContentPostUrl";

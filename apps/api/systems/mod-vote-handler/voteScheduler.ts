@@ -1,6 +1,6 @@
 import moment from "moment";
 import prisma from "../../graphql/utils/data/dbClient";
-import GetObjOrNotFound from "../../graphql/utils/objOrNotFound";
+import GetObjOrNotFound from "../../graphql/utils/getObjOrNotFound";
 import poller from "./poller";
 import agenda from "./poller/scheduler";
 

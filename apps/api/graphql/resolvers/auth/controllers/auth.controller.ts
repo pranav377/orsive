@@ -16,7 +16,7 @@ import IsSignUpValid from "../validators/extra/signUpValidator";
 import storage from "../../../../storage";
 import generateFileUrl from "../../../utils/files/generateFileUrl";
 import prisma from "../../../utils/data/dbClient";
-import GetObjOrNotFound from "../../../utils/objOrNotFound";
+import GetObjOrNotFound from "../../../utils/getObjOrNotFound";
 import { User } from "../../../permissions/IsUserAuthenticated";
 import invariant from "tiny-invariant";
 import insertUser from "../../../utils/mepster/user/insertUser";
