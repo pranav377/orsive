@@ -38,6 +38,10 @@ const MODERATION_SCHEMA = gql`
     # Report Voting for mods
     reportFavor(post_id: ID!): String!
     reportAgainst(post_id: ID!): String!
+
+    # Immediate reporting for staff
+    immediateStaffFavorReport(post_id: ID!): String!
+    immediateStaffAgainstReport(post_id: ID!): String!
   }
 `;
 
