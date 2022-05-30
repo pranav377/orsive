@@ -7,7 +7,7 @@ import {
 } from "../../../utils/data/reputation";
 import validate from "../../../utils/data/validate";
 import insertFeedback from "../../../utils/mepster/insertFeedback";
-import GetObjOrNotFound from "../../../utils/objOrNotFound";
+import GetObjOrNotFound from "../../../utils/getObjOrNotFound";
 import { ADD_LIKE_VALIDATOR } from "../validators";
 
 export interface AddLikeArgs {

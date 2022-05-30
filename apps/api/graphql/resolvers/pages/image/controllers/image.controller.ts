@@ -10,7 +10,7 @@ import {
   IMAGE_VALIDATOR,
   UPDATE_IMAGE_POST_VALIDATOR,
 } from "../validators";
-import GetObjOrNotFound from "../../../../utils/objOrNotFound";
+import GetObjOrNotFound from "../../../../utils/getObjOrNotFound";
 import IsImageFileValid from "../../../../utils/files/isImageFileValid";
 import saveFile from "../../../../utils/files/saveFile";
 import insertItem, {

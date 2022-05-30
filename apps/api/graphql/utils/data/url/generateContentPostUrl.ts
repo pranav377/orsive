@@ -1,4 +1,4 @@
-import GetObjOrNotFound from "../../objOrNotFound";
+import GetObjOrNotFound from "../../getObjOrNotFound";
 import prisma from "../dbClient";
 
 export default async function generateContentPostUrl(postId: string) {

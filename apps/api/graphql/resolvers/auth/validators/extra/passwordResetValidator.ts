@@ -1,7 +1,7 @@
 import { ApolloError } from "apollo-server-express";
 import moment from "moment";
 import prisma from "../../../../utils/data/dbClient";
-import GetObjOrNotFound from "../../../../utils/objOrNotFound";
+import GetObjOrNotFound from "../../../../utils/getObjOrNotFound";
 
 export default async function IsPasswordResetValid(
   email: string,

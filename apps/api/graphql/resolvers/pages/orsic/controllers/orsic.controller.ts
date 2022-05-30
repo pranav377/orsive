@@ -3,7 +3,7 @@ import IsUserOwner from "../../../../permissions/IsUserOwner";
 import prisma from "../../../../utils/data/dbClient";
 import generateSlug from "../../../../utils/data/generateSlug";
 import validate from "../../../../utils/data/validate";
-import GetObjOrNotFound from "../../../../utils/objOrNotFound";
+import GetObjOrNotFound from "../../../../utils/getObjOrNotFound";
 import {
   ADD_ORSIC_POST_VALIDATOR,
   DELETE_ORSIC_POST_VALIDATOR,
