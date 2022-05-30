@@ -1,6 +1,13 @@
 import { gql } from "apollo-server-express";
 
 const MODERATION_SCHEMA = gql`
+  enum ReportReason {
+    sus_spam
+    sensitive_content
+    harmful
+    political_content
+  }
+
   type Report {
     id: ID
     _count: ReportVoteCount
@@ -24,7 +31,7 @@ const MODERATION_SCHEMA = gql`
   }
 
   type Mutation {
-    addReport(post_id: ID!): String!
+    addReport(post_id: ID!, reason: ReportReason!): String!
     deleteReport(post_id: ID!): String!
   }
 `;

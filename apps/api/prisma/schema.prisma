@@ -159,15 +159,16 @@ model Comment {
 }
 
 model ReputationBlockLog {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user      Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @db.ObjectId
-  like      Like?    @relation(fields: [likeId], references: [id], onDelete: Cascade)
-  likeId    String?  @db.ObjectId
-  dislike   Dislike? @relation(fields: [dislikeId], references: [id], onDelete: Cascade)
-  dislikeId String?  @db.ObjectId
-  amount    Int
-  createdAt DateTime @default(now())
+  id           String                      @id @default(auto()) @map("_id") @db.ObjectId
+  user         Profile                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String                      @db.ObjectId
+  like         Like?                       @relation(fields: [likeId], references: [id], onDelete: Cascade)
+  likeId       String?                     @db.ObjectId
+  dislike      Dislike?                    @relation(fields: [dislikeId], references: [id], onDelete: Cascade)
+  dislikeId    String?                     @db.ObjectId
+  amount       Int
+  createdAt    DateTime                    @default(now())
+  notification NotificationForReputation[]
 }
 
 model Notification {
@@ -183,12 +184,16 @@ model Notification {
 
   notificationForComment   NotificationForComment? @relation(fields: [notificationForCommentId], references: [id], onDelete: Cascade)
   notificationForCommentId String?                 @unique @db.ObjectId
+
+  notificationForReputation   NotificationForReputation? @relation(fields: [notificationForReputationId], references: [id], onDelete: Cascade)
+  notificationForReputationId String?                    @unique @db.ObjectId
 }
 
 enum NotificationType {
   forPost
   forComment
   forReply
+  forReputation
 }
 
 model NotificationForPost {
@@ -202,6 +207,13 @@ model NotificationForComment {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   comment      Comment?      @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId    String?       @db.ObjectId
+  notification Notification?
+}
+
+model NotificationForReputation {
+  id           String              @id @default(auto()) @map("_id") @db.ObjectId
+  reputation   ReputationBlockLog? @relation(fields: [reputationId], references: [id], onDelete: Cascade)
+  reputationId String?             @db.ObjectId
   notification Notification?
 }
 
@@ -223,10 +235,16 @@ model Report {
   post      Post            @relation(fields: [postId], references: [id], onDelete: Cascade)
   userId    String          @db.ObjectId
   postId    String          @db.ObjectId
+  reason    ReportReason
   createdAt DateTime        @default(now())
   favors    ReportFavor[]
   againsts  ReportAgainst[]
-  closed    Boolean         @default(false)
+}
+
+enum ReportReason {
+  sus_spam
+  sensitive_content
+  harmful
 }
 
 // moderator elections?
@@ -238,7 +256,7 @@ model Report {
 // if report gets more neutral votes, staff decides
 // polling happens after 3 days of the report
 // based on the result, the mods get Reputation. Decision won: 1k reputation, Decision Lost: 200 reputation
-// if neutral votes are more after polling, show staff a secret button to either approve post or to remove it
+// sometimes, the post may need immediate attention. Staff can approve or reject posts immediately
 // if all moderators have voted, execute decision immediately
 // create discord community for mods
 // certain posts may require immediate action, those posts will be discussed by the staff in the community discord server
