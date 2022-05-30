@@ -31,8 +31,13 @@ const MODERATION_SCHEMA = gql`
   }
 
   type Mutation {
+    # Report
     addReport(post_id: ID!, reason: ReportReason!): String!
     deleteReport(post_id: ID!): String!
+
+    # Report Voting for mods
+    reportFavor(post_id: ID!): String!
+    reportAgainst(post_id: ID!): String!
   }
 `;
 

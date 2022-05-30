@@ -2,10 +2,17 @@ import { ApolloError } from "apollo-server-express";
 import { User } from "../../../permissions/IsUserAuthenticated";
 import prisma from "../../../utils/data/dbClient";
 import { ReportReason } from "@prisma/client";
+import VoteScheduler from "../../../../systems/mod-vote-handler/voteScheduler";
+import GetObjOrNotFound from "../../../utils/getObjOrNotFound";
+import agenda from "../../../../systems/mod-vote-handler/poller/scheduler";
 
 export interface AddReportInterface {
   post_id: string;
   reason: ReportReason;
+}
+
+export interface ReportHandleInterface {
+  post_id: string;
 }
 
 export interface GetReportsArgs {
@@ -17,26 +24,17 @@ export async function GetReports(_args: GetReportsArgs) {
 }
 
 export async function AddReport(args: AddReportInterface, user: User) {
-  let reportAlreadyExists = await prisma.report.findFirst({
+  let reportAlreadyExists = !!(await prisma.report.findFirst({
     where: {
       postId: args.post_id,
-      userId: user.id,
     },
-  });
+  }));
 
   if (reportAlreadyExists) {
-    await prisma.report.update({
-      where: {
-        id: reportAlreadyExists!.id,
-      },
-      data: {
-        createdAt: new Date(),
-      },
-    });
     throw new ApolloError("Report already exists!");
   }
 
-  await prisma.report.create({
+  const report = await prisma.report.create({
     data: {
       reason: args.reason,
       postId: args.post_id,
@@ -44,25 +42,104 @@ export async function AddReport(args: AddReportInterface, user: User) {
     },
   });
 
+  VoteScheduler(report.id);
+
   return "ok";
 }
 
-export async function DeleteReport(args: AddReportInterface, user: User) {
-  let userReport = await prisma.report.findFirst({
+export async function DeleteReport(args: ReportHandleInterface, user: User) {
+  let userReport = GetObjOrNotFound(
+    await prisma.report.findFirst({
+      where: {
+        postId: args.post_id,
+        userId: user.id,
+      },
+    })
+  );
+
+  await prisma.report.delete({
     where: {
-      postId: args.post_id,
-      userId: user.id,
+      id: userReport!.id,
     },
   });
+  await agenda.cancel({
+    $where: {
+      name: `report_${userReport!.id}`,
+    },
+  });
+  return "ok";
+}
 
-  if (userReport) {
-    await prisma.report.delete({
+export async function ReportFavor(args: ReportHandleInterface, user: User) {
+  let report = GetObjOrNotFound(
+    await prisma.report.findFirst({
       where: {
-        id: userReport.id,
+        postId: args.post_id,
+      },
+    })
+  );
+
+  let voteAlreadyExists =
+    !!(await prisma.reportFavor.findFirst({
+      where: {
+        reportId: report!.id,
+        modId: user.id,
+      },
+    })) ||
+    !!(await prisma.reportAgainst.findFirst({
+      where: {
+        reportId: report!.id,
+        modId: user.id,
+      },
+    }));
+
+  if (!voteAlreadyExists) {
+    await prisma.reportFavor.create({
+      data: {
+        reportId: report!.id,
+        modId: user.id,
       },
     });
+
     return "ok";
   } else {
-    throw new ApolloError("Report doesn't exist");
+    throw new ApolloError("You have already voted!");
+  }
+}
+
+export async function ReportAgainst(args: ReportHandleInterface, user: User) {
+  let report = GetObjOrNotFound(
+    await prisma.report.findFirst({
+      where: {
+        postId: args.post_id,
+      },
+    })
+  );
+
+  let voteAlreadyExists =
+    !!(await prisma.reportFavor.findFirst({
+      where: {
+        reportId: report!.id,
+        modId: user.id,
+      },
+    })) ||
+    !!(await prisma.reportAgainst.findFirst({
+      where: {
+        reportId: report!.id,
+        modId: user.id,
+      },
+    }));
+
+  if (!voteAlreadyExists) {
+    await prisma.reportAgainst.create({
+      data: {
+        reportId: report!.id,
+        modId: user.id,
+      },
+    });
+
+    return "ok";
+  } else {
+    throw new ApolloError("You have already voted!");
   }
 }
