@@ -11,6 +11,8 @@ import AvatarArea from "../extra/AvatarArea";
 import Image from "next/image";
 import { generatePlaceholder } from "../../app/ContentParser";
 import TextContent from "../../app/TextContent";
+import { useRef } from "react";
+import useOnScreen from "../../../hooks/app/useOnScreen";
 
 export default function ImagePostCard(props: { post: any }) {
   let post = props.post;
@@ -24,46 +26,50 @@ export default function ImagePostCard(props: { post: any }) {
   });
 
   let postUrl = `/image/${post.slug}`;
+  const root = useRef(null);
+  const isVisible = useOnScreen(root);
 
   return (
-    <Ripples>
-      <div className="bg-slate-900 rounded-md p-5 flex flex-col w-[90vw] md:max-w-3xl my-2">
-        <AvatarArea
-          canEdit
-          url={postUrl}
-          uploadedBy={post.post.uploadedBy}
-          delete={deleteImagePost}
-        />
-        <div className="w-full">
-          <Link href={postUrl} passHref scroll={false}>
-            <a>
-              <LinkifyContent>
-                <TextContent className="p-2 text-break">
-                  {post.title}
-                </TextContent>
-              </LinkifyContent>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Image
-                  placeholder="blur"
-                  blurDataURL={generatePlaceholder(
-                    post.width.toString(),
-                    post.height.toString()
-                  )}
-                  src={post.image}
-                  width={post.width}
-                  height={post.height}
-                />
-              </div>
-            </a>
-          </Link>
-          <ExtraButtons url={postUrl} postUrl={postUrl} {...likeFeatures} />
+    <div ref={root} className={`${isVisible ? "visible" : "invisible"}`}>
+      <Ripples>
+        <div className="bg-slate-900 rounded-md p-5 flex flex-col w-[90vw] md:max-w-3xl my-2">
+          <AvatarArea
+            canEdit
+            url={postUrl}
+            uploadedBy={post.post.uploadedBy}
+            delete={deleteImagePost}
+          />
+          <div className="w-full">
+            <Link href={postUrl} passHref scroll={false}>
+              <a>
+                <LinkifyContent>
+                  <TextContent className="p-2 text-break">
+                    {post.title}
+                  </TextContent>
+                </LinkifyContent>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    placeholder="blur"
+                    blurDataURL={generatePlaceholder(
+                      post.width.toString(),
+                      post.height.toString()
+                    )}
+                    src={post.image}
+                    width={post.width}
+                    height={post.height}
+                  />
+                </div>
+              </a>
+            </Link>
+            <ExtraButtons url={postUrl} postUrl={postUrl} {...likeFeatures} />
+          </div>
         </div>
-      </div>
-    </Ripples>
+      </Ripples>
+    </div>
   );
 }

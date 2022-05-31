@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import LinkifyContent from "../../app/LinkifyContent";
 import Link from "next/link";
 import Ripples from "../../app/Ripple";
@@ -10,6 +11,7 @@ import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery
 import AvatarArea from "../extra/AvatarArea";
 import ContentParser from "../../app/ContentParser";
 import TextContent from "../../app/TextContent";
+import useOnScreen from "../../../hooks/app/useOnScreen";
 
 export default function OrsicPostCard(props: { post: any }) {
   let post = props.post;
@@ -23,39 +25,43 @@ export default function OrsicPostCard(props: { post: any }) {
   });
 
   let postUrl = `/orsic/${post.slug}`;
+  const root = useRef(null);
+  const isVisible = useOnScreen(root);
 
   return (
-    <Ripples>
-      <div className="bg-slate-900 rounded-md p-2 flex flex-col w-[90vw] md:max-w-3xl my-2">
-        <AvatarArea
-          canEdit
-          url={postUrl}
-          uploadedBy={post.post.uploadedBy}
-          delete={deleteOrsicPost}
-        />
-        <div className="w-full">
-          <Link href={postUrl} passHref scroll={false}>
-            <a>
-              <div>
-                {post.title && (
-                  <span className="font-semibold text-2xl text-break">
-                    {post.title}
-                  </span>
-                )}
-                <LinkifyContent>
-                  <TextContent>{ContentParser(post.content)}</TextContent>
-                </LinkifyContent>
-                {post.truncated && (
-                  <div className="w-full p-1 bg-slate-700 hover:bg-slate-800 transition-all duration-300 font-semibold text-center rounded-b-xl">
-                    Read More
-                  </div>
-                )}
-              </div>
-            </a>
-          </Link>
-          <ExtraButtons url={postUrl} postUrl={postUrl} {...likeFeatures} />
+    <div ref={root} className={`${isVisible ? "visible" : "invisible"}`}>
+      <Ripples>
+        <div className="bg-slate-900 rounded-md p-2 flex flex-col w-[90vw] md:max-w-3xl my-2">
+          <AvatarArea
+            canEdit
+            url={postUrl}
+            uploadedBy={post.post.uploadedBy}
+            delete={deleteOrsicPost}
+          />
+          <div className="w-full">
+            <Link href={postUrl} passHref scroll={false}>
+              <a>
+                <div>
+                  {post.title && (
+                    <span className="font-semibold text-2xl text-break">
+                      {post.title}
+                    </span>
+                  )}
+                  <LinkifyContent>
+                    <TextContent>{ContentParser(post.content)}</TextContent>
+                  </LinkifyContent>
+                  {post.truncated && (
+                    <div className="w-full p-1 bg-slate-700 hover:bg-slate-800 transition-all duration-300 font-semibold text-center rounded-b-xl">
+                      Read More
+                    </div>
+                  )}
+                </div>
+              </a>
+            </Link>
+            <ExtraButtons url={postUrl} postUrl={postUrl} {...likeFeatures} />
+          </div>
         </div>
-      </div>
-    </Ripples>
+      </Ripples>
+    </div>
   );
 }
