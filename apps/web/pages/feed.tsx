@@ -8,6 +8,7 @@ import { useScrollRestoring } from "../hooks/app/useScrollRestoring";
 import { useFeedPage } from "../hooks/pages/feed/useFeedPage";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import { client } from "./_app";
+import VirtualScroller from "virtual-scroller/react";
 
 export default function Feed() {
   const { query, loadMoreElement } = useFeedPage();
@@ -28,15 +29,23 @@ export default function Feed() {
           <div className="flex items-center mb-1 flex-col">
             {query.data && (
               <>
-                {query.data.getPosts.data.map((post: any) => {
-                  if (post.__typename === "Image") {
-                    return <ImagePostCard post={post} key={post.post.id} />;
-                  }
-                  if (post.__typename === "Orsic") {
-                    return <OrsicPostCard post={post} key={post.post.id} />;
-                  }
-                })}
+                <VirtualScroller
+                  className="flex flex-col items-center"
+                  items={query.data.getPosts.data}
+                  itemComponent={function ListRenderer(props: {
+                    children: any;
+                  }) {
+                    const post = props.children;
+                    if (post.__typename === "Image") {
+                      return <ImagePostCard post={post} key={post.post.id} />;
+                    }
+                    if (post.__typename === "Orsic") {
+                      return <OrsicPostCard post={post} key={post.post.id} />;
+                    }
 
+                    return null;
+                  }}
+                />
                 {query.data.getPosts.hasNextPage && (
                   <div
                     ref={loadMoreElement}
