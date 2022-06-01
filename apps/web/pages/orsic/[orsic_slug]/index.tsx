@@ -18,6 +18,9 @@ import { Layout } from "../../../components/app/Layout";
 import Link from "next/link";
 import ContentParser from "../../../components/app/ContentParser";
 import TextContent from "../../../components/app/TextContent";
+import BionicMode from "../../../components/app/BionicMode";
+import Bionica from "../../../components/app/bionica";
+import { useBionicMode } from "../../../hooks/app/useBionicMode";
 
 interface OrsicPostType {
   title: string | null;
@@ -44,6 +47,7 @@ function getTitle(title: string | null, createdAt: string, name: string) {
 
 export default function OrsicPost(props: { post: OrsicPostType | null }) {
   const { router, likeFeatures, deleteOrsicPost } = useOrsicPost(props.post);
+  const bionicMode = useBionicMode();
 
   if (router.isFallback) {
     return (
@@ -101,6 +105,7 @@ export default function OrsicPost(props: { post: OrsicPostType | null }) {
         />
         <Layout>
           <div className="flex flex-col w-full items-center mt-20 ">
+            <BionicMode />
             <div className="flex flex-col bg-slate-900 rounded-none w-[98%] md:max-w-3xl md:rounded-md my-2">
               <AvatarArea
                 canEdit
@@ -115,7 +120,11 @@ export default function OrsicPost(props: { post: OrsicPostType | null }) {
                 </span>
               )}
               <LinkifyContent>
-                <TextContent>{ContentParser(post.content)}</TextContent>
+                <TextContent>
+                  {ContentParser(
+                    bionicMode ? Bionica(post.content) : post.content
+                  )}
+                </TextContent>
               </LinkifyContent>
               {post.post.updatedAt && (
                 <span className="self-end text-gray-300 pr-2 mt-2 text-sm">
