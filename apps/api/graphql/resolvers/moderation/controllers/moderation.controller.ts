@@ -8,6 +8,12 @@ import agenda from "../../../../systems/mod-vote-handler/poller/scheduler";
 import removeReport from "../../../../systems/mod-vote-handler/poller/actions/removeReport";
 import sendReputationToMods from "../../../../systems/mod-vote-handler/poller/actions/utils/sendReputationToMods";
 import removePost from "../../../../systems/mod-vote-handler/poller/actions/removePost";
+import {
+  getPostData,
+  POST_PRISMA_ARGS,
+} from "../../post/controllers/post.controller";
+import moment from "moment";
+import { PAGINATION_SET_SIZE } from "../../../config";
 
 export interface AddReportInterface {
   post_id: string;
@@ -22,8 +28,46 @@ export interface GetReportsArgs {
   page?: number;
 }
 
-export async function GetReports(_args: GetReportsArgs) {
-  return { data: [], hasNextPage: false, nextPage: 2 };
+export async function GetReports(args: GetReportsArgs) {
+  let page = (args.page || 1) - 1;
+  let offset = page * PAGINATION_SET_SIZE;
+
+  let reportsCount = await prisma.report.count();
+
+  let hasNextPage = (args.page || 1) * PAGINATION_SET_SIZE < reportsCount;
+  let nextPage = (args.page || 1) + 1;
+
+  let reports = await prisma.report.findMany({
+    skip: offset,
+    take: PAGINATION_SET_SIZE,
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      post: {
+        include: {
+          image: {
+            ...POST_PRISMA_ARGS,
+          },
+          orsic: {
+            ...POST_PRISMA_ARGS,
+          },
+        },
+      },
+    },
+  });
+
+  return {
+    data: reports.map((report) => {
+      return {
+        id: report.id,
+        post: getPostData(report.post),
+        votingEnds: moment(report.createdAt).add(3, "days").toDate(),
+      };
+    }),
+    hasNextPage,
+    nextPage,
+  };
 }
 
 export async function AddReport(args: AddReportInterface, user: User) {

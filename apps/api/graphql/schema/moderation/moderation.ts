@@ -10,14 +10,8 @@ const MODERATION_SCHEMA = gql`
 
   type Report {
     id: ID
-    _count: ReportVoteCount
     post: PostUnion
     votingEnds: Date
-  }
-
-  type ReportVoteCount {
-    favors: Int
-    against: Int
   }
 
   type GetReportsResponse {

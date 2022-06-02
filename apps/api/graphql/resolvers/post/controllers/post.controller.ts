@@ -40,18 +40,22 @@ export function getOrsicContent(content: string) {
   }
 }
 
+export function getPostData(post: any) {
+  switch (post.postType) {
+    case "image":
+      return post.image;
+    case "orsic":
+      let content = post.orsic!.content;
+      return { ...post.orsic, ...getOrsicContent(content) };
+
+    default:
+      return null;
+  }
+}
+
 export function getPostsData(posts: Array<any>) {
   return posts.map((post) => {
-    switch (post.postType) {
-      case "image":
-        return post.image;
-      case "orsic":
-        let content = post.orsic!.content;
-        return { ...post.orsic, ...getOrsicContent(content) };
-
-      default:
-        return null;
-    }
+    return getPostData(post);
   });
 }
 
