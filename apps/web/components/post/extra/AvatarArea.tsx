@@ -8,6 +8,7 @@ export default function AvatarArea(props: {
   delete: () => Promise<any>;
   url: string;
   canEdit?: boolean;
+  postId: string;
 }) {
   return (
     <div className=" p-4 w-full flex relative">
@@ -34,6 +35,7 @@ export default function AvatarArea(props: {
           url={props.url}
           delete={props.delete}
           uploadedByUsername={props.uploadedBy.username}
+          postId={props.postId}
         />
       </span>
     </div>
