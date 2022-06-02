@@ -3,11 +3,10 @@ import { Parser, ParseToken } from "html-tokenizer";
 
 export default function Bionica(html: string) {
   const tokens = Parser.parse(html);
-
-  return renderer(tokens);
+  return renderer([...tokens]);
 }
 
-function renderer(tokens: IterableIterator<ParseToken>) {
+function renderer(tokens: ParseToken[]) {
   let html_strings: Array<string> = [];
   for (let token of tokens) {
     switch (token.type) {
@@ -32,9 +31,9 @@ function renderer(tokens: IterableIterator<ParseToken>) {
         break;
 
       case "text":
+        if (token.text === "\n") break;
         let content = bionicReading(token.text, {
           highlightTag: "strong",
-          fixationPoint: 2,
         });
         html_strings.push(content);
         break;
