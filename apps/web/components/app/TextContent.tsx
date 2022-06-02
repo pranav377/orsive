@@ -6,7 +6,7 @@ export default function TextContent(props: {
 }) {
   return (
     <div
-      className={`text-content prose text-gray-100 prose-a:text-blue-600 prose-invert md:prose-lg lg:prose-xl ${props.className}`}
+      className={`text-content prose text-gray-200 prose-strong:lg:text-2xl prose-strong:md:text-xl prose-strong:text-lg  prose-invert md:prose-lg lg:prose-xl ${props.className}`}
     >
       {props.children}
     </div>

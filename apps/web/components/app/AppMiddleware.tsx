@@ -10,6 +10,7 @@ import FEATURES_CASES from "../../app/store/reducers/features/cases";
 import { removeCookies, setCookies } from "cookies-next";
 import { USER_COOKIE_KEY } from "../../config";
 import localforage from "localforage";
+import APP_CASES from "../../app/store/reducers/app/cases";
 
 export function setUser(user: {
   username: string;
@@ -59,6 +60,17 @@ async function checkNotifications() {
     .catch((err) => {});
 }
 
+async function checkBionicMode() {
+  let bionicMode = await localforage.getItem("bionic_mode");
+
+  if (typeof bionicMode === "boolean") {
+    store.dispatch({
+      type: APP_CASES.SET_BIONIC_MODE,
+      payload: { bionicMode },
+    });
+  }
+}
+
 async function checkFeatures() {
   let response = await client.query({
     query: gql`
@@ -81,6 +93,7 @@ export default function AppMiddleware() {
   useEffect(() => {
     userCheckLogin();
     checkFeatures();
+    checkBionicMode();
   }, []);
 
   useEffect(() => {

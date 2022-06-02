@@ -38,7 +38,7 @@ export default function OrsicPostCard(props: { post: any }) {
             <a>
               <div>
                 {post.title && (
-                  <span className="font-semibold text-2xl text-break">
+                  <span className="font-semibold text-2xl text-gray-100 text-break">
                     {post.title}
                   </span>
                 )}
