@@ -115,7 +115,7 @@ export default function OrsicPost(props: { post: OrsicPostType | null }) {
               />
 
               {post.title && (
-                <span className="font-semibold text-2xl text-break p-2">
+                <span className="font-semibold text-gray-100 text-2xl text-break p-2">
                   {post.title}
                 </span>
               )}

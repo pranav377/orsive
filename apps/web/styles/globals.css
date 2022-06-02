@@ -47,6 +47,11 @@ body {
 
 .text-content a {
   margin: 0;
+  color: rgb(37 99 235);
+}
+
+.text-content a * {
+  color: rgb(59 130 246);
 }
 
 .text-content strong {
