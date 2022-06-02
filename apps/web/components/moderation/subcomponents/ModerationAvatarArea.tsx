@@ -1,14 +1,9 @@
-import { UploadedBy } from "../../app/types";
-import Link from "next/link";
-import Options from "./Options";
 import Image from "next/image";
+import Link from "next/link";
+import { UploadedBy } from "../../app/types";
 
-export default function AvatarArea(props: {
+export default function ModerationAvatarArea(props: {
   uploadedBy: UploadedBy;
-  delete: () => Promise<any>;
-  url: string;
-  canEdit?: boolean;
-  postId: string;
 }) {
   return (
     <div className=" p-4 w-full flex relative">
@@ -32,13 +27,13 @@ export default function AvatarArea(props: {
         </Link>
       </div>
       <span style={{ minWidth: "2rem", maxWidth: "3rem" }} className="w-1/12">
-        <Options
+        {/* <Options
           canEdit={props.canEdit}
           url={props.url}
           delete={props.delete}
           uploadedByUsername={props.uploadedBy.username}
           postId={props.postId}
-        />
+        /> */}
       </span>
     </div>
   );

@@ -6,6 +6,7 @@
     "dev": "dotenv -e .env.development -- nodemon",
     "build": "webpack",
     "migrate": "dotenv -e .env -- ts-node migration.ts",
+    "migrate-dev": "dotenv -e .env.development -- ts-node devMigration.ts",
     "generate": "npx prisma generate",
     "test-users": "dotenv -e .env.development -- ts-node initTestUsers.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

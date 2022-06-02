@@ -1,4 +1,5 @@
 import PullToRefresh from "react-simple-pull-to-refresh";
+import VirtualScroller from "virtual-scroller/react";
 import Empty from "../components/app/Empty";
 import { Layout } from "../components/app/Layout";
 import OneTimePageSpinner from "../components/app/OneTimePageSpinner";
@@ -35,14 +36,21 @@ export default function Following() {
 
           {query.data && (
             <>
-              {query.data.getFollowingPosts.data.map((post: any) => {
-                if (post.__typename === "Image") {
-                  return <ImagePostCard post={post} key={post.post.id} />;
-                }
-                if (post.__typename === "Orsic") {
-                  return <OrsicPostCard post={post} key={post.post.id} />;
-                }
-              })}
+              <VirtualScroller
+                className="flex flex-col items-center"
+                items={query.data.getFollowingPosts.data}
+                itemComponent={function ListRenderer(props: { children: any }) {
+                  const post = props.children;
+                  if (post.__typename === "Image") {
+                    return <ImagePostCard post={post} key={post.post.id} />;
+                  }
+                  if (post.__typename === "Orsic") {
+                    return <OrsicPostCard post={post} key={post.post.id} />;
+                  }
+
+                  return null;
+                }}
+              />
 
               {query.data.getFollowingPosts.hasNextPage && (
                 <div

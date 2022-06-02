@@ -1,13 +1,18 @@
 import moment from "moment";
 import { useState } from "react";
 import { useTimer } from "react-timer-hook";
+import ContentParser from "../app/ContentParser";
 import LinkifyContent from "../app/LinkifyContent";
 import Ripples from "../app/Ripple";
 import TextContent from "../app/TextContent";
 import ExtraButtonsForModeration from "./subcomponents/ExtraButtonsForModeration";
 import ModerationAvatarArea from "./subcomponents/ModerationAvatarArea";
+import Link from "next/link";
 
-export default function ModerationImagePostCard(props: { report: any }) {
+export default function ModerationOrsicPostCard(props: { report: any }) {
+  let post = props.report.post;
+  let postUrl = `/orsic/${post.slug}`;
+
   const [votingEnded, setVotingEnded] = useState(false);
 
   const { seconds, minutes, hours, days } = useTimer({
@@ -33,23 +38,30 @@ export default function ModerationImagePostCard(props: { report: any }) {
             name: "Bruh Bruh",
             username: "bruh99",
             avatar: `
-              http://placeimg.com/640/480/transport 
-              `,
+                http://placeimg.com/640/480/transport 
+                `,
           }}
         />
         <div className="w-full">
-          <LinkifyContent>
-            <TextContent className="text-break p-2">Test Post</TextContent>
-          </LinkifyContent>
-          <img
-            style={{
-              display: "block",
-              margin: "0 auto",
-            }}
-            src={`
-                http://placeimg.com/640/480/transport 
-                `}
-          />
+          <Link href={postUrl} passHref scroll={false}>
+            <a>
+              <div>
+                {post.title && (
+                  <span className="font-semibold text-2xl text-gray-100 text-break">
+                    {post.title}
+                  </span>
+                )}
+                <LinkifyContent>
+                  <TextContent>{ContentParser(post.content)}</TextContent>
+                </LinkifyContent>
+                {post.truncated && (
+                  <div className="w-full p-1 bg-slate-700 hover:bg-slate-800 transition-all duration-300 font-semibold text-center rounded-b-xl">
+                    Read More
+                  </div>
+                )}
+              </div>
+            </a>
+          </Link>
           <ExtraButtonsForModeration votingEnded={votingEnded} />
         </div>
       </div>
