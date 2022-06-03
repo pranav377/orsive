@@ -59,12 +59,12 @@ export async function GetReports(args: GetReportsArgs, user: User) {
   });
 
   return {
-    data: reports.map((report) => {
+    data: reports.map(async (report) => {
       return {
         id: report.id,
         post: getPostData(report.post),
         votingEnds: moment(report.createdAt).add(3, "days").toDate(),
-        voted: hasUserVoted(report!.id, user.id),
+        voted: await hasUserVoted(report!.id, user.id),
       };
     }),
     hasNextPage,
@@ -128,7 +128,7 @@ export async function ReportFavor(args: ReportHandleInterface, user: User) {
     })
   );
 
-  let voteAlreadyExists = hasUserVoted(report!.id, user.id);
+  let voteAlreadyExists = await hasUserVoted(report!.id, user.id);
 
   if (!voteAlreadyExists) {
     await prisma.reportFavor.create({
@@ -153,7 +153,7 @@ export async function ReportAgainst(args: ReportHandleInterface, user: User) {
     })
   );
 
-  let voteAlreadyExists = hasUserVoted(report!.id, user.id);
+  let voteAlreadyExists = await hasUserVoted(report!.id, user.id);
 
   if (!voteAlreadyExists) {
     await prisma.reportAgainst.create({
