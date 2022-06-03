@@ -1,3 +1,4 @@
+import VirtualScroller from "virtual-scroller/react";
 import { useOneTimePageSpinner } from "../../hooks/app/useOneTimePageSpinner";
 import { useProfilePosts } from "../../hooks/pages/profile/useProfilePosts";
 import { ProfileType } from "../../pages/[profile_slug]";
@@ -22,14 +23,21 @@ export default function ProfilePosts(props: { profile: ProfileType }) {
               <p className="text-xl text-center">This profile has no posts.</p>
             </>
           )}
-          {query.data.getProfilePosts.data.map((post: any) => {
-            if (post.__typename === "Image") {
-              return <ImagePostCard post={post} key={post.post.id} />;
-            }
-            if (post.__typename === "Orsic") {
-              return <OrsicPostCard post={post} key={post.post.id} />;
-            }
-          })}
+          <VirtualScroller
+            className="flex flex-col items-center"
+            items={query.data.getProfilePosts.data}
+            itemComponent={function ListRenderer(props: { children: any }) {
+              const post = props.children;
+              if (post.__typename === "Image") {
+                return <ImagePostCard post={post} key={post.post.id} />;
+              }
+              if (post.__typename === "Orsic") {
+                return <OrsicPostCard post={post} key={post.post.id} />;
+              }
+
+              return null;
+            }}
+          />
 
           {query.data.getProfilePosts.hasNextPage && (
             <div

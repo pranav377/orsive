@@ -55,7 +55,6 @@
     "tailwindcss-ripple": "^0.7.1",
     "tsparticles": "^2.0.6",
     "tsparticles-preset-snow": "^2.0.6",
-    "typed.js": "^2.0.12",
     "virtual-scroller": "^1.9.1",
     "yup": "^0.32.11"
   },
