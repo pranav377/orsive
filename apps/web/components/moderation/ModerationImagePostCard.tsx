@@ -1,21 +1,23 @@
-import {
-  ArrowCircleDownIcon,
-  ArrowCircleUpIcon,
-} from "@heroicons/react/outline";
-import { XIcon } from "@heroicons/react/solid";
 import moment from "moment";
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { useTimer } from "react-timer-hook";
+import { generatePlaceholder } from "../app/ContentParser";
 import LinkifyContent from "../app/LinkifyContent";
 import Ripples from "../app/Ripple";
 import TextContent from "../app/TextContent";
-import AvatarArea from "../post/extra/AvatarArea";
+import ExtraButtonsForModeration from "./subcomponents/ExtraButtonsForModeration";
+import ModerationAvatarArea from "./subcomponents/ModerationAvatarArea";
 
-export default function ModerationImagePostCard() {
+export default function ModerationImagePostCard(props: { report: any }) {
+  let post = props.report.post;
+  let postUrl = `/image/${post.slug}`;
+
   const [votingEnded, setVotingEnded] = useState(false);
 
   const { seconds, minutes, hours, days } = useTimer({
-    expiryTimestamp: moment(new Date()).add(10, "seconds").toDate(),
+    expiryTimestamp: new Date(props.report.votingEnds),
     onExpire: () => setVotingEnded(true),
   });
 
@@ -31,66 +33,41 @@ export default function ModerationImagePostCard() {
             </>
           )}
         </span>
-        <AvatarArea
-          url="/image/test"
-          uploadedBy={{
-            bio: "",
-            name: "Bruh Bruh",
-            username: "bruh99",
-            avatar: `
-              http://placeimg.com/640/480/transport 
-              `,
-          }}
-          delete={() => new Promise(() => {})}
-        />
+        <ModerationAvatarArea uploadedBy={post.post.uploadedBy} />
         <div className="w-full">
-          <LinkifyContent>
-            <TextContent className="text-break p-2">Test Post</TextContent>
-          </LinkifyContent>
-          <img
-            style={{
-              display: "block",
-              margin: "0 auto",
-            }}
-            src={`
-                http://placeimg.com/640/480/transport 
-                `}
+          <Link href={postUrl} passHref scroll={false}>
+            <a>
+              <LinkifyContent>
+                <TextContent className="p-2 text-break">
+                  {post.title}
+                </TextContent>
+              </LinkifyContent>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  placeholder="blur"
+                  blurDataURL={generatePlaceholder(
+                    post.width.toString(),
+                    post.height.toString()
+                  )}
+                  src={post.image}
+                  width={post.width}
+                  height={post.height}
+                />
+              </div>
+            </a>
+          </Link>
+          <ExtraButtonsForModeration
+            voted={props.report.voted}
+            postId={post.post.id}
+            votingEnded={votingEnded}
           />
-          <ExtraButtonsForModeration votingEnded={votingEnded} />
         </div>
       </div>
     </Ripples>
-  );
-}
-
-function ExtraButtonsForModeration(props: { votingEnded?: boolean }) {
-  return (
-    <>
-      {props.votingEnded ? (
-        <div className="w-full p-4 font-semibold flex items-center justify-center bg-slate-700 mt-2 rounded-md">
-          <XIcon className="text-red-600 w-8 h-8" />
-          <span>Voting has ended</span>
-        </div>
-      ) : (
-        <div className="flex p-4 text-gray-300 mt-2">
-          <div className="flex flex-col items-center justify-center flex-1">
-            <button className={`rounded-full p-2 transition-all duration-150`}>
-              <ArrowCircleUpIcon className="h-7 m-1" />{" "}
-            </button>
-            <span className="text-xs text-center">
-              This post should not be removed
-            </span>
-          </div>
-          <div className="flex flex-col items-center justify-center flex-1">
-            <button className={`rounded-full p-2 transition-all duration-150`}>
-              <ArrowCircleDownIcon className="h-7 m-1" />{" "}
-            </button>
-            <span className="text-xs text-center">
-              This post should be removed
-            </span>
-          </div>
-        </div>
-      )}
-    </>
   );
 }

@@ -5,19 +5,13 @@ const MODERATION_SCHEMA = gql`
     sus_spam
     sensitive_content
     harmful
-    political_content
   }
 
   type Report {
     id: ID
-    _count: ReportVoteCount
     post: PostUnion
     votingEnds: Date
-  }
-
-  type ReportVoteCount {
-    favors: Int
-    against: Int
+    voted: Boolean
   }
 
   type GetReportsResponse {

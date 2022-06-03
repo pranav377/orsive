@@ -98,6 +98,7 @@ export function SingleComment(props: {
   return (
     <div className="bg-slate-900 rounded-md p-5 flex flex-col w-[90vw] md:max-w-3xl my-2">
       <AvatarArea
+        postId={props.comment.post.id}
         url={props.commentUrl}
         uploadedBy={comment.post.uploadedBy}
         delete={deleteCommentMutation}

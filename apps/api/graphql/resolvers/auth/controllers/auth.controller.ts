@@ -24,6 +24,7 @@ import getUserReputation from "../../../utils/data/reputation/getUserReputation"
 import updateUser from "../../../utils/mepster/user/updateUser";
 import sendPasswordResetOTP from "../../../utils/email/sendPasswordResetOTP";
 import IsPasswordResetValid from "../validators/extra/passwordResetValidator";
+import getUserPermissions from "../../../permissions/getUserPermissions";
 
 const otp_nanoid = customAlphabet("1234567890", 4);
 
@@ -102,7 +103,7 @@ async function simpleSignIn(context: any, email: string, password: string) {
 
   context.login(user);
 
-  return user;
+  return { ...user, ...(await getUserPermissions(user.id)) };
 }
 
 export async function createFullAvatar() {
@@ -347,17 +348,16 @@ export async function FollowUser(args: FollowUserInput, user: User) {
 }
 
 export async function Me(user: User) {
-  let userUnreadNotifications = await prisma.notification.findFirst({
+  let userUnreadNotifications = !!(await prisma.notification.findFirst({
     where: {
       forUserId: user.id,
       seen: false,
     },
-  });
+  }));
 
   return {
     ...user,
-    ...(userUnreadNotifications
-      ? { unreadNotifications: true }
-      : { unreadNotifications: false }),
+    unreadNotifications: userUnreadNotifications,
+    ...(await getUserPermissions(user.id)),
   };
 }

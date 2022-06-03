@@ -7,6 +7,8 @@ const USER_CHECK_QUERY = gql`
       avatar
       name
       setupComplete
+      isMod
+      isStaff
     }
   }
 `;

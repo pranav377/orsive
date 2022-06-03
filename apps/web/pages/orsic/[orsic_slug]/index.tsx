@@ -108,6 +108,7 @@ export default function OrsicPost(props: { post: OrsicPostType | null }) {
             <BionicMode />
             <div className="flex flex-col bg-slate-900 rounded-none w-[98%] md:max-w-3xl md:rounded-md my-2">
               <AvatarArea
+                postId={post.post.id}
                 canEdit
                 url={postUrl}
                 uploadedBy={post.post.uploadedBy}

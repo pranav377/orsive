@@ -7,14 +7,17 @@ import Button from "../../base/button";
 import DeleteModalDialog from "../../app/DeleteModalDialog";
 import ShareModal from "../../app/ShareModalDialog";
 import { useRouter } from "next/router";
+import ReportDialog from "../../app/ReportDialog";
 
 export default function Options(props: {
   delete: () => Promise<any>;
   uploadedByUsername: string;
   url: string;
   canEdit?: boolean;
+  postId: string;
 }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const router = useRouter();
 
@@ -25,6 +28,11 @@ export default function Options(props: {
         deleteOpen={deleteOpen}
         setDeleteOpen={setDeleteOpen}
         uploadedByUsername={props.uploadedByUsername}
+      />
+      <ReportDialog
+        postId={props.postId}
+        open={reportOpen}
+        setOpen={setReportOpen}
       />
       <ShareModal
         url={props.url}
@@ -90,14 +98,15 @@ export default function Options(props: {
               )}
             </Menu.Item>
             <Menu.Item>
-              {() => (
+              {({ active }) => (
                 <Button
-                  darkText
+                  onClick={() => setReportOpen(true)}
                   className={classNames(
-                    "block px-4 py-2 text-sm bg-slate-800 transition-all duration-300 disabled"
+                    active ? "bg-slate-700" : "",
+                    "block w-full text-left rounded-none px-4 py-2 text-sm bg-slate-800 transition-all duration-300"
                   )}
                 >
-                  Report (coming soon)
+                  Report
                 </Button>
               )}
             </Menu.Item>
