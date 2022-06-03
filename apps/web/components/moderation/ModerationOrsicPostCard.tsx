@@ -30,16 +30,7 @@ export default function ModerationOrsicPostCard(props: { report: any }) {
           </>
         )}
       </span>
-      <ModerationAvatarArea
-        uploadedBy={{
-          bio: "",
-          name: "Bruh Bruh",
-          username: "bruh99",
-          avatar: `
-                http://placeimg.com/640/480/transport 
-                `,
-        }}
-      />
+      <ModerationAvatarArea uploadedBy={post.post.uploadedBy} />
       <Ripples>
         <div className="w-full">
           <Link href={postUrl} passHref scroll={false}>
@@ -61,7 +52,11 @@ export default function ModerationOrsicPostCard(props: { report: any }) {
               </div>
             </a>
           </Link>
-          <ExtraButtonsForModeration votingEnded={votingEnded} />
+          <ExtraButtonsForModeration
+            voted={props.report.voted}
+            postId={post.post.id}
+            votingEnded={votingEnded}
+          />
         </div>
       </Ripples>
     </div>

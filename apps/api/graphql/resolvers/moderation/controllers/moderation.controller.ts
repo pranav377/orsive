@@ -14,6 +14,7 @@ import {
 } from "../../post/controllers/post.controller";
 import moment from "moment";
 import { PAGINATION_SET_SIZE } from "../../../config";
+import hasUserVoted from "../../../utils/report/hasUserVoted";
 
 export interface AddReportInterface {
   post_id: string;
@@ -28,7 +29,7 @@ export interface GetReportsArgs {
   page?: number;
 }
 
-export async function GetReports(args: GetReportsArgs) {
+export async function GetReports(args: GetReportsArgs, user: User) {
   let page = (args.page || 1) - 1;
   let offset = page * PAGINATION_SET_SIZE;
 
@@ -63,6 +64,7 @@ export async function GetReports(args: GetReportsArgs) {
         id: report.id,
         post: getPostData(report.post),
         votingEnds: moment(report.createdAt).add(3, "days").toDate(),
+        voted: hasUserVoted(report!.id, user.id),
       };
     }),
     hasNextPage,
@@ -126,19 +128,7 @@ export async function ReportFavor(args: ReportHandleInterface, user: User) {
     })
   );
 
-  let voteAlreadyExists =
-    !!(await prisma.reportFavor.findFirst({
-      where: {
-        reportId: report!.id,
-        modId: user.id,
-      },
-    })) ||
-    !!(await prisma.reportAgainst.findFirst({
-      where: {
-        reportId: report!.id,
-        modId: user.id,
-      },
-    }));
+  let voteAlreadyExists = hasUserVoted(report!.id, user.id);
 
   if (!voteAlreadyExists) {
     await prisma.reportFavor.create({
@@ -163,19 +153,7 @@ export async function ReportAgainst(args: ReportHandleInterface, user: User) {
     })
   );
 
-  let voteAlreadyExists =
-    !!(await prisma.reportFavor.findFirst({
-      where: {
-        reportId: report!.id,
-        modId: user.id,
-      },
-    })) ||
-    !!(await prisma.reportAgainst.findFirst({
-      where: {
-        reportId: report!.id,
-        modId: user.id,
-      },
-    }));
+  let voteAlreadyExists = hasUserVoted(report!.id, user.id);
 
   if (!voteAlreadyExists) {
     await prisma.reportAgainst.create({

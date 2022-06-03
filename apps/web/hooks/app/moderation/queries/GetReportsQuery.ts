@@ -6,6 +6,7 @@ const GET_REPORTS_QUERY = gql`
       data {
         id
         votingEnds
+        voted
         post {
           __typename
           ... on Image {

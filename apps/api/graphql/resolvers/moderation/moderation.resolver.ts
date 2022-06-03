@@ -19,7 +19,7 @@ const MODERATION_RESOLVERS = {
     getReports(_: void, args: GetReportsArgs, context: any) {
       IsUserMod(context);
 
-      return GetReports(args);
+      return GetReports(args, context.getUser());
     },
   },
 
