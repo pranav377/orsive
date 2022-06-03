@@ -11,7 +11,7 @@ export default function ModerationImagePostCard(props: { report: any }) {
   const [votingEnded, setVotingEnded] = useState(false);
 
   const { seconds, minutes, hours, days } = useTimer({
-    expiryTimestamp: moment(new Date()).add(10, "seconds").toDate(),
+    expiryTimestamp: new Date(props.report.votingEnds),
     onExpire: () => setVotingEnded(true),
   });
 

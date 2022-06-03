@@ -21,6 +21,8 @@ const SIGN_UP_MUTATION_SCHEMA = gql`
       avatar
       name
       setupComplete
+      isMod
+      isStaff
     }
   }
 `;

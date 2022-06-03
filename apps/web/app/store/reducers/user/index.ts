@@ -8,6 +8,8 @@ export const initialUserState = {
   name: "",
   unreadNotifications: false,
   setupComplete: true,
+  isMod: false,
+  isStaff: false,
 };
 
 export default function user(
@@ -23,6 +25,8 @@ export default function user(
         avatar: action.payload.avatar,
         name: action.payload.name,
         setupComplete: action.payload.setupComplete,
+        isMod: action.payload.isMod,
+        isStaff: action.payload.isStaff,
       };
 
     case USER_CASES.LOGOUT:

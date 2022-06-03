@@ -1,4 +1,3 @@
-import moment from "moment";
 import { useState } from "react";
 import { useTimer } from "react-timer-hook";
 import ContentParser from "../app/ContentParser";
@@ -16,32 +15,32 @@ export default function ModerationOrsicPostCard(props: { report: any }) {
   const [votingEnded, setVotingEnded] = useState(false);
 
   const { seconds, minutes, hours, days } = useTimer({
-    expiryTimestamp: moment(new Date()).add(10, "seconds").toDate(),
+    expiryTimestamp: new Date(props.report.votingEnds),
     onExpire: () => setVotingEnded(true),
   });
 
   return (
-    <Ripples>
-      <div className="bg-slate-900 rounded-md p-5 flex flex-col w-[90vw] md:max-w-3xl my-2">
-        <span className="font-semibold">
-          {votingEnded ? (
-            <>Waiting for results</>
-          ) : (
-            <>
-              Voting ends in {days}d : {hours}h : {minutes}m : {seconds}s
-            </>
-          )}
-        </span>
-        <ModerationAvatarArea
-          uploadedBy={{
-            bio: "",
-            name: "Bruh Bruh",
-            username: "bruh99",
-            avatar: `
+    <div className="bg-slate-900 rounded-md p-5 flex flex-col w-[90vw] md:max-w-3xl my-2">
+      <span className="font-semibold">
+        {votingEnded ? (
+          <>Waiting for results</>
+        ) : (
+          <>
+            Voting ends in {days}d : {hours}h : {minutes}m : {seconds}s
+          </>
+        )}
+      </span>
+      <ModerationAvatarArea
+        uploadedBy={{
+          bio: "",
+          name: "Bruh Bruh",
+          username: "bruh99",
+          avatar: `
                 http://placeimg.com/640/480/transport 
                 `,
-          }}
-        />
+        }}
+      />
+      <Ripples>
         <div className="w-full">
           <Link href={postUrl} passHref scroll={false}>
             <a>
@@ -64,7 +63,7 @@ export default function ModerationOrsicPostCard(props: { report: any }) {
           </Link>
           <ExtraButtonsForModeration votingEnded={votingEnded} />
         </div>
-      </div>
-    </Ripples>
+      </Ripples>
+    </div>
   );
 }

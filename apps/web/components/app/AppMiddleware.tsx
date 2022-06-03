@@ -17,6 +17,8 @@ export function setUser(user: {
   avatar: string;
   name: string;
   setupComplete: boolean;
+  isMod: boolean;
+  isStaff: boolean;
 }) {
   setCookies(USER_COOKIE_KEY, "true", {
     maxAge: 1000 * 60 * 60 * 24 * 365,

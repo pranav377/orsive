@@ -41,6 +41,8 @@ const AUTH_SCHEMA = gql`
     _count: UserCount
     unreadNotifications: Boolean
     setupComplete: Boolean
+    isStaff: Boolean
+    isMod: Boolean
   }
 
   input SignUpInput {
