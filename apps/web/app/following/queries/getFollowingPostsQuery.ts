@@ -18,9 +18,6 @@ const GET_FOLLOWING_POSTS_QUERY = gql`
               avatar
             }
             id
-            _count {
-              likes
-            }
           }
         }
         ... on Orsic {
@@ -35,9 +32,6 @@ const GET_FOLLOWING_POSTS_QUERY = gql`
               avatar
             }
             id
-            _count {
-              likes
-            }
           }
         }
       }

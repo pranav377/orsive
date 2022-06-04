@@ -1,17 +1,21 @@
 import { gql } from "apollo-server-express";
 
 const COMMENTS_SCHEMA = gql`
+  union AllPostUnion = Image | Orsic | Comment | Reply
+
   type Comment {
     id: ID
     content: String
     replies: Int
     post: Post
+    url: String
   }
 
   type Reply {
     id: ID
     content: String
     post: Post
+    url: String
   }
 
   type GetCommentsResponse {

@@ -75,9 +75,6 @@ export function SingleComment(props: {
       id: string;
       uploadedBy: UploadedBy;
       createdAt: string;
-      _count: {
-        likes: number | undefined;
-      };
     };
   };
   commentUrl: string;

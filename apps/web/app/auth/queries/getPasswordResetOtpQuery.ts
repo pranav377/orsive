@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const GET_PASSWORD_RESET_OTP_QUERY = gql`
-  query GetOtp($email: String!) {
+  query GetPasswordResetOtp($email: String!) {
     getPasswordResetOTP(email: $email)
   }
 `;

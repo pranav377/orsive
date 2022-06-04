@@ -171,28 +171,26 @@ function ProfileDropdown() {
             >
               Sign out
             </Button>
-            <div className="mt-auto mb-20 flex flex-col gap-y-1">
-              {user.isMod && (
-                <Link href={`/moderation`} passHref>
-                  <a
-                    className={
-                      "font-medium p-2 rounded-md text-sm w-full text-left ripple-bg-slate-800"
-                    }
-                  >
-                    Moderation Bay
-                  </a>
-                </Link>
-              )}
-              <Link href={`/support`} passHref>
+            {user.isMod && (
+              <Link href={`/moderation`} passHref>
                 <a
                   className={
                     "font-medium p-2 rounded-md text-sm w-full text-left ripple-bg-slate-800"
                   }
                 >
-                  Support
+                  Moderation Bay
                 </a>
               </Link>
-            </div>
+            )}
+            <Link href={`/support`} passHref>
+              <a
+                className={
+                  "font-medium p-2 rounded-md text-sm w-full text-left ripple-bg-slate-800"
+                }
+              >
+                Support
+              </a>
+            </Link>
           </div>
         </div>
       </Drawer>

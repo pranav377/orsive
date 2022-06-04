@@ -12,9 +12,6 @@ const GET_PROFILE_POSTS = gql`
           height
           slug
           post {
-            _count {
-              likes
-            }
             uploadedBy {
               name
               username
@@ -29,9 +26,6 @@ const GET_PROFILE_POSTS = gql`
           truncated
           slug
           post {
-            _count {
-              likes
-            }
             uploadedBy {
               name
               username

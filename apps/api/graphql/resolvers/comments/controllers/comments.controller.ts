@@ -293,12 +293,6 @@ export async function GetReply(args: GetCommentArgs) {
       post: {
         include: {
           uploadedBy: true,
-          _count: {
-            select: {
-              dislikes: true,
-              likes: true,
-            },
-          },
         },
       },
     },

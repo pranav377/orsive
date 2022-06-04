@@ -13,9 +13,6 @@ const GET_COMMENT_QUERY = gql`
           avatar
         }
         createdAt
-        _count {
-          likes
-        }
       }
     }
   }
