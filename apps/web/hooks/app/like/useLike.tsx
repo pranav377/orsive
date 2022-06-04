@@ -1,5 +1,5 @@
-import { gql, useMutation } from "@apollo/client";
-import { useEffect, useMemo } from "react";
+import { useMutation } from "@apollo/client";
+import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoginDialog } from "../../../app/auth/showLoginDialog";
 import LIKE_CASES from "../../../app/store/reducers/like/cases";

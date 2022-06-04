@@ -11,7 +11,6 @@ const MODERATION_SCHEMA = gql`
     id: ID
     post: AllPostUnion
     votingEnds: Date
-    voted: Boolean
   }
 
   type GetReportsResponse {
@@ -22,6 +21,7 @@ const MODERATION_SCHEMA = gql`
 
   type Query {
     getReports(page: Int): GetReportsResponse!
+    voteStatus(post_id: ID!): Boolean!
   }
 
   type Mutation {

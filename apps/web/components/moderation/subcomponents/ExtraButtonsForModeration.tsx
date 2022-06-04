@@ -1,31 +1,18 @@
-import { useState } from "react";
-import { useMutation } from "@apollo/client";
 import {
   ArrowCircleDownIcon,
   ArrowCircleUpIcon,
 } from "@heroicons/react/outline";
-import REPORT_AGAINST_MUTATION from "../../../hooks/app/moderation/mutation/ReportAgainstMutation";
-import REPORT_FAVOR_MUTATION from "../../../hooks/app/moderation/mutation/ReportFavorMutation";
 import toast from "react-hot-toast";
+import { useReport } from "../../../hooks/app/useReport";
 
 export default function ExtraButtonsForModeration(props: {
   votingEnded?: boolean;
   postId: string;
-  voted: boolean;
 }) {
-  const [voted, setVoted] = useState(props.voted);
-  const [reportFavorMutation] = useMutation(REPORT_FAVOR_MUTATION, {
-    variables: {
-      postId: props.postId,
-    },
-  });
-  const [reportAgainstMutation] = useMutation(REPORT_AGAINST_MUTATION, {
-    variables: {
-      postId: props.postId,
-    },
-  });
+  const { reportFavorMutation, reportAgainstMutation, reportStatus } =
+    useReport(props.postId);
 
-  if (!voted) {
+  if (!reportStatus || !reportStatus.voted) {
     return (
       <>
         {props.votingEnded ? (
@@ -37,15 +24,11 @@ export default function ExtraButtonsForModeration(props: {
             <div className="flex flex-col items-center justify-center flex-1">
               <button
                 onClick={() => {
-                  toast
-                    .promise(reportFavorMutation(), {
-                      error: "Something went wrong. Try again",
-                      loading: "Voting...",
-                      success: "Voted successfully!",
-                    })
-                    .then(() => {
-                      setVoted(true);
-                    });
+                  toast.promise(reportFavorMutation(), {
+                    error: "Something went wrong. Try again",
+                    loading: "Voting...",
+                    success: "Voted successfully!",
+                  });
                 }}
                 className={`rounded-full p-2 transition-all duration-150`}
               >
@@ -58,15 +41,11 @@ export default function ExtraButtonsForModeration(props: {
             <div className="flex flex-col items-center justify-center flex-1">
               <button
                 onClick={() => {
-                  toast
-                    .promise(reportAgainstMutation(), {
-                      error: "Something went wrong. Try again",
-                      loading: "Voting...",
-                      success: "Voted successfully!",
-                    })
-                    .then(() => {
-                      setVoted(true);
-                    });
+                  toast.promise(reportAgainstMutation(), {
+                    error: "Something went wrong. Try again",
+                    loading: "Voting...",
+                    success: "Voted successfully!",
+                  });
                 }}
                 className={`rounded-full p-2 transition-all duration-150`}
               >

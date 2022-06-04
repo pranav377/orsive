@@ -5,6 +5,7 @@ import { initialAppState } from "./reducers/app";
 import { initialContentState } from "./reducers/content";
 import { initialFeaturesState } from "./reducers/features";
 import { initialLikeState } from "./reducers/like";
+import { initialReportState } from "./reducers/report";
 
 export const initialState = {
   user: initialUserState,
@@ -12,6 +13,7 @@ export const initialState = {
   content: initialContentState,
   features: initialFeaturesState,
   like: initialLikeState,
+  report: initialReportState,
 };
 
 const store = createStore(reducer);

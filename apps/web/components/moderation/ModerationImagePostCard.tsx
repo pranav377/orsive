@@ -62,7 +62,6 @@ export default function ModerationImagePostCard(props: { report: any }) {
             </a>
           </Link>
           <ExtraButtonsForModeration
-            voted={props.report.voted}
             postId={post.post.id}
             votingEnded={votingEnded}
           />

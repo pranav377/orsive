@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 import { useTimer } from "react-timer-hook";
 import ContentParser from "../app/ContentParser";
@@ -6,11 +7,10 @@ import Ripples from "../app/Ripple";
 import TextContent from "../app/TextContent";
 import ExtraButtonsForModeration from "./subcomponents/ExtraButtonsForModeration";
 import ModerationAvatarArea from "./subcomponents/ModerationAvatarArea";
-import Link from "next/link";
 
-export default function ModerationOrsicPostCard(props: { report: any }) {
-  let post = props.report.post;
-  let postUrl = `/orsic/${post.slug}`;
+export default function ModerationCommentCard(props: { report: any }) {
+  let comment = props.report.post;
+  let commentUrl = comment.url;
 
   const [votingEnded, setVotingEnded] = useState(false);
 
@@ -30,32 +30,32 @@ export default function ModerationOrsicPostCard(props: { report: any }) {
           </>
         )}
       </span>
-      <ModerationAvatarArea uploadedBy={post.post.uploadedBy} />
+      <ModerationAvatarArea uploadedBy={comment.post.uploadedBy} />
       <Ripples>
         <div className="w-full">
-          <Link href={postUrl} passHref scroll={false}>
+          <Link href={`${commentUrl}`} passHref>
             <a>
-              <div>
-                {post.title && (
-                  <span className="font-semibold text-2xl text-gray-100 text-break">
-                    {post.title}
-                  </span>
-                )}
-                <LinkifyContent>
-                  <TextContent>{ContentParser(post.content)}</TextContent>
-                </LinkifyContent>
-                {post.truncated && (
-                  <div className="w-full p-1 bg-slate-700 hover:bg-slate-800 transition-all duration-300 font-semibold text-center rounded-b-xl">
-                    Read More
-                  </div>
-                )}
-              </div>
+              <LinkifyContent>
+                <TextContent className="p-2">
+                  {ContentParser(comment.content)}
+                </TextContent>
+              </LinkifyContent>
             </a>
           </Link>
           <ExtraButtonsForModeration
-            postId={post.post.id}
+            postId={comment.post.id}
             votingEnded={votingEnded}
           />
+          {comment.replies && comment.replies > 0 ? (
+            <Link href={commentUrl} passHref>
+              <a>
+                <span className="text-blue-700 font-semibold">
+                  View {comment.replies}
+                  {comment.replies === 1 ? <> Reply</> : <> Replies</>}
+                </span>
+              </a>
+            </Link>
+          ) : null}
         </div>
       </Ripples>
     </div>

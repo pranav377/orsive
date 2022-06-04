@@ -29,7 +29,7 @@ export interface GetReportsArgs {
   page?: number;
 }
 
-export async function GetReports(args: GetReportsArgs, user: User) {
+export async function GetReports(args: GetReportsArgs) {
   let page = (args.page || 1) - 1;
   let offset = page * PAGINATION_SET_SIZE;
 
@@ -53,6 +53,9 @@ export async function GetReports(args: GetReportsArgs, user: User) {
           orsic: {
             ...POST_PRISMA_ARGS,
           },
+          comment: {
+            ...POST_PRISMA_ARGS,
+          },
         },
       },
     },
@@ -64,7 +67,6 @@ export async function GetReports(args: GetReportsArgs, user: User) {
         id: report.id,
         post: getPostData(report.post),
         votingEnds: moment(report.createdAt).add(3, "days").toDate(),
-        voted: await hasUserVoted(report!.id, user.id),
       };
     }),
     hasNextPage,

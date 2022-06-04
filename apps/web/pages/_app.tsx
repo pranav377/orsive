@@ -56,6 +56,16 @@ export const client = new ApolloClient({
               };
             },
           },
+          getReports: {
+            keyArgs: false,
+            merge(existing = { data: [] }, incoming) {
+              return {
+                data: _.uniqBy([...existing.data, ...incoming.data], "__ref"),
+                hasNextPage: incoming.hasNextPage,
+                nextPage: incoming.nextPage,
+              };
+            },
+          },
           getProfilePosts: {
             keyArgs: false,
             merge(existing = { data: [] }, incoming) {

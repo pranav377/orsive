@@ -8,6 +8,7 @@ import ModerationOrsicPostCard from "../components/moderation/ModerationOrsicPos
 import { useModeration } from "../hooks/app/moderation/useModeration";
 import { useOneTimePageSpinner } from "../hooks/app/useOneTimePageSpinner";
 import NotifySVG from "../components/svgs/notify.svg";
+import ModerationCommentCard from "../components/moderation/ModerationCommentCard";
 
 export default function Moderation() {
   const { user, query, loadMoreElement } = useModeration();
@@ -64,6 +65,18 @@ export default function Moderation() {
                   if (report.post.__typename === "Orsic") {
                     return (
                       <ModerationOrsicPostCard
+                        report={report}
+                        key={report.post.post.id}
+                      />
+                    );
+                  }
+
+                  if (
+                    report.post.__typename === "Comment" ||
+                    report.post.__typename === "Reply"
+                  ) {
+                    return (
+                      <ModerationCommentCard
                         report={report}
                         key={report.post.post.id}
                       />
