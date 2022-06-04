@@ -4,6 +4,7 @@ import content from "./content";
 import app from "./app";
 import features from "./features";
 import like from "./like";
+import report from "./report";
 
 export default combineReducers({
   user,
@@ -11,4 +12,5 @@ export default combineReducers({
   app,
   features,
   like,
+  report,
 });

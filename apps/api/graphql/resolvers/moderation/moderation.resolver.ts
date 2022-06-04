@@ -1,6 +1,7 @@
 import IsUserAuthenticated from "../../permissions/IsUserAuthenticated";
 import IsUserMod from "../../permissions/IsUserMod";
 import IsUserStaffPlusMod from "../../permissions/IsUserStaffPlusMod";
+import hasUserVotedPostId from "../../utils/report/hasUserVotedPostId";
 import {
   AddReport,
   AddReportInterface,
@@ -19,7 +20,13 @@ const MODERATION_RESOLVERS = {
     getReports(_: void, args: GetReportsArgs, context: any) {
       IsUserMod(context);
 
-      return GetReports(args, context.getUser());
+      return GetReports(args);
+    },
+
+    voteStatus(_: void, args: ReportHandleInterface, context: any) {
+      IsUserMod(context);
+
+      return hasUserVotedPostId(args.post_id, context.getUser().id);
     },
   },
 

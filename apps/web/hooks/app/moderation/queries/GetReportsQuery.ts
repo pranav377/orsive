@@ -6,7 +6,6 @@ const GET_REPORTS_QUERY = gql`
       data {
         id
         votingEnds
-        voted
         post {
           __typename
           ... on Image {
@@ -37,6 +36,35 @@ const GET_REPORTS_QUERY = gql`
               }
               id
             }
+          }
+
+          ... on Comment {
+            content
+            replies
+            post {
+              id
+              uploadedBy {
+                username
+                name
+                avatar
+              }
+              createdAt
+            }
+            url
+          }
+
+          ... on Reply {
+            content
+            post {
+              id
+              uploadedBy {
+                username
+                name
+                avatar
+              }
+              createdAt
+            }
+            url
           }
         }
       }

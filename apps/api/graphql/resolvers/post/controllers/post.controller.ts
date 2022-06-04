@@ -1,7 +1,9 @@
 import clip from "text-clipper";
 import { PAGINATION_SET_SIZE } from "../../../config";
 import { User } from "../../../permissions/IsUserAuthenticated";
+import getRepliesCount from "../../../utils/data/comments/getRepliesCount";
 import prisma from "../../../utils/data/dbClient";
+import generateCommentUrl from "../../../utils/data/url/generateCommentUrl";
 import getRecommendations from "../../../utils/mepster/getRecommendations";
 
 export interface GetPostsArgs {
@@ -41,6 +43,17 @@ export function getPostData(post: any) {
     case "orsic":
       let content = post.orsic!.content;
       return { ...post.orsic, ...getOrsicContent(content) };
+    case "comment":
+      let comment = post.comment;
+      if (!comment.parentId) {
+        return {
+          ...comment,
+          replies: getRepliesCount(comment.post!.id),
+          url: generateCommentUrl(comment.post!.id),
+        };
+      } else {
+        return { ...comment, url: generateCommentUrl(comment.post!.id) };
+      }
 
     default:
       return null;
