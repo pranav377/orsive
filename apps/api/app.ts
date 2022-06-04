@@ -156,14 +156,16 @@ async function startServer() {
 
   server.applyMiddleware({
     app,
-    cors: {
-      origin: [
-        "http://localhost:3000",
-        "https://orsive.com",
-        "https://www.orsive.com",
-      ],
-      credentials: true,
-    },
+    cors:
+      process.env.NODE_ENV === "production"
+        ? {
+            origin: ["https://orsive.com", "https://www.orsive.com"],
+            credentials: true,
+          }
+        : {
+            origin: ["http://localhost:3000"],
+            credentials: true,
+          },
   });
 
   await new Promise<void>((r) => app.listen({ port: 4000 }, r));

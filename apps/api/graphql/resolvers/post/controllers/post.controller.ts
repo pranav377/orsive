@@ -13,12 +13,6 @@ export const POST_PRISMA_ARGS = {
     post: {
       include: {
         uploadedBy: true,
-        _count: {
-          select: {
-            dislikes: true,
-            likes: true,
-          },
-        },
       },
     },
   },

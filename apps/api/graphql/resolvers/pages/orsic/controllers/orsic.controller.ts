@@ -94,12 +94,6 @@ export async function GetOrsicPost(args: GetOrsicPostArgs) {
         post: {
           include: {
             uploadedBy: true,
-            _count: {
-              select: {
-                dislikes: true,
-                likes: true,
-              },
-            },
           },
         },
       },
@@ -154,12 +148,6 @@ export async function UpdateOrsicPost(args: UpdateOrsicPostArgs, user: User) {
       post: {
         include: {
           uploadedBy: true,
-          _count: {
-            select: {
-              dislikes: true,
-              likes: true,
-            },
-          },
         },
       },
     },

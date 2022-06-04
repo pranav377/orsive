@@ -9,7 +9,7 @@ const MODERATION_SCHEMA = gql`
 
   type Report {
     id: ID
-    post: PostUnion
+    post: AllPostUnion
     votingEnds: Date
     voted: Boolean
   }

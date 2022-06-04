@@ -8,12 +8,6 @@ const POST_SCHEMA = gql`
     uploadedBy: User
     createdAt: Date
     updatedAt: Date
-    _count: PostLikeObjCount
-  }
-
-  type PostLikeObjCount {
-    likes: Int
-    dislikes: Int
   }
 
   type GetPostsResponse {

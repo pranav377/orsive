@@ -101,12 +101,6 @@ export async function GetImage(args: GetImageArgs) {
       post: {
         include: {
           uploadedBy: true,
-          _count: {
-            select: {
-              dislikes: true,
-              likes: true,
-            },
-          },
         },
       },
     },
@@ -171,12 +165,6 @@ export async function UpdateImagePost(args: UpdateImagePostArgs, user: User) {
       post: {
         include: {
           uploadedBy: true,
-          _count: {
-            select: {
-              dislikes: true,
-              likes: true,
-            },
-          },
         },
       },
     },
