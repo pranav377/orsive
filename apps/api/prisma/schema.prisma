@@ -217,18 +217,6 @@ model NotificationForReputation {
   notification Notification?
 }
 
-model Feature {
-  id     String        @id @default(auto()) @map("_id") @db.ObjectId
-  name   String
-  status FeatureStatus
-}
-
-enum FeatureStatus {
-  enabled
-  disabled
-  comingsoon
-}
-
 model Report {
   id        String          @id @default(auto()) @map("_id") @db.ObjectId
   user      Profile         @relation(fields: [userId], references: [id], onDelete: Cascade)

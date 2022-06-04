@@ -6,7 +6,6 @@ import { client } from "../../pages/_app";
 import USER_CASES from "../../app/store/reducers/user/cases";
 import store from "../../app/store/store";
 import { gql } from "@apollo/client";
-import FEATURES_CASES from "../../app/store/reducers/features/cases";
 import { removeCookies, setCookies } from "cookies-next";
 import { USER_COOKIE_KEY } from "../../config";
 import localforage from "localforage";
@@ -73,28 +72,9 @@ async function checkBionicMode() {
   }
 }
 
-async function checkFeatures() {
-  let response = await client.query({
-    query: gql`
-      query {
-        features {
-          name
-          status
-        }
-      }
-    `,
-  });
-
-  store.dispatch({
-    type: FEATURES_CASES.SET_FEATURES,
-    payload: response.data.features,
-  });
-}
-
 export default function AppMiddleware() {
   useEffect(() => {
     userCheckLogin();
-    checkFeatures();
     checkBionicMode();
   }, []);
 
