@@ -98,7 +98,7 @@ export default function Profile() {
             <div
               className={`w-[90vw] md:max-w-3xl ${!profile.banner && "mt-20"}`}
             >
-              <div className="flex flex-col items-center md:items-start p-5">
+              <div className="flex flex-col items-center md:items-start">
                 <div className="flex md:flex-col">
                   <img
                     src={profile.avatar}
@@ -158,17 +158,17 @@ export default function Profile() {
                   })}
                   className="flex flex-col md:flex-row w-full items-center text-center md:text-left md:items-start"
                 >
-                  <div className="p-2">
+                  <div>
                     <div className="flex mt-2">
                       <div className="mr-3">
                         <span className=" font-semibold">
-                          {profile._count.followers}
+                          {nFormatter(profile._count.followers, 2)}
                         </span>{" "}
                         <span className="text-gray-300">followers</span>
                       </div>
                       <div className="mr-3">
                         <span className="font-semibold">
-                          {profile._count.following}
+                          {nFormatter(profile._count.following, 2)}
                         </span>{" "}
                         <span className="text-gray-300">following</span>
                       </div>
