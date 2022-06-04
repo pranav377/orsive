@@ -14,27 +14,17 @@ import { Layout } from "../components/app/Layout";
 import PasswordResetForm from "../components/forms/password-reset-form";
 
 export default function Auth() {
-  const { currPage, setCurrPage, feature } = useAuthPage();
+  const { currPage, setCurrPage } = useAuthPage();
 
-  if (feature.status === "enabled") {
-    return (
-      <div className="mt-12 -mb-24">
-        {currPage === "signup" && <SignUpPage setCurrPage={setCurrPage} />}
-        {currPage === "login" && <LoginPage setCurrPage={setCurrPage} />}
-        {currPage === "password_reset" && (
-          <PasswordResetPage setCurrPage={setCurrPage} />
-        )}
-      </div>
-    );
-  } else {
-    return (
-      <>
-        <div className="mt-12 -mb-24">
-          <DisabledAuthPage />
-        </div>
-      </>
-    );
-  }
+  return (
+    <div className="mt-12 -mb-24">
+      {currPage === "signup" && <SignUpPage setCurrPage={setCurrPage} />}
+      {currPage === "login" && <LoginPage setCurrPage={setCurrPage} />}
+      {currPage === "password_reset" && (
+        <PasswordResetPage setCurrPage={setCurrPage} />
+      )}
+    </div>
+  );
 }
 
 function ExtraAuthButtons() {
