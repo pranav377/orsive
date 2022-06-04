@@ -96,7 +96,7 @@ export default function Profile() {
             )}
 
             <div
-              className={`w-[90vw] md:max-w-3xl ${!profile.banner && "mt-20"}`}
+              className={`w-[90vw] md:max-w-3xl ${!profile.banner ? "mt-20" : "mt-4"}`}
             >
               <div className="flex flex-col items-center md:items-start">
                 <div className="flex md:flex-col">
