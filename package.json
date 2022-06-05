@@ -14,6 +14,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@types/node": "^17.0.39",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
@@ -23,6 +24,12 @@
   },
   "packageManager": "npm@8.1.2",
   "dependencies": {
+    "axios": "^0.27.2",
+    "axios-retry": "^3.2.5",
+    "chalk": "^5.0.1",
+    "mongo-connection-string": "^0.1.5",
+    "mongodb": "^4.6.0",
+    "tree-kill": "^1.2.2",
     "ts-node": "^10.8.1"
   }
 }
