@@ -20,7 +20,6 @@ const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
 
 const MEILISEARCH_URL = "http://localhost:7700";
 const DEFAULT_SEARCH_MASTER_KEY = "1234";
-let SEARCH_KEY = "";
 let MONGODB_BASE_URI = "";
 const SEARCH_CLIENT = axios.create({
   baseURL: MEILISEARCH_URL,
@@ -59,8 +58,6 @@ async function main() {
   await setupAPI();
 
   printL("Setup Complete");
-
-  process.exit(0);
 }
 
 async function init() {
@@ -77,13 +74,13 @@ async function init() {
     `${baseDir}/banners`,
     `${baseDir}/content-images`,
     `${baseDir}/images`,
-    `${baseDir}/orsic-thumbnails`,
   ];
   dirs.map((dir) => fs.mkdirSync(dir, { recursive: true }));
 
-  MONGODB_BASE_URI = await prompt(
+  let userMongoDBString: any = await prompt(
     "Enter MongoDB connection string (eg: mongodb+srv://sample-hostname:27017/): "
   );
+  MONGODB_BASE_URI = userMongoDBString;
 
   let client = new MongoClient(MONGODB_BASE_URI);
   await client.connect();
@@ -111,52 +108,41 @@ async function installMeilisearch() {
     `cd meilisearch && meilisearch --master-key ${DEFAULT_SEARCH_MASTER_KEY}`
   );
 
-  meilisearchInstance.on("spawn", () => {
-    SEARCH_CLIENT.post("/indexes", {
+  meilisearchInstance.on("spawn", async () => {
+    await SEARCH_CLIENT.post("/indexes", {
       uid: "all",
       primaryKey: "id",
-    }).then(() => {
-      printL("Search Index Created");
-
-      SEARCH_CLIENT.post("/keys", {
-        description: "Search key",
-        actions: ["search", "indexes.get", "version"],
-        indexes: ["all"],
-        expiresAt: null,
-      }).then((res) => {
-        printL("Search key generated");
-        let data = res.data;
-        SEARCH_KEY = data.key;
-
-        SEARCH_CLIENT.post("/indexes/all/settings/", {
-          displayedAttributes: [
-            "id",
-            "username",
-            "name",
-            "joined",
-            "type",
-            "avatar",
-            "_count",
-            "image",
-            "title",
-            "slug",
-            "post",
-            "content",
-            "truncated",
-            "width",
-            "height",
-          ],
-        }).then(() => {
-          printL("Configured search settings");
-          child_process.spawn("taskkill", [
-            "/pid",
-            meilisearchInstance.pid,
-            "/f",
-            "/t",
-          ]);
-        });
-      });
     });
+
+    printL("Search Index Created");
+
+    await SEARCH_CLIENT.post("/indexes/all/settings/", {
+      displayedAttributes: [
+        "id",
+        "username",
+        "name",
+        "joined",
+        "type",
+        "avatar",
+        "_count",
+        "image",
+        "title",
+        "slug",
+        "post",
+        "content",
+        "truncated",
+        "width",
+        "height",
+      ],
+    });
+
+    printL("Configured search settings");
+    await child_process.spawn("taskkill", [
+      "/pid",
+      `${meilisearchInstance.pid}`,
+      "/f",
+      "/t",
+    ]);
   });
 }
 
@@ -186,16 +172,16 @@ async function installGorse() {
   recommenderDataStore.database = "recommendations";
   recommenderCacheStore.database = "recommendations-cache";
 
-  recommenderDataStore = recommenderDataStore.toURI();
-  recommenderCacheStore = recommenderCacheStore.toURI();
+  let recommenderDataStoreConnString = recommenderDataStore.toURI();
+  let recommenderCacheStoreConnString = recommenderCacheStore.toURI();
 
   fs.writeFileSync(
     `${gorseDir}/config.toml`,
     `
 [database]
 
-cache_store = "${recommenderDataStore}"
-data_store = "${recommenderCacheStore}"
+cache_store = "${recommenderDataStoreConnString}"
+data_store = "${recommenderCacheStoreConnString}"
 
 [recommend.data_source]
 
@@ -237,7 +223,12 @@ async function setupEnvVariables() {
   let orsiveDatabase = new ConnectionString(MONGODB_BASE_URI);
   orsiveDatabase.database = "orsive";
 
-  orsiveDatabase = orsiveDatabase.toURI();
+  let schedulerDatabase = new ConnectionString(MONGODB_BASE_URI);
+  schedulerDatabase.database = "scheduler";
+
+  let orsiveDatabaseConnString = orsiveDatabase.toURI();
+  let schedulerDatabaseConnString = schedulerDatabase.toURI();
+
   let jwtSecret = crypto.randomBytes(96).toString("hex");
   let nextJsRevalidateKey = crypto.randomBytes(10).toString("hex");
 
@@ -250,7 +241,7 @@ async function setupEnvVariables() {
 # Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server and MongoDB (Preview).
 # See the documentation for all the connection string options: https://pris.ly/d/connection-strings
 
-DATABASE_URL="${orsiveDatabase}"
+DATABASE_URL="${orsiveDatabaseConnString}"
 
 FILE_UPLOADS_URL="http://localhost:4000/uploads/"
 
@@ -274,6 +265,11 @@ GOOGLE_CLIENT_SECRET=""
 GOOGLE_CALLBACK_URL="http://localhost:4000/auth/google/callback"
 
 OAUTH_SUCCESS_REDIRECT_URL="http://localhost:3000/feed"
+
+
+FIREBASE_NOTIFICATIONS_SERVER_KEY=""
+ADMIN_MAIL_ID=""
+SCHEDULER_DB_URL="${schedulerDatabaseConnString}"
 `
   );
 
@@ -283,7 +279,7 @@ OAUTH_SUCCESS_REDIRECT_URL="http://localhost:3000/feed"
 NEXT_PUBLIC_API_URL="http://localhost:4000"
 REVALIDATE_KEY="${nextJsRevalidateKey}"
 NEXT_PUBLIC_MEILISEARCH_URL="http://127.0.0.1:7700"
-NEXT_PUBLIC_MEILISEARCH_SEARCH_KEY="${SEARCH_KEY}"
+NEXT_PUBLIC_MEILISEARCH_SEARCH_KEY="${DEFAULT_SEARCH_MASTER_KEY}"
 
 # TinyMCE API key: https://www.tiny.cloud/auth/signup/
 NEXT_PUBLIC_TINY_API_KEY=""
