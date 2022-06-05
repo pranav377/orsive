@@ -15,8 +15,9 @@ const rl = readline.createInterface({
   terminal: false,
 });
 
-const printL = (line) => console.log(chalk.blue(`\n${line}\n`));
-const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
+const printL = (line: string) => console.log(chalk.blue(`\n${line}\n`));
+const prompt = (query: string) =>
+  new Promise((resolve) => rl.question(query, resolve));
 
 const MEILISEARCH_URL = "http://localhost:7700";
 const DEFAULT_SEARCH_MASTER_KEY = "1234";
@@ -33,7 +34,7 @@ axiosRetry(SEARCH_CLIENT, {
   retryCondition: () => true,
 });
 
-async function sh(cmd) {
+async function sh(cmd: string) {
   return new Promise(function (resolve, reject) {
     child_process.exec(cmd, (err, stdout, stderr) => {
       if (err) {

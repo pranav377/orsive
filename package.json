@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "setup": "ts-node packages/setup/setup.ts",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
@@ -22,10 +23,6 @@
   },
   "packageManager": "npm@8.1.2",
   "dependencies": {
-    "axios": "^0.27.2",
-    "axios-retry": "^3.2.5",
-    "chalk": "^5.0.1",
-    "mongo-connection-string": "^0.1.5",
-    "mongodb": "^4.6.0"
+    "ts-node": "^10.8.1"
   }
 }
