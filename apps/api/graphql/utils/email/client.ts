@@ -9,14 +9,10 @@ let apiInstance = new AccountApi();
 
 apiInstance.setApiKey(AccountApiApiKeys.apiKey, process.env.EMAIL_API_KEY!);
 
-apiInstance.getAccount().then(
-  function (data) {
-    console.log("API called successfully. Returned data: " + data);
-  },
-  function (error) {
-    console.error(error);
-  }
-);
+apiInstance
+  .getAccount()
+  .then(() => {})
+  .catch(() => {});
 
 let emailApi = new TransactionalEmailsApi();
 emailApi.setApiKey(

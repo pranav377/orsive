@@ -6,8 +6,8 @@ import axiosRetry from "axios-retry";
 import fs from "fs";
 import { ConnectionString } from "mongo-connection-string";
 import readline from "readline";
-import chalk from "chalk";
 import crypto from "crypto";
+import kill from "tree-kill";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,8 +15,9 @@ const rl = readline.createInterface({
   terminal: false,
 });
 
-const printL = (line) => console.log(chalk.blue(`\n${line}\n`));
-const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
+const printL = (line: string) => console.log(line);
+const prompt = (query: string) =>
+  new Promise((resolve) => rl.question(query, resolve));
 
 const MEILISEARCH_URL = "http://localhost:7700";
 const DEFAULT_SEARCH_MASTER_KEY = "1234";
@@ -33,7 +34,7 @@ axiosRetry(SEARCH_CLIENT, {
   retryCondition: () => true,
 });
 
-async function sh(cmd) {
+async function sh(cmd: string) {
   return new Promise(function (resolve, reject) {
     child_process.exec(cmd, (err, stdout, stderr) => {
       if (err) {
@@ -57,7 +58,7 @@ async function main() {
   // setting up api
   await setupAPI();
 
-  printL("Setup Complete");
+  kill(process.pid);
 }
 
 async function init() {
@@ -84,7 +85,9 @@ async function init() {
 
   let client = new MongoClient(MONGODB_BASE_URI);
   await client.connect();
-  await client.db("orsive").createCollection("Profile");
+  if (!client.db("orsive").collection("Profile")) {
+    await client.db("orsive").createCollection("Profile");
+  }
   printL("Connection successful!");
 }
 
@@ -105,7 +108,7 @@ async function installMeilisearch() {
 
   printL("Starting Meilisearch instance");
   let meilisearchInstance = child_process.exec(
-    `cd meilisearch && meilisearch --master-key ${DEFAULT_SEARCH_MASTER_KEY}`
+    `cd meilisearch && ./meilisearch --master-key ${DEFAULT_SEARCH_MASTER_KEY}`
   );
 
   meilisearchInstance.on("spawn", async () => {
@@ -137,12 +140,7 @@ async function installMeilisearch() {
     });
 
     printL("Configured search settings");
-    await child_process.spawn("taskkill", [
-      "/pid",
-      `${meilisearchInstance.pid}`,
-      "/f",
-      "/t",
-    ]);
+    kill(meilisearchInstance.pid!);
   });
 }
 
