@@ -36,12 +36,12 @@ export default async function poller(job: any) {
     await staffDecision(reportId);
   } else {
     if (favors > againsts) {
-      await removeReport(reportId);
       await sendReputationToMods(reportId, "favor");
+      await removeReport(reportId);
     } else if (againsts > favors) {
       await removePost(report!.postId, report!.reason);
-      await removeReport(reportId);
       await sendReputationToMods(reportId, "against");
+      await removeReport(reportId);
     } else {
       // Staff decision
       await staffDecision(reportId);
