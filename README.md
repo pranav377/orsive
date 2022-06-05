@@ -1,7 +1,10 @@
 <p align="center" style="margin-top: 2rem"><br>
   <img style="background-radius: 50%" src="https://raw.githubusercontent.com/pranav377/orsive/master/public/logo.svg" width="22%"/>
   <br>
-  <strong>Orsive</strong>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+  <h1>Orsive</h1>
+  <p>An open source Social Media Platform</p>
+  </div>
 </p>
 
 ### Todo for now
