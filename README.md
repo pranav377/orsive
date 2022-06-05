@@ -1,8 +1,8 @@
 <p align="center" style="margin-top: 2rem"><br>
   <img style="background-radius: 50%" src="https://raw.githubusercontent.com/pranav377/orsive/master/public/logo.svg" width="22%"/>
   <br>
-  <div style="display: flex; flex-direction: column; align-items: center;">
-  <h1>Orsive</h1>
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+  <h2>Orsive</h2>
   <p>An open source Social Media Platform</p>
   </div>
 </p>
