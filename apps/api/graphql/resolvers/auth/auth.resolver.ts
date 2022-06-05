@@ -65,6 +65,7 @@ const AUTH_RESOLVERS = {
     logout(_: void, _args: any, context: any) {
       IsUserAuthenticated(context);
       context.logout();
+      context.req.session.destroy();
       return "success";
     },
 
