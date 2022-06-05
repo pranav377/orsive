@@ -11,6 +11,7 @@ I started making Orsive on 11 July, 2021. It was previously created with plan Re
 5. Account delete option
 6. Orsive clans (kinda like a group where people can share posts only the members can see)
 7. Setup Testing
+8. Web stories
 
 ### Small things to know about
 

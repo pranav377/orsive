@@ -1,4 +1,4 @@
-import { bionicReading } from "bionic-reading";
+import { textVide } from "text-vide";
 import { Parser, ParseToken } from "html-tokenizer";
 
 export default function Bionica(html: string) {
@@ -32,8 +32,8 @@ function renderer(tokens: ParseToken[]) {
 
       case "text":
         if (token.text === "\n") break;
-        let content = bionicReading(token.text, {
-          highlightTag: "strong",
+        let content = textVide(token.text, {
+          sep: ["<strong>", "</strong>"],
         });
         html_strings.push(content);
         break;
