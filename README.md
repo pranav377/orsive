@@ -1,6 +1,8 @@
-### History
-
-I started making Orsive on 11 July, 2021. It was previously created with plan React(Frontend) and Django(Python Backend). It turned out to be the biggest mistake ever! I wasn't productive enough. And Django was not very flexible for me. I switched to Next.Js for Frontend and GraphQL with apollo-server for backend. A lot of things are coming up, so stay tuned!
+<p align="center" style="margin-top: 2rem"><br>
+  <img style="background-radius: 50%" src="https://raw.githubusercontent.com/pranav377/orsive/master/public/logo.svg" width="22%"/>
+  <br>
+  <strong>Orsive</strong>
+</p>
 
 ### Todo for now
 
