@@ -162,11 +162,15 @@ function ProfileDropdown() {
             <Button
               className={"text-sm w-full text-left ripple-bg-red-600"}
               onClick={() => {
-                toast.promise(signOut(), {
-                  loading: "Signing out...",
-                  success: "Successfully Signed out!",
-                  error: "Something went wrong. Try again",
-                });
+                toast
+                  .promise(signOut(), {
+                    loading: "Signing out...",
+                    success: "Successfully Signed out!",
+                    error: "Something went wrong. Try again",
+                  })
+                  .finally(() => {
+                    setIsOpen(false);
+                  });
               }}
             >
               Sign out
@@ -174,6 +178,9 @@ function ProfileDropdown() {
             {user.isMod && (
               <Link href={`/moderation`} passHref>
                 <a
+                  onClick={() => {
+                    setIsOpen(false);
+                  }}
                   className={
                     "font-medium p-2 rounded-md text-sm w-full text-left ripple-bg-slate-800"
                   }
@@ -184,6 +191,9 @@ function ProfileDropdown() {
             )}
             <Link href={`/support`} passHref>
               <a
+                onClick={() => {
+                  setIsOpen(false);
+                }}
                 className={
                   "font-medium p-2 rounded-md text-sm w-full text-left ripple-bg-slate-800"
                 }
