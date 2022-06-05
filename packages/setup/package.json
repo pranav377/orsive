@@ -17,6 +17,7 @@
     "axios-retry": "^3.2.5",
     "chalk": "^5.0.1",
     "mongo-connection-string": "^0.1.5",
-    "mongodb": "^4.6.0"
+    "mongodb": "^4.6.0",
+    "tree-kill": "^1.2.2"
   }
 }

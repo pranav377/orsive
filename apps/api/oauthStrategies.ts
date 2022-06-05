@@ -15,9 +15,9 @@ let googleScopes = ["profile", "email"];
 
 export const discordStrat = new DiscordStrategy(
   {
-    clientID: process.env.DISCORD_CLIENT_ID!,
-    clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-    callbackURL: process.env.DISCORD_CALLBACK_URL!,
+    clientID: process.env.DISCORD_CLIENT_ID || " ",
+    clientSecret: process.env.DISCORD_CLIENT_SECRET || " ",
+    callbackURL: process.env.DISCORD_CALLBACK_URL || " ",
     scope: discordScopes,
   },
   async function (_accessToken, _refreshToken, profile, cb) {
@@ -64,9 +64,9 @@ export const discordStrat = new DiscordStrategy(
 
 export const googleStrat = new GoogleStrategy(
   {
-    clientID: process.env.GOOGLE_CLIENT_ID!,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL!,
+    clientID: process.env.GOOGLE_CLIENT_ID || " ",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || " ",
+    callbackURL: process.env.GOOGLE_CALLBACK_URL || " ",
     scope: googleScopes,
   },
   async function (_accessToken, _refreshToken, profile, cb) {
