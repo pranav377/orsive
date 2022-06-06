@@ -4,6 +4,8 @@
 
 - `MongoDB` The easiest way is to use [MongoDB atlas](https://www.mongodb.com/cloud/atlas/register) and spin a free cluster
 
+Note: Orsive uses Prisma with MongoDB for ORM. Prisma requires a MongoDB three node replica cluster. Use MongoDB Atlas to setup a three node replica set easily.
+
 ### Setup
 
 ```
