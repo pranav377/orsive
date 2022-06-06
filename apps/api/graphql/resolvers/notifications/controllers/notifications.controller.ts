@@ -75,6 +75,12 @@ export async function GetMyNotifications(
       notificationForComment: {
         ...EXTRA_NOTIFICATIONS_COMMENT_ARGS,
       },
+      notificationForReputation: {
+        include: {
+          reputation: true,
+          notification: true,
+        },
+      },
     },
   });
 
@@ -82,9 +88,8 @@ export async function GetMyNotifications(
     data: allNotifications.map(async (notification) => {
       if (notification.notificationType === "forPost") {
         let baseNotification = notification.notificationForPost;
-
         return {
-          ...notification.notificationForPost,
+          ...baseNotification,
           url: generatePostUrl(baseNotification!.postId!),
         };
       } else if (notification.notificationType === "forComment") {
@@ -94,13 +99,21 @@ export async function GetMyNotifications(
           ...baseNotification,
           url: generatePostUrl(baseNotification!.comment!.post!.id),
         };
-      } else {
+      } else if (notification.notificationType === "forReply") {
         let baseNotification = notification.notificationForComment;
         let baseReply = baseNotification?.comment;
 
         return {
           ...baseNotification,
           url: generatePostUrl(baseReply!.post!.id),
+        };
+      } else {
+        let baseNotification = notification.notificationForReputation;
+        let amount = baseNotification!.reputation!.amount;
+
+        return {
+          ...baseNotification,
+          amount,
         };
       }
     }),

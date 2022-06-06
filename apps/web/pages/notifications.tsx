@@ -3,6 +3,7 @@ import { Layout } from "../components/app/Layout";
 import {
   NotificationForComment,
   NotificationForPost,
+  NotificationForReputation,
 } from "../components/app/Notification";
 import OneTimePageSpinner from "../components/app/OneTimePageSpinner";
 import PostCards from "../components/app/PostCard/PostCards";
@@ -48,6 +49,13 @@ export default function Notifications() {
                       ) {
                         return (
                           <NotificationForComment
+                            notification={notification}
+                            key={idx}
+                          />
+                        );
+                      } else if (notificationType === "forReputation") {
+                        return (
+                          <NotificationForReputation
                             notification={notification}
                             key={idx}
                           />

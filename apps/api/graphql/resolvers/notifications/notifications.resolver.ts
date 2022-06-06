@@ -21,6 +21,10 @@ export const NOTIFICATIONS_RESOLVERS = {
         return "NotificationForComment";
       }
 
+      if (notification.notification.notificationType === "forReputation") {
+        return "NotificationForReputation";
+      }
+
       return null; // GraphQLError is thrown
     },
   },

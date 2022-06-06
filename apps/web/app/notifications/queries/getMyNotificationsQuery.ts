@@ -38,6 +38,15 @@ const GET_MY_NOTIFICATIONS_QUERY = gql`
           }
           url
         }
+        ... on NotificationForReputation {
+          id
+          amount
+          notification {
+            seen
+            createdAt
+            notificationType
+          }
+        }
       }
 
       hasNextPage
