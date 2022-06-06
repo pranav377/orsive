@@ -1,7 +1,10 @@
 import { gql } from "apollo-server-express";
 
 const NOTIFICATIONS_SCHEMA = gql`
-  union Notification = NotificationForPost | NotificationForComment
+  union Notification =
+      NotificationForPost
+    | NotificationForComment
+    | NotificationForReputation
 
   type BaseNotification {
     seen: Boolean
@@ -13,6 +16,7 @@ const NOTIFICATIONS_SCHEMA = gql`
     forPost
     forComment
     forReply
+    forReputation
   }
 
   type NotificationForPost {
@@ -26,6 +30,12 @@ const NOTIFICATIONS_SCHEMA = gql`
     id: ID!
     url: String
     comment: Comment
+    notification: BaseNotification
+  }
+
+  type NotificationForReputation {
+    id: ID!
+    amount: Int
     notification: BaseNotification
   }
 

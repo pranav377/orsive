@@ -21,7 +21,3 @@ export function nFormatter(num: number, digits: number) {
     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
     : "0";
 }
-
-export default function NFormatter(props: { children: ReactNode }) {
-  return null;
-}
