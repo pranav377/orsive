@@ -58,7 +58,7 @@ export default function AdditionalSetup() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full h-screen p-6 overflow-y-scroll align-middle transition-all transform bg-slate-900">
+              <div className="inline-block w-full h-screen p-6 overflow-y-scroll overflow-x-hidden align-middle transition-all transform bg-slate-900">
                 <div className="h-full w-full flex flex-col items-center">
                   <MainHead />
                   <SearchBar

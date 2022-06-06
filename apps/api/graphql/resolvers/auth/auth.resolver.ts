@@ -74,6 +74,11 @@ const AUTH_RESOLVERS = {
 
       return FollowUser(args, context.getUser());
     },
+    setupLanguages(_: void, _args: any, context: any) {
+      IsUserAuthenticated(context);
+
+      return null;
+    },
   },
 };
 
