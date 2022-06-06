@@ -10,6 +10,7 @@ import { removeCookies, setCookies } from "cookies-next";
 import { USER_COOKIE_KEY } from "../../config";
 import localforage from "localforage";
 import APP_CASES from "../../app/store/reducers/app/cases";
+import AdditionalSetup from "./AdditionalSetup";
 
 export function setUser(user: {
   username: string;
@@ -82,5 +83,9 @@ export default function AppMiddleware() {
     checkNotifications();
   });
 
-  return null;
+  return (
+    <>
+      <AdditionalSetup />
+    </>
+  );
 }
