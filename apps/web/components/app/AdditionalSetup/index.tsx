@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Fragment, useState } from "react";
 import MainHead from "./subcomponents/MainHead";
 import LanguageSelect from "./subcomponents/LanguageSelect";
-import { langs as AllLangs } from "../../../../../packages/config/global-lang-list";
+import { langs as AllLangs } from "../../../../../packages/config/global-lang-list.json";
 import Button from "../../base/button";
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import SearchBar from "./subcomponents/SearchBar";
@@ -82,8 +82,8 @@ export default function AdditionalSetup() {
                   <h3 className="text-xl">Select your preferred languages:</h3>
                   <div className="w-full gap-1 mt-3 flex justify-center flex-wrap">
                     {langs.map((language, idx) => (
-                      <div className="w-full md:w-1/4 mb-3">
-                        <LanguageSelect language={language} key={idx} />
+                      <div className="w-full md:w-1/4 mb-3" key={idx}>
+                        <LanguageSelect language={language} />
                       </div>
                     ))}
                     {langs.length === 0 && (

@@ -13,6 +13,7 @@ import {
   Me,
   PasswordReset,
   PasswordResetArgs,
+  SetupLanguagesInput,
   SignIn,
   SignInArgs,
   SignUp,
@@ -74,7 +75,7 @@ const AUTH_RESOLVERS = {
 
       return FollowUser(args, context.getUser());
     },
-    setupLanguages(_: void, _args: any, context: any) {
+    setupLanguages(_: void, _args: SetupLanguagesInput, context: any) {
       IsUserAuthenticated(context);
 
       return null;

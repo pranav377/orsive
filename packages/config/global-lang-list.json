@@ -1,5 +1,5 @@
-module.exports = {
-  langs: [
+{
+  "langs": [
     "English",
     "Malayalam",
     "Hindi",
@@ -29,6 +29,6 @@ module.exports = {
     "Korean",
     "Pushto",
     "Persian",
-    "Romanian",
-  ],
-};
+    "Romanian"
+  ]
+}

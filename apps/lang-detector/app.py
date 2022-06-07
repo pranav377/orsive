@@ -1,5 +1,5 @@
 import joblib
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from sklearn.preprocessing._label import LabelEncoder
 from sklearn.svm._classes import SVC
@@ -19,6 +19,9 @@ class DetectArgs(BaseModel):
     content: str
 @app.post("/detect/")
 def detect(args: DetectArgs):
+    if (args.content.strip() == ""):
+        raise HTTPException(status_code=400)
+
     content = vectorizer.transform([args.content])
     result = encoder.inverse_transform(model.predict(content))[0]
 
