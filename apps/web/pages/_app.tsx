@@ -18,6 +18,7 @@ import { useAnalytics } from "../hooks/app/useAnalytics";
 
 import { createContext, useRef } from "react";
 import { usePWA } from "../hooks/app/usePWA";
+import "animate.css/animate.min.css";
 
 export const ScrollContext = createContext({});
 

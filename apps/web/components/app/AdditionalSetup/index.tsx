@@ -1,25 +1,47 @@
 import { Dialog, Transition } from "@headlessui/react";
-import Image from "next/image";
-import { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import MainHead from "./subcomponents/MainHead";
 import LanguageSelect from "./subcomponents/LanguageSelect";
-import { langs as AllLangs } from "../../../../../packages/config/global-lang-list.json";
+import LANG_CONF from "../../../../../packages/config/global-lang-list.json";
 import Button from "../../base/button";
-import { ArrowRightIcon } from "@heroicons/react/solid";
+import { ArrowRightIcon, XIcon } from "@heroicons/react/solid";
 import SearchBar from "./subcomponents/SearchBar";
 import Empty from "../Empty";
 
+export const ADDITIONAL_SETUP_CONTEXT = React.createContext<{
+  allLangs: Array<string>;
+  setAllLangs: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedLanguages: Array<string>;
+  setSelectedLanguages: React.Dispatch<React.SetStateAction<string[]>>;
+  selectionStore: Array<{
+    name: string;
+    on: boolean;
+  }>;
+  setSelectionStore: React.Dispatch<
+    React.SetStateAction<
+      {
+        name: string;
+        on: boolean;
+      }[]
+    >
+  >;
+}>({
+  allLangs: [],
+  setAllLangs: () => {},
+  selectedLanguages: [],
+  setSelectedLanguages: () => {},
+  selectionStore: [],
+  setSelectionStore: () => {},
+});
+
 export default function AdditionalSetup() {
   let [isOpen, setIsOpen] = useState(true);
-  const [langs, setLangs] = useState(AllLangs);
 
   function closeModal() {
     setIsOpen(false);
   }
 
-  function openModal() {
-    setIsOpen(true);
-  }
+  const additionalSetupState = useContext(ADDITIONAL_SETUP_CONTEXT);
 
   return (
     <>
@@ -65,8 +87,8 @@ export default function AdditionalSetup() {
                     onChange={(e) => {
                       e.preventDefault();
 
-                      setLangs(
-                        AllLangs.filter((lang) =>
+                      additionalSetupState.setAllLangs(
+                        LANG_CONF.langs.filter((lang) =>
                           lang
                             .toLowerCase()
                             .includes(e.target.value.toLowerCase())
@@ -74,19 +96,27 @@ export default function AdditionalSetup() {
                       );
                     }}
                   />
-                  <Button disabled className="bg-blue-800 mt-3">
+                  <Button
+                    disabled={
+                      additionalSetupState.selectedLanguages.length === 0
+                    }
+                    onClick={() => {
+                      console.log(additionalSetupState.selectedLanguages);
+                    }}
+                    className="ripple-bg-blue-800 mt-3"
+                  >
                     <span className="flex items-center gap-1">
                       Continue <ArrowRightIcon className="w-4 h-4" />
                     </span>
                   </Button>
                   <h3 className="text-xl">Select your preferred languages:</h3>
                   <div className="w-full gap-1 mt-3 flex justify-center flex-wrap">
-                    {langs.map((language, idx) => (
+                    {additionalSetupState.allLangs.map((language, idx) => (
                       <div className="w-full md:w-1/4 mb-3" key={idx}>
                         <LanguageSelect language={language} />
                       </div>
                     ))}
-                    {langs.length === 0 && (
+                    {additionalSetupState.allLangs.length === 0 && (
                       <div className="mt-3">
                         <Empty message="No languages found" />
                       </div>

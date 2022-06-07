@@ -1,16 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import USER_CHECK_QUERY, {
   getUnreadNotificationsQuery,
 } from "../../app/auth/queries/userCheck";
 import { client } from "../../pages/_app";
 import USER_CASES from "../../app/store/reducers/user/cases";
 import store from "../../app/store/store";
-import { gql } from "@apollo/client";
 import { removeCookies, setCookies } from "cookies-next";
 import { USER_COOKIE_KEY } from "../../config";
 import localforage from "localforage";
 import APP_CASES from "../../app/store/reducers/app/cases";
-import AdditionalSetup from "./AdditionalSetup";
+import AdditionalSetup, { ADDITIONAL_SETUP_CONTEXT } from "./AdditionalSetup";
+import LANG_CONF from "../../../../packages/config/global-lang-list.json";
 
 export function setUser(user: {
   username: string;
@@ -83,9 +83,29 @@ export default function AppMiddleware() {
     checkNotifications();
   });
 
+  const [allLangs, setAllLangs] = useState(LANG_CONF.langs);
+  const [selectedLanguages, setSelectedLanguages] = useState<Array<string>>([]);
+  const [selectionStore, setSelectionStore] = useState<
+    Array<{
+      name: string;
+      on: boolean;
+    }>
+  >([]);
+
   return (
     <>
-      <AdditionalSetup />
+      <ADDITIONAL_SETUP_CONTEXT.Provider
+        value={{
+          allLangs,
+          setAllLangs,
+          selectedLanguages,
+          setSelectedLanguages,
+          selectionStore,
+          setSelectionStore,
+        }}
+      >
+        <AdditionalSetup />
+      </ADDITIONAL_SETUP_CONTEXT.Provider>
     </>
   );
 }

@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 
-import "animate.css/animate.min.css";
 import { Layout } from "../components/app/Layout";
 import { useHome } from "../hooks/pages/useHome";
 import Spinner from "../components/app/Spinner";
