@@ -4,6 +4,7 @@ import {
   CHECK_EMAIL_VALIDATOR,
   GET_USER_VALIDATOR,
   OTP_VALIDATOR,
+  SETUP_LANGGUAGES_VALIDATOR,
   SIGNIN_VALIDATOR,
   SIGNUP_VALIDATOR,
 } from "../validators";
@@ -25,6 +26,7 @@ import updateUser from "../../../utils/mepster/user/updateUser";
 import sendPasswordResetOTP from "../../../utils/email/sendPasswordResetOTP";
 import IsPasswordResetValid from "../validators/extra/passwordResetValidator";
 import getUserPermissions from "../../../permissions/getUserPermissions";
+import addLabelsForUser from "../../../utils/mepster/user/addLablesForUser";
 
 const otp_nanoid = customAlphabet("1234567890", 4);
 
@@ -73,6 +75,10 @@ export interface CheckEmailInput {
 
 export interface FollowUserInput {
   username: string;
+}
+
+export interface SetupLanguagesInput {
+  langs: Array<string>;
 }
 
 export const userOptions = {
@@ -360,4 +366,21 @@ export async function Me(user: User) {
     unreadNotifications: userUnreadNotifications,
     ...(await getUserPermissions(user.id)),
   };
+}
+
+export async function SetupLanguages(args: SetupLanguagesInput, user: User) {
+  let data: SetupLanguagesInput = validate(args, SETUP_LANGGUAGES_VALIDATOR);
+  const langLabels = data.langs.map((lang) => `Language:${lang}`);
+
+  await addLabelsForUser(langLabels, user.id);
+  await prisma.profile.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      setupComplete: true,
+    },
+  });
+
+  return "ok";
 }

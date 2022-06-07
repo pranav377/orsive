@@ -1,0 +1,12 @@
+{
+  "name": "lang-detector",
+  "scripts": {
+    "dev": "nodemon -e .py --exec uvicorn app:app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}

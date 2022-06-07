@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { langs } from "../../../../../../packages/config/global-lang-list.json";
 
 export const SIGNUP_VALIDATOR = Joi.object({
   username: Joi.string()
@@ -29,4 +30,10 @@ export const CHECK_USERNAME_VALIDATOR = Joi.object({
 
 export const CHECK_EMAIL_VALIDATOR = Joi.object({
   email: Joi.string().email().required(),
+});
+
+export const SETUP_LANGGUAGES_VALIDATOR = Joi.object({
+  langs: Joi.array()
+    .allow(...langs)
+    .required(),
 });

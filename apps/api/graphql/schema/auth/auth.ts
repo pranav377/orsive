@@ -80,6 +80,7 @@ const AUTH_SCHEMA = gql`
     passwordReset(input: PasswordResetInput!): String!
     logout: String!
     followUser(username: String!): String!
+    setupLanguages(langs: [String!]): String!
   }
 `;
 
