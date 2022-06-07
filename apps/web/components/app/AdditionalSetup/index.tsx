@@ -7,6 +7,14 @@ import Button from "../../base/button";
 import { ArrowRightIcon, XIcon } from "@heroicons/react/solid";
 import SearchBar from "./subcomponents/SearchBar";
 import Empty from "../Empty";
+import toast from "react-hot-toast";
+import { useMutation } from "@apollo/client";
+import SETUP_LANGUAGES_MUTATION from "./mutations/setupLanguagesMutation";
+import { useRouter } from "next/router";
+import { client } from "../../../pages/_app";
+import { useUser } from "../../../hooks/auth/useUser";
+import { useDispatch } from "react-redux";
+import USER_CASES from "../../../app/store/reducers/user/cases";
 
 export const ADDITIONAL_SETUP_CONTEXT = React.createContext<{
   allLangs: Array<string>;
@@ -35,17 +43,21 @@ export const ADDITIONAL_SETUP_CONTEXT = React.createContext<{
 });
 
 export default function AdditionalSetup() {
-  let [isOpen, setIsOpen] = useState(true);
+  const user = useUser();
+  const dispatch = useDispatch();
 
   function closeModal() {
-    setIsOpen(false);
+    dispatch({ type: USER_CASES.SETUP_COMPLETE });
   }
 
   const additionalSetupState = useContext(ADDITIONAL_SETUP_CONTEXT);
 
+  const [setupLanguagesMutation] = useMutation(SETUP_LANGUAGES_MUTATION);
+  const router = useRouter();
+
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition show={!user.setupComplete} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-hidden"
@@ -101,7 +113,25 @@ export default function AdditionalSetup() {
                       additionalSetupState.selectedLanguages.length === 0
                     }
                     onClick={() => {
-                      console.log(additionalSetupState.selectedLanguages);
+                      toast
+                        .promise(
+                          setupLanguagesMutation({
+                            variables: {
+                              langs: additionalSetupState.selectedLanguages,
+                            },
+                          }),
+                          {
+                            loading: "Updating preferences...",
+                            success: "Updated preferences",
+                            error: "Something went wrong. Try again",
+                          }
+                        )
+                        .then(() => {
+                          closeModal();
+                          client.cache.reset();
+                          client.resetStore();
+                          router.push("/feed");
+                        });
                     }}
                     className="ripple-bg-blue-800 mt-3"
                   >

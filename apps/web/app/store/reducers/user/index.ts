@@ -41,6 +41,9 @@ export default function user(
         unreadNotifications: action.payload.unreadNotifications,
       };
 
+    case USER_CASES.SETUP_COMPLETE:
+      return { ...state, setupComplete: true };
+
     default:
       return state;
   }

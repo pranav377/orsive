@@ -373,6 +373,14 @@ export async function SetupLanguages(args: SetupLanguagesInput, user: User) {
   const langLabels = data.langs.map((lang) => `Language:${lang}`);
 
   await addLabelsForUser(langLabels, user.id);
+  await prisma.profile.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      setupComplete: true,
+    },
+  });
 
   return "ok";
 }
