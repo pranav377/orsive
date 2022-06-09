@@ -1,13 +1,10 @@
-import joblib
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from sklearn.preprocessing._label import LabelEncoder
-from sklearn.svm._classes import SVC
-from sklearn.feature_extraction.text import TfidfVectorizer
+import fasttext
+from langcodes import Language
 
-vectorizer:TfidfVectorizer = joblib.load('./vectorizer.sav')
-model:SVC = joblib.load('./languageModel.model')
-encoder:LabelEncoder = joblib.load('./label.encoder')
+fasttext_model = fasttext.load_model('./lid.176.bin')
 
 app = FastAPI()
 
@@ -17,12 +14,13 @@ def root():
 
 class DetectArgs(BaseModel):
     content: str
+
 @app.post("/detect/")
 def detect(args: DetectArgs):
     if (args.content.strip() == ""):
         raise HTTPException(status_code=400)
 
-    content = vectorizer.transform([args.content])
-    result = encoder.inverse_transform(model.predict(content))[0]
+    langCode = fasttext_model.predict(args.content)[0][0].replace('__label__', '')
+    result = Language.get(langCode).display_name()
 
     return {"result": result}
