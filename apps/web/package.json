@@ -27,7 +27,7 @@
     "localforage": "^1.10.0",
     "meilisearch": "^0.25.0",
     "moment": "^2.29.1",
-    "next": "^12.1.5",
+    "next": "^12.1.6",
     "next-pwa": "^5.5.2",
     "next-seo": "^5.1.0",
     "next-sitemap": "^2.5.20",
