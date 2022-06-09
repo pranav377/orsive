@@ -15,7 +15,7 @@ export default function Hero() {
         },
       }}
     >
-      <div className="w-full h-full bg-blue-700">hellos</div>
+      <div className="w-full h-full bg-blue-700"></div>
     </Particles>
   );
 }
