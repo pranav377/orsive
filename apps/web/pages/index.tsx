@@ -9,11 +9,11 @@ import HomeButtons from "../components/home/HomeButtons";
 import FooBar from "../components/home/FooBar";
 
 const Home: NextPage = () => {
-  // const { loading } = useHome();
+  const { loading } = useHome();
 
   return (
     <>
-      {/* <Layout title={"Home | Orsive"}>
+      <Layout title={"Home | Orsive"}>
         {loading ? (
           <>
             <div className={`flex items-center justify-center m-2 h-[70vh]`}>
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
             </div>
           </>
         )}
-      </Layout> */}
+      </Layout>
     </>
   );
 };

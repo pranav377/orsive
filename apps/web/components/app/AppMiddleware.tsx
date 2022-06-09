@@ -7,7 +7,6 @@ import USER_CASES from "../../app/store/reducers/user/cases";
 import store from "../../app/store/store";
 import { removeCookies, setCookies } from "cookies-next";
 import { USER_COOKIE_KEY } from "../../config";
-import localforage from "localforage";
 import APP_CASES from "../../app/store/reducers/app/cases";
 import AdditionalSetup, { ADDITIONAL_SETUP_CONTEXT } from "./AdditionalSetup";
 import LANG_CONF from "../../../../packages/config/global-lang-list.json";
@@ -23,7 +22,7 @@ export function setUser(user: {
   setCookies(USER_COOKIE_KEY, "true", {
     maxAge: 1000 * 60 * 60 * 24 * 365,
   });
-  localforage.setItem("username", user.username);
+  localStorage.setItem("username", user.username);
   store.dispatch({
     type: USER_CASES.LOGIN,
     payload: user,
@@ -63,13 +62,15 @@ async function checkNotifications() {
 }
 
 async function checkBionicMode() {
-  let bionicMode = await localforage.getItem("bionic_mode");
+  if (typeof window! == "undefined" && localStorage) {
+    let bionicMode = localStorage.getItem("bionic_mode");
 
-  if (typeof bionicMode === "boolean") {
-    store.dispatch({
-      type: APP_CASES.SET_BIONIC_MODE,
-      payload: { bionicMode },
-    });
+    if (typeof bionicMode === "boolean") {
+      store.dispatch({
+        type: APP_CASES.SET_BIONIC_MODE,
+        payload: { bionicMode },
+      });
+    }
   }
 }
 
