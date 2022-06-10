@@ -139,7 +139,7 @@ export default function AdditionalSetup() {
                       Continue <ArrowRightIcon className="w-4 h-4" />
                     </span>
                   </Button>
-                  <h3 className="text-xl">Select your preferred languages:</h3>
+                  <h3 className="text-xl">Select 1 or more languages:</h3>
                   <div className="w-full gap-1 mt-3 flex justify-center flex-wrap">
                     {additionalSetupState.allLangs.map((language, idx) => (
                       <div className="w-full md:w-1/4 mb-3" key={idx}>

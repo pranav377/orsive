@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { withSentry } from "@sentry/nextjs";
 
 /*
   Request Objects {
@@ -7,10 +8,7 @@ import { NextApiRequest, NextApiResponse } from "next";
     type: "image" | "orsic" | "profile"
   }
  */
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { secret, slug, type } = req.query;
 
   if (secret !== process.env.REVALIDATE_KEY) {
@@ -28,3 +26,5 @@ export default async function handler(
     return res.status(500).send("Error revalidating");
   }
 }
+
+export default withSentry(handler);
