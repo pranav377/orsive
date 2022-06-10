@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import firebase from "../../firebase";
+import firebase, { PUBLIC_VAPID_KEY } from "../../firebase";
+import { getMessaging, isSupported, getToken } from "firebase/messaging";
 import { gql } from "@apollo/client";
 import { client } from "../../pages/_app";
 
@@ -45,22 +46,29 @@ export const usePWA = () => {
       wb.addEventListener("waiting", promptNewVersionAvailable);
 
       wb.register();
-      const messaging = firebase.messaging();
 
-      messaging
-        .requestPermission()
-        .then(() => {
-          return messaging.getToken();
-        })
-        .then((token) => {
-          client
-            .mutate({
-              mutation: UPDATE_NOTIFICATION_TOKEN_MUTATION,
-              variables: { token },
-            })
-            .catch((err) => {});
-        })
-        .catch((err) => {});
+      (async () => {
+        if (await isSupported()) {
+          const messaging = getMessaging(firebase);
+
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              getToken(messaging, {
+                vapidKey: PUBLIC_VAPID_KEY,
+              })
+                .then((token) => {
+                  client
+                    .mutate({
+                      mutation: UPDATE_NOTIFICATION_TOKEN_MUTATION,
+                      variables: { token },
+                    })
+                    .catch((err) => {});
+                })
+                .catch((err) => {});
+            }
+          });
+        }
+      })();
     }
   }, []);
 };

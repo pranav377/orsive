@@ -1,5 +1,4 @@
-import firebase from "firebase/app";
-import "firebase/messaging";
+import { getApp, initializeApp, getApps, FirebaseApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAb1MpzB9JHyPwYiSlvXbKGbP77TVI_SLs",
@@ -10,12 +9,14 @@ const firebaseConfig = {
   appId: "1:261738070343:web:4cca1e84eefa1c1d36cc62",
 };
 
-let firebaseApp: firebase.app.App;
+export const PUBLIC_VAPID_KEY =
+  "BL-mMGq4pHoR8he1UwAvnvN2SKSbAUSTKMO744n_LcfoO-k8a_O63xqoOpExx4RGJvUglvBcWgzpGCX9Ur3VCnc";
+let firebaseApp: FirebaseApp;
 
-if (!firebase.apps.length) {
-  firebaseApp = firebase.initializeApp(firebaseConfig);
+if (!getApps().length) {
+  firebaseApp = initializeApp(firebaseConfig);
 } else {
-  firebaseApp = firebase.app();
+  firebaseApp = getApp();
 }
 
 export default firebaseApp;
