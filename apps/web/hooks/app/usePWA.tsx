@@ -15,7 +15,8 @@ export const usePWA = () => {
       typeof window !== "undefined" &&
       "serviceWorker" in navigator &&
       // @ts-ignore
-      window.workbox !== undefined
+      window.workbox !== undefined &&
+      !/\bHeadlessChrome\//.test(navigator.userAgent)
     ) {
       // @ts-ignore
       const wb = window.workbox;
