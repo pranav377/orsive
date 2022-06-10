@@ -51,6 +51,7 @@
 6. Orsive clans (kinda like a group where people can share posts only the members can see)
 7. Setup Testing
 8. Web stories
+9. User Achievements
 
 ### Small things to know about
 
