@@ -24,8 +24,6 @@ const nextConfig = {
     dest: "public",
     register: false,
     cacheOnFrontEndNav: true,
-    skipWaiting: false,
-    disable: false,
     dynamicStartUrlRedirect: true,
   },
 };

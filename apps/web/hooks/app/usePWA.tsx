@@ -59,7 +59,7 @@ export const usePWA = () => {
             })
             .catch((err) => {});
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {});
     }
   }, []);
 };

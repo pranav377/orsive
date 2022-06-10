@@ -128,7 +128,7 @@ function Web({ Component, pageProps, router }: AppProps) {
       <Provider store={store}>
         <ApolloProvider client={client}>
           <ScrollContext.Provider value={{ scrollRef: scrollRef }}>
-            {/* <AppMiddleware /> */}
+            <AppMiddleware />
             <Toaster
               position="bottom-center"
               reverseOrder={false}
