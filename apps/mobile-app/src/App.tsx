@@ -8,9 +8,11 @@ import {
   Provider as PaperProvider,
   DarkTheme as PaperDarkTheme,
   configureFonts,
+  Text,
 } from "react-native-paper";
 import merge from "deepmerge";
 import { StatusBar } from "expo-status-bar";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const CombinedDarkTheme = {
   ...merge(PaperDarkTheme, NavigationDarkTheme),
@@ -36,15 +38,26 @@ const CombinedDarkTheme = {
   }),
 };
 
+const client = new ApolloClient({
+  uri: __DEV__ ? "localhost:4000/graphql" : "api.orsive.com/graphql",
+  cache: new InMemoryCache(),
+});
+
 function App() {
   let isUserLoggedIn = false;
   return (
-    <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
-      <StatusBar style="inverted" />
-      <NavigationContainer theme={CombinedDarkTheme}>
-        {!isUserLoggedIn && <SignedOutStack />}
-      </NavigationContainer>
-    </PaperProvider>
+    <ApolloProvider client={client}>
+      <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
+        <StatusBar style="inverted" />
+        <NavigationContainer theme={CombinedDarkTheme}>
+          {!isUserLoggedIn ? (
+            <SignedOutStack />
+          ) : (
+            <Text>You are logged in</Text>
+          )}
+        </NavigationContainer>
+      </PaperProvider>
+    </ApolloProvider>
   );
 }
 export default registerRootComponent(App);

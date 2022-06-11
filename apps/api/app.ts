@@ -19,6 +19,8 @@ import prisma from "./graphql/utils/data/dbClient";
 import bcrypt from "bcrypt";
 import { userOptions } from "./graphql/resolvers/auth/controllers/auth.controller";
 import { discordStrat, googleStrat } from "./oauthStrategies";
+import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
+
 const MongoDBStore = require("connect-mongodb-session")(session);
 
 var store = new MongoDBStore({
@@ -67,6 +69,30 @@ passport.use(
 
 passport.use(discordStrat);
 passport.use(googleStrat);
+
+passport.use(
+  new JWTStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.JWT_SECRET,
+    },
+    function (jwtPayload, cb) {
+      prisma.profile
+        .findUnique({
+          where: { id: jwtPayload.id },
+          include: {
+            roles: true,
+          },
+        })
+        .then((profile) => {
+          return cb(null, profile);
+        })
+        .catch((err) => {
+          return cb(err);
+        });
+    }
+  )
+);
 
 passport.serializeUser(function (user: any, done) {
   done(null, user.id);
@@ -129,22 +155,31 @@ async function startServer() {
   app.get("/", (_req, res) => {
     res.end("Cluster Up and running");
   });
-  app.get("/auth/discord", passport.authenticate("discord"));
+  app.get(
+    "/auth/discord",
+    passport.authenticate("discord", {
+      session: false,
+    })
+  );
   app.get(
     "/auth/discord/callback",
     passport.authenticate("discord", {
       failureRedirect: "/graphql",
+      session: false,
     }),
     function (_req, res) {
       res.redirect(process.env.OAUTH_SUCCESS_REDIRECT_URL!); // Successful auth
     }
   );
 
-  app.get("/auth/google", passport.authenticate("google"));
+  app.get("/auth/google", passport.authenticate("google", { session: false }));
 
   app.get(
     "/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/graphql" }),
+    passport.authenticate("google", {
+      failureRedirect: "/graphql",
+      session: false,
+    }),
     function (_req, res) {
       res.redirect(process.env.OAUTH_SUCCESS_REDIRECT_URL!);
     }

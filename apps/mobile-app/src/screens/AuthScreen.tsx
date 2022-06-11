@@ -78,15 +78,12 @@ export default function AuthScreen() {
             </Subheading>
           </>
         </TouchableRipple>
-
         <Button
           mode="text"
+          style={{ marginTop: RFValue(10) }}
           onPress={() => {}}
-          style={{
-            marginTop: RFValue(10),
-          }}
         >
-          Not a smarty capty? Sign Up
+          Already a smarty capty? Log In
         </Button>
       </View>
     </View>

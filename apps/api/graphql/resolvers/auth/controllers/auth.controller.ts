@@ -27,6 +27,7 @@ import sendPasswordResetOTP from "../../../utils/email/sendPasswordResetOTP";
 import IsPasswordResetValid from "../validators/extra/passwordResetValidator";
 import getUserPermissions from "../../../permissions/getUserPermissions";
 import addLabelsForUser from "../../../utils/mepster/user/addLablesForUser";
+import jwt from "jsonwebtoken";
 
 const otp_nanoid = customAlphabet("1234567890", 4);
 
@@ -105,11 +106,13 @@ async function simpleSignIn(context: any, email: string, password: string) {
   const { user } = await context.authenticate("graphql-local", {
     email,
     password,
+    session: false,
   });
 
-  context.login(user);
+  context.login(user, { session: false });
+  const token = jwt.sign(user, process.env.JWT_SECRET!);
 
-  return { ...user, ...(await getUserPermissions(user.id)) };
+  return { ...user, ...(await getUserPermissions(user.id)), token };
 }
 
 export async function createFullAvatar() {
