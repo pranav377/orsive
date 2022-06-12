@@ -10,10 +10,20 @@ import { RFValue } from "react-native-responsive-fontsize";
 import DiscordSVG from "../../assets/social-icons/discord-color-logo.svg";
 import GoogleSVG from "../../assets/social-icons/google-color-logo.svg";
 import { InboxIcon } from "react-native-heroicons/solid";
+import { useState } from "react";
+import EmailRegistrationModal from "../components/Auth/EmailRegistrationModal";
 
 export default function AuthScreen() {
+  const [showEmailRegistration, setShowEmailRegistration] = useState(false);
+
   return (
     <View style={styles.container}>
+      <EmailRegistrationModal
+        isVisible={showEmailRegistration}
+        closeModal={() => {
+          setShowEmailRegistration(false);
+        }}
+      />
       <Image
         source={require("../../assets/logo.png")}
         style={{
@@ -62,7 +72,9 @@ export default function AuthScreen() {
         </TouchableRipple>
         <TouchableRipple
           borderless
-          onPress={() => {}}
+          onPress={() => {
+            setShowEmailRegistration(true);
+          }}
           style={[styles.authButton, styles.emailButton]}
         >
           <>
