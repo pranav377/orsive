@@ -28,6 +28,7 @@ import IsPasswordResetValid from "../validators/extra/passwordResetValidator";
 import getUserPermissions from "../../../permissions/getUserPermissions";
 import addLabelsForUser from "../../../utils/mepster/user/addLablesForUser";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../../../config";
 
 const otp_nanoid = customAlphabet("1234567890", 4);
 
@@ -102,6 +103,12 @@ export const extraUserCreateData = {
   },
 };
 
+export function getUserJwtToken(user: any) {
+  return jwt.sign({ id: user.id }, JWT_SECRET, {
+    expiresIn: "365d",
+  });
+}
+
 async function simpleSignIn(context: any, email: string, password: string) {
   const { user } = await context.authenticate("graphql-local", {
     email,
@@ -110,7 +117,7 @@ async function simpleSignIn(context: any, email: string, password: string) {
   });
 
   context.login(user, { session: false });
-  const token = jwt.sign(user, process.env.JWT_SECRET!);
+  const token = getUserJwtToken(user);
 
   return { ...user, ...(await getUserPermissions(user.id)), token };
 }

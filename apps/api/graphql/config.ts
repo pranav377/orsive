@@ -7,6 +7,7 @@ const DECISION_WON_REPUTATION = 1000;
 const DECISION_LOST_REPUTATION = 200;
 const SITEMAP_PAGINATION_LIMIT = 7000;
 const ADMIN_MAIL_ID = process.env.ADMIN_MAIL_ID || "";
+const JWT_SECRET = process.env.JWT_SECRET || "never_gonna_give_you_up";
 
 export {
   FILE_UPLOADS_URL,
@@ -18,4 +19,5 @@ export {
   DECISION_WON_REPUTATION,
   SITEMAP_PAGINATION_LIMIT,
   ADMIN_MAIL_ID,
+  JWT_SECRET,
 };
