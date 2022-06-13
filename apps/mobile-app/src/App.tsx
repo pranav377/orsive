@@ -13,6 +13,7 @@ import {
 import merge from "deepmerge";
 import { StatusBar } from "expo-status-bar";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const CombinedDarkTheme = {
   ...merge(PaperDarkTheme, NavigationDarkTheme),
@@ -46,18 +47,20 @@ const client = new ApolloClient({
 function App() {
   let isUserLoggedIn = false;
   return (
-    <ApolloProvider client={client}>
-      <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
-        <StatusBar style="inverted" />
-        <NavigationContainer theme={CombinedDarkTheme}>
-          {!isUserLoggedIn ? (
-            <SignedOutStack />
-          ) : (
-            <Text>You are logged in</Text>
-          )}
-        </NavigationContainer>
-      </PaperProvider>
-    </ApolloProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ApolloProvider client={client}>
+        <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
+          <StatusBar style="light" />
+          <NavigationContainer theme={CombinedDarkTheme}>
+            {!isUserLoggedIn ? (
+              <SignedOutStack />
+            ) : (
+              <Text>You are logged in</Text>
+            )}
+          </NavigationContainer>
+        </PaperProvider>
+      </ApolloProvider>
+    </GestureHandlerRootView>
   );
 }
 export default registerRootComponent(App);

@@ -10,91 +10,119 @@ import { RFValue } from "react-native-responsive-fontsize";
 import DiscordSVG from "../../assets/social-icons/discord-color-logo.svg";
 import GoogleSVG from "../../assets/social-icons/google-color-logo.svg";
 import { InboxIcon } from "react-native-heroicons/solid";
-import { useRef, useState } from "react";
-import EmailRegistrationModal from "../components/Auth/EmailRegistrationModal";
-import { Modalize } from "react-native-modalize";
+import { useMemo, useRef } from "react";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
 
 export default function AuthScreen() {
-  const emailRegistrationModalRef = useRef<Modalize>(null);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  // variables
+  const snapPoints = useMemo(() => ["90%"], []);
 
   return (
-    <View style={styles.container}>
-      <EmailRegistrationModal modalRef={emailRegistrationModalRef} />
-      <Image
-        source={require("../../assets/logo.png")}
-        style={{
-          width: 50,
-          height: 50,
-        }}
-      />
-      <Headline>Welcome to Orsive</Headline>
-      <Subheading style={{ marginTop: 0 }}>A simple social graph</Subheading>
+    <>
+      <BottomSheetModalProvider>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          snapPoints={snapPoints}
+          enableContentPanningGesture
+          enableHandlePanningGesture
+          enableDismissOnClose
+          enablePanDownToClose
+          enableOverDrag
+        >
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+            }}
+          >
+            <Text>Awesome 🎉</Text>
+          </View>
+        </BottomSheetModal>
+        <View style={styles.container}>
+          <Image
+            source={require("../../assets/logo.png")}
+            style={{
+              width: 50,
+              height: 50,
+            }}
+          />
+          <Headline>Welcome to Orsive</Headline>
+          <Subheading style={{ marginTop: 0 }}>
+            A simple social graph
+          </Subheading>
 
-      <View style={styles.authList}>
-        <TouchableRipple
-          rippleColor="gray"
-          borderless
-          onPress={() => {}}
-          style={[styles.authButton, styles.googleButton]}
-        >
-          <>
-            <GoogleSVG
-              style={{
-                width: RFValue(20),
-                height: RFValue(20),
+          <View style={styles.authList}>
+            <TouchableRipple
+              rippleColor="gray"
+              borderless
+              onPress={() => {}}
+              style={[styles.authButton, styles.googleButton]}
+            >
+              <>
+                <GoogleSVG
+                  style={{
+                    width: RFValue(20),
+                    height: RFValue(20),
+                  }}
+                />
+                <Subheading style={[{ color: "black" }, styles.authButtonText]}>
+                  Continue with Google
+                </Subheading>
+              </>
+            </TouchableRipple>
+            <TouchableRipple
+              borderless
+              onPress={() => {}}
+              style={[styles.authButton, styles.discordButton]}
+            >
+              <>
+                <DiscordSVG
+                  style={{
+                    width: RFValue(20),
+                    height: RFValue(20),
+                  }}
+                />
+                <Subheading style={styles.authButtonText}>
+                  Continue with Discord
+                </Subheading>
+              </>
+            </TouchableRipple>
+            <TouchableRipple
+              borderless
+              onPress={() => {
+                bottomSheetModalRef.current?.present();
               }}
-            />
-            <Subheading style={[{ color: "black" }, styles.authButtonText]}>
-              Continue with Google
-            </Subheading>
-          </>
-        </TouchableRipple>
-        <TouchableRipple
-          borderless
-          onPress={() => {}}
-          style={[styles.authButton, styles.discordButton]}
-        >
-          <>
-            <DiscordSVG
-              style={{
-                width: RFValue(20),
-                height: RFValue(20),
-              }}
-            />
-            <Subheading style={styles.authButtonText}>
-              Continue with Discord
-            </Subheading>
-          </>
-        </TouchableRipple>
-        <TouchableRipple
-          borderless
-          onPress={() => {
-            emailRegistrationModalRef.current?.open();
-          }}
-          style={[styles.authButton, styles.emailButton]}
-        >
-          <>
-            <InboxIcon
-              color={"white"}
-              style={{
-                width: RFValue(20),
-                height: RFValue(20),
-              }}
-            />
-            <Subheading style={styles.authButtonText}>
-              Continue with Email
-            </Subheading>
-          </>
-        </TouchableRipple>
-        <Button
-          mode="text"
-          style={{ marginTop: RFValue(10) }}
-          onPress={() => {}}
-        >
-          Already a smarty capty? Log In
-        </Button>
-      </View>
-    </View>
+              style={[styles.authButton, styles.emailButton]}
+            >
+              <>
+                <InboxIcon
+                  color={"white"}
+                  style={{
+                    width: RFValue(20),
+                    height: RFValue(20),
+                  }}
+                />
+                <Subheading style={styles.authButtonText}>
+                  Continue with Email
+                </Subheading>
+              </>
+            </TouchableRipple>
+            <Button
+              mode="text"
+              style={{ marginTop: RFValue(10) }}
+              onPress={() => {}}
+            >
+              Already a smarty capty? Log In
+            </Button>
+          </View>
+        </View>
+      </BottomSheetModalProvider>
+    </>
   );
 }
 
