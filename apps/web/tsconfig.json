@@ -1,6 +1,11 @@
 {
   "extends": "../../packages/tsconfig/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "../../packages/validation-schemas/index.ts"
+  ],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "downlevelIteration": true

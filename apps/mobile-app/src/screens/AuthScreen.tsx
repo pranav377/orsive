@@ -15,34 +15,18 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
+import EmailRegistrationModal from "../components/Auth/EmailRegistrationModal";
+import EmailLoginModal from "../components/Auth/EmailLoginModal";
 
 export default function AuthScreen() {
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  // variables
-  const snapPoints = useMemo(() => ["90%"], []);
+  const emailRegistrationModalRef = useRef<BottomSheetModal>(null);
+  const emailLoginModalRef = useRef<BottomSheetModal>(null);
 
   return (
     <>
       <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          snapPoints={snapPoints}
-          enableContentPanningGesture
-          enableHandlePanningGesture
-          enableDismissOnClose
-          enablePanDownToClose
-          enableOverDrag
-        >
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-            }}
-          >
-            <Text>Awesome 🎉</Text>
-          </View>
-        </BottomSheetModal>
+        <EmailRegistrationModal modalRef={emailRegistrationModalRef} />
+        <EmailLoginModal modalRef={emailLoginModalRef} />
         <View style={styles.container}>
           <Image
             source={require("../../assets/logo.png")}
@@ -95,7 +79,7 @@ export default function AuthScreen() {
             <TouchableRipple
               borderless
               onPress={() => {
-                bottomSheetModalRef.current?.present();
+                emailRegistrationModalRef.current?.present();
               }}
               style={[styles.authButton, styles.emailButton]}
             >
@@ -115,7 +99,9 @@ export default function AuthScreen() {
             <Button
               mode="text"
               style={{ marginTop: RFValue(10) }}
-              onPress={() => {}}
+              onPress={() => {
+                emailLoginModalRef.current?.present();
+              }}
             >
               Already a smarty capty? Log In
             </Button>
