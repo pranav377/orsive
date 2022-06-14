@@ -10,7 +10,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import DiscordSVG from "../../assets/social-icons/discord-color-logo.svg";
 import GoogleSVG from "../../assets/social-icons/google-color-logo.svg";
 import { InboxIcon } from "react-native-heroicons/solid";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,

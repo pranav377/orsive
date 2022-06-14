@@ -6,15 +6,16 @@ import { Button, Subheading } from "react-native-paper";
 import { Formik } from "formik";
 import { LOGIN_SCHEMA } from "../../../../../packages/validation-schemas";
 import { RFValue } from "react-native-responsive-fontsize";
-import TextFormInput, {
-  BottomSheetTextFormInput,
-} from "../FormComponents/TextFormInput";
+import { BottomSheetTextFormInput } from "../FormComponents/TextFormInput";
 import LoginSVG from "./svgs/login.svg";
+import { useDispatch } from "react-redux";
+import { AppStateActions } from "../../store/slices/appSlice";
 
 export default function EmailLoginModal(props: {
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }) {
   const snapPoints = useMemo(() => ["100%"], []);
+  const dispatch = useDispatch();
 
   return (
     <BottomSheetModal
@@ -38,7 +39,10 @@ export default function EmailLoginModal(props: {
         <Formik
           initialValues={{ email: "", password: "" }}
           onSubmit={(values, { setSubmitting }) => {
-            alert(JSON.stringify(values));
+            dispatch(AppStateActions.showLoadingScreen());
+            setTimeout(() => {
+              dispatch(AppStateActions.closeLoadingScreen());
+            }, 10000);
             setSubmitting(false);
           }}
           validationSchema={LOGIN_SCHEMA}

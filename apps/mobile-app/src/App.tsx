@@ -16,6 +16,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./store";
+import { ToastProvider } from "react-native-toast-notifications";
+import { RFValue } from "react-native-responsive-fontsize";
+import AppMiddleware from "./components/AppMiddleware";
 
 const CombinedDarkTheme = {
   ...merge(PaperDarkTheme, NavigationDarkTheme),
@@ -52,16 +55,24 @@ function App() {
     <ReduxProvider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <ApolloProvider client={client}>
-          <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
-            <StatusBar style="light" />
-            <NavigationContainer theme={CombinedDarkTheme}>
-              {!isUserLoggedIn ? (
-                <SignedOutStack />
-              ) : (
-                <Text>You are logged in</Text>
-              )}
-            </NavigationContainer>
-          </PaperProvider>
+          <ToastProvider
+            style={{
+              backgroundColor: "white",
+              borderRadius: RFValue(15),
+            }}
+          >
+            <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
+              <AppMiddleware />
+              <StatusBar style="light" />
+              <NavigationContainer theme={CombinedDarkTheme}>
+                {!isUserLoggedIn ? (
+                  <SignedOutStack />
+                ) : (
+                  <Text>You are logged in</Text>
+                )}
+              </NavigationContainer>
+            </PaperProvider>
+          </ToastProvider>
         </ApolloProvider>
       </GestureHandlerRootView>
     </ReduxProvider>
