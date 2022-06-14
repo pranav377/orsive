@@ -2,16 +2,19 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useMemo } from "react";
 import { View } from "react-native";
-import { Button, Subheading, TextInput } from "react-native-paper";
+import { Button, Subheading } from "react-native-paper";
 import { Formik } from "formik";
 import { LOGIN_SCHEMA } from "../../../../../packages/validation-schemas";
 import { RFValue } from "react-native-responsive-fontsize";
-import TextFormInput from "../FormComponents/TextFormInput";
+import TextFormInput, {
+  BottomSheetTextFormInput,
+} from "../FormComponents/TextFormInput";
+import LoginSVG from "./svgs/login.svg";
 
 export default function EmailLoginModal(props: {
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }) {
-  const snapPoints = useMemo(() => ["85%"], []);
+  const snapPoints = useMemo(() => ["100%"], []);
 
   return (
     <BottomSheetModal
@@ -26,14 +29,18 @@ export default function EmailLoginModal(props: {
     >
       <View
         style={{
-          flex: 1,
           alignItems: "center",
+          flex: 1,
         }}
       >
-        <Subheading>Login with Email</Subheading>
+        <Subheading style={{ margin: RFValue(5) }}>Login with Email</Subheading>
+        <LoginSVG style={{ width: "50%", height: "50%" }} />
         <Formik
           initialValues={{ email: "", password: "" }}
-          onSubmit={() => {}}
+          onSubmit={(values, { setSubmitting }) => {
+            alert(JSON.stringify(values));
+            setSubmitting(false);
+          }}
           validationSchema={LOGIN_SCHEMA}
         >
           {({
@@ -45,7 +52,7 @@ export default function EmailLoginModal(props: {
             values,
           }) => (
             <View style={{ padding: RFValue(7), width: "100%" }}>
-              <TextFormInput
+              <BottomSheetTextFormInput
                 errors={errors}
                 values={values}
                 label="Email"
@@ -53,7 +60,7 @@ export default function EmailLoginModal(props: {
                 handleBlur={handleBlur}
                 handleChange={handleChange}
               />
-              <TextFormInput
+              <BottomSheetTextFormInput
                 errors={errors}
                 values={values}
                 label="Password"
@@ -66,6 +73,7 @@ export default function EmailLoginModal(props: {
                 }}
               />
               <Button
+                disabled={!!errors.email || !!errors.password || isSubmitting}
                 mode="contained"
                 onPress={handleSubmit}
                 style={{ marginTop: RFValue(10), borderRadius: RFValue(15) }}
