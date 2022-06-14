@@ -14,6 +14,8 @@ import merge from "deepmerge";
 import { StatusBar } from "expo-status-bar";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Provider as ReduxProvider } from "react-redux";
+import { store } from "./store";
 
 const CombinedDarkTheme = {
   ...merge(PaperDarkTheme, NavigationDarkTheme),
@@ -47,20 +49,22 @@ const client = new ApolloClient({
 function App() {
   let isUserLoggedIn = false;
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ApolloProvider client={client}>
-        <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
-          <StatusBar style="light" />
-          <NavigationContainer theme={CombinedDarkTheme}>
-            {!isUserLoggedIn ? (
-              <SignedOutStack />
-            ) : (
-              <Text>You are logged in</Text>
-            )}
-          </NavigationContainer>
-        </PaperProvider>
-      </ApolloProvider>
-    </GestureHandlerRootView>
+    <ReduxProvider store={store}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ApolloProvider client={client}>
+          <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
+            <StatusBar style="light" />
+            <NavigationContainer theme={CombinedDarkTheme}>
+              {!isUserLoggedIn ? (
+                <SignedOutStack />
+              ) : (
+                <Text>You are logged in</Text>
+              )}
+            </NavigationContainer>
+          </PaperProvider>
+        </ApolloProvider>
+      </GestureHandlerRootView>
+    </ReduxProvider>
   );
 }
 export default registerRootComponent(App);
