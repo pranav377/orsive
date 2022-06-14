@@ -44,7 +44,7 @@ const CombinedDarkTheme = {
   }),
 };
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: __DEV__ ? "localhost:4000/graphql" : "api.orsive.com/graphql",
   cache: new InMemoryCache(),
 });

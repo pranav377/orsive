@@ -4,7 +4,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "../../packages/validation-schemas/index.ts"
+    "../../packages/common/**/*.ts"
   ],
   "exclude": ["node_modules"],
   "compilerOptions": {

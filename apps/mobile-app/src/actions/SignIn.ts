@@ -1,5 +1,4 @@
-import { setUser } from "../../components/app/AppMiddleware";
-import { client } from "../../pages/_app";
+import { client } from "../App";
 import { SIGN_IN_MUTATION_SCHEMA } from "../../../../packages/common/mutations";
 
 export default async function SignIn(data: {
@@ -10,6 +9,4 @@ export default async function SignIn(data: {
     mutation: SIGN_IN_MUTATION_SCHEMA,
     variables: data,
   });
-
-  setUser(result.data.signIn);
 }

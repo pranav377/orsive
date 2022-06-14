@@ -29,7 +29,7 @@ export default function LoadingModal() {
             borderRadius: RFValue(15),
             alignItems: "center",
             justifyContent: "center",
-            width: "80%",
+            width: "70%",
           }}
         >
           <ActivityIndicator size="large" />

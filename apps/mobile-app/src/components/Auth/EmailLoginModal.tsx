@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { View } from "react-native";
 import { Button, Subheading } from "react-native-paper";
 import { Formik } from "formik";
-import { LOGIN_SCHEMA } from "../../../../../packages/validation-schemas";
+import { LOGIN_SCHEMA } from "../../../../../packages/common/forms";
 import { RFValue } from "react-native-responsive-fontsize";
 import { BottomSheetTextFormInput } from "../FormComponents/TextFormInput";
 import LoginSVG from "./svgs/login.svg";
@@ -39,7 +39,11 @@ export default function EmailLoginModal(props: {
         <Formik
           initialValues={{ email: "", password: "" }}
           onSubmit={(values, { setSubmitting }) => {
-            dispatch(AppStateActions.showLoadingScreen());
+            dispatch(
+              AppStateActions.showLoadingScreen({
+                message: "Logging in...",
+              })
+            );
             setTimeout(() => {
               dispatch(AppStateActions.closeLoadingScreen());
             }, 10000);

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import SignIn from "../../../app/auth/signIn";
 import Button from "../../base/button";
 import InputField from "../fields/inputField";
-import { LOGIN_SCHEMA } from "../../../../../packages/validation-schemas";
+import { LOGIN_SCHEMA } from "../../../../../packages/common/forms";
 
 export default function LoginForm() {
   const router = useRouter();
