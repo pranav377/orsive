@@ -5,13 +5,15 @@ import { Modal, View, ActivityIndicator } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export default function LoadingModal() {
-  const appState = useSelector((state: RootState) => state.app);
+  const loadingScreenState = useSelector(
+    (state: RootState) => state.loadingScreen
+  );
 
   return (
     <Modal
       animationType="slide"
       transparent={true}
-      visible={appState.showLoadingScreen}
+      visible={loadingScreenState.showLoadingScreen}
     >
       <View
         style={{
@@ -33,7 +35,7 @@ export default function LoadingModal() {
           }}
         >
           <ActivityIndicator size="large" />
-          <Subheading>{appState.loadingText}</Subheading>
+          <Subheading>{loadingScreenState.loadingText}</Subheading>
         </View>
       </View>
     </Modal>

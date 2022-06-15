@@ -3,7 +3,6 @@ import {
   ApolloServerPluginLandingPageDisabled,
   ApolloServerPluginLandingPageGraphQLPlayground,
 } from "apollo-server-core";
-import { graphqlUploadExpress } from "graphql-upload";
 import express from "express";
 import typeDefs from "./graphql/schema";
 import resolvers from "./graphql/resolvers";
@@ -22,6 +21,7 @@ import {
 import { discordStrat, googleStrat } from "./oauthStrategies";
 import { JWT_SECRET } from "./graphql/config";
 import passportJWT from "passport-jwt";
+import { graphqlUploadExpress } from "graphql-upload";
 
 passport.use(
   new GraphQLLocalStrategy(async (email: any, password: any, done) => {

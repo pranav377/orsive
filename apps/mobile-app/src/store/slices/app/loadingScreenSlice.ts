@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface AppState {
+export interface LoadingScreenState {
   showLoadingScreen: boolean;
   loadingText: string;
 }
 
-const initialState: AppState = {
+const initialState: LoadingScreenState = {
   showLoadingScreen: false,
   loadingText: "Loading...",
 };
 
-export const appSlice = createSlice({
+export const loadingScreenSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
@@ -32,5 +32,5 @@ export const appSlice = createSlice({
   },
 });
 
-export const AppStateActions = appSlice.actions;
-export default appSlice.reducer;
+export const LoadingScreenActions = loadingScreenSlice.actions;
+export default loadingScreenSlice.reducer;

@@ -15,10 +15,11 @@ import { StatusBar } from "expo-status-bar";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider as ReduxProvider } from "react-redux";
-import { store } from "./store";
+import { persistor, store } from "./store";
 import { ToastProvider } from "react-native-toast-notifications";
 import { RFValue } from "react-native-responsive-fontsize";
 import AppMiddleware from "./components/AppMiddleware";
+import { PersistGate } from "redux-persist/integration/react";
 
 const CombinedDarkTheme = {
   ...merge(PaperDarkTheme, NavigationDarkTheme),
@@ -53,28 +54,30 @@ function App() {
   let isUserLoggedIn = false;
   return (
     <ReduxProvider store={store}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <ApolloProvider client={client}>
-          <ToastProvider
-            style={{
-              backgroundColor: "white",
-              borderRadius: RFValue(15),
-            }}
-          >
-            <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
-              <AppMiddleware />
-              <StatusBar style="light" />
-              <NavigationContainer theme={CombinedDarkTheme}>
-                {!isUserLoggedIn ? (
-                  <SignedOutStack />
-                ) : (
-                  <Text>You are logged in</Text>
-                )}
-              </NavigationContainer>
-            </PaperProvider>
-          </ToastProvider>
-        </ApolloProvider>
-      </GestureHandlerRootView>
+      <PersistGate persistor={persistor}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <ApolloProvider client={client}>
+            <ToastProvider
+              style={{
+                backgroundColor: "white",
+                borderRadius: RFValue(15),
+              }}
+            >
+              <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
+                <AppMiddleware />
+                <StatusBar style="light" />
+                <NavigationContainer theme={CombinedDarkTheme}>
+                  {!isUserLoggedIn ? (
+                    <SignedOutStack />
+                  ) : (
+                    <Text>You are logged in</Text>
+                  )}
+                </NavigationContainer>
+              </PaperProvider>
+            </ToastProvider>
+          </ApolloProvider>
+        </GestureHandlerRootView>
+      </PersistGate>
     </ReduxProvider>
   );
 }

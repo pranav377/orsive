@@ -9,7 +9,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { BottomSheetTextFormInput } from "../FormComponents/TextFormInput";
 import LoginSVG from "./svgs/login.svg";
 import { useDispatch } from "react-redux";
-import { AppStateActions } from "../../store/slices/appSlice";
+import { LoadingScreenActions } from "../../store/slices/app/loadingScreenSlice";
 
 export default function EmailLoginModal(props: {
   modalRef: React.RefObject<BottomSheetModalMethods>;
@@ -40,12 +40,12 @@ export default function EmailLoginModal(props: {
           initialValues={{ email: "", password: "" }}
           onSubmit={(values, { setSubmitting }) => {
             dispatch(
-              AppStateActions.showLoadingScreen({
+              LoadingScreenActions.showLoadingScreen({
                 message: "Logging in...",
               })
             );
             setTimeout(() => {
-              dispatch(AppStateActions.closeLoadingScreen());
+              dispatch(LoadingScreenActions.closeLoadingScreen());
             }, 10000);
             setSubmitting(false);
           }}

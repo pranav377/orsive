@@ -45,6 +45,22 @@ const AUTH_SCHEMA = gql`
     isMod: Boolean
   }
 
+  type SignUpAndSignInResponse {
+    id: ID
+    username: String
+    name: String
+    avatar: String
+    banner: String
+    bio: String
+    joined: Date
+    _count: UserCount
+    unreadNotifications: Boolean
+    setupComplete: Boolean
+    isStaff: Boolean
+    isMod: Boolean
+    token: String
+  }
+
   input SignUpInput {
     username: String!
     email: String!
@@ -75,8 +91,8 @@ const AUTH_SCHEMA = gql`
   }
 
   type Mutation {
-    signUp(input: SignUpInput!): MeResponse!
-    signIn(input: SignInInput!): MeResponse!
+    signUp(input: SignUpInput!): SignUpAndSignInResponse!
+    signIn(input: SignInInput!): SignUpAndSignInResponse!
     passwordReset(input: PasswordResetInput!): String!
     logout: String!
     followUser(username: String!): String!
