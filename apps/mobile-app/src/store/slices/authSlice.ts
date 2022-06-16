@@ -35,11 +35,10 @@ export const authSlice = createSlice({
       state.avatar = action.payload.avatar;
       state.name = action.payload.name;
       state.setupComplete = action.payload.setupComplete;
+      state.is = true;
     },
 
-    logout: (state) => {
-      state = initialState;
-    },
+    logout: () => initialState,
 
     notificationsRead: (state) => {
       state.unreadNotifications = false;

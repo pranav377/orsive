@@ -21,6 +21,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import AppMiddleware from "./components/AppMiddleware";
 import { PersistGate } from "redux-persist/integration/react";
 import { client } from "./logic/client";
+import GlobalStackIndex from "./stacks";
 
 const CombinedDarkTheme = {
   ...merge(PaperDarkTheme, NavigationDarkTheme),
@@ -47,7 +48,6 @@ const CombinedDarkTheme = {
 };
 
 function App() {
-  let isUserLoggedIn = false;
   return (
     <ReduxProvider store={store}>
       <PersistGate persistor={persistor}>
@@ -66,11 +66,7 @@ function App() {
                 <AppMiddleware />
                 <StatusBar style="light" />
                 <NavigationContainer theme={CombinedDarkTheme}>
-                  {!isUserLoggedIn ? (
-                    <SignedOutStack />
-                  ) : (
-                    <Text>You are logged in</Text>
-                  )}
+                  <GlobalStackIndex />
                 </NavigationContainer>
               </PaperProvider>
             </ToastProvider>

@@ -7,16 +7,16 @@ import {
   Text,
 } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
-import DiscordSVG from "../../assets/social-icons/discord-color-logo.svg";
-import GoogleSVG from "../../assets/social-icons/google-color-logo.svg";
+import DiscordSVG from "../../../assets/social-icons/discord-color-logo.svg";
+import GoogleSVG from "../../../assets/social-icons/google-color-logo.svg";
 import { InboxIcon } from "react-native-heroicons/solid";
-import { useEffect, useMemo, useRef } from "react";
+import { useRef } from "react";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
-import EmailRegistrationModal from "../components/Auth/EmailRegistrationModal";
-import EmailLoginModal from "../components/Auth/EmailLoginModal";
+import EmailRegistrationModal from "../../components/Auth/EmailRegistrationModal";
+import EmailLoginModal from "../../components/Auth/EmailLoginModal";
 
 export default function AuthScreen() {
   const emailRegistrationModalRef = useRef<BottomSheetModal>(null);
@@ -29,7 +29,7 @@ export default function AuthScreen() {
         <EmailLoginModal modalRef={emailLoginModalRef} />
         <View style={styles.container}>
           <Image
-            source={require("../../assets/logo.png")}
+            source={require("../../../assets/logo.png")}
             style={{
               width: 50,
               height: 50,

@@ -1,22 +1,21 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BaseBar from "../components/Headers/NullBar";
-import AuthScreen from "../screens/SignedOutStack/AuthScreen";
-
+import HomeScreen from "../screens/SignedInStack/HomeScreen";
 const Stack = createNativeStackNavigator();
 
-function SignedOutStack() {
+function SignedInStack() {
   return (
     <>
       <Stack.Navigator
+        initialRouteName="Home"
         screenOptions={{
-          header: () => <BaseBar />,
+          headerShown: false,
         }}
-        initialRouteName="Auth"
       >
-        <Stack.Screen name="Auth" component={AuthScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </>
   );
 }
 
-export default SignedOutStack;
+export default SignedInStack;
