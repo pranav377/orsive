@@ -10,12 +10,15 @@ import LoginSVG from "./svgs/login.svg";
 import { useDispatch } from "react-redux";
 import { LoadingScreenActions } from "../../store/slices/app/loadingScreenSlice";
 import { BottomSheetTextFormInput } from "../FormComponents/TextFormInput";
+import SignIn from "../../logic/Auth/SignIn";
+import { useToast } from "react-native-toast-notifications";
 
 export default function EmailLoginModal(props: {
   modalRef: React.RefObject<BottomSheetModalMethods>;
 }) {
   const snapPoints = useMemo(() => ["100%"], []);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   return (
     <BottomSheetModal
@@ -45,9 +48,22 @@ export default function EmailLoginModal(props: {
                 message: "Logging in...",
               })
             );
-            setTimeout(() => {
-              dispatch(LoadingScreenActions.closeLoadingScreen());
-            }, 10000);
+
+            SignIn(values)
+              .then(() => {
+                toast.show("Signed in Successfully", {
+                  type: "success",
+                });
+              })
+              .catch(() => {
+                toast.show("Something went wrong. Try again", {
+                  type: "danger",
+                });
+              })
+              .finally(() => {
+                dispatch(LoadingScreenActions.closeLoadingScreen());
+              });
+
             setSubmitting(false);
           }}
           validationSchema={LOGIN_SCHEMA}
@@ -68,6 +84,9 @@ export default function EmailLoginModal(props: {
                 name="email"
                 handleBlur={handleBlur}
                 handleChange={handleChange}
+                textInputProps={{
+                  keyboardType: "email-address",
+                }}
               />
               <BottomSheetTextFormInput
                 errors={errors}

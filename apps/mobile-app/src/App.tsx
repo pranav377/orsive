@@ -12,7 +12,7 @@ import {
 } from "react-native-paper";
 import merge from "deepmerge";
 import { StatusBar } from "expo-status-bar";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider as ReduxProvider } from "react-redux";
 import { persistor, store } from "./store";
@@ -20,6 +20,7 @@ import { ToastProvider } from "react-native-toast-notifications";
 import { RFValue } from "react-native-responsive-fontsize";
 import AppMiddleware from "./components/AppMiddleware";
 import { PersistGate } from "redux-persist/integration/react";
+import { client } from "./logic/client";
 
 const CombinedDarkTheme = {
   ...merge(PaperDarkTheme, NavigationDarkTheme),
@@ -45,11 +46,6 @@ const CombinedDarkTheme = {
   }),
 };
 
-export const client = new ApolloClient({
-  uri: __DEV__ ? "localhost:4000/graphql" : "api.orsive.com/graphql",
-  cache: new InMemoryCache(),
-});
-
 function App() {
   let isUserLoggedIn = false;
   return (
@@ -61,6 +57,9 @@ function App() {
               style={{
                 backgroundColor: "white",
                 borderRadius: RFValue(15),
+              }}
+              textStyle={{
+                color: "black",
               }}
             >
               <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
