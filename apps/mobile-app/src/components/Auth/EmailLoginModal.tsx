@@ -12,6 +12,7 @@ import { LoadingScreenActions } from "../../store/slices/app/loadingScreenSlice"
 import { BottomSheetTextFormInput } from "../FormComponents/TextFormInput";
 import SignIn from "../../logic/Auth/SignIn";
 import { useToast } from "react-native-toast-notifications";
+import { SLATE_900 } from "../Palette";
 
 export default function EmailLoginModal(props: {
   modalRef: React.RefObject<BottomSheetModalMethods>;
@@ -25,7 +26,7 @@ export default function EmailLoginModal(props: {
       ref={props.modalRef}
       snapPoints={snapPoints}
       backgroundStyle={{
-        backgroundColor: "#0f172a",
+        backgroundColor: SLATE_900,
       }}
       handleIndicatorStyle={{
         backgroundColor: "white",
@@ -106,7 +107,7 @@ export default function EmailLoginModal(props: {
                 onPress={handleSubmit}
                 style={{ marginTop: RFValue(10), borderRadius: RFValue(15) }}
               >
-                Submit
+                Login
               </Button>
             </View>
           )}

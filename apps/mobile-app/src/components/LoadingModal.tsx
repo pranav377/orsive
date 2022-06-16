@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { Modal, View, ActivityIndicator } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+import { SLATE_900 } from "./Palette";
 
 export default function LoadingModal() {
   const loadingScreenState = useSelector(
@@ -26,7 +27,7 @@ export default function LoadingModal() {
         <View
           style={{
             flex: 0.3,
-            backgroundColor: "#0f172a",
+            backgroundColor: SLATE_900,
             padding: RFValue(5),
             borderRadius: RFValue(15),
             alignItems: "center",

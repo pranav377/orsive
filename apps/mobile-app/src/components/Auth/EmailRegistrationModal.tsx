@@ -3,6 +3,7 @@ import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/typ
 import { useMemo } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
+import { SLATE_900 } from "../Palette";
 
 export default function EmailRegistrationModal(props: {
   modalRef: React.RefObject<BottomSheetModalMethods>;
@@ -14,7 +15,7 @@ export default function EmailRegistrationModal(props: {
       ref={props.modalRef}
       snapPoints={snapPoints}
       backgroundStyle={{
-        backgroundColor: "#0f172a",
+        backgroundColor: SLATE_900,
       }}
       handleIndicatorStyle={{
         backgroundColor: "white",
