@@ -1,4 +1,4 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useMemo } from "react";
 import { View } from "react-native";
@@ -6,10 +6,10 @@ import { Button, Subheading } from "react-native-paper";
 import { Formik } from "formik";
 import { LOGIN_SCHEMA } from "../../../../../packages/common/forms";
 import { RFValue } from "react-native-responsive-fontsize";
-import { BottomSheetTextFormInput } from "../FormComponents/TextFormInput";
 import LoginSVG from "./svgs/login.svg";
 import { useDispatch } from "react-redux";
 import { LoadingScreenActions } from "../../store/slices/app/loadingScreenSlice";
+import { BottomSheetTextFormInput } from "../FormComponents/TextFormInput";
 
 export default function EmailLoginModal(props: {
   modalRef: React.RefObject<BottomSheetModalMethods>;
@@ -27,6 +27,7 @@ export default function EmailLoginModal(props: {
       handleIndicatorStyle={{
         backgroundColor: "white",
       }}
+      android_keyboardInputMode="adjustResize"
     >
       <View
         style={{
