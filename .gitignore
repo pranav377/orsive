@@ -44,9 +44,6 @@ yarn-error.log*
 **/public/worker-*.js.map
 **/public/fallback-*.js
 
-package-lock.json
-!apps/web/package-lock.json
-
 # turbo
 .turbo
 .vercel
