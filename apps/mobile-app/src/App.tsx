@@ -22,6 +22,9 @@ import { client } from "./logic/client";
 import GlobalStackIndex from "./stacks";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-gesture-handler";
+import * as Linking from "expo-linking";
+
+const prefix = Linking.createURL("/");
 
 const CombinedDarkTheme = {
   ...merge(PaperDarkTheme, NavigationDarkTheme),
@@ -65,7 +68,12 @@ function App() {
               <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
                 <AppMiddleware />
                 <StatusBar style="light" />
-                <NavigationContainer theme={CombinedDarkTheme}>
+                <NavigationContainer
+                  linking={{
+                    prefixes: [prefix, "https://www.orsive.com/"],
+                  }}
+                  theme={CombinedDarkTheme}
+                >
                   <GlobalStackIndex />
                 </NavigationContainer>
               </PaperProvider>
