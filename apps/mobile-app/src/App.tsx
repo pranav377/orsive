@@ -3,7 +3,6 @@ import {
   NavigationContainer,
   DarkTheme as NavigationDarkTheme,
 } from "@react-navigation/native";
-import SignedOutStack from "./stacks/SignedOutStack";
 import {
   Provider as PaperProvider,
   DarkTheme as PaperDarkTheme,
@@ -13,7 +12,6 @@ import {
 import merge from "deepmerge";
 import { StatusBar } from "expo-status-bar";
 import { ApolloProvider } from "@apollo/client";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider as ReduxProvider } from "react-redux";
 import { persistor, store } from "./store";
 import { ToastProvider } from "react-native-toast-notifications";
@@ -22,6 +20,8 @@ import AppMiddleware from "./components/AppMiddleware";
 import { PersistGate } from "redux-persist/integration/react";
 import { client } from "./logic/client";
 import GlobalStackIndex from "./stacks";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import "react-native-gesture-handler";
 
 const CombinedDarkTheme = {
   ...merge(PaperDarkTheme, NavigationDarkTheme),

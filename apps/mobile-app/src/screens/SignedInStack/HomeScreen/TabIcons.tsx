@@ -1,9 +1,9 @@
 import {
   HomeIcon as HomeIconSolid,
-  SearchIcon as SearchIconSolid,
-  BellIcon as BellIconSolid,
+  SearchIcon,
+  BellIcon,
 } from "react-native-heroicons/solid";
-import { HomeIcon, SearchIcon, BellIcon } from "react-native-heroicons/outline";
+import { HomeIcon } from "react-native-heroicons/outline";
 
 export function HomeTabIcon(props: { focused: boolean; color: string }) {
   if (props.focused) {
@@ -21,9 +21,5 @@ export function NotificationsTabIcon(props: {
   focused: boolean;
   color: string;
 }) {
-  // if (props.focused) {
-  return <BellIconSolid color={props.color} />;
-  // } else {
-  //   return <BellIcon color={props.color} />;
-  // }
+  return <BellIcon color={props.color} />;
 }

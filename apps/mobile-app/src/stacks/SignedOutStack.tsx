@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BaseBar from "../components/Headers/NullBar";
+import BaseBar from "../components/Headers/BaseBar";
 import AuthScreen from "../screens/SignedOutStack/AuthScreen";
 
 const Stack = createNativeStackNavigator();
