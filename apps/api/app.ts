@@ -19,6 +19,7 @@ import {
   userOptions,
 } from "./graphql/resolvers/auth/controllers/auth.controller";
 import {
+  discordAndroidStrat,
   discordStrat,
   googleAndroidStrat,
   googleStrat,
@@ -64,6 +65,7 @@ passport.use(
 passport.use(discordStrat);
 passport.use(googleStrat);
 passport.use("google-android", googleAndroidStrat);
+passport.use("discord-android", discordAndroidStrat);
 
 passport.use(
   new passportJWT.Strategy(
@@ -141,6 +143,7 @@ async function startServer() {
       session: false,
     })
   );
+  app.get("/auth/discord-android", passport.authenticate("discord-android"));
   app.get(
     "/auth/discord/callback",
     passport.authenticate("discord", {
@@ -156,6 +159,30 @@ async function startServer() {
       };
       res.redirect(
         `${process.env.OAUTH_SUCCESS_REDIRECT_URL!}?${new URLSearchParams(
+          user
+        ).toString()}`
+      );
+    }
+  );
+
+  app.get(
+    "/auth/discord-android/callback",
+    passport.authenticate("discord-android", {
+      failureRedirect: "/graphql",
+      session: false,
+    }),
+    async function (req, res) {
+      const expressUser: any = req.user;
+      const user = {
+        ...expressUser,
+        ...(await getUserPermissions(expressUser.id)),
+        token: getUserJwtToken(expressUser),
+      };
+      delete user["_count"];
+      delete user["password"];
+      res.redirect(
+        `${process.env
+          .OAUTH_SUCCESS_ANDROID_REDIRECT_URL!}?${new URLSearchParams(
           user
         ).toString()}`
       );

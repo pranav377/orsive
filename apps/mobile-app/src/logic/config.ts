@@ -4,6 +4,6 @@ const API_URL = __DEV__
 
 const GRAPHQL_URL = `${API_URL}/graphql`;
 const GOOGLE_AUTH_URL = `${API_URL}/auth/google-android`;
-const DISCORD_AUTH_URL = `${API_URL}/auth/discord`;
+const DISCORD_AUTH_URL = `${API_URL}/auth/discord-android`;
 
 export { GRAPHQL_URL, GOOGLE_AUTH_URL, DISCORD_AUTH_URL };
