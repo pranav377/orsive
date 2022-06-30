@@ -2,11 +2,14 @@ import { Image, View } from "react-native";
 import { DrawerLayoutAndroid } from "react-native";
 import { Appbar, Avatar, TouchableRipple } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
+import { useUser } from "../../hooks/Auth/useUser";
+import urlParser from "../../logic/urlParser";
 import { SLATE_900 } from "../Palette";
 
 export default function HomeBar(props: {
   drawer: React.RefObject<DrawerLayoutAndroid>;
 }) {
+  const user = useUser();
   return (
     <Appbar.Header
       style={{
@@ -41,7 +44,7 @@ export default function HomeBar(props: {
           <Avatar.Image
             size={RFValue(36)}
             source={{
-              uri: "https://avatars0.githubusercontent.com/u/17571969?v=3&s=400",
+              uri: urlParser(user.avatar),
             }}
           />
         </TouchableRipple>

@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { DrawerLayoutAndroid, View, StatusBar } from "react-native";
 import { Button } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
-import { useToast } from "react-native-toast-notifications";
 import { Logout } from "../../logic/Auth/Logout";
 import { store } from "../../store";
 import { LoadingScreenActions } from "../../store/slices/app/loadingScreenSlice";
