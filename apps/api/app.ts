@@ -18,10 +18,15 @@ import {
   getUserJwtToken,
   userOptions,
 } from "./graphql/resolvers/auth/controllers/auth.controller";
-import { discordStrat, googleStrat } from "./oauthStrategies";
+import {
+  discordStrat,
+  googleAndroidStrat,
+  googleStrat,
+} from "./oauthStrategies";
 import { JWT_SECRET } from "./graphql/config";
 import passportJWT from "passport-jwt";
 import { graphqlUploadExpress } from "graphql-upload";
+import getUserPermissions from "./graphql/permissions/getUserPermissions";
 
 passport.use(
   new GraphQLLocalStrategy(async (email: any, password: any, done) => {
@@ -58,6 +63,7 @@ passport.use(
 
 passport.use(discordStrat);
 passport.use(googleStrat);
+passport.use("google-android", googleAndroidStrat);
 
 passport.use(
   new passportJWT.Strategy(
@@ -141,14 +147,23 @@ async function startServer() {
       failureRedirect: "/graphql",
       session: false,
     }),
-    function (req, res) {
-      res.json({
-        token: getUserJwtToken(req.user),
-      });
+    async function (req, res) {
+      const expressUser: any = req.user;
+      const user = {
+        ...expressUser,
+        ...(await getUserPermissions(expressUser.id)),
+        token: getUserJwtToken(expressUser),
+      };
+      res.redirect(
+        `${process.env.OAUTH_SUCCESS_REDIRECT_URL!}?${new URLSearchParams(
+          user
+        ).toString()}`
+      );
     }
   );
 
   app.get("/auth/google", passport.authenticate("google"));
+  app.get("/auth/google-android", passport.authenticate("google-android"));
 
   app.get(
     "/auth/google/callback",
@@ -156,10 +171,44 @@ async function startServer() {
       failureRedirect: "/graphql",
       session: false,
     }),
-    function (req, res) {
-      res.json({
-        token: getUserJwtToken(req.user),
-      });
+    async function (req, res) {
+      const expressUser: any = req.user;
+      const user = {
+        ...expressUser,
+        ...(await getUserPermissions(expressUser.id)),
+        token: getUserJwtToken(expressUser),
+      };
+      delete user["_count"];
+      delete user["password"];
+      res.redirect(
+        `${process.env.OAUTH_SUCCESS_REDIRECT_URL!}?${new URLSearchParams(
+          user
+        ).toString()}`
+      );
+    }
+  );
+
+  app.get(
+    "/auth/google-android/callback",
+    passport.authenticate("google-android", {
+      failureRedirect: "/graphql",
+      session: false,
+    }),
+    async function (req, res) {
+      const expressUser: any = req.user;
+      const user = {
+        ...expressUser,
+        ...(await getUserPermissions(expressUser.id)),
+        token: getUserJwtToken(expressUser),
+      };
+      delete user["_count"];
+      delete user["password"];
+      res.redirect(
+        `${process.env
+          .OAUTH_SUCCESS_ANDROID_REDIRECT_URL!}?${new URLSearchParams(
+          user
+        ).toString()}`
+      );
     }
   );
 

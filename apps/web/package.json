@@ -67,7 +67,7 @@
     "@types/react-dom": "^18.0.5",
     "@types/react-instantsearch-dom": "^6.12.2",
     "@types/react-linkify": "^1.0.1",
-    "autoprefixer": "^10.4.5",
+    "autoprefixer": "^10.4.7",
     "eslint": "8.7.0",
     "eslint-config-next": "12.0.8",
     "postcss": "^8.4.5",

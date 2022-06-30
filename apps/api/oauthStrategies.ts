@@ -1,6 +1,10 @@
 import { nanoid } from "nanoid";
 import { Strategy as DiscordStrategy } from "passport-discord";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import {
+  Profile,
+  Strategy as GoogleStrategy,
+  VerifyCallback,
+} from "passport-google-oauth20";
 import slugify from "slugify";
 import {
   createFullAvatar,
@@ -62,48 +66,65 @@ export const discordStrat = new DiscordStrategy(
   }
 );
 
+async function googleAccountCreate(
+  _accessToken: string,
+  _refreshToken: string,
+  profile: Profile,
+  cb: VerifyCallback
+) {
+  if (profile.emails) {
+    const matchingUser = await prisma.profile.findUnique({
+      where: {
+        googleId: profile.id,
+      },
+      ...userOptions,
+    });
+    if (matchingUser) {
+      cb(null, matchingUser);
+      return;
+    }
+    const newUser = await prisma.profile.create({
+      data: {
+        googleId: profile.id,
+        username: slugify(`${profile.displayName}${profile.id}`),
+        name: profile.displayName,
+        email: profile.emails[0].value,
+        avatar: await createFullAvatar(),
+        password: nanoid(77),
+        authMethod: "google",
+        ...extraUserCreateData,
+      },
+      ...userOptions,
+    });
+
+    insertUser(
+      {
+        UserId: newUser.id,
+      },
+      newUser
+    );
+    cb(null, newUser);
+  } else {
+    cb(null, new Error("No email found"));
+  }
+}
+
 export const googleStrat = new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID || " ",
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || " ",
-    callbackURL: process.env.GOOGLE_CALLBACK_URL || " ",
+    callbackURL: "/auth/google/callback",
     scope: googleScopes,
   },
-  async function (_accessToken, _refreshToken, profile, cb) {
-    if (profile.emails) {
-      const matchingUser = await prisma.profile.findUnique({
-        where: {
-          googleId: profile.id,
-        },
-        ...userOptions,
-      });
-      if (matchingUser) {
-        cb(null, matchingUser);
-        return;
-      }
-      const newUser = await prisma.profile.create({
-        data: {
-          googleId: profile.id,
-          username: slugify(`${profile.displayName}${profile.id}`),
-          name: profile.displayName,
-          email: profile.emails[0].value,
-          avatar: await createFullAvatar(),
-          password: nanoid(77),
-          authMethod: "google",
-          ...extraUserCreateData,
-        },
-        ...userOptions,
-      });
+  googleAccountCreate
+);
 
-      insertUser(
-        {
-          UserId: newUser.id,
-        },
-        newUser
-      );
-      cb(null, newUser);
-    } else {
-      cb(null, new Error("No email found"));
-    }
-  }
+export const googleAndroidStrat = new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID || " ",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || " ",
+    callbackURL: "/auth/google-android/callback",
+    scope: googleScopes,
+  },
+  googleAccountCreate
 );

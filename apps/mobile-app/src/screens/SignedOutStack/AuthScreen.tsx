@@ -1,26 +1,55 @@
-import { Image, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Platform,
+  StyleSheet,
+  View,
+} from "react-native";
 import {
   Headline,
   Button,
   Subheading,
   TouchableRipple,
-  Text,
 } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import DiscordSVG from "../../../assets/social-icons/discord-color-logo.svg";
 import GoogleSVG from "../../../assets/social-icons/google-color-logo.svg";
 import { InboxIcon } from "react-native-heroicons/solid";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import EmailRegistrationModal from "../../components/Auth/EmailRegistrationModal";
 import EmailLoginModal from "../../components/Auth/EmailLoginModal";
+import { useNavigationParams } from "../../hooks/useNavigationParams";
+import { DISCORD_AUTH_URL, GOOGLE_AUTH_URL } from "../../logic/config";
+import * as WebBrowser from "expo-web-browser";
+import { useDispatch } from "react-redux";
+import { LoadingScreenActions } from "../../store/slices/app/loadingScreenSlice";
+import LoginUser from "../../logic/Auth/LoginUser";
 
 export default function AuthScreen() {
   const emailRegistrationModalRef = useRef<BottomSheetModal>(null);
   const emailLoginModalRef = useRef<BottomSheetModal>(null);
+
+  const params = useNavigationParams("Auth");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (params["token"]) {
+      dispatch(
+        LoadingScreenActions.showLoadingScreen({
+          message: "Logging in...",
+        })
+      );
+
+      (async () => {
+        await LoginUser(params["token"], params);
+        dispatch(LoadingScreenActions.closeLoadingScreen());
+      })();
+    }
+  }, [params]);
 
   return (
     <>
@@ -44,7 +73,9 @@ export default function AuthScreen() {
             <TouchableRipple
               rippleColor="gray"
               borderless
-              onPress={() => {}}
+              onPress={() => {
+                WebBrowser.openBrowserAsync(GOOGLE_AUTH_URL);
+              }}
               style={[styles.authButton, styles.googleButton]}
             >
               <>
@@ -61,7 +92,9 @@ export default function AuthScreen() {
             </TouchableRipple>
             <TouchableRipple
               borderless
-              onPress={() => {}}
+              onPress={() => {
+                WebBrowser.openBrowserAsync(DISCORD_AUTH_URL);
+              }}
               style={[styles.authButton, styles.discordButton]}
             >
               <>
@@ -114,7 +147,7 @@ export default function AuthScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.8,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },

@@ -2,8 +2,9 @@
   "expo": {
     "entryPoint": "./src/App.tsx",
     "scheme": "orsive",
-    "name": "mobile-app",
-    "slug": "mobile-app",
+    "name": "Orsive",
+    "slug": "orsive",
+    "owner": "pranav377",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
