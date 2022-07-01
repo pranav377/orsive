@@ -26,7 +26,7 @@ export default function LoginForm() {
             ),
           })
           .then(() => {
-            router.push("/");
+            router.push("/feed");
           })
           .catch((error) => {
             console.log(error);

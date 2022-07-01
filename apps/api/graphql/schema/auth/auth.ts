@@ -94,7 +94,6 @@ const AUTH_SCHEMA = gql`
     signUp(input: SignUpInput!): SignUpAndSignInResponse!
     signIn(input: SignInInput!): SignUpAndSignInResponse!
     passwordReset(input: PasswordResetInput!): String!
-    logout: String!
     followUser(username: String!): String!
     setupLanguages(langs: [String!]): String!
   }

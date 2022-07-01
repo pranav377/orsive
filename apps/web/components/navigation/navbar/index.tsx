@@ -143,7 +143,9 @@ function ProfileDropdown() {
                 />
                 <div className="flex flex-col justify-center ml-2">
                   <span className="font-semibold text-xl">{user.name}</span>
-                  <p className="font-normal text-gray-300">${user.username}</p>
+                  <p className="font-normal text-gray-300 w-full overflow-hidden text-ellipsis">
+                    ${user.username}
+                  </p>
                 </div>
               </div>
             </a>

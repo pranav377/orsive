@@ -3,7 +3,8 @@ import { useQueryState } from "next-usequerystate";
 import { useEffect, useState } from "react";
 import { useAuthRedirect } from "../app/useAuthRedirect";
 import { useRouter } from "next/router";
-import tryOpeningLinkOnMobile from "../../utils/tryOpeningLinkOnMobile";
+import { setUser } from "../../components/app/AppMiddleware";
+import toast from "react-hot-toast";
 
 export const useAuthPage = () => {
   const router = useRouter();
@@ -15,7 +16,25 @@ export const useAuthPage = () => {
 
   useEffect(() => {
     if (router.query && router.query["token"]) {
-      tryOpeningLinkOnMobile(`Auth?token=${router.query["token"]}`);
+      const data: any = router.query;
+
+      toast
+        .promise(
+          (async () => {
+            localStorage.setItem("token", data.token);
+            setUser({ ...data, setupComplete: false });
+            router.push("/feed");
+          })(),
+          {
+            loading: "Signing In....",
+            success: <p>Signed in Successfully🚀🚀</p>,
+            error: "Something went wrong. Try again",
+          }
+        )
+        .then(() => {})
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [router.query]);
 

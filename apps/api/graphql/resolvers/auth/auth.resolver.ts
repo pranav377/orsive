@@ -64,13 +64,6 @@ const AUTH_RESOLVERS = {
       return PasswordReset(args);
     },
 
-    logout(_: void, _args: any, context: any) {
-      IsUserAuthenticated(context);
-      context.logout();
-      context.req.session.destroy();
-      return "success";
-    },
-
     followUser(_: void, args: FollowUserInput, context: any) {
       IsUserAuthenticated(context);
 
