@@ -17,7 +17,6 @@
     "@tinymce/tinymce-react": "^4.0.0",
     "animate.css": "^4.1.1",
     "apollo-upload-client": "^17.0.0",
-    "cookies-next": "^2.0.4",
     "firebase": "^9.8.3",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",

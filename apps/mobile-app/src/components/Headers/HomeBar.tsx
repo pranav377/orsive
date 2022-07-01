@@ -10,6 +10,7 @@ export default function HomeBar(props: {
   drawer: React.RefObject<DrawerLayoutAndroid>;
 }) {
   const user = useUser();
+  let avatar = urlParser(user.avatar);
   return (
     <Appbar.Header
       style={{
@@ -44,7 +45,7 @@ export default function HomeBar(props: {
           <Avatar.Image
             size={RFValue(36)}
             source={{
-              uri: urlParser(user.avatar),
+              uri: avatar,
             }}
           />
         </TouchableRipple>

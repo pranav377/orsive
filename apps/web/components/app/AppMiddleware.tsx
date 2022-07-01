@@ -5,8 +5,6 @@ import USER_CHECK_QUERY, {
 import { client } from "../../pages/_app";
 import USER_CASES from "../../app/store/reducers/user/cases";
 import store from "../../app/store/store";
-import { removeCookies, setCookies } from "cookies-next";
-import { USER_COOKIE_KEY } from "../../config";
 import APP_CASES from "../../app/store/reducers/app/cases";
 import AdditionalSetup, { ADDITIONAL_SETUP_CONTEXT } from "./AdditionalSetup";
 import LANG_CONF from "../../../../packages/config/global-lang-list.json";
@@ -19,9 +17,6 @@ export function setUser(user: {
   isMod: boolean;
   isStaff: boolean;
 }) {
-  setCookies(USER_COOKIE_KEY, "true", {
-    maxAge: 1000 * 60 * 60 * 24 * 365,
-  });
   localStorage.setItem("username", user.username);
   store.dispatch({
     type: USER_CASES.LOGIN,
@@ -39,9 +34,7 @@ export function userCheckLogin() {
 
       setUser(data);
     })
-    .catch((error) => {
-      removeCookies(USER_COOKIE_KEY);
-    });
+    .catch((error) => {});
 }
 
 async function checkNotifications() {

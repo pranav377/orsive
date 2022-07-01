@@ -11,7 +11,7 @@ const initialState: LoadingScreenState = {
 };
 
 export const loadingScreenSlice = createSlice({
-  name: "app",
+  name: "loadingScreen",
   initialState,
   reducers: {
     showLoadingScreen: (

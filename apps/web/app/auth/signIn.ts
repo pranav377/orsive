@@ -11,5 +11,7 @@ export default async function SignIn(data: {
     variables: data,
   });
 
+  localStorage.setItem("token", result.data.signIn.token);
+
   setUser(result.data.signIn);
 }
