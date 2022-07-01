@@ -111,6 +111,7 @@ async function startServer() {
         ? [ApolloServerPluginLandingPageDisabled()]
         : [ApolloServerPluginLandingPageGraphQLPlayground()],
     context: ({ req, res }) => buildContext({ req, res }),
+    cache: "bounded",
   });
   await server.start();
 
