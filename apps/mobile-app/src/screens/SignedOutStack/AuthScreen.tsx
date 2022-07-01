@@ -45,7 +45,10 @@ export default function AuthScreen() {
       );
 
       (async () => {
-        await LoginUser(params["token"], params);
+        await LoginUser(params["token"], {
+          ...params,
+          setupComplete: params["setupComplete"] === "true",
+        });
         dispatch(LoadingScreenActions.closeLoadingScreen());
       })();
     }

@@ -22,7 +22,10 @@ export const useAuthPage = () => {
         .promise(
           (async () => {
             localStorage.setItem("token", data.token);
-            setUser({ ...data, setupComplete: false });
+            setUser({
+              ...data,
+              setupComplete: data["setupComplete"] === "true",
+            });
             router.push("/feed");
           })(),
           {
