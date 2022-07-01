@@ -1,6 +1,6 @@
 import { setUser } from "../../components/app/AppMiddleware";
 import { client } from "../../pages/_app";
-import SIGN_IN_MUTATION_SCHEMA from "./mutations/signInMutate";
+import { SIGN_IN_MUTATION_SCHEMA } from "../../../../packages/common/mutations";
 
 export default async function SignIn(data: {
   email: string;
@@ -10,6 +10,8 @@ export default async function SignIn(data: {
     mutation: SIGN_IN_MUTATION_SCHEMA,
     variables: data,
   });
+
+  localStorage.setItem("token", result.data.signIn.token);
 
   setUser(result.data.signIn);
 }

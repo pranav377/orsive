@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
+    "dev": "turbo run dev --parallel --filter=!mobile-app",
+    "backend": "turbo run dev --parallel --filter=!mobile-app --filter=!web",
     "setup": "ts-node setup.ts",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
@@ -16,7 +17,7 @@
   "devDependencies": {
     "@types/node": "^17.0.39",
     "prettier": "^2.5.1",
-    "turbo": "latest"
+    "turbo": "^1.2.16"
   },
   "engines": {
     "npm": ">=7.0.0",
@@ -30,6 +31,7 @@
     "mongo-connection-string": "^0.1.5",
     "mongodb": "^4.6.0",
     "tree-kill": "^1.2.2",
-    "ts-node": "^10.8.1"
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3"
   }
 }

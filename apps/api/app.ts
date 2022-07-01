@@ -3,7 +3,6 @@ import {
   ApolloServerPluginLandingPageDisabled,
   ApolloServerPluginLandingPageGraphQLPlayground,
 } from "apollo-server-core";
-import { graphqlUploadExpress } from "graphql-upload";
 import express from "express";
 import typeDefs from "./graphql/schema";
 import resolvers from "./graphql/resolvers";
@@ -11,26 +10,24 @@ import path from "path";
 
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { rateLimitDirective } from "graphql-rate-limit-directive";
-
-import session from "express-session";
 import passport from "passport";
 import { GraphQLLocalStrategy, buildContext } from "graphql-passport";
 import prisma from "./graphql/utils/data/dbClient";
 import bcrypt from "bcrypt";
-import { userOptions } from "./graphql/resolvers/auth/controllers/auth.controller";
-import { discordStrat, googleStrat } from "./oauthStrategies";
-const MongoDBStore = require("connect-mongodb-session")(session);
-
-var store = new MongoDBStore({
-  uri: process.env.DATABASE_URL,
-  collection: "Sessions",
-  resave: false,
-  saveUninitialized: false,
-});
-
-store.on("error", function (error: Error) {
-  console.log(error);
-});
+import {
+  getUserJwtToken,
+  userOptions,
+} from "./graphql/resolvers/auth/controllers/auth.controller";
+import {
+  discordAndroidStrat,
+  discordStrat,
+  googleAndroidStrat,
+  googleStrat,
+} from "./oauthStrategies";
+import { JWT_SECRET } from "./graphql/config";
+import passportJWT from "passport-jwt";
+import { graphqlUploadExpress } from "graphql-upload";
+import getUserPermissions from "./graphql/permissions/getUserPermissions";
 
 passport.use(
   new GraphQLLocalStrategy(async (email: any, password: any, done) => {
@@ -67,20 +64,34 @@ passport.use(
 
 passport.use(discordStrat);
 passport.use(googleStrat);
+passport.use("google-android", googleAndroidStrat);
+passport.use("discord-android", discordAndroidStrat);
 
-passport.serializeUser(function (user: any, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async function (id: string, done) {
-  let user = await prisma.profile.findUnique({
-    where: { id },
-    include: {
-      roles: true,
+passport.use(
+  new passportJWT.Strategy(
+    {
+      secretOrKey: JWT_SECRET,
+      jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
     },
-  });
-  done(null, user);
-});
+    (payload, done) => {
+      prisma.profile
+        .findUnique({
+          where: {
+            id: payload.id,
+          },
+          include: {
+            roles: true,
+          },
+        })
+        .then((user) => {
+          return done(null, user);
+        })
+        .catch((err) => {
+          return done(err, false);
+        });
+    }
+  )
+);
 
 const { rateLimitDirectiveTypeDefs, rateLimitDirectiveTransformer } =
   rateLimitDirective();
@@ -104,19 +115,16 @@ async function startServer() {
   await server.start();
 
   const app = express();
-  app.use(
-    session({
-      secret: process.env.JWT_SECRET!,
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
-      },
-      store: store,
-      resave: false,
-      saveUninitialized: false,
-    })
-  );
   app.use(passport.initialize());
-  app.use(passport.session());
+  app.use("/graphql", (req, res, next) => {
+    passport.authenticate("jwt", { session: false }, (_err, user, _info) => {
+      if (user) {
+        req.user = user;
+      }
+
+      next();
+    })(req, res, next);
+  });
 
   app.use(
     graphqlUploadExpress({
@@ -129,24 +137,105 @@ async function startServer() {
   app.get("/", (_req, res) => {
     res.end("Cluster Up and running");
   });
-  app.get("/auth/discord", passport.authenticate("discord"));
+  app.get(
+    "/auth/discord",
+    passport.authenticate("discord", {
+      session: false,
+    })
+  );
+  app.get("/auth/discord-android", passport.authenticate("discord-android"));
   app.get(
     "/auth/discord/callback",
     passport.authenticate("discord", {
       failureRedirect: "/graphql",
+      session: false,
     }),
-    function (_req, res) {
-      res.redirect(process.env.OAUTH_SUCCESS_REDIRECT_URL!); // Successful auth
+    async function (req, res) {
+      const expressUser: any = req.user;
+      const user = {
+        ...expressUser,
+        ...(await getUserPermissions(expressUser.id)),
+        token: getUserJwtToken(expressUser),
+      };
+      res.redirect(
+        `${process.env.OAUTH_SUCCESS_REDIRECT_URL!}?${new URLSearchParams(
+          user
+        ).toString()}`
+      );
+    }
+  );
+
+  app.get(
+    "/auth/discord-android/callback",
+    passport.authenticate("discord-android", {
+      failureRedirect: "/graphql",
+      session: false,
+    }),
+    async function (req, res) {
+      const expressUser: any = req.user;
+      const user = {
+        ...expressUser,
+        ...(await getUserPermissions(expressUser.id)),
+        token: getUserJwtToken(expressUser),
+      };
+      delete user["_count"];
+      delete user["password"];
+      res.redirect(
+        `${process.env
+          .OAUTH_SUCCESS_ANDROID_REDIRECT_URL!}?${new URLSearchParams(
+          user
+        ).toString()}`
+      );
     }
   );
 
   app.get("/auth/google", passport.authenticate("google"));
+  app.get("/auth/google-android", passport.authenticate("google-android"));
 
   app.get(
     "/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/graphql" }),
-    function (_req, res) {
-      res.redirect(process.env.OAUTH_SUCCESS_REDIRECT_URL!);
+    passport.authenticate("google", {
+      failureRedirect: "/graphql",
+      session: false,
+    }),
+    async function (req, res) {
+      const expressUser: any = req.user;
+      const user = {
+        ...expressUser,
+        ...(await getUserPermissions(expressUser.id)),
+        token: getUserJwtToken(expressUser),
+      };
+      delete user["_count"];
+      delete user["password"];
+      res.redirect(
+        `${process.env.OAUTH_SUCCESS_REDIRECT_URL!}?${new URLSearchParams(
+          user
+        ).toString()}`
+      );
+    }
+  );
+
+  app.get(
+    "/auth/google-android/callback",
+    passport.authenticate("google-android", {
+      failureRedirect: "/graphql",
+      session: false,
+    }),
+    async function (req, res) {
+      const expressUser: any = req.user;
+      const user = {
+        ...expressUser,
+        ...(await getUserPermissions(expressUser.id)),
+        token: getUserJwtToken(expressUser),
+      };
+      delete user["_count"];
+      delete user["password"];
+      res.redirect(
+        `${process.env
+          .OAUTH_SUCCESS_ANDROID_REDIRECT_URL!}?${new URLSearchParams(
+          user
+        ).toString()}`
+      );
     }
   );
 

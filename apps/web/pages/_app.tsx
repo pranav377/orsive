@@ -18,9 +18,20 @@ import { useAnalytics } from "../hooks/app/useAnalytics";
 
 import { createContext, useRef } from "react";
 import { usePWA } from "../hooks/app/usePWA";
+import { setContext } from "@apollo/client/link/context";
 import "animate.css/animate.min.css";
 
 export const ScrollContext = createContext({});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : undefined,
+    },
+  };
+});
 
 export const client = new ApolloClient({
   cache: new InMemoryCache({
@@ -107,10 +118,11 @@ export const client = new ApolloClient({
       },
     },
   }),
-  link: createUploadLink({
-    uri: GRAPHQL_URL,
-    credentials: "include",
-  }),
+  link: authLink.concat(
+    createUploadLink({
+      uri: GRAPHQL_URL,
+    })
+  ),
 });
 
 function Web({ Component, pageProps, router }: AppProps) {

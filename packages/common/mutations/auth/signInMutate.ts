@@ -9,6 +9,7 @@ const SIGN_IN_MUTATION_SCHEMA = gql`
       setupComplete
       isMod
       isStaff
+      token
     }
   }
 `;
