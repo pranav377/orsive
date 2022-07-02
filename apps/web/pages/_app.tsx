@@ -24,7 +24,11 @@ import "animate.css/animate.min.css";
 export const ScrollContext = createContext({});
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("token");
+  let token = null;
+
+  if (typeof window !== "undefined" && window.localStorage) {
+    token = localStorage.getItem("token");
+  }
   return {
     headers: {
       ...headers,

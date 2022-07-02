@@ -17,12 +17,11 @@ jobs:
           script: |
             cd orsive
             git pull origin main
-            cd apps/api
             npm install
+            cd apps/api
             npm run generate
             npm run migrate
-            npm run build
             cd ..
             cd ..
-            pm2 reload ecosystem.config.js
+            pm2 reload orsive-api
             echo 'Deployment successful to DigitalOcean'
