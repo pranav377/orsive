@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "dev": "dotenv -e .env.development -- nodemon",
-    "build": "webpack",
+    "build": "webpack --stats-error-details",
+    "start": "dotenv -e .env.production -- ts-node app.ts",
     "migrate": "dotenv -e .env -- ts-node migration.ts",
     "migrate-dev": "dotenv -e .env.development -- ts-node devMigration.ts",
     "generate": "npx prisma generate",
@@ -66,9 +67,9 @@
     "dotenv": "^16.0.1",
     "nodemon": "^2.0.15",
     "prisma": "^3.14.0",
-    "ts-loader": "^9.3.0",
-    "webpack": "^5.72.1",
-    "webpack-cli": "^4.9.2",
+    "ts-loader": "^9.3.1",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
     "webpack-node-externals": "^3.0.0"
   }
 }
