@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { DrawerLayoutAndroid, View, StatusBar } from "react-native";
-import { Avatar, Button } from "react-native-paper";
+import { Avatar, Text } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useUser } from "../../hooks/Auth/useUser";
 import { Logout } from "../../logic/Auth/Logout";
@@ -10,7 +10,8 @@ import { LoadingScreenActions } from "../../store/slices/app/loadingScreenSlice"
 import { AuthState } from "../../store/slices/authSlice";
 import HomeBar from "../Headers/HomeBar";
 import { SLATE_900 } from "../Palette";
-import { Caption, Subheading, Text } from "react-native-paper";
+import { Button } from "react-native-paper";
+import { Tailwind } from "@jeact/colors";
 
 export default function HomeScreenMiddleware(props: {
   children: React.ReactNode;
@@ -40,27 +41,36 @@ function DrawerContent(props: { user: AuthState }) {
       <View
         style={{
           marginTop: StatusBar.currentHeight,
-          padding: RFValue(5),
           height: "96%",
         }}
       >
-        <View style={{ alignItems: "flex-end" }}>
+        <View style={{ alignItems: "flex-end", margin: RFValue(5) }}>
           <Avatar.Image
             size={RFValue(64)}
             source={{
               uri: urlParser(user.avatar),
             }}
           />
-          <Text variant="displayLarge">{props.user.name}</Text>
-          <Text variant="labelSmall" numberOfLines={1}>
+          <Text style={{ fontSize: RFValue(18), marginTop: RFValue(5) }}>
+            {props.user.name}
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={{
+              color: Tailwind.gray[500],
+            }}
+          >
             ${props.user.username}
           </Text>
         </View>
-        {/* <View style={{ padding: RFValue(10) }}>
+        <View style={{ marginRight: RFValue(5), marginTop: RFValue(5) }}>
           <Button
             onPress={() => {}}
             mode="contained"
-            style={{ marginBottom: RFValue(7) }}
+            style={{
+              marginBottom: RFValue(7),
+              backgroundColor: Tailwind.coolGray[500],
+            }}
           >
             View Profile
           </Button>
@@ -79,7 +89,7 @@ function DrawerContent(props: { user: AuthState }) {
           >
             Logout
           </Button>
-        </View> */}
+        </View>
       </View>
     </>
   );

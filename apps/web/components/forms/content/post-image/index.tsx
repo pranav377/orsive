@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import AccessDenied from "../accessDenied";
 import { useUser } from "../../../../hooks/auth/useUser";
 import { client } from "../../../../pages/_app";
-import GET_POSTS_QUERY from "../../../../app/post/queries/getPostsQuery";
+import GET_POSTS_QUERY from "../../../../../../packages/common/queries/post/getPostsQuery";
 import GET_PROFILE_POSTS from "../../../../app/profile/queries/getProfilePostsQuery";
 
 function closePostImageModal() {

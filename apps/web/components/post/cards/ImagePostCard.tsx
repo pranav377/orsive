@@ -5,7 +5,7 @@ import { useLike } from "../../../hooks/app/like/useLike";
 import ExtraButtons from "../extra/ExtraButtons";
 import DELETE_IMAGE_POST_MUTATION from "../../../app/post/image/mutations/deleteImagePostMutation";
 import { useMutation } from "@apollo/client";
-import GET_POSTS_QUERY from "../../../app/post/queries/getPostsQuery";
+import GET_POSTS_QUERY from "../../../../../packages/common/queries/post/getPostsQuery";
 import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery";
 import AvatarArea from "../extra/AvatarArea";
 import Image from "next/image";

@@ -15,7 +15,7 @@ import { useUser } from "../../../../hooks/auth/useUser";
 import dynamic from "next/dynamic";
 import { RichEditorSkeleton } from "../../../app/RichEditor";
 import { client } from "../../../../pages/_app";
-import GET_POSTS_QUERY from "../../../../app/post/queries/getPostsQuery";
+import GET_POSTS_QUERY from "../../../../../../packages/common/queries/post/getPostsQuery";
 import GET_PROFILE_POSTS from "../../../../app/profile/queries/getProfilePostsQuery";
 
 const RichEditor = dynamic(() => import("../../../app/RichEditor"), {
