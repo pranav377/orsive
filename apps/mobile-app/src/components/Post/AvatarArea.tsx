@@ -17,7 +17,6 @@ export default function AvatarArea(props: { uploadedBy: UploadedBy }) {
       style={{
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: RFValue(10),
       }}
     >
       <RemoteImage
