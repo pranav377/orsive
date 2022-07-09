@@ -5,11 +5,13 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { UploadedBy } from "../types";
 import { DotsVerticalIcon } from "react-native-heroicons/solid";
 import { useState } from "react";
+import { SvgUri } from "react-native-svg";
 import urlParser from "../../logic/urlParser";
+import RemoteImage from "../RemoteImage";
 
 export default function AvatarArea(props: { uploadedBy: UploadedBy }) {
   const [showMenu, setShowMenu] = useState(false);
-
+  const avatar = urlParser(props.uploadedBy.avatar);
   return (
     <View
       style={{
@@ -18,11 +20,11 @@ export default function AvatarArea(props: { uploadedBy: UploadedBy }) {
         marginBottom: RFValue(10),
       }}
     >
-      <Image
-        source={{ uri: urlParser(props.uploadedBy.avatar) }}
+      <RemoteImage
+        width={RFValue(50)}
+        height={RFValue(50)}
+        uri={avatar}
         style={{
-          width: RFValue(50),
-          height: RFValue(50),
           borderRadius: RFValue(25),
         }}
       />

@@ -1,8 +1,12 @@
-import { Image, View } from "react-native";
+import { Dimensions, Image, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import AvatarArea from "./AvatarArea";
+import RenderHtml from "react-native-render-html";
+import { useState } from "react";
 
 export default function OrsicPostCard(props: { post: any }) {
+  const post = props.post;
+
   return (
     <View
       style={{
@@ -10,15 +14,16 @@ export default function OrsicPostCard(props: { post: any }) {
         marginVertical: RFValue(10),
       }}
     >
-      <AvatarArea
-        uploadedBy={{
-          avatar: `https://picsum.photos/1920/1080`,
-          bio: "hello",
-          name: "Pranava Mohan",
-          username: "pranav377",
+      <AvatarArea uploadedBy={post.post.uploadedBy} />
+      <RenderHtml
+        contentWidth={Dimensions.get("window").width}
+        source={{
+          html: `<div style="color: white;">
+          ${post.content}
+          </div>`,
         }}
       />
-      <Image
+      {/* <Image
         source={{
           uri: "https://picsum.photos/1920/1080",
         }}
@@ -27,7 +32,7 @@ export default function OrsicPostCard(props: { post: any }) {
           resizeMode: "contain",
           borderRadius: RFValue(10),
         }}
-      ></Image>
+      ></Image> */}
     </View>
   );
 }

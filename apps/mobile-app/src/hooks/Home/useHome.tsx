@@ -8,7 +8,5 @@ export const useHome = () => {
     },
   });
 
-  console.log(query.data);
-
   return { query };
 };

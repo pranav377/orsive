@@ -1,10 +1,6 @@
-import { FlatList, View, Image } from "react-native";
-import { ActivityIndicator, Text } from "react-native-paper";
-import { RFValue } from "react-native-responsive-fontsize";
-import { SLATE_900 } from "../../../components/Palette";
+import { FlatList, View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import { useHome } from "../../../hooks/Home/useHome";
-import { Dimensions } from "react-native";
-import AvatarArea from "../../../components/Post/AvatarArea";
 import OrsicPostCard from "../../../components/Post/OrsicPostCard";
 
 export default function HomeMainScreen() {
@@ -15,11 +11,13 @@ export default function HomeMainScreen() {
       {query.data && (
         <FlatList
           data={query.data.getPosts.data}
-          renderItem={(props) => (
-            <>
-              <OrsicPostCard post />
-            </>
-          )}
+          renderItem={(props) => {
+            return (
+              <>
+                <OrsicPostCard post={props.item} />
+              </>
+            );
+          }}
           keyExtractor={(item) => item.post.id}
         />
       )}
