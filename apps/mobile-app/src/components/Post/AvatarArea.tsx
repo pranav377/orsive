@@ -45,7 +45,7 @@ export default function AvatarArea(props: { uploadedBy: UploadedBy }) {
               onPress={() => {
                 setShowMenu(true);
               }}
-              fill="white"
+              color="white"
             />
           }
         >

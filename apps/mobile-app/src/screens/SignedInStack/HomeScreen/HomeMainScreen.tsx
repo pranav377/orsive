@@ -1,14 +1,11 @@
 import { FlatList, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
-import { FAB, Portal, Provider } from "react-native-paper";
 import { useHome } from "../../../hooks/Home/useHome";
 import OrsicPostCard from "../../../components/Post/OrsicPostCard";
-import { PlusIcon, XIcon, NewspaperIcon } from "react-native-heroicons/solid";
-import { PhotographIcon } from "react-native-heroicons/outline";
-import { Tailwind } from "@jeact/colors";
+import PostContentPortal from "../../../components/HomeScreen/PostContentPortal";
 
 export default function HomeMainScreen() {
-  const { query, fabState, setFabState, navigate } = useHome();
+  const { query } = useHome();
 
   return (
     <View style={{ flex: 1 }}>
@@ -28,66 +25,7 @@ export default function HomeMainScreen() {
         </>
       )}
 
-      <Provider>
-        <Portal>
-          <FAB.Group
-            visible
-            fabStyle={{
-              backgroundColor: Tailwind.blue[700],
-            }}
-            open={fabState.open}
-            icon={({ size, color }) => {
-              if (fabState.open) {
-                return (
-                  <XIcon
-                    fill={color}
-                    style={{
-                      width: size,
-                      height: size,
-                    }}
-                  />
-                );
-              } else {
-                return (
-                  <PlusIcon
-                    fill={color}
-                    style={{ width: size, height: size }}
-                  />
-                );
-              }
-            }}
-            actions={[
-              {
-                icon: ({ size }) => (
-                  <NewspaperIcon
-                    fill={Tailwind.blue[700]}
-                    width={size}
-                    height={size}
-                  />
-                ),
-                label: "Orsic",
-                onPress: () => {
-                  navigate("PostContent", { screen: "Orsic" });
-                },
-              },
-              {
-                icon: ({ size }) => (
-                  <PhotographIcon
-                    fill={Tailwind.blue[700]}
-                    width={size}
-                    height={size}
-                  />
-                ),
-                label: "Image",
-                onPress: () => console.log("Pressed notifications"),
-              },
-            ]}
-            onStateChange={({ open }) => {
-              setFabState({ open: open });
-            }}
-          />
-        </Portal>
-      </Provider>
+      <PostContentPortal />
 
       {query.loading && (
         <View

@@ -36,7 +36,7 @@ function PostContentScreen() {
                     }}
                     width={RFValue(25)}
                     height={RFValue(25)}
-                    fill="white"
+                    color="white"
                   />
                 </View>
               );

@@ -1,6 +1,4 @@
 import { useQuery } from "@apollo/client";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
 import GET_POSTS_QUERY from "../../../../../packages/common/queries/post/getPostsQuery";
 
 export const useHome = () => {
@@ -9,8 +7,6 @@ export const useHome = () => {
       page: 1,
     },
   });
-  const [fabState, setFabState] = useState({ open: false });
-  const { navigate } = useNavigation();
 
-  return { query, fabState, setFabState, navigate };
+  return { query };
 };

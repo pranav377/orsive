@@ -21,7 +21,7 @@ export default function HomeScreenMiddleware(props: {
   return (
     <DrawerLayoutAndroid
       ref={drawer}
-      drawerWidth={RFValue(290)}
+      drawerWidth={RFValue(220)}
       drawerPosition={"right"}
       renderNavigationView={() => <DrawerContent user={user} />}
       drawerBackgroundColor={SLATE_900}
