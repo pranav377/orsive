@@ -18,6 +18,14 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you post them."
+        }
+      ]
+    ],
     "ios": {
       "supportsTablet": true
     },
