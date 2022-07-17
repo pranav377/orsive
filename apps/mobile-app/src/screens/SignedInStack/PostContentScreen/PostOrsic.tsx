@@ -9,26 +9,13 @@ import * as ImagePicker from "expo-image-picker";
 interface Block {
   name: "paragraph" | "image";
   value: string;
+  number: number;
   data?: any;
-  timestamp: Date;
-}
-
-interface TextBlock {
-  name: "paragraph";
-  value: string;
-}
-
-interface ImageBlock {
-  name: "image";
-  value: string;
-  data: {
-    width: number;
-    height: number;
-  };
 }
 
 export default function PostOrsic() {
-  const [textBlocks, setTextBlocks] = useState<Array<TextBlock>>([]);
+  const [allEditorBlocks, setEditorBlocks] = useState<Array<Block>>([]);
+  const [lastIndex, setLastIndex] = useState(0);
 
   return (
     <View style={{ padding: RFValue(5), flex: 1 }}>
@@ -39,20 +26,30 @@ export default function PostOrsic() {
         style={{ color: "white" }}
         autoFocus
         onChangeText={(text) => {
-          console.log(text);
+          let allBlocks: Array<Block> = [];
           let allText = text.split(/(\n)/g);
-          let allBlocks: Array<TextBlock> = allText.map((oldText) => {
-            return {
-              name: "paragraph",
-              value: oldText,
-            };
+
+          allText.map((oldText) => {
+            setLastIndex((prevIndex) => {
+              allBlocks.push({
+                name: "paragraph",
+                value: oldText,
+                number: prevIndex + 1,
+              });
+
+              return prevIndex + 1;
+            });
           });
 
-          setTextBlocks(allBlocks);
+          setEditorBlocks(allBlocks);
         }}
       >
-        {textBlocks.map((block, idx) => {
-          return <Text key={idx}>{block.value}</Text>;
+        {allEditorBlocks.map((block, idx) => {
+          return (
+            <Text key={idx} style={{ color: "white" }}>
+              {block.value}
+            </Text>
+          );
         })}
       </TextInput>
       <View style={{ marginTop: "auto", padding: RFValue(5) }}>
