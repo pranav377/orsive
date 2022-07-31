@@ -17,7 +17,7 @@ function SignedInStack() {
           name="PostContent"
           component={PostContentScreen}
           options={{
-            animation: "slide_from_bottom",
+            animation: "slide_from_left",
           }}
         />
       </Stack.Navigator>

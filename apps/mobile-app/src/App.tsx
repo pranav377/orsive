@@ -56,15 +56,7 @@ function App() {
       <PersistGate persistor={persistor}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ApolloProvider client={client}>
-            <ToastProvider
-              style={{
-                backgroundColor: "white",
-                borderRadius: RFValue(15),
-              }}
-              textStyle={{
-                color: "black",
-              }}
-            >
+            <ToastProvider>
               <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
                 <AppMiddleware />
                 <StatusBar style="light" />

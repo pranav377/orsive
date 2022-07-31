@@ -12,11 +12,12 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import postContentSlice from "./slices/PostContent/postContentSlice";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  blacklist: ["loadingScreen"],
+  blacklist: ["loadingScreen", "postContent"],
 };
 
 const reducers = persistReducer(
@@ -24,6 +25,7 @@ const reducers = persistReducer(
   combineReducers({
     auth: authReducer,
     loadingScreen: loadingScreenReducer,
+    postContent: postContentSlice,
   })
 );
 

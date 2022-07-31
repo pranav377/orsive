@@ -2,13 +2,11 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { GRAPHQL_URL } from "./config";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
+import getItem from "./SecureStore/getItem";
 
-const authLink = setContext((_, { headers }) => {
-  let token = null;
+const authLink = setContext(async (_, { headers }) => {
+  let token = await getItem("token");
 
-  if (typeof window !== "undefined" && window.localStorage) {
-    token = localStorage.getItem("token");
-  }
   return {
     headers: {
       ...headers,

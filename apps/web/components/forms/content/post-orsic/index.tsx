@@ -4,7 +4,7 @@ import CONTENT_CASES from "../../../../app/store/reducers/content/cases";
 import Button from "../../../base/button";
 import { POST_ORSIC_SCHEMA } from "./validation_schema/postOrsicSchema";
 import { useMutation } from "@apollo/client";
-import ADD_ORSIC_POST_MUTATION from "./mutation_schema/addOrsicPostMutation";
+import ADD_ORSIC_POST_MUTATION from "../../../../../../packages/common/mutations/PostContent/orsic/addOrsicPostMutation";
 import Modal from "../../../app/Modal";
 import InputField from "../../fields/inputField";
 import { usePostContentState } from "../../../../hooks/app/content/usePostContentState";
