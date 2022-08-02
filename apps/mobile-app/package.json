@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@03balogun/react-native-skeleton-content": "^1.0.25",
     "@apollo/client": "^3.6.7",
     "@babel/runtime": "^7.18.3",
     "@gorhom/bottom-sheet": "4.3.2",
@@ -33,6 +34,8 @@
     "expo-web-browser": "~10.2.1",
     "formik": "^2.2.9",
     "graphql": "^16.5.0",
+    "lottie-ios": "^3.4.0",
+    "lottie-react-native": "^5.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",

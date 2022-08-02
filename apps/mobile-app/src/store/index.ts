@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import loadingScreenReducer from "./slices/app/loadingScreenSlice";
+import currentPostReducer from "./slices/app/currentPostSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   persistStore,
@@ -17,7 +18,7 @@ import postContentSlice from "./slices/PostContent/postContentSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  blacklist: ["loadingScreen", "postContent"],
+  blacklist: ["loadingScreen", "postContent", "currentPost"],
 };
 
 const reducers = persistReducer(
@@ -25,6 +26,7 @@ const reducers = persistReducer(
   combineReducers({
     auth: authReducer,
     loadingScreen: loadingScreenReducer,
+    currentPost: currentPostReducer,
     postContent: postContentSlice,
   })
 );

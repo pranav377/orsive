@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import GET_ORSIC_POST_QUERY from "../../../../app/post/orsic/queries/getOrsicPostQuery";
+import GET_ORSIC_POST_QUERY from "../../../../../../packages/common/queries/orsic/getOrsicPostQuery";
 import UPDATE_ORSIC_POST_MUTATION from "../../../../components/forms/content/post-orsic/mutation_schema/updateOrsicPostMutation";
 import { useHideBars } from "../../../app/useHideBars";
 import { useUser } from "../../../auth/useUser";

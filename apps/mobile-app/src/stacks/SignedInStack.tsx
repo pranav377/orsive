@@ -1,5 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { View } from "react-native";
+import { Subheading } from "react-native-paper";
 import HomeScreen from "../screens/SignedInStack/HomeScreen";
+import OrsicScreen from "../screens/SignedInStack/OrsicScreen";
 import PostContentScreen from "../screens/SignedInStack/PostContentScreen";
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +21,13 @@ function SignedInStack() {
           component={PostContentScreen}
           options={{
             animation: "slide_from_left",
+          }}
+        />
+        <Stack.Screen
+          name="Orsic"
+          component={OrsicScreen}
+          options={{
+            animation: "slide_from_right",
           }}
         />
       </Stack.Navigator>

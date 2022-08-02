@@ -1,7 +1,7 @@
 import ReplyBox from "../../../components/post/comments/replyBox";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { client } from "../../_app";
-import GET_ORSIC_POST_QUERY from "../../../app/post/orsic/queries/getOrsicPostQuery";
+import GET_ORSIC_POST_QUERY from "../../../../../packages/common/queries/orsic/getOrsicPostQuery";
 import { useOrsicPost } from "../../../hooks/pages/orsic/useOrsicPost";
 import LinkifyContent from "../../../components/app/LinkifyContent";
 import Moment from "react-moment";

@@ -2,6 +2,7 @@ import { Tailwind } from "@jeact/colors";
 import { useNavigation } from "@react-navigation/native";
 import {
   Dimensions,
+  Keyboard,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
@@ -28,73 +29,82 @@ export default function PostOrsicHeader() {
 
   return (
     <>
-      <ProgressBar
-        indeterminate
-        width={Dimensions.get("window").width}
-        borderWidth={0}
-        borderRadius={0}
-        unfilledColor={Tailwind.blue[400]}
-        color={Tailwind.blue[700]}
-      />
       <View
         style={{
           marginTop: StatusBar.currentHeight,
           padding: RFValue(5),
-          flexDirection: "row",
-          alignItems: "center",
         }}
       >
-        <XIcon
-          onPress={() => {
-            navigator.goBack();
-          }}
-          width={RFValue(25)}
-          height={RFValue(25)}
-          color="white"
-        />
+        {progressBarVisible ? (
+          <ProgressBar
+            indeterminate
+            width={Dimensions.get("window").width}
+            borderWidth={0}
+            borderRadius={0}
+            unfilledColor={Tailwind.blue[400]}
+            color={Tailwind.blue[700]}
+          />
+        ) : (
+          <View style={{ height: 6 }} />
+        )}
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <XIcon
+            onPress={() => {
+              navigator.goBack();
+            }}
+            width={RFValue(25)}
+            height={RFValue(25)}
+            color="white"
+          />
 
-        <TextInput
-          mode="flat"
-          style={{
-            width: "80%",
-            marginLeft: RFValue(5),
-            height: RFValue(45),
-          }}
-          placeholder="Title (optional)"
-          value={orsic.title || ""}
-          onChangeText={(title) => {
-            dispatch(PostContentActions.setOrsic({ title }));
-          }}
-        />
+          <TextInput
+            mode="flat"
+            style={{
+              width: "80%",
+              marginLeft: RFValue(5),
+              height: RFValue(45),
+            }}
+            placeholder="Title (optional)"
+            value={orsic.title || ""}
+            onChangeText={(title) => {
+              dispatch(PostContentActions.setOrsic({ title }));
+            }}
+          />
 
-        <IconButton
-          icon={({ size, color }) => (
-            <TouchableOpacity
-              style={{
-                backgroundColor: Tailwind.blue[600],
-                padding: RFValue(10),
-                borderRadius: RFValue(99),
-              }}
-            >
-              <ArrowRightIcon size={size} color={color} />
-            </TouchableOpacity>
-          )}
-          size={RFValue(20)}
-          style={{ marginLeft: "auto" }}
-          onPress={() => {
-            postOrsicHandler()
-              .then(() => {
-                toast.show("Posted Orsic", {
-                  type: "success",
+          <IconButton
+            icon={({ size, color }) => (
+              <View
+                style={{
+                  backgroundColor: Tailwind.blue[600],
+                  padding: RFValue(10),
+                  borderRadius: RFValue(99),
+                }}
+              >
+                <ArrowRightIcon size={size} color={color} />
+              </View>
+            )}
+            size={RFValue(20)}
+            style={{ marginLeft: "auto" }}
+            onPress={() => {
+              Keyboard.dismiss();
+              setProgressBarVisible(true);
+              postOrsicHandler()
+                .then(() => {
+                  toast.show("Posted Orsic", {
+                    type: "success",
+                  });
+                })
+                .catch((err) => {
+                  toast.show("Something went wrong. Try again", {
+                    type: "danger",
+                  });
+                })
+                .finally(() => {
+                  setProgressBarVisible(false);
                 });
-              })
-              .catch((err) => {
-                toast.show("Something went wrong. Try again", {
-                  type: "danger",
-                });
-              });
-          }}
-        />
+            }}
+          />
+        </View>
       </View>
     </>
   );

@@ -4,12 +4,12 @@ import { Text, Menu } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import { UploadedBy } from "../types";
 import { DotsVerticalIcon } from "react-native-heroicons/solid";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { SvgUri } from "react-native-svg";
 import urlParser from "../../logic/urlParser";
 import RemoteImage from "../RemoteImage";
 
-export default function AvatarArea(props: { uploadedBy: UploadedBy }) {
+function AvatarAreaComponent(props: { uploadedBy: UploadedBy }) {
   const [showMenu, setShowMenu] = useState(false);
   const avatar = urlParser(props.uploadedBy.avatar);
   return (
@@ -57,3 +57,6 @@ export default function AvatarArea(props: { uploadedBy: UploadedBy }) {
     </View>
   );
 }
+
+const AvatarArea = memo(AvatarAreaComponent);
+export default AvatarArea;
