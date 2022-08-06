@@ -1,5 +1,5 @@
 import { Tailwind } from "@jeact/colors";
-import { Image, View } from "react-native";
+import { Image, StyleProp, View, ViewStyle } from "react-native";
 import { Text, Menu } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import { UploadedBy } from "../types";
@@ -9,15 +9,21 @@ import { SvgUri } from "react-native-svg";
 import urlParser from "../../logic/urlParser";
 import RemoteImage from "../RemoteImage";
 
-function AvatarAreaComponent(props: { uploadedBy: UploadedBy }) {
+function AvatarAreaComponent(props: {
+  uploadedBy: UploadedBy;
+  style?: StyleProp<ViewStyle>;
+}) {
   const [showMenu, setShowMenu] = useState(false);
   const avatar = urlParser(props.uploadedBy.avatar);
   return (
     <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-      }}
+      style={[
+        {
+          flexDirection: "row",
+          alignItems: "center",
+        },
+        props.style,
+      ]}
     >
       <RemoteImage
         width={RFValue(50)}

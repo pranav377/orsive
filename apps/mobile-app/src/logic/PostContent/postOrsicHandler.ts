@@ -6,7 +6,7 @@ import ADD_ORSIC_POST_MUTATION from "../../../../../packages/common/mutations/Po
 export default async function postOrsicHandler() {
   const orsic = store.getState().postContent.orsic;
 
-  await client.mutate({
+  let result = await client.mutate({
     mutation: ADD_ORSIC_POST_MUTATION,
     variables: {
       content: orsic.content,
@@ -15,4 +15,6 @@ export default async function postOrsicHandler() {
   });
 
   store.dispatch(PostContentActions.setOrsic({ content: "", title: null }));
+
+  return result;
 }

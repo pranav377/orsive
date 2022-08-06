@@ -18,7 +18,7 @@ import postContentSlice from "./slices/PostContent/postContentSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  blacklist: ["loadingScreen", "postContent", "currentPost"],
+  blacklist: ["loadingScreen", "currentPost", "postContent"],
 };
 
 const reducers = persistReducer(

@@ -16,7 +16,10 @@ export default function OrsicScreen() {
   return (
     <>
       <PostHeader displayName="Orsic" />
-      <ScrollView style={{ marginTop: RFValue(10), flex: 1 }}>
+      <ScrollView
+        style={{ marginTop: RFValue(10) }}
+        contentContainerStyle={orsicQuery.loading ? { flex: 1 } : {}}
+      >
         <AvatarArea uploadedBy={uploadedBy} />
         {orsicQuery.loading && <OrsicLoader />}
         {orsicQuery.data && (

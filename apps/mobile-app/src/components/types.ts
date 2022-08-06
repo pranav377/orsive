@@ -3,5 +3,5 @@ export interface UploadedBy {
   username: string;
   avatar: string;
   banner?: string;
-  bio: string;
+  bio?: string;
 }

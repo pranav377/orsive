@@ -21,7 +21,7 @@ export default function OrsicPostCard(props: { post: any }) {
         }}
         rippleColor={Tailwind.gray[900]}
         onPress={() => {
-          postClickMiddleware(post);
+          postClickMiddleware(post.slug, post.post.uploadedBy);
           navigation.navigate("Orsic", {
             slug: post.slug,
           });

@@ -1,5 +1,4 @@
 import { Tailwind } from "@jeact/colors";
-import { useRef } from "react";
 import { KeyboardAvoidingView, View } from "react-native";
 import { RichEditor } from "react-native-pell-rich-editor";
 import { useSelector } from "react-redux";
@@ -7,8 +6,9 @@ import { useDispatch } from "react-redux";
 import { RootState } from "../../../store";
 import { PostContentActions } from "../../../store/slices/PostContent/postContentSlice";
 
-export default function PostOrsic() {
-  const editor = useRef<RichEditor>(null);
+export default function PostOrsic(props: {
+  editor: React.RefObject<RichEditor>;
+}) {
   const dispatch = useDispatch();
   const orsicContent = useSelector(
     (state: RootState) => state.postContent.orsic
@@ -23,7 +23,7 @@ export default function PostOrsic() {
           color: "white",
           placeholderColor: Tailwind.gray[400],
         }}
-        ref={editor}
+        ref={props.editor}
         style={{
           flex: 1,
         }}

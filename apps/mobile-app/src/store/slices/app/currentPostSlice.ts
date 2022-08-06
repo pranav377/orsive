@@ -21,7 +21,7 @@ const initialState: CurrentPostState = {
 };
 
 export const currentPostSlice = createSlice({
-  name: "currentPostSlice",
+  name: "currentPost",
   initialState,
   reducers: {
     setPost: (

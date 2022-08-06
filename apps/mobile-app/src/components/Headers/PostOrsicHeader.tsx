@@ -1,13 +1,6 @@
 import { Tailwind } from "@jeact/colors";
-import { useNavigation } from "@react-navigation/native";
-import {
-  Dimensions,
-  Keyboard,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StackActions, useNavigation } from "@react-navigation/native";
+import { Dimensions, StatusBar, View } from "react-native";
 import { ArrowRightIcon, XIcon } from "react-native-heroicons/solid";
 import { IconButton, TextInput } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -19,13 +12,19 @@ import { RootState } from "../../store";
 import { PostContentActions } from "../../store/slices/PostContent/postContentSlice";
 import { Bar as ProgressBar } from "react-native-progress";
 import { useState } from "react";
+import { useUser } from "../../hooks/Auth/useUser";
+import postClickMiddleware from "../../logic/Posts/postClickMiddleware";
+import { RichEditor } from "react-native-pell-rich-editor";
 
-export default function PostOrsicHeader() {
+export default function PostOrsicHeader(props: {
+  editor: React.RefObject<RichEditor>;
+}) {
   const navigator = useNavigation();
   const dispatch = useDispatch();
   const orsic = useSelector((state: RootState) => state.postContent.orsic);
   const toast = useToast();
   const [progressBarVisible, setProgressBarVisible] = useState(false);
+  const user = useUser();
 
   return (
     <>
@@ -86,13 +85,22 @@ export default function PostOrsicHeader() {
             size={RFValue(20)}
             style={{ marginLeft: "auto" }}
             onPress={() => {
-              Keyboard.dismiss();
+              props.editor.current?.dismissKeyboard();
               setProgressBarVisible(true);
               postOrsicHandler()
-                .then(() => {
+                .then((result) => {
+                  props.editor.current?.setContentHTML("");
                   toast.show("Posted Orsic", {
                     type: "success",
                   });
+                  let slug = result.data.addOrsicPost.slug;
+
+                  postClickMiddleware(slug, user);
+                  navigator.dispatch(
+                    StackActions.replace("Orsic", {
+                      slug,
+                    })
+                  );
                 })
                 .catch((err) => {
                   toast.show("Something went wrong. Try again", {
