@@ -51,7 +51,7 @@ export default function OrsicScreen() {
         {orsicQuery.loading ? (
           <SkeletonContent
             isLoading
-            boneColor={Tailwind.gray[700]}
+            boneColor={Tailwind.gray[800]}
             highlightColor={Tailwind.gray[900]}
             animationType="shiver"
             containerStyle={{}}

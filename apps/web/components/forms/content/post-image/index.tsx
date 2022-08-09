@@ -3,7 +3,7 @@ import CONTENT_CASES from "../../../../app/store/reducers/content/cases";
 import store from "../../../../app/store/store";
 import { usePostContentState } from "../../../../hooks/app/content/usePostContentState";
 import Modal from "../../../app/Modal";
-import ADD_IMAGE_POST_MUTATION from "./mutation_schema/addImagePostMutation";
+import ADD_IMAGE_POST_MUTATION from "../../../../../../packages/common/mutations/PostContent/image/addImagePostMutation";
 import { Formik, Form } from "formik";
 import { POST_IMAGE_SCHEMA } from "./validation_schema/postImageSchema";
 import Button from "../../../base/button";

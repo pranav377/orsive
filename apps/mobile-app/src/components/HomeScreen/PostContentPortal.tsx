@@ -8,10 +8,15 @@ import {
   XIcon,
 } from "react-native-heroicons/solid";
 import { FAB, Portal, Provider } from "react-native-paper";
+import * as ImagePicker from "expo-image-picker";
+import { useDispatch } from "react-redux";
+import { PostContentActions } from "../../store/slices/PostContent/postContentSlice";
+import { ReactNativeFile } from "apollo-upload-client";
 
 function PostContentPortal() {
   const [fabState, setFabState] = useState({ open: false });
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
 
   return (
     <Provider>
@@ -50,7 +55,7 @@ function PostContentPortal() {
               ),
               label: "Orsic",
               onPress: () => {
-                navigate("PostContent", { screen: "Orsic" });
+                navigate("PostContent", { screen: "PostOrsic" });
               },
             },
             {
@@ -62,7 +67,30 @@ function PostContentPortal() {
                 />
               ),
               label: "Image",
-              onPress: () => console.log("Pressed notifications"),
+              onPress: async () => {
+                let imageData = await ImagePicker.launchImageLibraryAsync({
+                  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                });
+
+                if (!imageData.cancelled) {
+                  let uri = imageData.uri;
+                  let imageName = uri.substring(uri.lastIndexOf("/") + 1);
+                  dispatch(
+                    PostContentActions.setImage({
+                      image: {
+                        uri: uri,
+                        name: imageName,
+                      },
+                      width: imageData.width,
+                      height: imageData.height,
+                    })
+                  );
+
+                  navigate("PostContent", {
+                    screen: "PostImage",
+                  });
+                }
+              },
             },
           ]}
           onStateChange={({ open }) => {

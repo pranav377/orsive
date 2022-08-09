@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { memo, useRef } from "react";
 import { RichEditor } from "react-native-pell-rich-editor";
+import PostImageHeader from "../../../components/Headers/PostImageHeader";
 import PostOrsicHeader from "../../../components/Headers/PostOrsicHeader";
 import PostImage from "./PostImage";
 import PostOrsicComponent from "./PostOrsic";
@@ -26,7 +27,14 @@ function PostContentScreenComponent() {
             header: () => <PostOrsicHeader editor={editor} />,
           }}
         />
-        <Stack.Screen name="PostImage" component={PostImage} />
+        <Stack.Screen
+          name="PostImage"
+          component={PostImage}
+          options={{
+            headerShown: true,
+            header: () => <PostImageHeader />,
+          }}
+        />
       </Stack.Navigator>
     </>
   );

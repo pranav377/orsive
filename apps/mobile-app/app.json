@@ -22,7 +22,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you post them."
+          "photosPermission": "For you to post photos, Orsive needs access to them"
         }
       ]
     ],

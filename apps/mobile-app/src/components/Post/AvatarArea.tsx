@@ -5,8 +5,6 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { UploadedBy } from "../types";
 import { DotsVerticalIcon } from "react-native-heroicons/solid";
 import { memo, useState } from "react";
-import { SvgUri } from "react-native-svg";
-import urlParser from "../../logic/urlParser";
 import RemoteImage from "../RemoteImage";
 
 function AvatarAreaComponent(props: {
@@ -14,7 +12,6 @@ function AvatarAreaComponent(props: {
   style?: StyleProp<ViewStyle>;
 }) {
   const [showMenu, setShowMenu] = useState(false);
-  const avatar = urlParser(props.uploadedBy.avatar);
   return (
     <View
       style={[
@@ -28,7 +25,7 @@ function AvatarAreaComponent(props: {
       <RemoteImage
         width={RFValue(50)}
         height={RFValue(50)}
-        uri={avatar}
+        uri={props.uploadedBy.avatar}
         style={{
           borderRadius: RFValue(25),
         }}

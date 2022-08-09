@@ -5,3 +5,13 @@ export interface UploadedBy {
   banner?: string;
   bio?: string;
 }
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList {
+      PostContent: {};
+      Orsic: {};
+      Image: {};
+    }
+  }
+}

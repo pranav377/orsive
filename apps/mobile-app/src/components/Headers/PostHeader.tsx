@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
-import { ArrowLeftIcon } from "react-native-heroicons/solid";
+import { ChevronDownIcon } from "react-native-heroicons/solid";
 import { Appbar, Title } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import { SLATE_900 } from "../Palette";
@@ -22,7 +22,7 @@ export default function PostHeader(props: { displayName: string }) {
           alignItems: "center",
         }}
       >
-        <ArrowLeftIcon
+        <ChevronDownIcon
           onPress={() => {
             navigator.goBack();
           }}
