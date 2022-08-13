@@ -1,7 +1,7 @@
 import ReplyBox from "../../../components/post/comments/replyBox";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { client } from "../../_app";
-import GET_IMAGE_POST_QUERY from "../../../app/post/image/queries/getImagePostQuery";
+import GET_IMAGE_POST_QUERY from "../../../../../packages/common/queries/image/getImagePostQuery";
 import { useImagePost } from "../../../hooks/pages/image/useImagePost";
 import LinkifyContent from "../../../components/app/LinkifyContent";
 import Moment from "react-moment";

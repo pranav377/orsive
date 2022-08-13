@@ -12,6 +12,7 @@ import HomeBar from "../Headers/HomeBar";
 import { SLATE_900 } from "../Palette";
 import { Button } from "react-native-paper";
 import { Tailwind } from "@jeact/colors";
+import RemoteImage from "../RemoteImage";
 
 export default function HomeScreenMiddleware(props: {
   children: React.ReactNode;
@@ -45,11 +46,10 @@ function DrawerContent(props: { user: AuthState }) {
         }}
       >
         <View style={{ alignItems: "flex-end", margin: RFValue(5) }}>
-          <Avatar.Image
-            size={RFValue(64)}
-            source={{
-              uri: urlParser(user.avatar),
-            }}
+          <RemoteImage
+            width={RFValue(64)}
+            height={RFValue(64)}
+            uri={urlParser(user.avatar)}
           />
           <Text style={{ fontSize: RFValue(18), marginTop: RFValue(5) }}>
             {props.user.name}

@@ -1,6 +1,6 @@
 import SkeletonContent from "@03balogun/react-native-skeleton-content";
 import { Tailwind } from "@jeact/colors";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Dimensions, Image, ImageStyle, StyleProp, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { SvgUri } from "react-native-svg";
@@ -13,7 +13,7 @@ interface RemoteImageProps {
   style?: StyleProp<ImageStyle>;
 }
 
-export default function RemoteImage(props: RemoteImageProps) {
+function RemoteImageComponent(props: RemoteImageProps) {
   const uri = urlParser(props.uri);
   const [loading, setLoading] = useState(true);
 
@@ -89,3 +89,6 @@ export default function RemoteImage(props: RemoteImageProps) {
     );
   }
 }
+
+const RemoteImage = memo(RemoteImageComponent);
+export default RemoteImage;
