@@ -1,7 +1,7 @@
 import { Tailwind } from "@jeact/colors";
 import { StackActions, useNavigation } from "@react-navigation/native";
 import { Dimensions, StatusBar, View } from "react-native";
-import { ArrowRightIcon, XIcon } from "react-native-heroicons/solid";
+import { ArrowRightIcon, ChevronDownIcon } from "react-native-heroicons/solid";
 import { IconButton, TextInput } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useToast } from "react-native-toast-notifications";
@@ -34,6 +34,16 @@ export default function PostOrsicHeader(props: {
           padding: RFValue(5),
         }}
       >
+        <View
+          style={{
+            width: "20%",
+            height: RFValue(5),
+            backgroundColor: "white",
+            marginRight: "auto",
+            marginLeft: "auto",
+            borderRadius: RFValue(10),
+          }}
+        />
         {progressBarVisible ? (
           <ProgressBar
             indeterminate
@@ -47,19 +57,10 @@ export default function PostOrsicHeader(props: {
           <View style={{ height: 6 }} />
         )}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <XIcon
-            onPress={() => {
-              navigator.goBack();
-            }}
-            width={RFValue(25)}
-            height={RFValue(25)}
-            color="white"
-          />
-
           <TextInput
             mode="flat"
             style={{
-              width: "80%",
+              width: "85%",
               marginLeft: RFValue(5),
               height: RFValue(45),
             }}

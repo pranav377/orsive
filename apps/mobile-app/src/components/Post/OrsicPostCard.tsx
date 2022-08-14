@@ -44,16 +44,6 @@ export default function OrsicPostCard(props: { post: any }) {
               }}
             />
           </View>
-          {/* <Image
-        source={{
-          uri: "https://picsum.photos/1920/1080",
-        }}
-        style={{
-          aspectRatio: 1920 / 1080,
-          resizeMode: "contain",
-          borderRadius: RFValue(10),
-        }}
-      ></Image> */}
         </>
       </TouchableRipple>
       <Separator />

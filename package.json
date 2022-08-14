@@ -24,6 +24,9 @@
     "node": ">=14.0.0"
   },
   "packageManager": "npm@8.1.2",
+  "overrides": {
+    "react-native-reanimated": "2.9.1"
+  },
   "dependencies": {
     "axios": "^0.27.2",
     "axios-retry": "^3.2.5",

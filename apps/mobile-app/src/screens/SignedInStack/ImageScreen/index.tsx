@@ -6,7 +6,7 @@ import AvatarArea from "../../../components/Post/AvatarArea";
 import { SLATE_900 } from "../../../components/Palette";
 import SkeletonContent from "@03balogun/react-native-skeleton-content";
 import { Tailwind } from "@jeact/colors";
-import { Text, TextInput } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import RemoteImage from "../../../components/RemoteImage";
 
 export default function ImageScreen() {
@@ -14,12 +14,14 @@ export default function ImageScreen() {
   return (
     <>
       <PostHeader displayName="Image" />
-      <ScrollView
-        style={{
-          marginBottom: RFValue(10),
-        }}
-      >
-        <AvatarArea uploadedBy={uploadedBy} />
+      <ScrollView>
+        <AvatarArea
+          uploadedBy={uploadedBy}
+          style={{
+            marginVertical: RFValue(10),
+            marginBottom: RFValue(5),
+          }}
+        />
         {imageQuery.data && (
           <>
             <RemoteImage

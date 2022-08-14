@@ -2,7 +2,7 @@ import { Dimensions, StatusBar, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Bar as ProgressBar } from "react-native-progress";
 import { Tailwind } from "@jeact/colors";
-import { ArrowRightIcon, XIcon } from "react-native-heroicons/solid";
+import { ArrowRightIcon, ChevronDownIcon } from "react-native-heroicons/solid";
 import { IconButton, TextInput } from "react-native-paper";
 import { StackActions, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -44,7 +44,7 @@ export default function PostImageHeader() {
           <View style={{ height: 6 }} />
         )}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <XIcon
+          <ChevronDownIcon
             onPress={() => {
               navigator.goBack();
             }}

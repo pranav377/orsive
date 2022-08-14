@@ -1,7 +1,7 @@
 import PostHeader from "../../../components/Headers/PostHeader";
 import { Dimensions, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
-import { Text, TextInput } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { useOrsic } from "../../../hooks/Orsic/useOrsic";
 import { SLATE_900 } from "../../../components/Palette";
 import OrsicLoader from "../../../components/Loaders/OrsicLoader";
@@ -16,11 +16,14 @@ export default function OrsicScreen() {
   return (
     <>
       <PostHeader displayName="Orsic" />
-      <ScrollView
-        style={{ marginTop: RFValue(10) }}
-        contentContainerStyle={orsicQuery.loading ? { flex: 1 } : {}}
-      >
-        <AvatarArea uploadedBy={uploadedBy} />
+      <ScrollView contentContainerStyle={orsicQuery.loading ? { flex: 1 } : {}}>
+        <AvatarArea
+          uploadedBy={uploadedBy}
+          style={{
+            marginTop: RFValue(10),
+            marginBottom: RFValue(5),
+          }}
+        />
         {orsicQuery.loading && <OrsicLoader />}
         {orsicQuery.data && (
           <>

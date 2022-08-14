@@ -4,8 +4,9 @@ import { useHome } from "../../../hooks/Home/useHome";
 import OrsicPostCard from "../../../components/Post/OrsicPostCard";
 import PostContentPortal from "../../../components/HomeScreen/PostContentPortal";
 import ImagePostCard from "../../../components/Post/ImagePostCard";
+import { memo } from "react";
 
-export default function HomeMainScreen() {
+function HomeMainScreenComponent() {
   const { query } = useHome();
 
   return (
@@ -50,3 +51,6 @@ export default function HomeMainScreen() {
     </View>
   );
 }
+
+const HomeMainScreen = memo(HomeMainScreenComponent);
+export default HomeMainScreen;

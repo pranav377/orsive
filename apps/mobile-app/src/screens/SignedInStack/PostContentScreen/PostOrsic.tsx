@@ -36,8 +36,8 @@ export default function PostOrsic(props: {
         }}
         placeholder={"What do you think?"}
         pasteAsPlainText={true}
-        initialFocus
         initialContentHTML={orsicContent.content}
+        initialFocus
       />
     </KeyboardAvoidingView>
   );

@@ -1,11 +1,19 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View } from "react-native";
-import { Subheading } from "react-native-paper";
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+  TransitionPresets,
+  TransitionSpecs,
+} from "@react-navigation/stack";
 import HomeScreen from "../screens/SignedInStack/HomeScreen";
 import ImageScreen from "../screens/SignedInStack/ImageScreen";
 import OrsicScreen from "../screens/SignedInStack/OrsicScreen";
 import PostContentScreen from "../screens/SignedInStack/PostContentScreen";
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
+
+const ContentScreenOptions = {
+  ...TransitionPresets.SlideFromRightIOS,
+  gestureEnabled: true,
+};
 
 function SignedInStack() {
   return (
@@ -21,22 +29,19 @@ function SignedInStack() {
           name="PostContent"
           component={PostContentScreen}
           options={{
-            animation: "slide_from_left",
+            ...TransitionPresets.ModalSlideFromBottomIOS,
+            gestureEnabled: true,
           }}
         />
         <Stack.Screen
           name="Orsic"
           component={OrsicScreen}
-          options={{
-            animation: "slide_from_bottom",
-          }}
+          options={ContentScreenOptions}
         />
         <Stack.Screen
           name="Image"
           component={ImageScreen}
-          options={{
-            animation: "slide_from_bottom",
-          }}
+          options={ContentScreenOptions}
         />
       </Stack.Navigator>
     </>
