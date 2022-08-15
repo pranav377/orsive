@@ -21,7 +21,7 @@ export default function ImagePostCard(props: { post: any }) {
         }}
         rippleColor={Tailwind.gray[900]}
         onPress={() => {
-          postClickMiddleware(post.slug, post.post.uploadedBy);
+          postClickMiddleware(post.slug, post.post.uploadedBy, post.post.id);
           navigation.navigate("Image", {
             slug: post.slug,
           });

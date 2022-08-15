@@ -95,9 +95,12 @@ export default function PostOrsicHeader(props: {
                   toast.show("Posted Orsic", {
                     type: "success",
                   });
-                  let slug = result.data.addOrsicPost.slug;
 
-                  postClickMiddleware(slug, user);
+                  let response = result.data.addOrsicPost;
+                  let slug = response.slug;
+                  let postId = response.post.id;
+
+                  postClickMiddleware(slug, user, postId);
                   navigator.dispatch(
                     StackActions.replace("Orsic", {
                       slug,

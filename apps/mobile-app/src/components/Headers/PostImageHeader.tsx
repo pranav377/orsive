@@ -90,9 +90,11 @@ export default function PostImageHeader() {
                   toast.show("Posted Image", {
                     type: "success",
                   });
-                  let slug = result.data.addImagePost.slug;
+                  let response = result.data.addImagePost;
+                  let slug = response.slug;
+                  let postId = response.post.id;
 
-                  postClickMiddleware(slug, user);
+                  postClickMiddleware(slug, user, postId);
                   navigator.dispatch(
                     StackActions.replace("Image", {
                       slug,
