@@ -8,13 +8,14 @@ import SkeletonContent from "@03balogun/react-native-skeleton-content";
 import { Tailwind } from "@jeact/colors";
 import { TextInput } from "react-native-paper";
 import RemoteImage from "../../../components/RemoteImage";
+import OrsicLoader from "../../../components/Loaders/OrsicLoader";
 
 export default function ImageScreen() {
   const { imageQuery, uploadedBy } = useImage();
   return (
     <>
       <PostHeader displayName="Image" />
-      <ScrollView>
+      <ScrollView contentContainerStyle={imageQuery.loading ? { flex: 1 } : {}}>
         <AvatarArea
           uploadedBy={uploadedBy}
           style={{
@@ -22,6 +23,11 @@ export default function ImageScreen() {
             marginBottom: RFValue(5),
           }}
         />
+        {imageQuery.loading && (
+          <>
+            <OrsicLoader />
+          </>
+        )}
         {imageQuery.data && (
           <>
             <RemoteImage
@@ -35,6 +41,7 @@ export default function ImageScreen() {
                 maxHeight: Dimensions.get("window").height * 0.9,
                 marginLeft: "auto",
                 marginRight: "auto",
+                margin: RFValue(5),
               }}
             ></RemoteImage>
           </>

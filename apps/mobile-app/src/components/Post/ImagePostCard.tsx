@@ -38,6 +38,7 @@ export default function ImagePostCard(props: { post: any }) {
               maxHeight: Dimensions.get("window").height / 2,
               marginLeft: "auto",
               marginRight: "auto",
+              marginTop: RFValue(5),
             }}
           ></RemoteImage>
         </>

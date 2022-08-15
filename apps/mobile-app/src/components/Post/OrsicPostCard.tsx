@@ -7,6 +7,7 @@ import { Tailwind } from "@jeact/colors";
 import { useNavigation } from "@react-navigation/native";
 import Separator from "../Separator";
 import postClickMiddleware from "../../logic/Posts/postClickMiddleware";
+import ExtraButtons from "../ExtraButtons";
 
 export default function OrsicPostCard(props: { post: any }) {
   const post = props.post;
@@ -44,6 +45,7 @@ export default function OrsicPostCard(props: { post: any }) {
               }}
             />
           </View>
+          <ExtraButtons />
         </>
       </TouchableRipple>
       <Separator />

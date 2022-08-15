@@ -42,6 +42,7 @@ export default function PostOrsicHeader(props: {
             marginRight: "auto",
             marginLeft: "auto",
             borderRadius: RFValue(10),
+            marginBottom: RFValue(5),
           }}
         />
         {progressBarVisible ? (

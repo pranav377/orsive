@@ -1,8 +1,6 @@
 import {
-  CardStyleInterpolators,
   createStackNavigator,
   TransitionPresets,
-  TransitionSpecs,
 } from "@react-navigation/stack";
 import HomeScreen from "../screens/SignedInStack/HomeScreen";
 import ImageScreen from "../screens/SignedInStack/ImageScreen";

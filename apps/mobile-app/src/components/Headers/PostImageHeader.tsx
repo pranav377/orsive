@@ -2,7 +2,7 @@ import { Dimensions, StatusBar, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Bar as ProgressBar } from "react-native-progress";
 import { Tailwind } from "@jeact/colors";
-import { ArrowRightIcon, ChevronDownIcon } from "react-native-heroicons/solid";
+import { ArrowRightIcon } from "react-native-heroicons/solid";
 import { IconButton, TextInput } from "react-native-paper";
 import { StackActions, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -31,6 +31,17 @@ export default function PostImageHeader() {
           padding: RFValue(5),
         }}
       >
+        <View
+          style={{
+            width: "20%",
+            height: RFValue(5),
+            backgroundColor: "white",
+            marginRight: "auto",
+            marginLeft: "auto",
+            borderRadius: RFValue(10),
+            marginBottom: RFValue(5),
+          }}
+        />
         {progressBarVisible ? (
           <ProgressBar
             indeterminate
@@ -44,15 +55,6 @@ export default function PostImageHeader() {
           <View style={{ height: 6 }} />
         )}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <ChevronDownIcon
-            onPress={() => {
-              navigator.goBack();
-            }}
-            width={RFValue(25)}
-            height={RFValue(25)}
-            color="white"
-          />
-
           <TextInput
             mode="flat"
             style={{

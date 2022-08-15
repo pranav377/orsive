@@ -12,6 +12,7 @@ declare global {
       PostContent: {};
       Orsic: {};
       Image: {};
+      CommentsModal: {};
     }
   }
 }
