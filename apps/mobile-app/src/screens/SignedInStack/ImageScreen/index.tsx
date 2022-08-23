@@ -7,8 +7,8 @@ import { SLATE_900 } from "../../../components/Palette";
 import SkeletonContent from "@03balogun/react-native-skeleton-content";
 import { Tailwind } from "@jeact/colors";
 import { TextInput } from "react-native-paper";
-import RemoteImage from "../../../components/RemoteImage";
 import OrsicLoader from "../../../components/Loaders/OrsicLoader";
+import RemoteImage from "../../../components/RemoteImage";
 
 export default function ImageScreen() {
   const { imageQuery, uploadedBy } = useImage();

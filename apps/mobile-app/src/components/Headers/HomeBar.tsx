@@ -1,6 +1,6 @@
 import { Image, View } from "react-native";
 import { DrawerLayoutAndroid } from "react-native";
-import { Appbar, Avatar, TouchableRipple } from "react-native-paper";
+import { Appbar, Avatar, Text, TouchableRipple } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useUser } from "../../hooks/Auth/useUser";
 import urlParser from "../../logic/urlParser";
