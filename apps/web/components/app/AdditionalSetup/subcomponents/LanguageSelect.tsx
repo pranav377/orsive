@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ADDITIONAL_SETUP_CONTEXT } from "..";
 
 export default function LanguageSelect(props: { language: string }) {

@@ -11,7 +11,6 @@ import { FAB, Portal, Provider } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
 import { PostContentActions } from "../../store/slices/PostContent/postContentSlice";
-import { ReactNativeFile } from "apollo-upload-client";
 
 function PostContentPortal() {
   const [fabState, setFabState] = useState({ open: false });

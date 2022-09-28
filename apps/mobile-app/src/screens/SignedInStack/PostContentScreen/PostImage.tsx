@@ -1,4 +1,4 @@
-import { Image, KeyboardAvoidingView, View } from "react-native";
+import { Image, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";

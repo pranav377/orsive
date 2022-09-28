@@ -3,8 +3,14 @@
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 /** @type {import('next').NextConfig} */
-const withPWA = require("next-pwa");
 const { withSentryConfig } = require("@sentry/nextjs");
+
+const withPWA = require("next-pwa")({
+  dest: "public",
+  register: false,
+  cacheOnFrontEndNav: true,
+  dynamicStartUrlRedirect: true,
+});
 
 const moduleExports = withPWA({
   reactStrictMode: true,
@@ -25,18 +31,10 @@ const moduleExports = withPWA({
       "placeimg.com",
     ],
   },
-  pwa: {
-    dest: "public",
-    register: false,
-    cacheOnFrontEndNav: true,
-    dynamicStartUrlRedirect: true,
-  },
 });
-
-const sentryWebpackPluginOptions = {
-  silent: true,
-};
 
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
-module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
+module.exports = withSentryConfig(moduleExports, {
+  silent: true,
+});
