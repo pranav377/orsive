@@ -17,9 +17,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     if (type !== "profile") {
-      await res.unstable_revalidate(`/${type}/${slug}`);
+      await res.revalidate(`/${type}/${slug}`);
     } else {
-      await res.unstable_revalidate(`/${slug}`);
+      await res.revalidate(`/${slug}`);
     }
     return res.json({ revalidated: true });
   } catch (err) {
