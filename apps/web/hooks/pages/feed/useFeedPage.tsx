@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useEffect, useRef } from "react";
-import GET_POSTS_QUERY from "../../../app/post/queries/getPostsQuery";
+import GET_POSTS_QUERY from "../../../../../packages/common/queries/post/getPostsQuery";
 
 export const useFeedPage = () => {
   const query = useQuery(GET_POSTS_QUERY, {

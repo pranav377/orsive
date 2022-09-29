@@ -18,6 +18,14 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "For you to post photos, Orsive needs access to them"
+        }
+      ]
+    ],
     "ios": {
       "supportsTablet": true
     },

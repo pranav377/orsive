@@ -1,10 +1,11 @@
 import { Image, View } from "react-native";
 import { DrawerLayoutAndroid } from "react-native";
-import { Appbar, Avatar, TouchableRipple } from "react-native-paper";
+import { Appbar, Avatar, Text, TouchableRipple } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useUser } from "../../hooks/Auth/useUser";
 import urlParser from "../../logic/urlParser";
 import { SLATE_900 } from "../Palette";
+import RemoteImage from "../RemoteImage";
 
 export default function HomeBar(props: {
   drawer: React.RefObject<DrawerLayoutAndroid>;
@@ -42,12 +43,7 @@ export default function HomeBar(props: {
           }}
           borderless
         >
-          <Avatar.Image
-            size={RFValue(36)}
-            source={{
-              uri: avatar,
-            }}
-          />
+          <RemoteImage height={RFValue(36)} width={RFValue(36)} uri={avatar} />
         </TouchableRipple>
       </View>
     </Appbar.Header>

@@ -7,6 +7,7 @@ export interface AuthState {
   name: string;
   unreadNotifications: boolean;
   setupComplete: boolean;
+  bio?: string;
 }
 
 const initialState: AuthState = {

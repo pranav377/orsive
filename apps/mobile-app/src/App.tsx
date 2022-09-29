@@ -15,7 +15,6 @@ import { ApolloProvider } from "@apollo/client";
 import { Provider as ReduxProvider } from "react-redux";
 import { persistor, store } from "./store";
 import { ToastProvider } from "react-native-toast-notifications";
-import { RFValue } from "react-native-responsive-fontsize";
 import AppMiddleware from "./components/AppMiddleware";
 import { PersistGate } from "redux-persist/integration/react";
 import { client } from "./logic/client";
@@ -56,15 +55,7 @@ function App() {
       <PersistGate persistor={persistor}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <ApolloProvider client={client}>
-            <ToastProvider
-              style={{
-                backgroundColor: "white",
-                borderRadius: RFValue(15),
-              }}
-              textStyle={{
-                color: "black",
-              }}
-            >
+            <ToastProvider>
               <PaperProvider theme={{ ...CombinedDarkTheme, mode: "exact" }}>
                 <AppMiddleware />
                 <StatusBar style="light" />

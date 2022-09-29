@@ -4,7 +4,7 @@ import CONTENT_CASES from "../../../../app/store/reducers/content/cases";
 import Button from "../../../base/button";
 import { POST_ORSIC_SCHEMA } from "./validation_schema/postOrsicSchema";
 import { useMutation } from "@apollo/client";
-import ADD_ORSIC_POST_MUTATION from "./mutation_schema/addOrsicPostMutation";
+import ADD_ORSIC_POST_MUTATION from "../../../../../../packages/common/mutations/PostContent/orsic/addOrsicPostMutation";
 import Modal from "../../../app/Modal";
 import InputField from "../../fields/inputField";
 import { usePostContentState } from "../../../../hooks/app/content/usePostContentState";
@@ -15,7 +15,7 @@ import { useUser } from "../../../../hooks/auth/useUser";
 import dynamic from "next/dynamic";
 import { RichEditorSkeleton } from "../../../app/RichEditor";
 import { client } from "../../../../pages/_app";
-import GET_POSTS_QUERY from "../../../../app/post/queries/getPostsQuery";
+import GET_POSTS_QUERY from "../../../../../../packages/common/queries/post/getPostsQuery";
 import GET_PROFILE_POSTS from "../../../../app/profile/queries/getProfilePostsQuery";
 
 const RichEditor = dynamic(() => import("../../../app/RichEditor"), {
