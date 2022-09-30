@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { searchIndex } from "../../../app/search/searchIndex";
+import getSearchIndex from "../../../app/search/getSearchIndex";
 
 export const useSearch = () => {
   const router = useRouter();
@@ -12,7 +12,7 @@ export const useSearch = () => {
       let withoutExtraSpace = word.replace(/\s+/g, " ").trim();
 
       if (withoutExtraSpace !== "" && withoutExtraSpace !== " ") {
-        const search = await (await searchIndex).search(word);
+        const search = await (await getSearchIndex()).search(word);
         setResults(search.hits);
       }
     }

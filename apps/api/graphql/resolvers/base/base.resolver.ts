@@ -1,6 +1,9 @@
 import { GraphQLUpload } from "graphql-upload";
 import { GraphQLScalarType } from "graphql";
-import { EditorImageUpload, EditorImageUploadArgs } from "./base.controller";
+import GetSearchKey, {
+  EditorImageUpload,
+  EditorImageUploadArgs,
+} from "./base.controller";
 import IsUserAuthenticated from "../../permissions/IsUserAuthenticated";
 
 const BASE_RESOLVERS = {
@@ -17,8 +20,12 @@ const BASE_RESOLVERS = {
   }),
 
   Query: {
-    hello(_: void) {
+    hello() {
       return "Aha, looks like we have got a developer.";
+    },
+
+    getSearchKey() {
+      return GetSearchKey();
     },
   },
 

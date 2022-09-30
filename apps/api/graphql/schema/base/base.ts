@@ -10,6 +10,7 @@ const BASE_SCHEMA = gql`
 
   type Query @rateLimit(limit: 900, duration: 60) {
     hello: String
+    getSearchKey: String
   }
 
   type Mutation @rateLimit(limit: 500, duration: 60) {

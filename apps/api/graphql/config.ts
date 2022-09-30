@@ -8,6 +8,7 @@ const DECISION_LOST_REPUTATION = 200;
 const SITEMAP_PAGINATION_LIMIT = 7000;
 const ADMIN_MAIL_ID = process.env.ADMIN_MAIL_ID || "";
 const JWT_SECRET = process.env.JWT_SECRET || "never_gonna_give_you_up";
+const SEARCH_KEY_UID = "e50180b9-5062-4cbc-8d6f-8ac2b49048dd";
 
 export {
   FILE_UPLOADS_URL,
@@ -20,4 +21,5 @@ export {
   SITEMAP_PAGINATION_LIMIT,
   ADMIN_MAIL_ID,
   JWT_SECRET,
+  SEARCH_KEY_UID,
 };
