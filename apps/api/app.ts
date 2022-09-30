@@ -24,7 +24,12 @@ import {
   googleAndroidStrat,
   googleStrat,
 } from "./oauthStrategies";
-import { JWT_SECRET } from "./graphql/config";
+import {
+  JWT_SECRET,
+  NODE_ENV,
+  OAUTH_SUCCESS_ANDROID_REDIRECT_URL,
+  OAUTH_SUCCESS_REDIRECT_URL,
+} from "./graphql/config";
 import passportJWT from "passport-jwt";
 import { graphqlUploadExpress } from "graphql-upload";
 import getUserPermissions from "./graphql/permissions/getUserPermissions";
@@ -107,7 +112,7 @@ async function startServer() {
   const server = new ApolloServer({
     schema,
     plugins:
-      process.env.NODE_ENV === "production"
+      NODE_ENV === "production"
         ? [ApolloServerPluginLandingPageDisabled()]
         : [ApolloServerPluginLandingPageGraphQLPlayground()],
     context: ({ req, res }) => buildContext({ req, res }),
@@ -159,9 +164,7 @@ async function startServer() {
         token: getUserJwtToken(expressUser),
       };
       res.redirect(
-        `${process.env.OAUTH_SUCCESS_REDIRECT_URL!}?${new URLSearchParams(
-          user
-        ).toString()}`
+        `${OAUTH_SUCCESS_REDIRECT_URL}?${new URLSearchParams(user).toString()}`
       );
     }
   );
@@ -182,8 +185,7 @@ async function startServer() {
       delete user["_count"];
       delete user["password"];
       res.redirect(
-        `${process.env
-          .OAUTH_SUCCESS_ANDROID_REDIRECT_URL!}?${new URLSearchParams(
+        `${OAUTH_SUCCESS_ANDROID_REDIRECT_URL}?${new URLSearchParams(
           user
         ).toString()}`
       );
@@ -209,9 +211,7 @@ async function startServer() {
       delete user["_count"];
       delete user["password"];
       res.redirect(
-        `${process.env.OAUTH_SUCCESS_REDIRECT_URL!}?${new URLSearchParams(
-          user
-        ).toString()}`
+        `${OAUTH_SUCCESS_REDIRECT_URL}?${new URLSearchParams(user).toString()}`
       );
     }
   );
@@ -232,22 +232,21 @@ async function startServer() {
       delete user["_count"];
       delete user["password"];
       res.redirect(
-        `${process.env
-          .OAUTH_SUCCESS_ANDROID_REDIRECT_URL!}?${new URLSearchParams(
+        `${OAUTH_SUCCESS_ANDROID_REDIRECT_URL}?${new URLSearchParams(
           user
         ).toString()}`
       );
     }
   );
 
-  if (process.env.NODE_ENV != "production") {
+  if (NODE_ENV != "production") {
     app.use("/uploads", express.static(path.join(__dirname, "uploads-dev")));
   }
 
   server.applyMiddleware({
     app,
     cors:
-      process.env.NODE_ENV === "production"
+      NODE_ENV === "production"
         ? {
             origin: ["https://orsive.com", "https://www.orsive.com"],
             credentials: true,
@@ -262,7 +261,7 @@ async function startServer() {
 
   console.log(`🚀 Server ready at localhost:4000${server.graphqlPath}`);
 
-  if (process.env.NODE_ENV === "production") {
+  if (NODE_ENV === "production") {
     console.log("Running in Production");
   }
 }

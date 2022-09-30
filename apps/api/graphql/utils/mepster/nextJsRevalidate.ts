@@ -1,7 +1,8 @@
 import axios from "axios";
+import { NEXTJS_API_URL, NEXTJS_REVALIDATE_KEY } from "../../config";
 
 const nextJsClient = axios.create({
-  baseURL: process.env.NEXTJS_API_URL,
+  baseURL: NEXTJS_API_URL,
 });
 
 export default async function NextJsRevalidate(
@@ -10,7 +11,7 @@ export default async function NextJsRevalidate(
 ) {
   nextJsClient.get("/revalidate", {
     params: {
-      secret: process.env.NEXTJS_REVALIDATE_KEY,
+      secret: NEXTJS_REVALIDATE_KEY,
       type,
       slug,
     },

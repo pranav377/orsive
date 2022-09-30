@@ -1,7 +1,8 @@
 import axios from "axios";
+import { GORSE_URL } from "../../config";
 
 const recommenderClient = axios.create({
-  baseURL: process.env.GORSE_URL,
+  baseURL: GORSE_URL,
 });
 
 export default recommenderClient;

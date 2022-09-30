@@ -1,4 +1,5 @@
 // send notification to followers when new content is posted by the people they are following
+import { NODE_ENV } from "../../../config";
 import prisma from "../dbClient";
 import NotificationClient from "./client";
 
@@ -23,7 +24,7 @@ export default async function sendNotificationsForPost(
       for (let index = 0; index < followers.length; index++) {
         const follower = followers[index];
 
-        if (process.env.NODE_ENV === "production") {
+        if (NODE_ENV === "production") {
           await Promise.all(
             follower?.notificationToken?.map(async (notificationToken) => {
               await NotificationClient.post("", {
