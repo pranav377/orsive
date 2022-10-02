@@ -25,11 +25,12 @@ const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME || " ";
 const FIREBASE_NOTIFICATIONS_SERVER_KEY =
   process.env.FIREBASE_NOTIFICATIONS_SERVER_KEY || " ";
 const EMAIL_API_KEY = process.env.EMAIL_API_KEY || " ";
-const GORSE_URL = process.env.GORSE_URL || " ";
-const NEXTJS_API_URL = process.env.NEXTJS_API_URL || " ";
+const GORSE_URL = process.env.GORSE_URL || "http://localhost:8088/api";
+const NEXTJS_API_URL =
+  process.env.NEXTJS_API_URL || "http://localhost:3000/api";
 const NEXTJS_REVALIDATE_KEY = process.env.NEXTJS_REVALIDATE_KEY || " ";
-const MEILISEARCH_URL = process.env.MEILISEARCH_URL || " ";
-const MEILISEARCH_MASTER_KEY = process.env.MEILISEARCH_MASTER_KEY || " ";
+const MEILISEARCH_URL = process.env.MEILISEARCH_URL || "http://127.0.0.1:7700";
+const MEILISEARCH_MASTER_KEY = process.env.MEILISEARCH_MASTER_KEY || "1234";
 const SCHEDULER_DB_URL = process.env.SCHEDULER_DB_URL || " ";
 
 export {

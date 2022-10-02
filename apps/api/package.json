@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "dotenv -e .env.development -- nodemon",
-    "build": "dotenv -e .env.production -- tsc -p .",
+    "build": "tsc -p .",
     "start": "dotenv -e .env.production -- node dist/apps/api/app.js",
     "migrate": "dotenv -e .env.production -- ts-node migration.ts",
     "migrate-dev": "dotenv -e .env.development -- ts-node devMigration.ts",
@@ -67,10 +67,6 @@
     "@types/passport-oauth2-refresh": "^1.1.1",
     "dotenv": "^16.0.1",
     "nodemon": "^2.0.15",
-    "prisma": "^4.2.1",
-    "ts-loader": "^9.3.1",
-    "webpack": "^5.73.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-node-externals": "^3.0.0"
+    "prisma": "^4.2.1"
   }
 }
