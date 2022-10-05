@@ -14,11 +14,9 @@ RUN npm run build
 
 FROM node:16 as main
 
-COPY --from=build /orsive-api .
+COPY --from=build /orsive-api /orsive-api
 
-RUN find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
-
-RUN npm install -w=api --omit=dev
+WORKDIR /orsive-api
 
 EXPOSE 4000
 

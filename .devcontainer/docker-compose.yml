@@ -1,0 +1,75 @@
+version: "3.4"
+
+services:
+  # Main Workspace
+  workspace:
+    build:
+      context: ../
+      dockerfile: .devcontainer/dev.Dockerfile
+    networks:
+      - mongo-network
+      - meilisearch-network
+    volumes:
+      - ..:/workspace:cached
+    ports:
+      - 3000:3000
+      - 4000:4000
+      - 19000:19000
+    depends_on:
+      - mongodb
+      - meilisearch
+    env_file:
+      - .env.dev
+
+  # MongoDB Database
+  mongodb:
+    image: mongo
+    hostname: mongodb
+    restart: always
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    networks:
+      - mongo-network
+    command: ["--replSet", "dbrs", "--bind_ip_all"]
+
+  mongodbsetup:
+    image: mongo
+    networks:
+      - mongo-network
+    depends_on:
+      - mongodb
+    restart: "no"
+    volumes:
+      - ./scripts/rs-init.sh:/scripts/rs-init.sh
+    command: ["./scripts/rs-init.sh"]
+
+  # Meilisearch
+  meilisearch:
+    container_name: meilisearch
+    image: getmeili/meilisearch
+    environment:
+      - MEILI_MASTER_KEY=1234
+      - MEILI_ENV=development
+    ports:
+      - 7700:7700
+    networks:
+      - meilisearch-network
+    restart: always
+
+  meilisearchsetup:
+    image: alpine
+    networks:
+      - meilisearch-network
+    depends_on:
+      - meilisearch
+    restart: "no"
+    volumes:
+      - ./scripts/meilisearch.sh:/scripts/meilisearch.sh
+    command: ["/bin/sh", "./scripts/meilisearch.sh"]
+
+networks:
+  mongo-network:
+    driver: bridge
+  meilisearch-network:
+    driver: bridge
