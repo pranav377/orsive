@@ -1,4 +1,10 @@
 #!/bin/bash
+cd /setup
+
+npm install
+
+sleep 15
+
 mongosh --host mongodb:27017 <<EOF
 var config = {
     "_id": "dbrs",
@@ -18,4 +24,7 @@ db.createCollection("init");
 
 use scheduler;
 db.createCollection("init");
+exit;
 EOF
+
+node meilisearch-setup.js

@@ -41,18 +41,6 @@
   </a>
   </p>
 
-### Todo for now
-
-1. Improve recommendation algorithm
-2. Handle spam content
-3. Password change option
-4. Moderator vote system with content reporting
-5. Account delete option
-6. Orsive clans (kinda like a group where people can share posts only the members can see)
-7. Setup Testing
-8. Web stories
-9. User Achievements
-
 ### Small things to know about
 
 1. If you notice cache problems when using apollo client for infinite scroll, use `useClearApolloCacheOnExit` hook present in `apps\web\hooks\app\useClearApolloCacheOnExit.tsx`
@@ -62,16 +50,10 @@
 - `web`: a [Next.js](https://nextjs.org) app
 - `api`: a GraphQL API made with apollo-server
 - `belly`: a storage engine to handle file uploads for Local file storage and S3 cloud upload
-- `gorse-starter`: A script which starts the Gorse instance
-- `meilisearch-starter`: A script which starts the Meilisearch instance
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
-All packages and apps are 100% [TypeScript](https://www.typescriptlang.org/). (Except starter packages.)
-
-### Running locally / Development
-
-See [here](DEVELOPMENT.md)
+All packages and apps are 100% [TypeScript](https://www.typescriptlang.org/)
 
 ### Utilities
 
