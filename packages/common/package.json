@@ -6,6 +6,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Pranava Mohan (https://github.com/pranav377)",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.7.0",
+    "yup": "^0.32.11"
+  }
 }

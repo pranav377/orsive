@@ -17,6 +17,12 @@ import {
 } from "./graphql/resolvers/auth/controllers/auth.controller";
 import prisma from "./graphql/utils/data/dbClient";
 import insertUser from "./graphql/utils/mepster/user/insertUser";
+import {
+  DISCORD_CLIENT_ID,
+  DISCORD_CLIENT_SECRET,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+} from "./graphql/config";
 
 let discordScopes = ["identify", "email"];
 let googleScopes = ["profile", "email"];
@@ -112,8 +118,8 @@ async function discordAccountCreate(
 
 export const googleStrat = new GoogleStrategy(
   {
-    clientID: process.env.GOOGLE_CLIENT_ID || " ",
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET || " ",
+    clientID: GOOGLE_CLIENT_ID || " ",
+    clientSecret: GOOGLE_CLIENT_SECRET || " ",
     callbackURL: "/auth/google/callback",
     scope: googleScopes,
   },
@@ -122,8 +128,8 @@ export const googleStrat = new GoogleStrategy(
 
 export const googleAndroidStrat = new GoogleStrategy(
   {
-    clientID: process.env.GOOGLE_CLIENT_ID || " ",
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET || " ",
+    clientID: GOOGLE_CLIENT_ID || " ",
+    clientSecret: GOOGLE_CLIENT_SECRET || " ",
     callbackURL: "/auth/google-android/callback",
     scope: googleScopes,
   },
@@ -132,8 +138,8 @@ export const googleAndroidStrat = new GoogleStrategy(
 
 export const discordStrat = new DiscordStrategy(
   {
-    clientID: process.env.DISCORD_CLIENT_ID || " ",
-    clientSecret: process.env.DISCORD_CLIENT_SECRET || " ",
+    clientID: DISCORD_CLIENT_ID || " ",
+    clientSecret: DISCORD_CLIENT_SECRET || " ",
     callbackURL: "/auth/discord/callback",
     scope: discordScopes,
   },
@@ -142,8 +148,8 @@ export const discordStrat = new DiscordStrategy(
 
 export const discordAndroidStrat = new DiscordStrategy(
   {
-    clientID: process.env.DISCORD_CLIENT_ID || " ",
-    clientSecret: process.env.DISCORD_CLIENT_SECRET || " ",
+    clientID: DISCORD_CLIENT_ID || " ",
+    clientSecret: DISCORD_CLIENT_SECRET || " ",
     callbackURL: "/auth/discord-android/callback",
     scope: discordScopes,
   },

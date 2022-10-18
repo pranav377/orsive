@@ -1,5 +1,6 @@
 // send notification to the comment owner when he/she gets a reply on their comment. Send only if owner and reply owner are not same
 
+import { NODE_ENV } from "../../../config";
 import prisma from "../dbClient";
 import NotificationClient from "./client";
 
@@ -26,7 +27,7 @@ async function sendNotification(
       },
     });
 
-    if (process.env.NODE_ENV === "production") {
+    if (NODE_ENV === "production") {
       await Promise.all(
         commentOwner!.notificationToken?.map(async (notificationToken) => {
           await NotificationClient.post("", {

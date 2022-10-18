@@ -32,6 +32,8 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env.development 
+.env.production
 
 **/public/precache.*.*.js
 **/public/sw.js
@@ -47,6 +49,9 @@ yarn-error.log*
 # turbo
 .turbo
 .vercel
+
+# orsive api development
+uploads-dev
 
 # external dependencies
 gorse

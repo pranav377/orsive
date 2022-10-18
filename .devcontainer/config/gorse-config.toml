@@ -1,0 +1,37 @@
+[database]
+data_store = "mongodb://mongodb:27017/recommendations?replicaSet=dbrs"
+cache_store = "mongodb://mongodb:27017/recommendations-cache?replicaSet=dbrs"
+
+[recommend.data_source]
+
+positive_feedback_types = ["like"]
+read_feedback_types = ["view"]
+
+[recommend.replacement]
+
+enable_replacement = true
+
+[recommend.offline]
+refresh_recommend_period = "1h"
+
+enable_latest_recommend = true
+
+enable_popular_recommend = true
+
+enable_user_based_recommend = true
+
+enable_item_based_recommend = true
+
+enable_collaborative_recommend = true
+
+enable_click_through_prediction = true
+
+explore_recommend = { popular = 0.1, latest = 0.2 }
+
+[recommend.online]
+
+num_feedback_fallback_item_based = 100
+
+[recommend.popular]
+popular_window = 1
+    
