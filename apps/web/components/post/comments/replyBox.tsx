@@ -46,7 +46,7 @@ export default function ReplyBox(props: ReplyBoxProps) {
     } else {
       setShowReply(false);
     }
-  }, [appState.showReply]);
+  }, [appState.showReply, props.loading]);
 
   function closeReplyModal() {
     dispatch({ type: APP_CASES.HIDE_REPLY });
