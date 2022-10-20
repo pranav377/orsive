@@ -19,7 +19,7 @@
     "apollo-upload-client": "^17.0.0",
     "firebase": "^9.8.3",
     "formik": "^2.2.9",
-    "framer-motion": "^4.1.17",
+    "framer-motion": "^7.6.1",
     "graphql": "^16.3.0",
     "html-react-parser": "^1.4.12",
     "html-tokenizer": "^4.0.1",
