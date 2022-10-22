@@ -16,7 +16,10 @@
   ],
   "features": {
     "git": "latest",
-    "git-lfs": "latest"
+    "git-lfs": "latest",
+    "ghcr.io/devcontainers/features/docker-from-docker:1": {
+      "version": "latest"
+    }
   },
   "remoteUser": "node",
   "forwardPorts": [
