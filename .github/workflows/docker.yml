@@ -31,7 +31,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           flavor: |
-            latest=auto
+            latest=true
             prefix=
             suffix=
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
