@@ -30,7 +30,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          flavor: latest=auto
+          flavor: |
+            latest=auto
+            prefix=
+            suffix=
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: type=sha
 
