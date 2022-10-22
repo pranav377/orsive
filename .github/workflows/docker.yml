@@ -30,8 +30,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          flavor: latest=auto
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: type=edge
+          tags: type=sha
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
@@ -39,6 +40,5 @@ jobs:
           context: .
           file: apps/api/api.Dockerfile
           push: true
-          flavor: latest=auto
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
