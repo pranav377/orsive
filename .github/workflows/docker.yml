@@ -2,7 +2,7 @@ name: Create Orsive API Docker image
 
 on:
   push:
-    branches: ["main"]
+    branches: [main]
 
 env:
   REGISTRY: ghcr.io
@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: {context}/apps/api/api.Dockerfile
+          file: apps/api/api.Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
