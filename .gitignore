@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+package-lock.json
 node_modules
 .pnp
 .pnp.js
@@ -59,3 +60,7 @@ meilisearch
 
 # cluster config
 ecosystem.config.js
+
+# deploy
+.deploy/data
+.deploy/gorse-config.toml
