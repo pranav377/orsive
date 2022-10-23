@@ -1,10 +1,4 @@
 #!/bin/bash
-
-if ! [ -x "$(command -v docker compose)" ]; then
-  echo 'Error: docker compose is not installed.' >&2
-  exit 1
-fi
-
 domains=(api.orsive.com search.orsive.com)
 rsa_key_size=4096
 data_path="./data/certbot"
