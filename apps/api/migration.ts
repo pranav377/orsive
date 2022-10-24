@@ -7,7 +7,7 @@ import prisma from "./graphql/utils/data/dbClient";
 import { EXTRA_POST_ARGS } from "./graphql/utils/mepster/item/insertItem";
 import { searchIndex } from "./graphql/utils/mepster/searchClient";
 
-async () => {
+async function imagesMigrate() {
   let allImages = await prisma.image.findMany({
     ...EXTRA_POST_ARGS,
   });
@@ -37,9 +37,9 @@ async () => {
   });
 
   searchIndex.addDocuments(images);
-};
+}
 
-async () => {
+async function orsicsMigrate() {
   let allOrsics = await prisma.orsic.findMany({
     ...EXTRA_POST_ARGS,
   });
@@ -71,9 +71,9 @@ async () => {
   });
 
   searchIndex.addDocuments(orsics);
-};
+}
 
-async () => {
+async function usersMigrate() {
   let allUsers = await prisma.profile.findMany({
     ...userOptions,
   });
@@ -91,4 +91,8 @@ async () => {
   });
 
   searchIndex.addDocuments(users);
-};
+}
+
+imagesMigrate();
+orsicsMigrate();
+usersMigrate();
