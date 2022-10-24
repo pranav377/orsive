@@ -36,7 +36,7 @@ async () => {
     }
   });
 
-  searchIndex.addDocumentsInBatches(images, 10);
+  searchIndex.addDocuments(images);
 };
 
 async () => {
@@ -70,7 +70,7 @@ async () => {
     }
   });
 
-  searchIndex.addDocumentsInBatches(orsics, 10);
+  searchIndex.addDocuments(orsics);
 };
 
 async () => {
@@ -90,5 +90,5 @@ async () => {
     };
   });
 
-  searchIndex.addDocumentsInBatches(users, 10);
+  searchIndex.addDocuments(users);
 };
