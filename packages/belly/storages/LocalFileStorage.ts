@@ -24,6 +24,13 @@ class LocalFileStorage extends BaseStorage {
 
   async save(createReadStream: ReadStream, fileRelativePath: string) {
     let fileUploadPath = this.getFileUploadPath(fileRelativePath);
+    let fileUploadDirObjs = fileUploadPath.split("/");
+    fileUploadDirObjs.pop();
+    let fileUploadDir = fileUploadDirObjs.join("/");
+
+    if (!fse.existsSync(fileUploadDir)) {
+      fse.mkdirSync(fileUploadDir, { recursive: true });
+    }
 
     const readStream = createReadStream;
     const writeStream = fse.createWriteStream(fileUploadPath);
