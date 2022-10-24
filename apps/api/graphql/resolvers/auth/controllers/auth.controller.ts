@@ -28,7 +28,7 @@ import IsPasswordResetValid from "../validators/extra/passwordResetValidator";
 import getUserPermissions from "../../../permissions/getUserPermissions";
 import addLabelsForUser from "../../../utils/mepster/user/addLablesForUser";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../../config";
+import { JWT_SECRET, NODE_ENV } from "../../../config";
 
 const otp_nanoid = customAlphabet("1234567890", 4);
 
@@ -203,16 +203,18 @@ export async function PasswordReset(args: PasswordResetArgs) {
 export async function GetOTP(args: GetOTPArgs) {
   const data: GetOTPArgs = validate(args, OTP_VALIDATOR);
 
-  let randomOTP = otp_nanoid();
+  if (NODE_ENV !== "development") {
+    let randomOTP = otp_nanoid();
 
-  await prisma.oTP.create({
-    data: {
-      email: data.email,
-      otp: randomOTP,
-    },
-  });
+    await prisma.oTP.create({
+      data: {
+        email: data.email,
+        otp: randomOTP,
+      },
+    });
 
-  sendOTP(data.email, randomOTP);
+    sendOTP(data.email, randomOTP);
+  }
 }
 
 export async function GetPasswordResetOTP(args: GetOTPArgs) {
