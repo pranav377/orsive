@@ -10,8 +10,9 @@ import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery
 import AvatarArea from "../extra/AvatarArea";
 import ContentParser from "../../app/ContentParser";
 import TextContent from "../../app/TextContent";
+import { memo } from "react";
 
-export default function OrsicPostCard(props: { post: any }) {
+function OrsicPostCardComponent(props: { post: any }) {
   let post = props.post;
   const likeFeatures = useLike(post);
 
@@ -60,3 +61,6 @@ export default function OrsicPostCard(props: { post: any }) {
     </Ripples>
   );
 }
+
+const OrsicPostCard = memo(OrsicPostCardComponent);
+export default OrsicPostCard;

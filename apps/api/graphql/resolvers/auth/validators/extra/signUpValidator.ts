@@ -1,4 +1,5 @@
 import { ApolloError } from "apollo-server-express";
+import { NODE_ENV } from "../../../../config";
 import prisma from "../../../../utils/data/dbClient";
 import IsUsernameValid from "../../../../utils/data/IsUsernameValid";
 
@@ -30,13 +31,15 @@ export default async function IsSignUpValid(
     throw new ApolloError("User already Exists!");
   }
 
-  if (!(userOTP && userOTP[0])) {
-    throw new ApolloError("OTP not generated for user!");
-  }
+  if (NODE_ENV !== "development") {
+    if (!(userOTP && userOTP[0])) {
+      throw new ApolloError("OTP not generated for user!");
+    }
 
-  let otp = userOTP[0];
+    let otp = userOTP[0];
 
-  if (!(otp.otp === user_generated_otp)) {
-    throw new ApolloError("OTP is not same!");
+    if (!(otp.otp === user_generated_otp)) {
+      throw new ApolloError("OTP is not same!");
+    }
   }
 }

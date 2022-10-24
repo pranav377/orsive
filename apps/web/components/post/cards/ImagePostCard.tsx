@@ -11,8 +11,9 @@ import AvatarArea from "../extra/AvatarArea";
 import Image from "next/image";
 import { generatePlaceholder } from "../../app/ContentParser";
 import TextContent from "../../app/TextContent";
+import { memo } from "react";
 
-export default function ImagePostCard(props: { post: any }) {
+function ImagePostCardComponent(props: { post: any }) {
   let post = props.post;
   const likeFeatures = useLike(post);
 
@@ -58,6 +59,7 @@ export default function ImagePostCard(props: { post: any }) {
                   src={post.image}
                   width={post.width}
                   height={post.height}
+                  alt="User Uploaded Image"
                 />
               </div>
             </a>
@@ -68,3 +70,6 @@ export default function ImagePostCard(props: { post: any }) {
     </Ripples>
   );
 }
+
+const ImagePostCard = memo(ImagePostCardComponent);
+export default ImagePostCard;
