@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
-import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery";
+import GET_PROFILE_POSTS from "../../../logic/profile/queries/getProfilePostsQuery";
 import { ProfileType } from "../../../pages/[profile_slug]";
 import { useClearApolloCacheOnExit } from "../../app/useClearApolloCacheOnExit";
 

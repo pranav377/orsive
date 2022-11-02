@@ -1,15 +1,15 @@
 import { gql, useMutation } from "@apollo/client";
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import REPORT_CASES from "../../app/store/reducers/report/cases";
-import { initialState } from "../../app/store/store";
 import { client } from "../../pages/_app";
 import { useUser } from "../auth/useUser";
 import REPORT_AGAINST_MUTATION from "./moderation/mutation/ReportAgainstMutation";
 import REPORT_FAVOR_MUTATION from "./moderation/mutation/ReportFavorMutation";
+import type { RootState } from "../../store";
+import { ReportStateActions } from "../../store/slices/reportSlice";
 
 export const useReport = (postId: string) => {
-  const reportStore = useSelector((state: typeof initialState) => state.report);
+  const reportStore = useSelector((state: RootState) => state.report);
   const dispatch = useDispatch();
 
   const reportStatus = useMemo(() => {
@@ -34,13 +34,12 @@ export const useReport = (postId: string) => {
   });
 
   const setVoteStatus = (voted: boolean) => {
-    dispatch({
-      type: REPORT_CASES.SET_REPORT,
-      payload: {
+    dispatch(
+      ReportStateActions.setReport({
         postId,
         voted,
-      },
-    });
+      })
+    );
   };
 
   const user = useUser();
@@ -60,7 +59,7 @@ export const useReport = (postId: string) => {
 
       setVoteStatus(response.data.voteStatus);
     }
-  }, [user]);
+  }, [user, postId, reportStatus]);
 
   return { reportFavorMutation, reportAgainstMutation, reportStatus };
 };

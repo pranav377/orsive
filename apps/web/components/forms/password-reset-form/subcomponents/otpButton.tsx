@@ -1,9 +1,9 @@
-import getOTP from "../../../../app/auth/getOTP";
+import getOTP from "../../../../logic/auth/getOTP";
 import Button from "../../../base/button";
 import { useTimer } from "react-timer-hook";
 import { useState } from "react";
 import classNames from "../../../utils/classnames";
-import getPasswordResetOTP from "../../../../app/auth/getPasswordResetOTP";
+import getPasswordResetOTP from "../../../../logic/auth/getPasswordResetOTP";
 
 function getOneMinuteTime() {
   const time = new Date();

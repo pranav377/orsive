@@ -1,19 +1,15 @@
 import { Layout } from "../components/app/Layout";
 import OneTimePageSpinner from "../components/app/OneTimePageSpinner";
 import Spinner from "../components/app/Spinner";
-import ImagePostCard from "../components/post/cards/ImagePostCard";
-import OrsicPostCard from "../components/post/cards/OrsicPostCard";
 import { useOneTimePageSpinner } from "../hooks/app/useOneTimePageSpinner";
-import { useScrollRestoring } from "../hooks/app/useScrollRestoring";
 import { useFeedPage } from "../hooks/pages/feed/useFeedPage";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import { client } from "./_app";
-import VirtualScroller from "virtual-scroller/react";
-
+import { Virtuoso } from "react-virtuoso";
+import PostListRendererBeta from "../components/post/postListRendererBeta";
 export default function Feed() {
-  const { query, loadMoreElement } = useFeedPage();
+  const { query, loadMoreElement, fetchMore } = useFeedPage();
   const { spinnerShown, setSpinnerShown } = useOneTimePageSpinner(query.data);
-  useScrollRestoring();
 
   return (
     <>
@@ -26,34 +22,36 @@ export default function Feed() {
             client.resetStore();
           }}
         >
-          <div className="flex items-center mb-1 flex-col">
+          <div className="flex justify-center">
             {query.data && (
               <>
-                <VirtualScroller
-                  className="flex flex-col items-center"
-                  items={query.data.getPosts.data}
-                  itemComponent={function ListRenderer(props: {
-                    children: any;
-                  }) {
-                    const post = props.children;
-                    if (post.__typename === "Image") {
-                      return <ImagePostCard post={post} key={post.post.id} />;
-                    }
-                    if (post.__typename === "Orsic") {
-                      return <OrsicPostCard post={post} key={post.post.id} />;
-                    }
-
-                    return null;
+                <Virtuoso
+                  followOutput="smooth"
+                  useWindowScroll
+                  className="mb-1 overflow-hidden w-[90vw] md:max-w-3xl"
+                  overscan={{
+                    main: 200,
+                    reverse: 200,
                   }}
+                  data={query.data.getPosts.data}
+                  endReached={fetchMore}
+                  components={{
+                    Footer: () => (
+                      <>
+                        {query.data.getPosts.hasNextPage && (
+                          <div
+                            className={`flex items-center justify-center m-2`}
+                          >
+                            <Spinner />
+                          </div>
+                        )}
+                      </>
+                    ),
+                  }}
+                  itemContent={(_index, post) => (
+                    <PostListRendererBeta post={post} />
+                  )}
                 />
-                {query.data.getPosts.hasNextPage && (
-                  <div
-                    ref={loadMoreElement}
-                    className={`flex items-center justify-center m-2`}
-                  >
-                    <Spinner />
-                  </div>
-                )}
               </>
             )}
 

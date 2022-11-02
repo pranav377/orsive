@@ -5,8 +5,7 @@ import { Layout } from "../components/app/Layout";
 import OneTimePageSpinner from "../components/app/OneTimePageSpinner";
 import Spinner from "../components/app/Spinner";
 import AccessDenied from "../components/forms/content/accessDenied";
-import ImagePostCard from "../components/post/cards/ImagePostCard";
-import OrsicPostCard from "../components/post/cards/OrsicPostCard";
+import PostListRenderer from "../components/post/postListRenderer";
 import { useOneTimePageSpinner } from "../hooks/app/useOneTimePageSpinner";
 import { useScrollRestoring } from "../hooks/app/useScrollRestoring";
 import { useFollowingPage } from "../hooks/pages/following/useFollowingPage";
@@ -39,17 +38,7 @@ export default function Following() {
               <VirtualScroller
                 className="flex flex-col items-center"
                 items={query.data.getFollowingPosts.data}
-                itemComponent={function ListRenderer(props: { children: any }) {
-                  const post = props.children;
-                  if (post.__typename === "Image") {
-                    return <ImagePostCard post={post} key={post.post.id} />;
-                  }
-                  if (post.__typename === "Orsic") {
-                    return <OrsicPostCard post={post} key={post.post.id} />;
-                  }
-
-                  return null;
-                }}
+                itemComponent={PostListRenderer}
               />
 
               {query.data.getFollowingPosts.hasNextPage && (

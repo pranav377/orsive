@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import InputField from "../fields/inputField";
 import toast from "react-hot-toast";
 import { PASSWORD_RESET_STEP_1_SCHEMA } from "./schema/passwordResetStep1";
-import getPasswordResetOTP from "../../../app/auth/getPasswordResetOTP";
+import getPasswordResetOTP from "../../../logic/auth/getPasswordResetOTP";
 
 export default function SignUpStep1(props: {
   setPasswordResetFormState: Dispatch<

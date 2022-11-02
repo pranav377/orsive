@@ -5,7 +5,7 @@ import { SIGN_UP_STEP_1_SCHEMA } from "./schema/signUpStep1";
 import InputField from "../fields/inputField";
 import { client } from "../../../pages/_app";
 import { gql } from "@apollo/client";
-import getOTP from "../../../app/auth/getOTP";
+import getOTP from "../../../logic/auth/getOTP";
 import toast from "react-hot-toast";
 
 export default function SignUpStep1(props: {

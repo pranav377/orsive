@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useEffect, useRef } from "react";
-import GET_FOLLOWING_POSTS_QUERY from "../../../app/following/queries/getFollowingPostsQuery";
+import GET_FOLLOWING_POSTS_QUERY from "../../../logic/following/queries/getFollowingPostsQuery";
 import { useUser } from "../../auth/useUser";
 
 export const useFollowingPage = () => {

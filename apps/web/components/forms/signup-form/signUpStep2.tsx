@@ -5,7 +5,7 @@ import { SIGN_UP_STEP_2_SCHEMA } from "./schema/signUpStep2";
 import InputField from "../fields/inputField";
 import { client } from "../../../pages/_app";
 import { gql } from "@apollo/client";
-import SignUp from "../../../app/auth/signUp";
+import SignUp from "../../../logic/auth/signUp";
 import OTPButton from "./subcomponents/otpButton";
 import { useStore } from "react-redux";
 import { useRouter } from "next/router";

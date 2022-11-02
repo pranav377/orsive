@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import getSearchIndex from "../../../app/search/getSearchIndex";
+import getSearchIndex from "../../../logic/search/getSearchIndex";
 
 export const useSearch = () => {
   const router = useRouter();

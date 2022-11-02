@@ -6,7 +6,7 @@ import Button from "../../../components/base/button";
 import toast from "react-hot-toast";
 import { client } from "../../_app";
 import GET_POSTS_QUERY from "../../../../../packages/common/queries/post/getPostsQuery";
-import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery";
+import GET_PROFILE_POSTS from "../../../logic/profile/queries/getProfilePostsQuery";
 import { UPDATE_IMAGE_SCHEMA } from "../../../components/forms/content/post-image/validation_schema/postImageSchema";
 import TextField from "../../../components/forms/fields/textInputField";
 import ImageField from "../../../components/forms/fields/imageField";

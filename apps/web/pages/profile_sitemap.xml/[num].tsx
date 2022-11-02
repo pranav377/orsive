@@ -1,7 +1,7 @@
 import { getServerSideSitemap } from "next-sitemap";
 import { GetServerSideProps } from "next";
 import { client } from "../_app";
-import GET_PROFILE_SITEMAP_QUERY from "../../app/sitemap/GetProfileSitemapQuery";
+import GET_PROFILE_SITEMAP_QUERY from "../../logic/sitemap/GetProfileSitemapQuery";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const siteURL = process.env.NEXT_PUBLIC_SITE_URL;

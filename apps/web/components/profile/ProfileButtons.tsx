@@ -1,7 +1,5 @@
-import { useDispatch } from "react-redux";
-import CONTENT_CASES from "../../app/store/reducers/content/cases";
-import { useUser } from "../../hooks/auth/useUser";
 import { useProfileButton } from "../../hooks/pages/profile/buttons/useProfileButton";
+import { ContentStateActions } from "../../store/slices/contentSlice";
 import Button from "../base/button";
 
 export function EditProfileButton(props: { onClick: () => void }) {
@@ -26,7 +24,7 @@ export function FollowButton(props: { username: string }) {
       } rounded-full mt-1`}
       onClick={() => {
         if (!user.is) {
-          dispatch({ type: CONTENT_CASES.SHOW_LOGIN_DIALOG });
+          ContentStateActions.setShowLoginDialog(true);
         } else {
           followProfile();
         }

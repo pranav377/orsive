@@ -2,7 +2,7 @@ import { useRichTextEditor } from "../../hooks/app/useRichTextEditor";
 import { Editor } from "@tinymce/tinymce-react";
 import Spinner from "./Spinner";
 import { client } from "../../pages/_app";
-import EDITOR_IMAGE_UPLOAD_MUTATION from "../../app/editor/editorImageUploadMutation";
+import EDITOR_IMAGE_UPLOAD_MUTATION from "../../logic/editor/editorImageUploadMutation";
 import parse, { HTMLReactParserOptions, Element } from "html-react-parser";
 import { renderToString } from "react-dom/server";
 

@@ -5,7 +5,7 @@ import InputField from "../fields/inputField";
 import OTPButton from "./subcomponents/otpButton";
 import toast from "react-hot-toast";
 import { PASSWORD_RESET_STEP_2_SCHEMA } from "./schema/passwordResetStep2";
-import PasswordReset from "../../../app/auth/passwordReset";
+import PasswordReset from "../../../logic/auth/passwordReset";
 
 export default function PasswordResetStep2(props: {
   passwordResetFormState: {

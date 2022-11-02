@@ -14,9 +14,9 @@ import { useUser } from "../../../hooks/auth/useUser";
 import AccessDenied from "../../forms/content/accessDenied";
 import { useAppState } from "../../../hooks/app/useAppState";
 import { useDispatch } from "react-redux";
-import APP_CASES from "../../../app/store/reducers/app/cases";
 import { RichEditorSkeleton } from "../../app/RichEditor";
 import GET_MY_COMMENTS_QUERY from "./queries/getMyCommentsQuery";
+import { AppStateActions } from "../../../store/slices/appSlice";
 
 const RichEditor = dynamic(() => import("../../app/RichEditor"), {
   ssr: false,
@@ -49,11 +49,11 @@ export default function ReplyBox(props: ReplyBoxProps) {
   }, [appState.showReply, props.loading]);
 
   function closeReplyModal() {
-    dispatch({ type: APP_CASES.HIDE_REPLY });
+    dispatch(AppStateActions.setShowReply(false));
   }
 
   function showReplyModal() {
-    dispatch({ type: APP_CASES.SHOW_REPLY });
+    dispatch(AppStateActions.setShowReply(true));
   }
   const user = useUser();
 

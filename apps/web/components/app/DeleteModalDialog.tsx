@@ -1,8 +1,8 @@
 import { ExclamationIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import CONTENT_CASES from "../../app/store/reducers/content/cases";
 import { useUser } from "../../hooks/auth/useUser";
+import { ContentStateActions } from "../../store/slices/contentSlice";
 import Button from "../base/button";
 import ModalDialog from "./Dialog";
 
@@ -28,7 +28,7 @@ export default function DeleteModalDialog(props: {
         <Button
           onClick={() => {
             if (!user.is) {
-              dispatch({ type: CONTENT_CASES.SHOW_LOGIN_DIALOG });
+              dispatch(ContentStateActions.setShowLoginDialog(true));
             } else if (user.username !== props.uploadedByUsername) {
               toast.error("You don't own the post😑");
             } else {

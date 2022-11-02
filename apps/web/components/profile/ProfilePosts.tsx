@@ -4,8 +4,7 @@ import { useProfilePosts } from "../../hooks/pages/profile/useProfilePosts";
 import { ProfileType } from "../../pages/[profile_slug]";
 import OneTimePageSpinner from "../app/OneTimePageSpinner";
 import Spinner from "../app/Spinner";
-import ImagePostCard from "../post/cards/ImagePostCard";
-import OrsicPostCard from "../post/cards/OrsicPostCard";
+import PostListRenderer from "../post/postListRenderer";
 import BruhSVG from "../svgs/bruh.svg";
 
 export default function ProfilePosts(props: { profile: ProfileType }) {
@@ -26,17 +25,7 @@ export default function ProfilePosts(props: { profile: ProfileType }) {
           <VirtualScroller
             className="flex flex-col items-center"
             items={query.data.getProfilePosts.data}
-            itemComponent={function ListRenderer(props: { children: any }) {
-              const post = props.children;
-              if (post.__typename === "Image") {
-                return <ImagePostCard post={post} key={post.post.id} />;
-              }
-              if (post.__typename === "Orsic") {
-                return <OrsicPostCard post={post} key={post.post.id} />;
-              }
-
-              return null;
-            }}
+            itemComponent={PostListRenderer}
           />
 
           {query.data.getProfilePosts.hasNextPage && (

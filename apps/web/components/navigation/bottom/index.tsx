@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import classNames from "../../utils/classnames";
 import { useDispatch } from "react-redux";
-import CONTENT_CASES from "../../../app/store/reducers/content/cases";
 import PostOrsic from "../../forms/content/post-orsic";
 import PostImage from "../../forms/content/post-image";
 import Modal from "../../app/Modal";
@@ -28,9 +27,10 @@ import { usePostContentState } from "../../../hooks/app/content/usePostContentSt
 import { useHomeUrl } from "../../../hooks/app/useHomeUrl";
 import { useAppState } from "../../../hooks/app/useAppState";
 import { useUser } from "../../../hooks/auth/useUser";
-import { showLoginDialog } from "../../../app/auth/showLoginDialog";
+import { showLoginDialog } from "../../../logic/auth/showLoginDialog";
 import { useRef } from "react";
 import { withoutNavbarPaths } from "../navbar";
+import { ContentStateActions } from "../../../store/slices/contentSlice";
 
 export default function BottomNavigation() {
   const router = useRouter();
@@ -137,15 +137,17 @@ function AddPostDropup() {
       <PostOrsic />
       <PostImage />
       <Modal
-        closeModal={() => dispatch({ type: CONTENT_CASES.HIDE_POST_CONTENT })}
+        closeModal={() =>
+          dispatch(ContentStateActions.setShowPostContent(false))
+        }
         show={postContentState.postContent}
         content={
           <>
             <PostCards>
               <PostCard
                 onClick={() => {
-                  dispatch({ type: CONTENT_CASES.HIDE_POST_CONTENT });
-                  dispatch({ type: CONTENT_CASES.SHOW_POST_ORSIC });
+                  dispatch(ContentStateActions.setShowPostContent(false));
+                  dispatch(ContentStateActions.setShowPostOrsic(true));
                 }}
                 icon={
                   <NewspaperIcon className="w-12 h-12 rounded-full text-blue-700" />
@@ -156,8 +158,8 @@ function AddPostDropup() {
               />
               <PostCard
                 onClick={() => {
-                  dispatch({ type: CONTENT_CASES.HIDE_POST_CONTENT });
-                  dispatch({ type: CONTENT_CASES.SHOW_POST_IMAGE });
+                  dispatch(ContentStateActions.setShowPostContent(false));
+                  dispatch(ContentStateActions.setShowPostImage(true));
                 }}
                 icon={
                   <PhotographIcon className="w-12 h-12 rounded-full text-green-700" />
@@ -181,7 +183,7 @@ function AddPostDropup() {
       <div className="flex flex-col items-center">
         <button
           onClick={() => {
-            dispatch({ type: CONTENT_CASES.SHOW_POST_CONTENT });
+            dispatch(ContentStateActions.setShowPostContent(true));
           }}
           ref={addPostButton}
           className="absolute bottom-5 outline-none shadow-none text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50 bg-blue-500 w-20 h-20 p-2 text-white"

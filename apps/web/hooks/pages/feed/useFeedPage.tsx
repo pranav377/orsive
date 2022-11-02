@@ -20,28 +20,28 @@ export const useFeedPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (!query.data || !query.data.getPosts.hasNextPage) {
-      return;
-    }
-    const observer = new IntersectionObserver((entries) =>
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          fetchMore();
-        }
-      })
-    );
-    const el = loadMoreElement.current;
+  // useEffect(() => {
+  //   if (!query.data || !query.data.getPosts.hasNextPage) {
+  //     return;
+  //   }
+  //   const observer = new IntersectionObserver((entries) =>
+  //     entries.forEach((entry) => {
+  //       if (entry.isIntersecting) {
+  //         fetchMore();
+  //       }
+  //     })
+  //   );
+  //   const el = loadMoreElement.current;
 
-    observer.observe(el);
-    return () => {
-      observer.unobserve(el);
-    };
-  }, [
-    loadMoreElement.current,
-    query.data?.getPosts?.hasNextPage,
-    query.data?.getPosts?.nextPage,
-  ]);
+  //   observer.observe(el);
+  //   return () => {
+  //     observer.unobserve(el);
+  //   };
+  // }, [
+  //   loadMoreElement.current,
+  //   query.data?.getPosts?.hasNextPage,
+  //   query.data?.getPosts?.nextPage,
+  // ]);
 
-  return { query, loadMoreElement };
+  return { query, loadMoreElement, fetchMore };
 };

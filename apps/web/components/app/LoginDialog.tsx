@@ -1,13 +1,11 @@
 import ModalDialog from "./Dialog";
 import { usePostContentState } from "../../hooks/app/content/usePostContentState";
-import store from "../../app/store/store";
-import CONTENT_CASES from "../../app/store/reducers/content/cases";
 import Link from "next/link";
+import { store } from "../../store";
+import { ContentStateActions } from "../../store/slices/contentSlice";
 
 function setLoginDialogOpen(_value: boolean) {
-  store.dispatch({
-    type: CONTENT_CASES.HIDE_LOGIN_DIALOG,
-  });
+  store.dispatch(ContentStateActions.setShowLoginDialog(false));
 }
 
 export default function LoginDialog() {
@@ -22,7 +20,11 @@ export default function LoginDialog() {
         content={
           <>
             <div className="flex flex-col w-full items-center justify-center min-w-[80vw] md:min-w-fit">
-              <img src="/cool.webp" className="my-3 w-[50%]" />
+              <img
+                src="/cool.webp"
+                alt="Animation showing cool gesture"
+                className="my-3 w-[50%]"
+              />
               <Link href={`/auth?page=signup`} passHref>
                 <a
                   onClick={() => {

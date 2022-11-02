@@ -4,7 +4,6 @@ import { CalendarIcon } from "@heroicons/react/solid";
 import Spinner from "../components/app/Spinner";
 import EditProfile from "../components/forms/profile/EditProfile";
 import Moment from "react-moment";
-import CONTENT_CASES from "../app/store/reducers/content/cases";
 import ProfilePosts from "../components/profile/ProfilePosts";
 import refreshData from "../utils/refreshProfileData";
 import Comp404 from "../components/app/404";
@@ -16,6 +15,7 @@ import {
 import LinkifyContent from "../components/app/LinkifyContent";
 import { Layout } from "../components/app/Layout";
 import { nFormatter } from "../components/app/nFormatter";
+import { ContentStateActions } from "../store/slices/contentSlice";
 
 export interface ProfileType {
   username: string;
@@ -96,7 +96,9 @@ export default function Profile() {
             )}
 
             <div
-              className={`w-[90vw] md:max-w-3xl ${!profile.banner ? "mt-20" : "mt-4"}`}
+              className={`w-[90vw] md:max-w-3xl ${
+                !profile.banner ? "mt-20" : "mt-4"
+              }`}
             >
               <div className="flex flex-col items-center md:items-start">
                 <div className="flex md:flex-col">
@@ -197,7 +199,9 @@ export default function Profile() {
                       {user.username === profile.username ? (
                         <EditProfileButton
                           onClick={() => {
-                            dispatch({ type: CONTENT_CASES.SHOW_EDIT_PROFILE });
+                            dispatch(
+                              ContentStateActions.setShowEditProfile(true)
+                            );
                           }}
                         />
                       ) : (

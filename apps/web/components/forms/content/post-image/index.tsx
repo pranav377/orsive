@@ -1,6 +1,4 @@
 import { useMutation } from "@apollo/client";
-import CONTENT_CASES from "../../../../app/store/reducers/content/cases";
-import store from "../../../../app/store/store";
 import { usePostContentState } from "../../../../hooks/app/content/usePostContentState";
 import Modal from "../../../app/Modal";
 import ADD_IMAGE_POST_MUTATION from "../../../../../../packages/common/mutations/PostContent/image/addImagePostMutation";
@@ -15,10 +13,12 @@ import AccessDenied from "../accessDenied";
 import { useUser } from "../../../../hooks/auth/useUser";
 import { client } from "../../../../pages/_app";
 import GET_POSTS_QUERY from "../../../../../../packages/common/queries/post/getPostsQuery";
-import GET_PROFILE_POSTS from "../../../../app/profile/queries/getProfilePostsQuery";
+import GET_PROFILE_POSTS from "../../../../logic/profile/queries/getProfilePostsQuery";
+import { store } from "../../../../store";
+import { ContentStateActions } from "../../../../store/slices/contentSlice";
 
 function closePostImageModal() {
-  store.dispatch({ type: CONTENT_CASES.HIDE_POST_IMAGE });
+  store.dispatch(ContentStateActions.setShowPostImage(false));
 }
 
 export default function PostImage() {

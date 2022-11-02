@@ -1,16 +1,16 @@
 import { useMutation } from "@apollo/client";
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { showLoginDialog } from "../../../app/auth/showLoginDialog";
-import LIKE_CASES from "../../../app/store/reducers/like/cases";
-import { initialState } from "../../../app/store/store";
+import { showLoginDialog } from "../../../logic/auth/showLoginDialog";
 import { client } from "../../../pages/_app";
+import { RootState } from "../../../store";
+import { LikeStateActions } from "../../../store/slices/likeSlice";
 import { useUser } from "../../auth/useUser";
 import ADD_LIKE_MUTATION from "./addLikeMutation";
 import LIKE_STATUS_QUERY from "./likeStatusQuery";
 
 export const useLike = (post: any) => {
-  const likeStore = useSelector((state: typeof initialState) => state.like);
+  const likeStore = useSelector((state: RootState) => state.like);
   const dispatch = useDispatch();
 
   const likeStatus = useMemo(() => {
@@ -18,14 +18,13 @@ export const useLike = (post: any) => {
   }, [likeStore, post]);
 
   const setLikeStatus = (type: "like" | "dislike" | "nope", likes: number) => {
-    dispatch({
-      type: LIKE_CASES.SET_LIKE,
-      payload: {
+    dispatch(
+      LikeStateActions.setLike({
         postId: post?.post?.id,
         type,
         likes,
-      },
-    });
+      })
+    );
   };
 
   const [addLikeMutation] = useMutation(ADD_LIKE_MUTATION);
@@ -46,7 +45,7 @@ export const useLike = (post: any) => {
 
       setLikeStatus(likeType, numOfLikes);
     }
-  }, [post, user]);
+  }, [post, user, likeStatus]);
 
   const like = async () => {
     if (user.is) {

@@ -1,10 +1,8 @@
 import { useSelector } from "react-redux";
-import { initialState } from "../../../app/store/store";
+import type { RootState } from "../../../store";
 
 export const usePostContentState = () => {
-  const postContentState = useSelector(
-    (state: typeof initialState) => state.content
-  );
+  const postContentState = useSelector((state: RootState) => state.content);
 
   return postContentState;
 };

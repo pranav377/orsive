@@ -1,7 +1,6 @@
-import localforage from "localforage";
 import { useStore } from "react-redux";
-import APP_CASES from "../../app/store/reducers/app/cases";
 import { useAppState } from "../../hooks/app/useAppState";
+import { AppStateActions } from "../../store/slices/appSlice";
 
 export default function BionicMode() {
   const appState = useAppState();
@@ -12,8 +11,8 @@ export default function BionicMode() {
       <label
         className="flex items-center cursor-pointer"
         onClick={async () => {
-          localforage.setItem("bionic_mode", !appState.bionicMode);
-          store.dispatch({ type: APP_CASES.TOGGLE_BIONIC_MODE });
+          localStorage.setItem("bionic_mode", `${!appState.bionicMode}`);
+          store.dispatch(AppStateActions.toggleBionicMode());
         }}
       >
         <div className="relative">

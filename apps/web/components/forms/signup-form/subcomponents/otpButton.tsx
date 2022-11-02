@@ -1,4 +1,4 @@
-import getOTP from "../../../../app/auth/getOTP";
+import getOTP from "../../../../logic/auth/getOTP";
 import Button from "../../../base/button";
 import { useTimer } from "react-timer-hook";
 import { useState } from "react";

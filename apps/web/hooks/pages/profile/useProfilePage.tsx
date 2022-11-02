@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useQuery } from "@apollo/client";
 import { useHideBars } from "../../app/useHideBars";
 import { useUser } from "../../auth/useUser";
-import GET_PROFILE_QUERY from "../../../app/profile/queries/getProfileQuery";
+import GET_PROFILE_QUERY from "../../../logic/profile/queries/getProfileQuery";
 
 export const useProfilePage = () => {
   useHideBars();

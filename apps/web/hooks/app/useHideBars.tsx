@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import APP_CASES from "../../app/store/reducers/app/cases";
+import { AppStateActions } from "../../store/slices/appSlice";
 
 export const useHideBars = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: APP_CASES.HIDE_BARS });
+    dispatch(AppStateActions.setShowBars(false));
 
     return function () {
-      dispatch({ type: APP_CASES.SHOW_BARS });
+      dispatch(AppStateActions.setShowBars(true));
     };
   });
 };

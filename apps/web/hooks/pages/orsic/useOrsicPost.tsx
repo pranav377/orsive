@@ -1,8 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import DELETE_ORSIC_POST_MUTATION from "../../../app/post/orsic/mutations/deleteOrsicPostMutation";
+import DELETE_ORSIC_POST_MUTATION from "../../../logic/post/orsic/mutations/deleteOrsicPostMutation";
 import GET_POSTS_QUERY from "../../../../../packages/common/queries/post/getPostsQuery";
-import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery";
+import GET_PROFILE_POSTS from "../../../logic/profile/queries/getProfilePostsQuery";
 import { useHistory } from "../../app/history/useHistory";
 import { useLike } from "../../app/like/useLike";
 import { useHideBars } from "../../app/useHideBars";

@@ -1,6 +1,4 @@
 import { Formik, Form } from "formik";
-import store from "../../../../app/store/store";
-import CONTENT_CASES from "../../../../app/store/reducers/content/cases";
 import Button from "../../../base/button";
 import { POST_ORSIC_SCHEMA } from "./validation_schema/postOrsicSchema";
 import { useMutation } from "@apollo/client";
@@ -16,14 +14,16 @@ import dynamic from "next/dynamic";
 import { RichEditorSkeleton } from "../../../app/RichEditor";
 import { client } from "../../../../pages/_app";
 import GET_POSTS_QUERY from "../../../../../../packages/common/queries/post/getPostsQuery";
-import GET_PROFILE_POSTS from "../../../../app/profile/queries/getProfilePostsQuery";
+import GET_PROFILE_POSTS from "../../../../logic/profile/queries/getProfilePostsQuery";
+import { store } from "../../../../store";
+import { ContentStateActions } from "../../../../store/slices/contentSlice";
 
 const RichEditor = dynamic(() => import("../../../app/RichEditor"), {
   ssr: false,
 });
 
 function closePostOrsicModal() {
-  store.dispatch({ type: CONTENT_CASES.HIDE_POST_ORSIC });
+  store.dispatch(ContentStateActions.setShowPostOrsic(false));
 }
 
 export default function PostOrsic() {

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import USER_CHECK_QUERY, {
   getUnreadNotificationsQuery,
-} from "../../app/auth/queries/userCheck";
+} from "../../logic/auth/queries/userCheck";
 import { client } from "../../pages/_app";
-import USER_CASES from "../../app/store/reducers/user/cases";
-import store from "../../app/store/store";
-import APP_CASES from "../../app/store/reducers/app/cases";
 import AdditionalSetup, { ADDITIONAL_SETUP_CONTEXT } from "./AdditionalSetup";
 import LANG_CONF from "../../../../packages/config/global-lang-list.json";
+import localforage from "localforage";
+import { store } from "../../store";
+import { UserStateActions } from "../../store/slices/userSlice";
+import { AppStateActions } from "../../store/slices/appSlice";
 
 export function setUser(user: {
   username: string;
@@ -17,11 +18,8 @@ export function setUser(user: {
   isMod: boolean;
   isStaff: boolean;
 }) {
-  localStorage.setItem("username", user.username);
-  store.dispatch({
-    type: USER_CASES.LOGIN,
-    payload: user,
-  });
+  localforage.setItem("username", user.username);
+  store.dispatch(UserStateActions.login(user));
 }
 
 export function userCheckLogin() {
@@ -44,12 +42,9 @@ async function checkNotifications() {
       fetchPolicy: "network-only",
     })
     .then((response) => {
-      store.dispatch({
-        type: USER_CASES.SET_NOTIFICATIONS,
-        payload: {
-          unreadNotifications: response.data.me.unreadNotifications,
-        },
-      });
+      store.dispatch(
+        UserStateActions.setNotification(response.data.me.unreadNotifications)
+      );
     })
     .catch((err) => {});
 }
@@ -57,13 +52,9 @@ async function checkNotifications() {
 async function checkBionicMode() {
   if (typeof window! == "undefined" && localStorage) {
     let bionicMode = localStorage.getItem("bionic_mode");
+    let isBionicMode = bionicMode === "true";
 
-    if (typeof bionicMode === "boolean") {
-      store.dispatch({
-        type: APP_CASES.SET_BIONIC_MODE,
-        payload: { bionicMode },
-      });
-    }
+    store.dispatch(AppStateActions.setBionicMode(isBionicMode));
   }
 }
 
