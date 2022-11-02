@@ -5,6 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "playwright test",
     "lint": "next lint"
   },
   "dependencies": {
@@ -61,6 +62,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@playwright/test": "^1.27.1",
     "@svgr/webpack": "^6.2.0",
     "@types/apollo-upload-client": "^17.0.0",
     "@types/node": "17.0.12",

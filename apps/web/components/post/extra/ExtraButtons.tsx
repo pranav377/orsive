@@ -75,7 +75,7 @@ export default function ExtraButtons(props: {
             className="flex items-center justify-center flex-1"
             onClick={() => {
               router.push(`${props.postUrl}`).finally(() => {
-                AppStateActions.setShowReply(true);
+                dispatch(AppStateActions.setShowReply(true));
               });
             }}
           >

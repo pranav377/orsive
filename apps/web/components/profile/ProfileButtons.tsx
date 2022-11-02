@@ -24,7 +24,7 @@ export function FollowButton(props: { username: string }) {
       } rounded-full mt-1`}
       onClick={() => {
         if (!user.is) {
-          ContentStateActions.setShowLoginDialog(true);
+          dispatch(ContentStateActions.setShowLoginDialog(true));
         } else {
           followProfile();
         }
