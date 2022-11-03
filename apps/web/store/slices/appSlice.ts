@@ -1,15 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { INFINITE_SCROLL_SCREENS } from "../../config";
 
 export interface AppState {
   showBars: boolean;
   showReply: boolean;
   bionicMode: boolean;
+  scrollRestoring: {
+    feed: string | undefined;
+    profile: string | undefined;
+    search: string | undefined;
+  };
 }
 
 export const initialState: AppState = {
   showBars: true,
   showReply: false,
   bionicMode: false,
+  scrollRestoring: {
+    feed: undefined,
+    profile: undefined,
+    search: undefined,
+  },
 };
 
 export const appSlice = createSlice({
@@ -27,6 +38,15 @@ export const appSlice = createSlice({
     },
     toggleBionicMode: (state) => {
       state.bionicMode = !state.bionicMode;
+    },
+    setScrollRestoring: (
+      state,
+      action: PayloadAction<{
+        screen: INFINITE_SCROLL_SCREENS;
+        objId: string;
+      }>
+    ) => {
+      state.scrollRestoring[action.payload.screen] = action.payload.objId;
     },
   },
 });

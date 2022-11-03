@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useStore } from "react-redux";
 import { useAppState } from "../../hooks/app/useAppState";
 import { AppStateActions } from "../../store/slices/appSlice";
@@ -12,6 +13,9 @@ export default function BionicMode() {
         className="flex items-center cursor-pointer select-none"
         onClick={async () => {
           localStorage.setItem("bionic_mode", `${!appState.bionicMode}`);
+          toast.success(
+            `Bionic mode is ${!appState.bionicMode ? "On" : "Off"}`
+          );
           store.dispatch(AppStateActions.toggleBionicMode());
         }}
       >

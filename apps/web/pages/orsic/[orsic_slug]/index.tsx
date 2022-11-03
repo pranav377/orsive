@@ -95,17 +95,21 @@ export default function OrsicPost(props: { post: OrsicPostType | null }) {
         />
         <TopBar
           content={
-            <span className="pl-5 font-bold text-xl">
-              Go to{" "}
-              <Link href={"/feed"} passHref>
-                <a className="text-blue-500 hover:text-blue-700">Feed</a>
-              </Link>
-            </span>
+            <div className="flex items-center w-full">
+              <span className="pl-5 font-bold text-xl">
+                Go to{" "}
+                <Link href={"/feed"} passHref>
+                  <a className="text-blue-500 hover:text-blue-700">Feed</a>
+                </Link>
+              </span>
+              <div className="ml-auto">
+                <BionicMode />
+              </div>
+            </div>
           }
         />
         <Layout>
           <div className="flex flex-col w-full items-center mt-20 ">
-            <BionicMode />
             <div className="flex flex-col bg-slate-900 rounded-none w-[98%] md:max-w-3xl md:rounded-md my-2">
               <AvatarArea
                 postId={post.post.id}

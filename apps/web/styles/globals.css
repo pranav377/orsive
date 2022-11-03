@@ -66,6 +66,10 @@ body {
   background-color: transparent !important;
 }
 
+.tox-notifications-container {
+  display: none;
+}
+
 .floating {
   animation-name: floating;
   animation-duration: 3s;
