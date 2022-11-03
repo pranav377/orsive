@@ -26,7 +26,6 @@ export default function Feed() {
             {query.data && (
               <>
                 <Virtuoso
-                  followOutput="smooth"
                   useWindowScroll
                   className="mb-1 overflow-hidden w-[90vw] md:max-w-3xl"
                   overscan={{
