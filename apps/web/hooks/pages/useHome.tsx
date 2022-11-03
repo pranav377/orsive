@@ -12,6 +12,7 @@ export const useHome = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     if (user.is) {
       router.push("/feed");
     } else {
