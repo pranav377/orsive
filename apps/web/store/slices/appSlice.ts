@@ -6,9 +6,9 @@ export interface AppState {
   showReply: boolean;
   bionicMode: boolean;
   scrollRestoring: {
-    feed: string | undefined;
-    profile: string | undefined;
-    search: string | undefined;
+    feed: number | undefined;
+    profile: number | undefined;
+    search: number | undefined;
   };
 }
 
@@ -43,10 +43,10 @@ export const appSlice = createSlice({
       state,
       action: PayloadAction<{
         screen: INFINITE_SCROLL_SCREENS;
-        objId: string;
+        objIdx: number;
       }>
     ) => {
-      state.scrollRestoring[action.payload.screen] = action.payload.objId;
+      state.scrollRestoring[action.payload.screen] = action.payload.objIdx;
     },
   },
 });

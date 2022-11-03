@@ -7,8 +7,9 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 import { client } from "./_app";
 import { Virtuoso } from "react-virtuoso";
 import PostListRendererBeta from "../components/post/postListRendererBeta";
+
 export default function Feed() {
-  const { query, loadMoreElement, fetchMore } = useFeedPage();
+  const { query, fetchMore, objIdx, setObj } = useFeedPage();
   const { spinnerShown, setSpinnerShown } = useOneTimePageSpinner(query.data);
 
   return (
@@ -27,6 +28,9 @@ export default function Feed() {
               <>
                 <Virtuoso
                   useWindowScroll
+                  {...(objIdx && {
+                    initialTopMostItemIndex: objIdx,
+                  })}
                   className="mb-1 overflow-hidden w-[90vw] md:max-w-3xl"
                   overscan={{
                     main: 200,
@@ -47,8 +51,12 @@ export default function Feed() {
                       </>
                     ),
                   }}
-                  itemContent={(_index, post) => (
-                    <PostListRendererBeta post={post} />
+                  itemContent={(thisObjIdx, post) => (
+                    <PostListRendererBeta
+                      post={post}
+                      objIdx={thisObjIdx}
+                      setObj={setObj}
+                    />
                   )}
                 />
               </>

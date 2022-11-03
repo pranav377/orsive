@@ -9,14 +9,14 @@ export const useScrollRestoringBeta = (screen: INFINITE_SCROLL_SCREENS) => {
   );
   const dispatch = useDispatch();
 
-  const setObj = (objId: string) => {
+  const setObj = (objIdx: number) => {
     dispatch(
       AppStateActions.setScrollRestoring({
         screen,
-        objId,
+        objIdx,
       })
     );
   };
 
-  return { objId: scrollRestoringState[screen], setObj };
+  return { objIdx: scrollRestoringState[screen], setObj };
 };

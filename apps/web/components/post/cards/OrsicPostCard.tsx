@@ -12,7 +12,7 @@ import ContentParser from "../../app/ContentParser";
 import TextContent from "../../app/TextContent";
 import { memo } from "react";
 
-function OrsicPostCardComponent(props: { post: any }) {
+function OrsicPostCardComponent(props: { post: any; onClick?: () => void }) {
   let post = props.post;
   const likeFeatures = useLike(post);
 
@@ -37,7 +37,7 @@ function OrsicPostCardComponent(props: { post: any }) {
         />
         <div className="w-full">
           <Link href={postUrl} passHref scroll={false}>
-            <a>
+            <a onClick={props.onClick}>
               <div>
                 {post.title && (
                   <span className="font-semibold text-2xl text-gray-100 text-break">

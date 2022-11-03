@@ -13,7 +13,7 @@ import { generatePlaceholder } from "../../app/ContentParser";
 import TextContent from "../../app/TextContent";
 import { memo } from "react";
 
-function ImagePostCardComponent(props: { post: any }) {
+function ImagePostCardComponent(props: { post: any; onClick?: () => void }) {
   let post = props.post;
   const likeFeatures = useLike(post);
 
@@ -38,7 +38,7 @@ function ImagePostCardComponent(props: { post: any }) {
         />
         <div className="w-full">
           <Link href={postUrl} passHref scroll={false}>
-            <a>
+            <a onClick={props.onClick}>
               <LinkifyContent>
                 <TextContent className="p-2 text-break">
                   {post.title}
