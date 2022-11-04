@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { useEffect, useRef } from "react";
 import GET_POSTS_QUERY from "../../../../../packages/common/queries/post/getPostsQuery";
+import { useScrollRestoring } from "../../app/useScrollRestoringBeta";
 
 export const useFeedPage = () => {
   const query = useQuery(GET_POSTS_QUERY, {
@@ -9,7 +9,6 @@ export const useFeedPage = () => {
     },
     notifyOnNetworkStatusChange: true,
   });
-  const loadMoreElement: any = useRef(null);
 
   const fetchMore = () => {
     let pageInfo = query.data.getPosts;
@@ -20,28 +19,7 @@ export const useFeedPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (!query.data || !query.data.getPosts.hasNextPage) {
-      return;
-    }
-    const observer = new IntersectionObserver((entries) =>
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          fetchMore();
-        }
-      })
-    );
-    const el = loadMoreElement.current;
+  const { objIdx, setObj } = useScrollRestoring("feed");
 
-    observer.observe(el);
-    return () => {
-      observer.unobserve(el);
-    };
-  }, [
-    loadMoreElement.current,
-    query.data?.getPosts?.hasNextPage,
-    query.data?.getPosts?.nextPage,
-  ]);
-
-  return { query, loadMoreElement };
+  return { query, fetchMore, objIdx, setObj };
 };

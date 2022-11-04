@@ -3,17 +3,17 @@ import Link from "next/link";
 import Ripples from "../../app/Ripple";
 import { useLike } from "../../../hooks/app/like/useLike";
 import ExtraButtons from "../extra/ExtraButtons";
-import DELETE_IMAGE_POST_MUTATION from "../../../app/post/image/mutations/deleteImagePostMutation";
+import DELETE_IMAGE_POST_MUTATION from "../../../logic/post/image/mutations/deleteImagePostMutation";
 import { useMutation } from "@apollo/client";
 import GET_POSTS_QUERY from "../../../../../packages/common/queries/post/getPostsQuery";
-import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery";
+import GET_PROFILE_POSTS from "../../../logic/profile/queries/getProfilePostsQuery";
 import AvatarArea from "../extra/AvatarArea";
 import Image from "next/image";
 import { generatePlaceholder } from "../../app/ContentParser";
 import TextContent from "../../app/TextContent";
 import { memo } from "react";
 
-function ImagePostCardComponent(props: { post: any }) {
+function ImagePostCardComponent(props: { post: any; onClick?: () => void }) {
   let post = props.post;
   const likeFeatures = useLike(post);
 
@@ -38,7 +38,7 @@ function ImagePostCardComponent(props: { post: any }) {
         />
         <div className="w-full">
           <Link href={postUrl} passHref scroll={false}>
-            <a>
+            <a onClick={props.onClick}>
               <LinkifyContent>
                 <TextContent className="p-2 text-break">
                   {post.title}

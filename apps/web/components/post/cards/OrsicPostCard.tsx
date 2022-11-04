@@ -3,16 +3,16 @@ import Link from "next/link";
 import Ripples from "../../app/Ripple";
 import { useLike } from "../../../hooks/app/like/useLike";
 import ExtraButtons from "../extra/ExtraButtons";
-import DELETE_ORSIC_POST_MUTATION from "../../../app/post/orsic/mutations/deleteOrsicPostMutation";
+import DELETE_ORSIC_POST_MUTATION from "../../../logic/post/orsic/mutations/deleteOrsicPostMutation";
 import { useMutation } from "@apollo/client";
 import GET_POSTS_QUERY from "../../../../../packages/common/queries/post/getPostsQuery";
-import GET_PROFILE_POSTS from "../../../app/profile/queries/getProfilePostsQuery";
+import GET_PROFILE_POSTS from "../../../logic/profile/queries/getProfilePostsQuery";
 import AvatarArea from "../extra/AvatarArea";
 import ContentParser from "../../app/ContentParser";
 import TextContent from "../../app/TextContent";
 import { memo } from "react";
 
-function OrsicPostCardComponent(props: { post: any }) {
+function OrsicPostCardComponent(props: { post: any; onClick?: () => void }) {
   let post = props.post;
   const likeFeatures = useLike(post);
 
@@ -37,7 +37,7 @@ function OrsicPostCardComponent(props: { post: any }) {
         />
         <div className="w-full">
           <Link href={postUrl} passHref scroll={false}>
-            <a>
+            <a onClick={props.onClick}>
               <div>
                 {post.title && (
                   <span className="font-semibold text-2xl text-gray-100 text-break">

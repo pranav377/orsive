@@ -1,18 +1,16 @@
-import VirtualScroller from "virtual-scroller/react";
 import { Layout } from "../components/app/Layout";
 import OneTimePageSpinner from "../components/app/OneTimePageSpinner";
 import Spinner from "../components/app/Spinner";
 import AccessDenied from "../components/forms/content/accessDenied";
-import ModerationImagePostCard from "../components/moderation/ModerationImagePostCard";
-import ModerationOrsicPostCard from "../components/moderation/ModerationOrsicPostCard";
 import { useModeration } from "../hooks/app/moderation/useModeration";
 import { useOneTimePageSpinner } from "../hooks/app/useOneTimePageSpinner";
 import NotifySVG from "../components/svgs/notify.svg";
-import ModerationCommentCard from "../components/moderation/ModerationCommentCard";
+import { Virtuoso } from "react-virtuoso";
+import ModerationPostListRenderer from "../components/post/moderationPostListRenderer";
 
 export default function Moderation() {
-  const { user, query, loadMoreElement } = useModeration();
-  const { spinnerShown, setSpinnerShown } = useOneTimePageSpinner(query.data);
+  const { user, query, fetchMore, objIdx, setObj } = useModeration();
+  const { spinnerShown } = useOneTimePageSpinner(query.data);
 
   return (
     <>
@@ -49,51 +47,37 @@ export default function Moderation() {
 
           {query.data && (
             <>
-              <VirtualScroller
-                className="flex flex-col items-center"
-                items={query.data.getReports.data}
-                itemComponent={function ListRenderer(props: { children: any }) {
-                  const report = props.children;
-                  if (report.post.__typename === "Image") {
-                    return (
-                      <ModerationImagePostCard
-                        report={report}
-                        key={report.post.post.id}
-                      />
-                    );
-                  }
-                  if (report.post.__typename === "Orsic") {
-                    return (
-                      <ModerationOrsicPostCard
-                        report={report}
-                        key={report.post.post.id}
-                      />
-                    );
-                  }
-
-                  if (
-                    report.post.__typename === "Comment" ||
-                    report.post.__typename === "Reply"
-                  ) {
-                    return (
-                      <ModerationCommentCard
-                        report={report}
-                        key={report.post.post.id}
-                      />
-                    );
-                  }
-
-                  return null;
+              <Virtuoso
+                useWindowScroll
+                {...(objIdx && {
+                  initialTopMostItemIndex: objIdx,
+                })}
+                className="mb-1 overflow-hidden w-[90vw] md:max-w-3xl"
+                overscan={{
+                  main: 200,
+                  reverse: 200,
                 }}
+                data={query.data.getReports.data}
+                endReached={fetchMore}
+                components={{
+                  Footer: () => (
+                    <>
+                      {query.data.getReports.hasNextPage && (
+                        <div className={`flex items-center justify-center m-2`}>
+                          <Spinner />
+                        </div>
+                      )}
+                    </>
+                  ),
+                }}
+                itemContent={(thisObjIdx, report) => (
+                  <ModerationPostListRenderer
+                    report={report}
+                    objIdx={thisObjIdx}
+                    setObj={setObj}
+                  />
+                )}
               />
-              {query.data.getReports.hasNextPage && (
-                <div
-                  ref={loadMoreElement}
-                  className={`flex items-center justify-center m-2`}
-                >
-                  <Spinner />
-                </div>
-              )}
             </>
           )}
         </div>

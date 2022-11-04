@@ -15,8 +15,12 @@
     ".devcontainer/scripts/postCreate.sh"
   ],
   "features": {
-    "git": "latest",
-    "git-lfs": "latest",
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "version": "latest"
+    },
     "ghcr.io/devcontainers/features/docker-from-docker:1": {
       "version": "latest"
     }

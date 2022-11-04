@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { useEffect, useRef } from "react";
 import { useUser } from "../../auth/useUser";
+import { useScrollRestoring } from "../useScrollRestoringBeta";
 import GET_REPORTS_QUERY from "./queries/GetReportsQuery";
 
 export const useModeration = () => {
@@ -10,7 +10,6 @@ export const useModeration = () => {
     },
     notifyOnNetworkStatusChange: true,
   });
-  const loadMoreElement: any = useRef(null);
   const user = useUser();
 
   const fetchMore = () => {
@@ -22,28 +21,7 @@ export const useModeration = () => {
     }
   };
 
-  useEffect(() => {
-    if (!query.data || !query.data.getReports.hasNextPage) {
-      return;
-    }
-    const observer = new IntersectionObserver((entries) =>
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          fetchMore();
-        }
-      })
-    );
-    const el = loadMoreElement.current;
+  const { objIdx, setObj } = useScrollRestoring("moderation");
 
-    observer.observe(el);
-    return () => {
-      observer.unobserve(el);
-    };
-  }, [
-    loadMoreElement.current,
-    query.data?.getReports?.hasNextPage,
-    query.data?.getReports?.nextPage,
-  ]);
-
-  return { user, query, loadMoreElement };
+  return { user, query, fetchMore, objIdx, setObj };
 };

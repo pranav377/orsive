@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import { initialState } from "../../app/store/store";
+import { RootState } from "../../store";
 
 export const useUser = () => {
-  const user = useSelector((state: typeof initialState) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
   return user;
 };

@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { useEffect, useRef } from "react";
-import GET_FOLLOWING_POSTS_QUERY from "../../../app/following/queries/getFollowingPostsQuery";
+import GET_FOLLOWING_POSTS_QUERY from "../../../logic/following/queries/getFollowingPostsQuery";
+import { useScrollRestoring } from "../../app/useScrollRestoringBeta";
 import { useUser } from "../../auth/useUser";
 
 export const useFollowingPage = () => {
@@ -11,7 +11,6 @@ export const useFollowingPage = () => {
     notifyOnNetworkStatusChange: true,
   });
   const user = useUser();
-  const loadMoreElement: any = useRef(null);
 
   const fetchMore = () => {
     let pageInfo = query.data.getFollowingPosts;
@@ -22,28 +21,7 @@ export const useFollowingPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (!query.data || !query.data.getFollowingPosts.hasNextPage) {
-      return;
-    }
-    const observer = new IntersectionObserver((entries) =>
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          fetchMore();
-        }
-      })
-    );
-    const el = loadMoreElement.current;
+  const { objIdx, setObj } = useScrollRestoring("following");
 
-    observer.observe(el);
-    return () => {
-      observer.unobserve(el);
-    };
-  }, [
-    loadMoreElement.current,
-    query.data?.getFollowingPosts?.hasNextPage,
-    query.data?.getFollowingPosts?.nextPage,
-  ]);
-
-  return { query, loadMoreElement, user };
+  return { query, user, fetchMore, objIdx, setObj };
 };

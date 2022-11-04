@@ -2,11 +2,11 @@ import { useMutation } from "@apollo/client";
 import { Form, Formik } from "formik";
 import { NextRouter, useRouter } from "next/router";
 import toast from "react-hot-toast";
-import CONTENT_CASES from "../../../app/store/reducers/content/cases";
-import store from "../../../app/store/store";
 import { usePostContentState } from "../../../hooks/app/content/usePostContentState";
 import { useUser } from "../../../hooks/auth/useUser";
 import { ProfileType } from "../../../pages/[profile_slug]";
+import { store } from "../../../store";
+import { ContentStateActions } from "../../../store/slices/contentSlice";
 import Modal from "../../app/Modal";
 import Button from "../../base/button";
 import ImageField from "../fields/imageField";
@@ -14,7 +14,7 @@ import InputField from "../fields/inputField";
 import EDIT_PROFILE_MUTATION from "./mutations/editProfileMutation";
 
 function closeEditProfileModal() {
-  store.dispatch({ type: CONTENT_CASES.HIDE_EDIT_PROFILE });
+  store.dispatch(ContentStateActions.setShowEditProfile(false));
 }
 
 export default function EditProfile(props: {

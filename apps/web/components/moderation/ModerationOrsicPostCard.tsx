@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useTimer } from "react-timer-hook";
 import ContentParser from "../app/ContentParser";
 import LinkifyContent from "../app/LinkifyContent";
@@ -8,7 +8,10 @@ import ExtraButtonsForModeration from "./subcomponents/ExtraButtonsForModeration
 import ModerationAvatarArea from "./subcomponents/ModerationAvatarArea";
 import Link from "next/link";
 
-export default function ModerationOrsicPostCard(props: { report: any }) {
+function ModerationOrsicPostCardComponent(props: {
+  report: any;
+  onClick?: () => void;
+}) {
   let post = props.report.post;
   let postUrl = `/orsic/${post.slug}`;
 
@@ -34,7 +37,7 @@ export default function ModerationOrsicPostCard(props: { report: any }) {
       <Ripples>
         <div className="w-full">
           <Link href={postUrl} passHref scroll={false}>
-            <a>
+            <a onClick={props.onClick}>
               <div>
                 {post.title && (
                   <span className="font-semibold text-2xl text-gray-100 text-break">
@@ -61,3 +64,6 @@ export default function ModerationOrsicPostCard(props: { report: any }) {
     </div>
   );
 }
+
+const ModerationOrsicPost = memo(ModerationOrsicPostCardComponent);
+export default ModerationOrsicPost;

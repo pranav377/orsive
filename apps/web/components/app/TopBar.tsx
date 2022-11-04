@@ -31,7 +31,7 @@ export default function TopBar(props: TopBarPropTypes) {
       <div
         className={`transition-opacity duration-300 ${
           props.transparent ? "opacity-0" : "opacity-100"
-        }`}
+        } w-full`}
       >
         {props.content}
       </div>

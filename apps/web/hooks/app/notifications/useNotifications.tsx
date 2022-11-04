@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import MAKE_NOTIFICATIONS_READ from "../../../app/notifications/mutations/makeNotificationsReadMutation";
-import GET_MY_NOTIFICATIONS_QUERY from "../../../app/notifications/queries/getMyNotificationsQuery";
-import USER_CASES from "../../../app/store/reducers/user/cases";
+import MAKE_NOTIFICATIONS_READ from "../../../logic/notifications/mutations/makeNotificationsReadMutation";
+import GET_MY_NOTIFICATIONS_QUERY from "../../../logic/notifications/queries/getMyNotificationsQuery";
+import { UserStateActions } from "../../../store/slices/userSlice";
 import { useUser } from "../../auth/useUser";
 import { useClearApolloCacheOnExit } from "../useClearApolloCacheOnExit";
 import { useScrollTop } from "../useScrollTop";
@@ -23,7 +23,7 @@ export const useNotifications = () => {
     notifyOnNetworkStatusChange: true,
     onCompleted: async (data) => {
       await makeNotificationsRead();
-      dispatch({ type: USER_CASES.NOTIFICATIONS_READ });
+      dispatch(UserStateActions.notificationsRead());
     },
   });
 

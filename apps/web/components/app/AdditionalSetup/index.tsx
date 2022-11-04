@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { client } from "../../../pages/_app";
 import { useUser } from "../../../hooks/auth/useUser";
 import { useDispatch } from "react-redux";
-import USER_CASES from "../../../app/store/reducers/user/cases";
+import { UserStateActions } from "../../../store/slices/userSlice";
 
 export const ADDITIONAL_SETUP_CONTEXT = React.createContext<{
   allLangs: Array<string>;
@@ -47,7 +47,7 @@ export default function AdditionalSetup() {
   const dispatch = useDispatch();
 
   function closeModal() {
-    dispatch({ type: USER_CASES.SETUP_COMPLETE });
+    dispatch(UserStateActions.setupComplete());
   }
 
   const additionalSetupState = useContext(ADDITIONAL_SETUP_CONTEXT);

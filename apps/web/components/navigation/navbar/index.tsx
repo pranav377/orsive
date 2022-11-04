@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import signOut from "../../../app/auth/signOut";
+import signOut from "../../../logic/auth/signOut";
 import toast from "react-hot-toast";
 import LogoSVG from "../../svgs/logo.svg";
 import { useHomeUrl } from "../../../hooks/app/useHomeUrl";

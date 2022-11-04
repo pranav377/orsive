@@ -6,7 +6,6 @@ import Navbar from "../components/navigation/navbar";
 import { GRAPHQL_URL } from "../config";
 import AppMiddleware from "../components/app/AppMiddleware";
 import { Provider } from "react-redux";
-import store from "../app/store/store";
 import { Toaster } from "react-hot-toast";
 import _ from "lodash";
 import { createUploadLink } from "apollo-upload-client";
@@ -20,19 +19,22 @@ import { createContext, useRef } from "react";
 import { usePWA } from "../hooks/app/usePWA";
 import { setContext } from "@apollo/client/link/context";
 import "animate.css/animate.min.css";
-
+import { store } from "../store";
 export const ScrollContext = createContext({});
 
 const authLink = setContext((_, { headers }) => {
-  let token = null;
+  let token;
 
   if (typeof window !== "undefined" && window.localStorage) {
     token = localStorage.getItem("token");
   }
+
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : undefined,
+      ...(token && {
+        authorization: `Bearer ${token}`,
+      }),
     },
   };
 });
@@ -140,67 +142,65 @@ function Web({ Component, pageProps, router }: AppProps) {
   usePWA();
 
   return (
-    <>
-      <Provider store={store}>
-        <ApolloProvider client={client}>
-          <ScrollContext.Provider value={{ scrollRef: scrollRef }}>
-            <AppMiddleware />
-            <Toaster
-              position="bottom-center"
-              reverseOrder={false}
-              containerStyle={{
+    <Provider store={store}>
+      <ApolloProvider client={client}>
+        <ScrollContext.Provider value={{ scrollRef: scrollRef }}>
+          <AppMiddleware />
+          <Toaster
+            position="bottom-center"
+            reverseOrder={false}
+            containerStyle={{
+              zIndex: 99999999,
+            }}
+            toastOptions={{
+              style: {
                 zIndex: 99999999,
-              }}
-              toastOptions={{
-                style: {
-                  zIndex: 99999999,
-                },
-              }}
-            />
-            <DefaultSeo
-              additionalLinkTags={[
+              },
+            }}
+          />
+          <DefaultSeo
+            additionalLinkTags={[
+              {
+                rel: "shortcut icon",
+                href: "/logo.png",
+                type: "image/x-icon",
+              },
+              {
+                rel: "icon",
+                href: "/logo.png",
+                type: "image/x-icon",
+              },
+            ]}
+            openGraph={{
+              type: "website",
+              locale: "en_US",
+              url: "https://www.orsive.com/",
+              title: "Orsive",
+              description: "An open source social media platform",
+              site_name: "Orsive",
+              images: [
                 {
-                  rel: "shortcut icon",
-                  href: "/logo.png",
-                  type: "image/x-icon",
+                  url: "https://www.orsive.com/logo.png",
                 },
-                {
-                  rel: "icon",
-                  href: "/logo.png",
-                  type: "image/x-icon",
-                },
-              ]}
-              openGraph={{
-                type: "website",
-                locale: "en_US",
-                url: "https://www.orsive.com/",
-                title: "Orsive",
-                description: "An open source social media platform",
-                site_name: "Orsive",
-                images: [
-                  {
-                    url: "https://www.orsive.com/logo.png",
-                  },
-                ],
-              }}
-            />
-            <Navbar />
-            <NextNProgress
-              showOnShallow={false}
-              options={{
-                showSpinner: false,
-              }}
-            />
-            <LoginDialog />
-            <AnimatePresence initial={false} exitBeforeEnter>
-              <Component {...pageProps} key={url} />
-            </AnimatePresence>
+              ],
+            }}
+          />
+          <Navbar />
+          <NextNProgress
+            showOnShallow={false}
+            options={{
+              showSpinner: false,
+            }}
+          />
+          <LoginDialog />
+          <AnimatePresence initial={false} mode="wait">
+            <Component {...pageProps} key={url} />
+          </AnimatePresence>
 
-            <BottomNavigation />
-          </ScrollContext.Provider>
-        </ApolloProvider>
-      </Provider>
-    </>
+          <BottomNavigation />
+        </ScrollContext.Provider>
+      </ApolloProvider>
+    </Provider>
   );
 }
 

@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import SignIn from "../../../app/auth/signIn";
+import SignIn from "../../../logic/auth/signIn";
 import Button from "../../base/button";
 import InputField from "../fields/inputField";
 import { LOGIN_SCHEMA } from "../../../../../packages/common/forms";

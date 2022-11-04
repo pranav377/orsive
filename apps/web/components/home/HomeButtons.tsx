@@ -15,21 +15,21 @@ export default function HomeButtons() {
         className="ripple-bg-white text-black rounded-3xl flex items-center justify-center gap-2 w-56"
       >
         <GoogleSVG className="w-5 h-6" />
-        Continue with Google
+        Login with Google
       </Button>
       <Button
         onClick={() => router.push(DISCORD_AUTH_URL)}
         className="ripple-bg-slate-700 flex rounded-3xl items-center justify-center gap-2 w-56"
       >
         <DiscordSVG className="w-6 h-6" />
-        Continue with Discord
+        Login with Discord
       </Button>
       <Button
-        onClick={() => router.push("/auth?page=signup")}
+        onClick={() => router.push("/auth")}
         className="ripple-bg-blue-700 flex rounded-3xl items-center justify-center gap-2 w-56"
       >
         <InboxIcon className="w-6 h-6" />
-        Continue with Email
+        Login with Email
       </Button>
 
       <span className="flex items-center justify-center w-full font-medium">
@@ -43,10 +43,10 @@ export default function HomeButtons() {
       </Link>
 
       <Button
-        onClick={() => router.push("/auth")}
+        onClick={() => router.push("/auth?page=signup")}
         className="mt-5 font-semibold"
       >
-        Already a Smarty Capty? Log in
+        Wanna be a Smarty Capty? Sign Up
       </Button>
     </div>
   );

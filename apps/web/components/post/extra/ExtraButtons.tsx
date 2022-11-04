@@ -7,8 +7,8 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { showLoginDialog } from "../../../app/auth/showLoginDialog";
-import APP_CASES from "../../../app/store/reducers/app/cases";
+import { showLoginDialog } from "../../../logic/auth/showLoginDialog";
+import { AppStateActions } from "../../../store/slices/appSlice";
 import { nFormatter } from "../../app/nFormatter";
 import ShareModal from "../../app/ShareModalDialog";
 
@@ -75,7 +75,7 @@ export default function ExtraButtons(props: {
             className="flex items-center justify-center flex-1"
             onClick={() => {
               router.push(`${props.postUrl}`).finally(() => {
-                dispatch({ type: APP_CASES.SHOW_REPLY });
+                dispatch(AppStateActions.setShowReply(true));
               });
             }}
           >
