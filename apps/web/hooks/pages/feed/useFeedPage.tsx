@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import GET_POSTS_QUERY from "../../../../../packages/common/queries/post/getPostsQuery";
-import { useScrollRestoringBeta } from "../../app/useScrollRestoringBeta";
+import { useScrollRestoring } from "../../app/useScrollRestoringBeta";
 
 export const useFeedPage = () => {
   const query = useQuery(GET_POSTS_QUERY, {
@@ -19,7 +19,7 @@ export const useFeedPage = () => {
     }
   };
 
-  const { objIdx, setObj } = useScrollRestoringBeta("feed");
+  const { objIdx, setObj } = useScrollRestoring("feed");
 
   return { query, fetchMore, objIdx, setObj };
 };

@@ -3,7 +3,7 @@ import { INFINITE_SCROLL_SCREENS } from "../../config";
 import { RootState } from "../../store";
 import { AppStateActions } from "../../store/slices/appSlice";
 
-export const useScrollRestoringBeta = (screen: INFINITE_SCROLL_SCREENS) => {
+export const useScrollRestoring = (screen: INFINITE_SCROLL_SCREENS) => {
   const scrollRestoringState = useSelector(
     (state: RootState) => state.app.scrollRestoring
   );

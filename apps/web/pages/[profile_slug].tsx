@@ -104,6 +104,7 @@ export default function Profile() {
                 <div className="flex md:flex-col">
                   <img
                     src={profile.avatar}
+                    alt={profile.username}
                     className="flex rounded-full h-20 w-20 object-cover object-center"
                   />
                   <div className="flex flex-col justify-center ml-2">

@@ -1,7 +1,7 @@
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useTimer } from "react-timer-hook";
 import { generatePlaceholder } from "../app/ContentParser";
 import LinkifyContent from "../app/LinkifyContent";
@@ -10,7 +10,10 @@ import TextContent from "../app/TextContent";
 import ExtraButtonsForModeration from "./subcomponents/ExtraButtonsForModeration";
 import ModerationAvatarArea from "./subcomponents/ModerationAvatarArea";
 
-export default function ModerationImagePostCard(props: { report: any }) {
+function ModerationImagePostCardComponent(props: {
+  report: any;
+  onClick?: () => void;
+}) {
   let post = props.report.post;
   let postUrl = `/image/${post.slug}`;
 
@@ -36,7 +39,7 @@ export default function ModerationImagePostCard(props: { report: any }) {
         <ModerationAvatarArea uploadedBy={post.post.uploadedBy} />
         <div className="w-full">
           <Link href={postUrl} passHref scroll={false}>
-            <a>
+            <a onClick={props.onClick}>
               <LinkifyContent>
                 <TextContent className="p-2 text-break">
                   {post.title}
@@ -54,6 +57,7 @@ export default function ModerationImagePostCard(props: { report: any }) {
                     post.width.toString(),
                     post.height.toString()
                   )}
+                  alt="Reported Image"
                   src={post.image}
                   width={post.width}
                   height={post.height}
@@ -70,3 +74,6 @@ export default function ModerationImagePostCard(props: { report: any }) {
     </Ripples>
   );
 }
+
+const ModerationImagePostCard = memo(ModerationImagePostCardComponent);
+export default ModerationImagePostCard;

@@ -9,6 +9,8 @@ export interface AppState {
     feed: number | undefined;
     profile: number | undefined;
     search: number | undefined;
+    following: number | undefined;
+    moderation: number | undefined;
   };
 }
 
@@ -20,6 +22,8 @@ export const initialState: AppState = {
     feed: undefined,
     profile: undefined,
     search: undefined,
+    following: undefined,
+    moderation: undefined,
   },
 };
 

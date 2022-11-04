@@ -3,16 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import GET_PROFILE_POSTS from "../../../logic/profile/queries/getProfilePostsQuery";
 import { ProfileType } from "../../../pages/[profile_slug]";
 import { useClearApolloCacheOnExit } from "../../app/useClearApolloCacheOnExit";
+import { useScrollRestoring } from "../../app/useScrollRestoringBeta";
 
 export const useProfilePosts = (profile: ProfileType) => {
-  const [currPage, setCurrPage] = useState(1);
   const query = useQuery(GET_PROFILE_POSTS, {
     variables: {
-      page: currPage,
+      page: 1,
       username: profile.username,
     },
   });
-  const loadMoreElement: any = useRef(null);
 
   const fetchMore = () => {
     if (query.data.getProfilePosts.hasNextPage) {
@@ -25,30 +24,9 @@ export const useProfilePosts = (profile: ProfileType) => {
     }
   };
 
-  useEffect(() => {
-    if (!query.data || !query.data.getProfilePosts.hasNextPage) {
-      return;
-    }
-    const observer = new IntersectionObserver((entries) =>
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          fetchMore();
-        }
-      })
-    );
-    const el = loadMoreElement.current;
-
-    observer.observe(el);
-    return () => {
-      observer.unobserve(el);
-    };
-  }, [
-    loadMoreElement.current,
-    query.data?.getProfilePosts?.hasNextPage,
-    query.data?.getProfilePosts?.nextPage,
-  ]);
+  const { objIdx, setObj } = useScrollRestoring("profile");
 
   useClearApolloCacheOnExit("getProfilePosts");
 
-  return { query, fetchMore, loadMoreElement };
+  return { query, fetchMore, objIdx, setObj };
 };

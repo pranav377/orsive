@@ -32,5 +32,5 @@ function PostListRendererComponent(props: {
   return null;
 }
 
-const PostListRendererBeta = memo(PostListRendererComponent);
-export default PostListRendererBeta;
+const PostListRenderer = memo(PostListRendererComponent);
+export default PostListRenderer;

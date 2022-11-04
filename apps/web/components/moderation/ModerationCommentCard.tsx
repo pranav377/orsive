@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useTimer } from "react-timer-hook";
 import ContentParser from "../app/ContentParser";
 import LinkifyContent from "../app/LinkifyContent";
@@ -8,7 +8,10 @@ import TextContent from "../app/TextContent";
 import ExtraButtonsForModeration from "./subcomponents/ExtraButtonsForModeration";
 import ModerationAvatarArea from "./subcomponents/ModerationAvatarArea";
 
-export default function ModerationCommentCard(props: { report: any }) {
+function ModerationCommentCardComponent(props: {
+  report: any;
+  onClick?: () => void;
+}) {
   let comment = props.report.post;
   let commentUrl = comment.url;
 
@@ -34,7 +37,7 @@ export default function ModerationCommentCard(props: { report: any }) {
       <Ripples>
         <div className="w-full">
           <Link href={`${commentUrl}`} passHref>
-            <a>
+            <a onClick={props.onClick}>
               <LinkifyContent>
                 <TextContent className="p-2">
                   {ContentParser(comment.content)}
@@ -61,3 +64,6 @@ export default function ModerationCommentCard(props: { report: any }) {
     </div>
   );
 }
+
+const ModerationCommentCard = memo(ModerationCommentCardComponent);
+export default ModerationCommentCard;

@@ -6,7 +6,7 @@ import { useFeedPage } from "../hooks/pages/feed/useFeedPage";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import { client } from "./_app";
 import { Virtuoso } from "react-virtuoso";
-import PostListRendererBeta from "../components/post/postListRendererBeta";
+import PostListRenderer from "../components/post/postListRendererBeta";
 
 export default function Feed() {
   const { query, fetchMore, objIdx, setObj } = useFeedPage();
@@ -52,7 +52,7 @@ export default function Feed() {
                     ),
                   }}
                   itemContent={(thisObjIdx, post) => (
-                    <PostListRendererBeta
+                    <PostListRenderer
                       post={post}
                       objIdx={thisObjIdx}
                       setObj={setObj}
