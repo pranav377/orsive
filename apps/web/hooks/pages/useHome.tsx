@@ -9,7 +9,7 @@ export const useHome = () => {
   const user = useUser();
   const router = useRouter();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // setting false for seo
 
   useEffect(() => {
     setLoading(true);

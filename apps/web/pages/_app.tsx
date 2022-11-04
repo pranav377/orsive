@@ -20,7 +20,6 @@ import { usePWA } from "../hooks/app/usePWA";
 import { setContext } from "@apollo/client/link/context";
 import "animate.css/animate.min.css";
 import { store } from "../store";
-export const ScrollContext = createContext({});
 
 const authLink = setContext((_, { headers }) => {
   let token;
@@ -134,71 +133,64 @@ export const client = new ApolloClient({
 function Web({ Component, pageProps, router }: AppProps) {
   const url = `https://www.orsive.com${router.route}`;
   useAnalytics();
-
-  const scrollRef = useRef({
-    scrollPos: 0,
-  });
-
   usePWA();
 
   return (
     <Provider store={store}>
       <ApolloProvider client={client}>
-        <ScrollContext.Provider value={{ scrollRef: scrollRef }}>
-          <AppMiddleware />
-          <Toaster
-            position="bottom-center"
-            reverseOrder={false}
-            containerStyle={{
+        <AppMiddleware />
+        <Toaster
+          position="bottom-center"
+          reverseOrder={false}
+          containerStyle={{
+            zIndex: 99999999,
+          }}
+          toastOptions={{
+            style: {
               zIndex: 99999999,
-            }}
-            toastOptions={{
-              style: {
-                zIndex: 99999999,
-              },
-            }}
-          />
-          <DefaultSeo
-            additionalLinkTags={[
+            },
+          }}
+        />
+        <DefaultSeo
+          additionalLinkTags={[
+            {
+              rel: "shortcut icon",
+              href: "/logo.png",
+              type: "image/x-icon",
+            },
+            {
+              rel: "icon",
+              href: "/logo.png",
+              type: "image/x-icon",
+            },
+          ]}
+          openGraph={{
+            type: "website",
+            locale: "en_US",
+            url: "https://www.orsive.com/",
+            title: "Orsive",
+            description: "An open source social media platform",
+            site_name: "Orsive",
+            images: [
               {
-                rel: "shortcut icon",
-                href: "/logo.png",
-                type: "image/x-icon",
+                url: "https://www.orsive.com/logo.png",
               },
-              {
-                rel: "icon",
-                href: "/logo.png",
-                type: "image/x-icon",
-              },
-            ]}
-            openGraph={{
-              type: "website",
-              locale: "en_US",
-              url: "https://www.orsive.com/",
-              title: "Orsive",
-              description: "An open source social media platform",
-              site_name: "Orsive",
-              images: [
-                {
-                  url: "https://www.orsive.com/logo.png",
-                },
-              ],
-            }}
-          />
-          <Navbar />
-          <NextNProgress
-            showOnShallow={false}
-            options={{
-              showSpinner: false,
-            }}
-          />
-          <LoginDialog />
-          <AnimatePresence initial={false} mode="wait">
-            <Component {...pageProps} key={url} />
-          </AnimatePresence>
+            ],
+          }}
+        />
+        <Navbar />
+        <NextNProgress
+          showOnShallow={false}
+          options={{
+            showSpinner: false,
+          }}
+        />
+        <LoginDialog />
+        <AnimatePresence initial={false} mode="wait">
+          <Component {...pageProps} key={url} />
+        </AnimatePresence>
 
-          <BottomNavigation />
-        </ScrollContext.Provider>
+        <BottomNavigation />
       </ApolloProvider>
     </Provider>
   );
