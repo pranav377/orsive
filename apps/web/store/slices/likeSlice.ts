@@ -19,12 +19,10 @@ export const likeSlice = createSlice({
         type: "like" | "dislike" | "nope";
         likes: number;
       }>
-    ) => {
-      state = [
-        ...state.filter((value) => value.postId !== action.payload.postId),
-        { ...action.payload },
-      ];
-    },
+    ) => [
+      ...state.filter((value) => value.postId !== action.payload.postId),
+      { ...action.payload },
+    ],
     resetLike: () => initialState,
   },
 });
