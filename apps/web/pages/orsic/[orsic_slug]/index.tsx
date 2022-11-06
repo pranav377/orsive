@@ -120,9 +120,9 @@ export default function OrsicPost(props: { post: OrsicPostType | null }) {
               />
 
               {post.title && (
-                <span className="font-semibold text-gray-100 text-2xl text-break p-2">
+                <h1 className="font-semibold text-gray-100 text-2xl text-break p-2">
                   {post.title}
-                </span>
+                </h1>
               )}
               <LinkifyContent>
                 <TextContent>
