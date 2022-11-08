@@ -36,10 +36,12 @@ export default function Comp404() {
                   The page you're looking for doesn't exist.
                 </p>
 
-                <Link href={homeUrl} passHref>
-                  <a className="px-6 py-2 text-sm font-semibold text-blue-800 ripple-bg-blue-100 rounded-md">
-                    Go back to home
-                  </a>
+                <Link
+                  href={homeUrl}
+                  passHref
+                  className="px-6 py-2 text-sm font-semibold text-blue-800 ripple-bg-blue-100 rounded-md"
+                >
+                  Go back to home
                 </Link>
               </div>
             </div>

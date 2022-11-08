@@ -14,11 +14,9 @@ export default function AccessDenied() {
             Please login to continue
           </span>
           <Link href="/auth" passHref>
-            <a>
-              <Button className="bg-blue-600 hover:bg-blue-700 ripple-bg-blue-600 w-full">
-                Login
-              </Button>
-            </a>
+            <Button className="bg-blue-600 hover:bg-blue-700 ripple-bg-blue-600 w-full">
+              Login
+            </Button>
           </Link>
         </div>
       </div>

@@ -25,26 +25,26 @@ export default function LoginDialog() {
                 alt="Animation showing cool gesture"
                 className="my-3 w-[50%]"
               />
-              <Link href={`/auth?page=signup`} passHref>
-                <a
-                  onClick={() => {
-                    setLoginDialogOpen(false);
-                  }}
-                  className="w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 ripple-bg-blue-600 text-base font-medium sm:text-sm mb-1"
-                >
-                  Sign Up
-                </a>
+              <Link
+                href={`/auth?page=signup`}
+                passHref
+                onClick={() => {
+                  setLoginDialogOpen(false);
+                }}
+                className="w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 ripple-bg-blue-600 text-base font-medium sm:text-sm mb-1"
+              >
+                Sign Up
               </Link>
 
-              <Link href={`/auth`} passHref>
-                <a
-                  onClick={() => {
-                    setLoginDialogOpen(false);
-                  }}
-                  className="w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 ripple-bg-gray-600 text-base font-medium sm:text-sm"
-                >
-                  Login
-                </a>
+              <Link
+                href={`/auth`}
+                passHref
+                onClick={() => {
+                  setLoginDialogOpen(false);
+                }}
+                className="w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 ripple-bg-gray-600 text-base font-medium sm:text-sm"
+              >
+                Login
               </Link>
             </div>
           </>

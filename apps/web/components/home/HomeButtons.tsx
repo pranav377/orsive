@@ -36,10 +36,12 @@ export default function HomeButtons() {
         Or
       </span>
 
-      <Link href={"/feed"} passHref>
-        <a className="ripple-bg-blue-700 p-2 font-medium flex rounded-3xl items-center justify-center gap-2 w-56">
-          Explore
-        </a>
+      <Link
+        href={"/feed"}
+        passHref
+        className="ripple-bg-blue-700 p-2 font-medium flex rounded-3xl items-center justify-center gap-2 w-56"
+      >
+        Explore
       </Link>
 
       <Button

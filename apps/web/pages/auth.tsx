@@ -87,11 +87,12 @@ function PasswordResetPage(props: { setCurrPage: any }) {
                         Sign In.
                       </button>
                     </p>
-                    <Link href="/" passHref>
-                      <a className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600">
-                        <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to
-                        Orsive
-                      </a>
+                    <Link
+                      href="/"
+                      passHref
+                      className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600"
+                    >
+                      <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to Orsive
                     </Link>
                   </div>
                 </div>
@@ -133,11 +134,12 @@ function SignUpPage(props: { setCurrPage: any }) {
                         Sign In.
                       </button>
                     </p>
-                    <Link href="/" passHref>
-                      <a className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600">
-                        <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to
-                        Orsive
-                      </a>
+                    <Link
+                      href="/"
+                      passHref
+                      className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600"
+                    >
+                      <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to Orsive
                     </Link>
                   </div>
                 </div>
@@ -191,11 +193,13 @@ function LoginPage(props: { setCurrPage: any }) {
                       >
                         Sign Up.
                       </button>
-                      <Link href="/" passHref>
-                        <a className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600">
-                          <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to
-                          Orsive
-                        </a>
+                      <Link
+                        href="/"
+                        passHref
+                        className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600"
+                      >
+                        <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to
+                        Orsive
                       </Link>
                     </p>
                   </div>
@@ -228,11 +232,12 @@ function DisabledAuthPage() {
                 </h3>
                 <div className="w-full">
                   <div className="mt-4 text-center">
-                    <Link href="/" passHref>
-                      <a className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600">
-                        <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to
-                        Orsive
-                      </a>
+                    <Link
+                      href="/"
+                      passHref
+                      className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600"
+                    >
+                      <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to Orsive
                     </Link>
                   </div>
                 </div>

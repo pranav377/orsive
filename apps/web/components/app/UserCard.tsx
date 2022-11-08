@@ -29,11 +29,7 @@ export default function UserCard(props: {
         />
         <h5 className="mb-1 text-xl font-medium">{props.user.name}</h5>
         <Link href={`/${props.user.username}`}>
-          <a>
-            <span className="text-sm text-gray-300">
-              ${props.user.username}
-            </span>
-          </a>
+          <span className="text-sm text-gray-300">${props.user.username}</span>
         </Link>
         {count.data ? (
           <Transition
@@ -56,10 +52,11 @@ export default function UserCard(props: {
           <div className="p-1 h-8" />
         )}
         <div className="flex mt-4 space-x-3 lg:mt-6">
-          <Link href={`/${props.user.username}`}>
-            <a className="inline-flex items-center py-2 px-4 text-sm font-medium text-center rounded-lg ripple-bg-blue-600">
-              View Profile
-            </a>
+          <Link
+            href={`/${props.user.username}`}
+            className="inline-flex items-center py-2 px-4 text-sm font-medium text-center rounded-lg ripple-bg-blue-600"
+          >
+            View Profile
           </Link>
         </div>
       </div>

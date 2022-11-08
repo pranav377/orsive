@@ -52,8 +52,12 @@ export default function EditOrsic() {
                 content={
                   <span className="pl-5 font-bold text-xl">
                     Go to{" "}
-                    <Link href={`/orsic/${postSlug}`} passHref>
-                      <a className="text-blue-500 hover:text-blue-700">Post</a>
+                    <Link
+                      href={`/orsic/${postSlug}`}
+                      passHref
+                      className="text-blue-500 hover:text-blue-700"
+                    >
+                      Post
                     </Link>
                   </span>
                 }

@@ -36,14 +36,12 @@ function ModerationCommentCardComponent(props: {
       <ModerationAvatarArea uploadedBy={comment.post.uploadedBy} />
       <Ripples>
         <div className="w-full">
-          <Link href={`${commentUrl}`} passHref>
-            <a onClick={props.onClick}>
-              <LinkifyContent>
-                <TextContent className="p-2">
-                  {ContentParser(comment.content)}
-                </TextContent>
-              </LinkifyContent>
-            </a>
+          <Link href={`${commentUrl}`} passHref onClick={props.onClick}>
+            <LinkifyContent>
+              <TextContent className="p-2">
+                {ContentParser(comment.content)}
+              </TextContent>
+            </LinkifyContent>
           </Link>
           <ExtraButtonsForModeration
             postId={comment.post.id}
@@ -51,12 +49,10 @@ function ModerationCommentCardComponent(props: {
           />
           {comment.replies && comment.replies > 0 ? (
             <Link href={commentUrl} passHref>
-              <a>
-                <span className="text-blue-700 font-semibold">
-                  View {comment.replies}
-                  {comment.replies === 1 ? <> Reply</> : <> Replies</>}
-                </span>
-              </a>
+              <span className="text-blue-700 font-semibold">
+                View {comment.replies}
+                {comment.replies === 1 ? <> Reply</> : <> Replies</>}
+              </span>
             </Link>
           ) : null}
         </div>

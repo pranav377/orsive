@@ -38,32 +38,28 @@ function ModerationImagePostCardComponent(props: {
         </span>
         <ModerationAvatarArea uploadedBy={post.post.uploadedBy} />
         <div className="w-full">
-          <Link href={postUrl} passHref scroll={false}>
-            <a onClick={props.onClick}>
-              <LinkifyContent>
-                <TextContent className="p-2 text-break">
-                  {post.title}
-                </TextContent>
-              </LinkifyContent>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Image
-                  placeholder="blur"
-                  blurDataURL={generatePlaceholder(
-                    post.width.toString(),
-                    post.height.toString()
-                  )}
-                  alt="Reported Image"
-                  src={post.image}
-                  width={post.width}
-                  height={post.height}
-                />
-              </div>
-            </a>
+          <Link href={postUrl} passHref scroll={false} onClick={props.onClick}>
+            <LinkifyContent>
+              <TextContent className="p-2 text-break">{post.title}</TextContent>
+            </LinkifyContent>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                placeholder="blur"
+                blurDataURL={generatePlaceholder(
+                  post.width.toString(),
+                  post.height.toString()
+                )}
+                alt="Reported Image"
+                src={post.image}
+                width={post.width}
+                height={post.height}
+              />
+            </div>
           </Link>
           <ExtraButtonsForModeration
             postId={post.post.id}

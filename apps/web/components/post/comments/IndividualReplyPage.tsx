@@ -80,10 +80,12 @@ export default function IndividualReplyPage(props: {
             <span className="pl-5 font-bold text-lg flex">
               <span>Replying</span>
               <span className="ml-1">to</span>
-              <Link href={props.backLink} passHref>
-                <a className="text-blue-500 hover:text-blue-700 ml-1">
-                  Comment
-                </a>
+              <Link
+                href={props.backLink}
+                passHref
+                className="text-blue-500 hover:text-blue-700 ml-1"
+              >
+                Comment
               </Link>
             </span>
           }

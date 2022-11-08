@@ -96,8 +96,12 @@ export default function ImagePost(props: { post: ImagePostType | null }) {
           content={
             <span className="pl-5 font-bold text-xl">
               Go to{" "}
-              <Link href={"/feed"} passHref>
-                <a className="text-blue-500 hover:text-blue-700">Feed</a>
+              <Link
+                href={"/feed"}
+                passHref
+                className="text-blue-500 hover:text-blue-700"
+              >
+                Feed
               </Link>
             </span>
           }
