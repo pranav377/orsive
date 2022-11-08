@@ -30,32 +30,28 @@ export default function Auth() {
 function ExtraAuthButtons() {
   const router = useRouter();
   return (
-    <div className="flex items-center justify-center w-full h-auto">
-      <div className="grid grid-cols-2 gap-2 mt-1 max-w-xl">
-        <div>
-          <button
-            onClick={() => router.push(GOOGLE_AUTH_URL)}
-            className=" inline-flex justify-center w-full px-4 py-2 text-sm font-medium ripple-bg-gray-200 rounded-md shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-wait"
-          >
-            <span className="sr-only">Sign up with Google</span>
-            <GoogleSVG className="w-5 h-6" />
-          </button>
-        </div>
-        <div>
-          <button
-            onClick={() => router.push(DISCORD_AUTH_URL)}
-            className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium ripple-bg-gray-200 rounded-md shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-wait"
-          >
-            <span className="sr-only">Sign up with Discord</span>
-            <DiscordSVG className="w-6 h-6" />
-          </button>
-        </div>
+    <>
+      <div className="flex gap-2 justify-center">
+        <button
+          onClick={() => router.push(GOOGLE_AUTH_URL)}
+          className="inline-flex justify-center w-[30%] px-4 py-2 text-sm font-medium ripple-bg-gray-200 rounded-md shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-wait"
+        >
+          <span className="sr-only">Sign up with Google</span>
+          <GoogleSVG className="w-4 h-5" />
+        </button>
+        <button
+          onClick={() => router.push(DISCORD_AUTH_URL)}
+          className="inline-flex justify-center w-[30%] px-4 py-2 text-sm font-medium ripple-bg-gray-200 rounded-md shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-wait"
+        >
+          <span className="sr-only">Sign up with Discord</span>
+          <DiscordSVG className="w-5 h-5" />
+        </button>
       </div>
 
       <span className="flex items-center justify-center w-full mt-2 font-medium">
         Or
       </span>
-    </div>
+    </>
   );
 }
 
@@ -159,7 +155,7 @@ function LoginPage(props: { setCurrPage: any }) {
         <div className="flex items-center min-h-[80vh]">
           <div className="flex-1 h-full max-w-4xl mx-auto rounded-lg ">
             <div className="flex flex-col lg:flex-row">
-              <div className="h-32 lg:h-auto lg:w-1/2 flex  min-h-[30vh] justify-center mt-0">
+              <div className="h-28 lg:h-auto lg:w-1/2 flex  min-h-[30vh] justify-center mt-0">
                 <LoginSVG />
               </div>
               <div className="flex items-center justify-center p-6 sm:p-12 lg:w-1/2">
@@ -170,7 +166,7 @@ function LoginPage(props: { setCurrPage: any }) {
                   <h3 className="text-lg font-semibold text-center mb-2">
                     Welcome Aboard Captain!
                   </h3>
-                  <h3 className="mb-4 text-2xl font-bold text-center ">
+                  <h3 className="mb-4 text-lg md:text-2xl font-bold text-center ">
                     Sign In to continue
                   </h3>
 
