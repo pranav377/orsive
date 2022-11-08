@@ -12,10 +12,9 @@
     "@types/fs-extra": "^9.0.13"
   },
   "dependencies": {
-    "@types/fs-capacitor": "^2.0.0",
     "@types/node": "^17.0.21",
     "aws-sdk": "^2.1108.0",
-    "fs-capacitor": "^6.2.0",
+    "fs-capacitor": "^8.0.0",
     "fs-extra": "^10.0.0",
     "stream-mime-type": "^1.0.2"
   }

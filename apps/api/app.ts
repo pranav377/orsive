@@ -89,7 +89,7 @@ passport.use(
           },
         })
         .then((user) => {
-          return done(null, user);
+          return done(null, user!);
         })
         .catch((err) => {
           return done(err, false);

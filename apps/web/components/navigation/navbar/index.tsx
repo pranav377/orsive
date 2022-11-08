@@ -148,14 +148,13 @@ function ProfileDropdown() {
           </Link>
 
           <div className="flex flex-col w-full mt-3 gap-2 h-[90%]">
-            <Link href={`/${user.username}`} passHref>
-              <a
-                className={
-                  "font-medium p-2 rounded-md text-sm w-full text-left ripple-bg-slate-800"
-                }
-              >
-                View Profile
-              </a>
+            <Link
+              href={`/${user.username}`}
+              className={
+                "font-medium p-2 rounded-md text-sm w-full text-left ripple-bg-slate-800"
+              }
+            >
+              View Profile
             </Link>
             <Button
               className={"text-sm w-full text-left ripple-bg-red-600"}
