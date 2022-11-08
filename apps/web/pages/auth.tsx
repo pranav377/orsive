@@ -30,8 +30,8 @@ export default function Auth() {
 function ExtraAuthButtons() {
   const router = useRouter();
   return (
-    <>
-      <div className="grid grid-cols-2 gap-2 mt-1">
+    <div className="flex items-center justify-center w-full h-auto">
+      <div className="grid grid-cols-2 gap-2 mt-1 max-w-xl">
         <div>
           <button
             onClick={() => router.push(GOOGLE_AUTH_URL)}
@@ -46,7 +46,7 @@ function ExtraAuthButtons() {
             onClick={() => router.push(DISCORD_AUTH_URL)}
             className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium ripple-bg-gray-200 rounded-md shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-wait"
           >
-            <span className="sr-only">Sign up with GitHub</span>
+            <span className="sr-only">Sign up with Discord</span>
             <DiscordSVG className="w-6 h-6" />
           </button>
         </div>
@@ -55,7 +55,7 @@ function ExtraAuthButtons() {
       <span className="flex items-center justify-center w-full mt-2 font-medium">
         Or
       </span>
-    </>
+    </div>
   );
 }
 
@@ -202,43 +202,6 @@ function LoginPage(props: { setCurrPage: any }) {
                         Orsive
                       </Link>
                     </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Layout>
-    </>
-  );
-}
-
-function DisabledAuthPage() {
-  return (
-    <>
-      <Layout title="Authentication disabled | Orsive">
-        <div className="flex items-center min-h-[80vh]">
-          <div className="flex-1 h-full max-w-4xl mx-auto rounded-lg ">
-            <div className="flex flex-col lg:flex-row">
-              <div className="h-32 lg:h-auto lg:w-1/2 flex  min-h-[30vh] justify-center mt-0">
-                <LoginSVG />
-              </div>
-              <div className="flex flex-col items-center justify-center p-6 sm:p-12 lg:w-1/2">
-                <div className="h-32 lg:h-auto lg:w-1/2 flex  min-h-[20vh] justify-center mt-0">
-                  <XIcon className="text-red-600" />
-                </div>
-                <h3 className="mb-4 text-2xl font-bold text-center ">
-                  Authentication is temporarily disabled.
-                </h3>
-                <div className="w-full">
-                  <div className="mt-4 text-center">
-                    <Link
-                      href="/"
-                      passHref
-                      className="text-sm flex items-center justify-center m-2 font-semibold text-blue-600"
-                    >
-                      <ArrowLeftIcon className="w-4 h-4 mr-1" /> Back to Orsive
-                    </Link>
                   </div>
                 </div>
               </div>

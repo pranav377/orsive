@@ -134,10 +134,7 @@ export default function ImagePost(props: { post: ImagePostType | null }) {
                 <Image
                   alt="user's posted photo"
                   placeholder="blur"
-                  blurDataURL={generatePlaceholder(
-                    post.width.toString(),
-                    post.height.toString()
-                  )}
+                  blurDataURL={generatePlaceholder(post.width, post.height)}
                   src={post.image}
                   width={post.width}
                   height={post.height}
