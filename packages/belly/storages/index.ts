@@ -1,4 +1,4 @@
-import { ReadStream } from "fs";
+import { ReadStream } from "fs-capacitor";
 
 class BaseStorage {
   options: any = {};
