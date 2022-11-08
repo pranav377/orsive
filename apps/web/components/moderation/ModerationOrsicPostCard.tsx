@@ -36,24 +36,22 @@ function ModerationOrsicPostCardComponent(props: {
       <ModerationAvatarArea uploadedBy={post.post.uploadedBy} />
       <Ripples>
         <div className="w-full">
-          <Link href={postUrl} passHref scroll={false}>
-            <a onClick={props.onClick}>
-              <div>
-                {post.title && (
-                  <span className="font-semibold text-2xl text-gray-100 text-break">
-                    {post.title}
-                  </span>
-                )}
-                <LinkifyContent>
-                  <TextContent>{ContentParser(post.content)}</TextContent>
-                </LinkifyContent>
-                {post.truncated && (
-                  <div className="w-full p-1 bg-slate-700 hover:bg-slate-800 transition-all duration-300 font-semibold text-center rounded-b-xl">
-                    Read More
-                  </div>
-                )}
-              </div>
-            </a>
+          <Link href={postUrl} passHref scroll={false} onClick={props.onClick}>
+            <div>
+              {post.title && (
+                <span className="font-semibold text-2xl text-gray-100 text-break">
+                  {post.title}
+                </span>
+              )}
+              <LinkifyContent>
+                <TextContent>{ContentParser(post.content)}</TextContent>
+              </LinkifyContent>
+              {post.truncated && (
+                <div className="w-full p-1 bg-slate-700 hover:bg-slate-800 transition-all duration-300 font-semibold text-center rounded-b-xl">
+                  Read More
+                </div>
+              )}
+            </div>
           </Link>
           <ExtraButtonsForModeration
             postId={post.post.id}

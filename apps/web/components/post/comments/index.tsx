@@ -102,23 +102,19 @@ export function SingleComment(props: {
       />
       <div className="w-full">
         <Link href={`${props.commentUrl}`} passHref>
-          <a>
-            <LinkifyContent>
-              <TextContent className="p-2">
-                {ContentParser(props.comment.content)}
-              </TextContent>
-            </LinkifyContent>
-          </a>
+          <LinkifyContent>
+            <TextContent className="p-2">
+              {ContentParser(props.comment.content)}
+            </TextContent>
+          </LinkifyContent>
         </Link>
         <ExtraButtons url={props.commentUrl} {...likeFeatures} />
         {props.comment.replies && props.comment.replies > 0 ? (
           <Link href={props.commentUrl} passHref>
-            <a>
-              <span className="text-blue-700 font-semibold">
-                View {props.comment.replies}
-                {props.comment.replies === 1 ? <> Reply</> : <> Replies</>}
-              </span>
-            </a>
+            <span className="text-blue-700 font-semibold">
+              View {props.comment.replies}
+              {props.comment.replies === 1 ? <> Reply</> : <> Replies</>}
+            </span>
           </Link>
         ) : null}
       </div>

@@ -37,32 +37,28 @@ function ImagePostCardComponent(props: { post: any; onClick?: () => void }) {
           delete={deleteImagePost}
         />
         <div className="w-full">
-          <Link href={postUrl} passHref scroll={false}>
-            <a onClick={props.onClick}>
-              <LinkifyContent>
-                <TextContent className="p-2 text-break">
-                  {post.title}
-                </TextContent>
-              </LinkifyContent>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Image
-                  placeholder="blur"
-                  blurDataURL={generatePlaceholder(
-                    post.width.toString(),
-                    post.height.toString()
-                  )}
-                  src={post.image}
-                  width={post.width}
-                  height={post.height}
-                  alt="User Uploaded Image"
-                />
-              </div>
-            </a>
+          <Link href={postUrl} passHref scroll={false} onClick={props.onClick}>
+            <LinkifyContent>
+              <TextContent className="p-2 text-break">{post.title}</TextContent>
+            </LinkifyContent>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                placeholder="blur"
+                blurDataURL={generatePlaceholder(
+                  post.width.toString(),
+                  post.height.toString()
+                )}
+                src={post.image}
+                width={post.width}
+                height={post.height}
+                alt="User Uploaded Image"
+              />
+            </div>
           </Link>
           <ExtraButtons url={postUrl} postUrl={postUrl} {...likeFeatures} />
         </div>

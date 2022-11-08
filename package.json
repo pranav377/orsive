@@ -26,8 +26,10 @@
   "packageManager": "npm@8.1.2",
   "overrides": {
     "react-native-reanimated": "2.9.1",
-    "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.8"
   },
   "dependencies": {
     "react-native-webview": "^11.18.1",

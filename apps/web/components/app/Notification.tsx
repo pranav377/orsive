@@ -2,9 +2,10 @@ import { NotificationLinkifyContent } from "./LinkifyContent";
 import Link from "next/link";
 import Image from "next/image";
 import { nFormatter } from "./nFormatter";
+import { UploadedBy } from "./types";
 
 export function NotificationForPost(props: { notification: any }) {
-  const uploadedBy = props.notification.post.uploadedBy;
+  const uploadedBy: UploadedBy = props.notification.post.uploadedBy;
   return (
     <>
       <div className="md:flex items-center justify-center w-full my-2">
@@ -24,6 +25,7 @@ export function NotificationForPost(props: { notification: any }) {
               }}
             >
               <Image
+                alt={uploadedBy.username}
                 src={uploadedBy.avatar}
                 layout="fill"
                 objectFit="cover"
@@ -40,12 +42,10 @@ export function NotificationForPost(props: { notification: any }) {
                 >
                   {uploadedBy.name}
                 </p>
-                <Link href={`/${uploadedBy.username}`}>
-                  <a className="w-fit">
-                    <span className="font-normal text-gray-300 hover:underline">
-                      ${uploadedBy.username}
-                    </span>
-                  </a>
+                <Link href={`/${uploadedBy.username}`} className="w-fit">
+                  <span className="font-normal text-gray-300 hover:underline">
+                    ${uploadedBy.username}
+                  </span>
                 </Link>
               </div>
             </div>
@@ -68,7 +68,7 @@ export function NotificationForPost(props: { notification: any }) {
 }
 
 export function NotificationForComment(props: { notification: any }) {
-  const uploadedBy = props.notification.comment.post.uploadedBy;
+  const uploadedBy: UploadedBy = props.notification.comment.post.uploadedBy;
   const notificationType = props.notification.notification.notificationType;
   return (
     <>
@@ -90,6 +90,7 @@ export function NotificationForComment(props: { notification: any }) {
             >
               <Image
                 src={uploadedBy.avatar}
+                alt={uploadedBy.username}
                 layout="fill"
                 objectFit="cover"
                 objectPosition="center"
@@ -105,12 +106,10 @@ export function NotificationForComment(props: { notification: any }) {
                 >
                   {uploadedBy.name}
                 </p>
-                <Link href={`/${uploadedBy.username}`}>
-                  <a className="w-fit">
-                    <span className="font-normal text-gray-300 hover:underline">
-                      ${uploadedBy.username}
-                    </span>
-                  </a>
+                <Link href={`/${uploadedBy.username}`} className="w-fit">
+                  <span className="font-normal text-gray-300 hover:underline">
+                    ${uploadedBy.username}
+                  </span>
                 </Link>
               </div>
             </div>
@@ -157,6 +156,7 @@ export function NotificationForReputation(props: { notification: any }) {
               }}
             >
               <Image
+                alt={"Orsive"}
                 src={"/maskable_icon.png"}
                 layout="fill"
                 objectFit="cover"

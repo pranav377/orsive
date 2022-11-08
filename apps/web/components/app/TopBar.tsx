@@ -24,9 +24,7 @@ export default function TopBar(props: TopBarPropTypes) {
         href={props.backLink}
         passHref
       >
-        <a>
-          <ArrowLeftIcon className="h-10 w-10 md:h-12 md:w-12 rounded-full p-2" />
-        </a>
+        <ArrowLeftIcon className="h-10 w-10 md:h-12 md:w-12 rounded-full p-2" />
       </Link>
       <div
         className={`transition-opacity duration-300 ${

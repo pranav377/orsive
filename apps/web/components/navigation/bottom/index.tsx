@@ -41,72 +41,69 @@ export default function BottomNavigation() {
   if (!withoutNavbarPaths.includes(router.pathname) && appState.showBars) {
     return (
       <>
-        <div className="fixed left-0 right-0 bottom-2  p-5 px-6 m-2   flex items-center justify-between   bg-gray-900 shadow-3xl text-gray-400 rounded-2xl">
+        <div className="fixed bottom-2 right-0 left-0 md:left-1/2 md:-translate-x-1/2  p-5 px-6 m-2   flex items-center justify-between   bg-gray-900 shadow-3xl text-gray-400 rounded-2xl">
           <Link
             href={{
               pathname: homeUrl,
             }}
             passHref
+            className={classNames(
+              router.pathname === homeUrl && "text-blue-400",
+              "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
+            )}
           >
-            <a
-              className={classNames(
-                router.pathname === homeUrl && "text-blue-400",
-                "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
-              )}
-            >
-              {router.pathname === homeUrl ? (
-                <HomeIconSolid className="h-6 w-6" />
-              ) : (
-                <HomeIcon className="h-6 w-6" />
-              )}
-            </a>
+            {router.pathname === homeUrl ? (
+              <HomeIconSolid className="h-6 w-6" />
+            ) : (
+              <HomeIcon className="h-6 w-6" />
+            )}
           </Link>
-          <Link href={"/following"} passHref>
-            <a
-              className={classNames(
-                router.pathname === "/following" && "text-blue-400",
-                "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
-              )}
-            >
-              {router.pathname === "/following" ? (
-                <LibraryIconSolid className="h-6 w-6" />
-              ) : (
-                <LibraryIcon className="h-6 w-6" />
-              )}
-            </a>
+          <Link
+            href={"/following"}
+            passHref
+            className={classNames(
+              router.pathname === "/following" && "text-blue-400",
+              "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
+            )}
+          >
+            {router.pathname === "/following" ? (
+              <LibraryIconSolid className="h-6 w-6" />
+            ) : (
+              <LibraryIcon className="h-6 w-6" />
+            )}
           </Link>
 
           <AddPostDropup />
-          <Link href={"/search"} passHref>
-            <a
+          <Link
+            href={"/search"}
+            passHref
+            className={classNames(
+              router.pathname === "/search" && "text-blue-400",
+              "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
+            )}
+          >
+            {router.pathname === "/search" ? (
+              <SearchIconSolid className="h-6 w-6" />
+            ) : (
+              <SearchIcon className="h-6 w-6" />
+            )}
+          </Link>
+          {user.is ? (
+            <Link
+              href={`/${user.username}`}
+              passHref
               className={classNames(
-                router.pathname === "/search" && "text-blue-400",
+                router.pathname === `/${user.username}` &&
+                  user.username !== "" &&
+                  "text-blue-400",
                 "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
               )}
             >
-              {router.pathname === "/search" ? (
-                <SearchIconSolid className="h-6 w-6" />
+              {router.pathname === `/${user.username}` ? (
+                <UserIconSolid className="h-6 w-6" />
               ) : (
-                <SearchIcon className="h-6 w-6" />
+                <UserIcon className="h-6 w-6" />
               )}
-            </a>
-          </Link>
-          {user.is ? (
-            <Link href={`/${user.username}`} passHref>
-              <a
-                className={classNames(
-                  router.pathname === `/${user.username}` &&
-                    user.username !== "" &&
-                    "text-blue-400",
-                  "flex flex-col items-center transition ease-in duration-200 hover:text-blue-400"
-                )}
-              >
-                {router.pathname === `/${user.username}` ? (
-                  <UserIconSolid className="h-6 w-6" />
-                ) : (
-                  <UserIcon className="h-6 w-6" />
-                )}
-              </a>
             </Link>
           ) : (
             <button
@@ -186,7 +183,7 @@ function AddPostDropup() {
             dispatch(ContentStateActions.setShowPostContent(true));
           }}
           ref={addPostButton}
-          className="absolute bottom-5 outline-none shadow-none text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50 bg-blue-500 w-20 h-20 p-2 text-white"
+          className="absolute bottom-5 outline-none shadow-none text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50 bg-blue-500 w-14 h-14 p-2 text-white"
         >
           <PlusIcon />
         </button>

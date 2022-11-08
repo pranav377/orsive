@@ -13,6 +13,7 @@ export default function AvatarArea(props: {
   return (
     <div className=" p-4 w-full flex relative">
       <Image
+        alt={props.uploadedBy.username}
         src={props.uploadedBy.avatar}
         height={48}
         width={48}
@@ -23,12 +24,10 @@ export default function AvatarArea(props: {
       />
       <div className="flex flex-col ml-2 w-10/12 text-sm md:text-base">
         <p className="font-semibold">{props.uploadedBy.name}</p>
-        <Link href={`/${props.uploadedBy.username}`} passHref>
-          <a className="w-fit">
-            <span className="font-normal text-gray-300 hover:underline">
-              ${props.uploadedBy.username}
-            </span>
-          </a>
+        <Link href={`/${props.uploadedBy.username}`} passHref className="w-fit">
+          <span className="font-normal text-gray-300 hover:underline">
+            ${props.uploadedBy.username}
+          </span>
         </Link>
       </div>
       <span style={{ minWidth: "2rem", maxWidth: "3rem" }} className="w-1/12">
