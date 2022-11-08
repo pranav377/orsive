@@ -16,7 +16,7 @@ export default function FooBar() {
             Github
           </Link>
 
-          <Link
+          {/* <Link
             href="/terms-and-conditions"
             passHref
             className="text-blue-700 hover:underline hover:text-blue-800 "
@@ -30,7 +30,7 @@ export default function FooBar() {
             className="text-blue-700 hover:underline hover:text-blue-800 "
           >
             Privacy Policy
-          </Link>
+          </Link> */}
         </div>
         © Orsive
       </div>
