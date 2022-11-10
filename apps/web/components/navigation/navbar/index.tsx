@@ -133,10 +133,13 @@ function ProfileDropdown() {
         <div className="p-4 h-full">
           <Link href={`/${user.username}`} passHref>
             <div className="flex-col">
+              {/* need to change this*/}
               <Image
                 alt={user.username}
                 src={user.avatar}
-                className="flex rounded-full h-20 w-20 object-cover object-center"
+                height={100}
+                width={100}
+                className="rounded-full object-cover object-center"
               />
               <div className="flex flex-col justify-center ml-2">
                 <span className="font-semibold text-xl">{user.name}</span>
