@@ -16,6 +16,7 @@ import LinkifyContent from "../components/app/LinkifyContent";
 import { Layout } from "../components/app/Layout";
 import { nFormatter } from "../components/app/nFormatter";
 import { ContentStateActions } from "../store/slices/contentSlice";
+import Image from "next/image";
 
 export interface ProfileType {
   username: string;
@@ -102,11 +103,14 @@ export default function Profile() {
             >
               <div className="flex flex-col items-center md:items-start">
                 <div className="flex md:flex-col">
-                  <img
-                    src={profile.avatar}
-                    alt={profile.username}
-                    className="flex rounded-full h-20 w-20 object-cover object-center"
-                  />
+                  <div className="relative h-20 w-20">
+                    <Image
+                      src={profile.avatar}
+                      alt={profile.username}
+                      className="rounded-full object-cover object-center"
+                      fill
+                    />
+                  </div>
                   <div className="flex flex-col justify-center ml-2">
                     <span className="font-semibold text-xl">
                       {profile.name}
@@ -162,7 +166,7 @@ export default function Profile() {
                   className="flex flex-col md:flex-row w-full items-center text-center md:text-left md:items-start"
                 >
                   <div>
-                    <div className="flex mt-2">
+                    <div className="flex mt-2 text-sm sm:text-base">
                       <div className="mr-3">
                         <span className=" font-semibold">
                           {nFormatter(profile._count.followers, 2)}
@@ -182,7 +186,7 @@ export default function Profile() {
                         <span className="text-gray-300">reputation</span>
                       </div>
                     </div>
-                    <div className="text-gray-300 flex items-center justify-center md:justify-start">
+                    <div className="text-gray-300 flex items-center justify-center md:justify-start text-sm sm:text-base">
                       <CalendarIcon className="w-4 h-4 mr-1" /> Joined
                       <Moment
                         className="ml-1"

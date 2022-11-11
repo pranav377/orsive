@@ -11,17 +11,16 @@ export default function AvatarArea(props: {
   postId: string;
 }) {
   return (
-    <div className=" p-4 w-full flex relative">
-      <Image
-        alt={props.uploadedBy.username}
-        src={props.uploadedBy.avatar}
-        height={48}
-        width={48}
-        className="rounded-full"
-        objectFit="cover"
-        objectPosition="center"
-        priority
-      />
+    <div className=" p-2 w-full flex relative">
+      <div className="relative h-12 w-12 ">
+        <Image
+          alt={props.uploadedBy.username}
+          src={props.uploadedBy.avatar}
+          fill
+          className="rounded-full object-cover object-center"
+          priority
+        />
+      </div>
       <div className="flex flex-col ml-2 w-10/12 text-sm md:text-base">
         <p className="font-semibold">{props.uploadedBy.name}</p>
         <Link href={`/${props.uploadedBy.username}`} passHref className="w-fit">
