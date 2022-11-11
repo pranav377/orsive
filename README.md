@@ -41,11 +41,7 @@
   </a>
   </p>
 
-### Small things to know about
-
-1. If you notice cache problems when using apollo client for infinite scroll, use `useClearApolloCacheOnExit` hook present in `apps\web\hooks\app\useClearApolloCacheOnExit.tsx`
-
-### Apps and Packages
+### Apps and Packages🛠️
 
 - `web`: a [Next.js](https://nextjs.org) app
 - `api`: a GraphQL API made with apollo-server
@@ -54,6 +50,14 @@
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
 All packages and apps are 100% [TypeScript](https://www.typescriptlang.org/)
+
+### How to run locally👨‍💻?
+
+Click [here](DEVELOPMENT.md)
+
+### Small things to know about
+
+1. If you notice cache problems when using apollo client for infinite scroll, use `useClearApolloCacheOnExit` hook present in `apps\web\hooks\app\useClearApolloCacheOnExit.tsx`
 
 ### Utilities
 
