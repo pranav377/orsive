@@ -55,9 +55,11 @@ All packages and apps are 100% [TypeScript](https://www.typescriptlang.org/)
 
 Click [here](DEVELOPMENT.md)
 
-### Small things to know about
+### Extras
 
-1. If you notice cache problems when using apollo client for infinite scroll, use `useClearApolloCacheOnExit` hook present in `apps\web\hooks\app\useClearApolloCacheOnExit.tsx`
+1. Orsive's [first post](https://www.orsive.com/orsic/SmtQAprRTyTOIp-321-Lets-Go)
+
+2. If you notice cache problems when using apollo client for infinite scroll, use `useClearApolloCacheOnExit` hook present in `apps\web\hooks\app\useClearApolloCacheOnExit.tsx`
 
 ### Utilities
 
