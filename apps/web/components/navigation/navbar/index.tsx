@@ -108,11 +108,14 @@ function ProfileDropdown() {
         onClick={toggleDrawer}
       >
         <span className="sr-only">Open user menu</span>
-        <img
-          className="h-8 w-8 rounded-full"
-          src={user.avatar}
-          alt="user avatar"
-        />
+        <div className="relative h-8 w-8">
+          <Image
+            className="rounded-full object-cover object-center"
+            fill
+            src={user.avatar}
+            alt="user avatar"
+          />
+        </div>
       </button>
       {isOpen && (
         <style jsx global>{`
