@@ -19,6 +19,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { generatePlaceholder } from "../../../components/app/ContentParser";
 import TextContent from "../../../components/app/TextContent";
+import { GET_BUILD_IMAGE_LIST_QUERY } from "../../../logic/post/image/queries/getBuildImageListQuery";
 
 interface ImagePostType {
   title: string | null;
@@ -189,15 +190,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  let buildImageListData = await client.query({
+    query: GET_BUILD_IMAGE_LIST_QUERY,
+  });
+
+  let buildImageList: Array<string> = buildImageListData.data.getBuildImageList;
   return {
-    paths: [
-      // {
-      //   params: {
-      //     image_slug: "",
-      //   },
-      // },
-      // latest 120 images
-    ],
+    paths: buildImageList.map((image_slug) => {
+      return {
+        params: {
+          image_slug,
+        },
+      };
+    }),
     fallback: true,
   };
 };

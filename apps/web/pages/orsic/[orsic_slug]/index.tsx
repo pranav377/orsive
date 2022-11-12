@@ -21,6 +21,7 @@ import TextContent from "../../../components/app/TextContent";
 import BionicMode from "../../../components/app/BionicMode";
 import Bionica from "../../../components/app/bionica";
 import { useBionicMode } from "../../../hooks/app/useBionicMode";
+import { GET_BUILD_ORSIC_LIST_QUERY } from "../../../logic/post/orsic/queries/getBuildOrsicListQuery";
 
 interface OrsicPostType {
   title: string | null;
@@ -184,5 +185,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  return { paths: [], fallback: true };
+  let buildOrsicListData = await client.query({
+    query: GET_BUILD_ORSIC_LIST_QUERY,
+  });
+
+  let buildOrsicList: Array<string> = buildOrsicListData.data.getBuildOrsicList;
+  return {
+    paths: buildOrsicList.map((orsic_slug) => {
+      return {
+        params: {
+          orsic_slug,
+        },
+      };
+    }),
+    fallback: true,
+  };
 };
