@@ -141,7 +141,7 @@ async function startServer() {
   );
 
   app.get("/", (_req, res) => {
-    res.end("Cluster Up and running");
+    res.end("API Cluster Up and running");
   });
   app.get(
     "/auth/discord",
