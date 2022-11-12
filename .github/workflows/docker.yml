@@ -1,4 +1,4 @@
-name: Create Orsive API Docker image
+name: Create/Deploy Orsive API Docker image
 
 on:
   push:
@@ -45,3 +45,22 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy API
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{secrets.SSH_USERNAME}}
+          password: ${{secrets.SSH_PASSWORD}}
+
+          script: |
+            cd orsive
+            git pull origin main
+            cd .deploy
+            docker compose down
+            docker compose pull
+            docker compose up -d
+            echo 'Deployment successful to DigitalOcean'
