@@ -23,6 +23,7 @@ const IMAGE_SCHEMA = gql`
 
   type Query {
     getImage(slug: String!): Image!
+    getBuildImageList: [String!]!
   }
 
   type Mutation {

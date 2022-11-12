@@ -191,6 +191,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [
+      // {
+      //   params: {
+      //     image_slug: "",
+      //   },
+      // },
       // latest 120 images
     ],
     fallback: true,

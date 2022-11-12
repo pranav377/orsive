@@ -17,6 +17,7 @@ import updateItem from "../../../../utils/mepster/item/updateItem";
 import deleteItem from "../../../../utils/mepster/item/deleteItem";
 import { JSDOM } from "jsdom";
 import validateAsync from "../../../../utils/data/validateAsync";
+import { POSTS_BUILD_LIMIT } from "../../../../config";
 
 export interface AddOrsicPostArgs {
   input: AddOrsicPostInput;
@@ -187,4 +188,17 @@ export async function DeleteOrsicPost(args: DeleteOrsicPostArgs, user: User) {
   });
 
   return "success";
+}
+
+export async function GetBuildOrsicList() {
+  let orsics = await prisma.orsic.findMany({
+    take: POSTS_BUILD_LIMIT,
+    orderBy: {
+      post: {
+        createdAt: "desc",
+      },
+    },
+  });
+
+  return orsics.map((orsic) => orsic.slug);
 }

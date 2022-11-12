@@ -23,6 +23,7 @@ const ORSIC_SCHEMA = gql`
 
   type Query {
     getOrsic(slug: String!): Orsic!
+    getBuildOrsicList: [String!]
   }
 
   type Mutation {

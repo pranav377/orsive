@@ -4,6 +4,7 @@ import {
   AddImagePostArgs,
   DeleteImagePost,
   DeleteImagePostArgs,
+  GetBuildImageList,
   GetImage,
   GetImageArgs,
   UpdateImagePost,
@@ -34,6 +35,9 @@ const IMAGE_RESOLVERS = {
   Query: {
     getImage(_: void, args: GetImageArgs) {
       return GetImage(args);
+    },
+    getBuildImageList() {
+      return GetBuildImageList();
     },
   },
 };

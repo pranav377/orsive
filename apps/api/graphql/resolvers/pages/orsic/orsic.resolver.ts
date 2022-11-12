@@ -4,6 +4,7 @@ import {
   AddOrsicPostArgs,
   DeleteOrsicPost,
   DeleteOrsicPostArgs,
+  GetBuildOrsicList,
   GetOrsicPost,
   GetOrsicPostArgs,
   UpdateOrsicPost,
@@ -14,6 +15,9 @@ const ORSIC_RESOLVERS = {
   Query: {
     getOrsic(_: void, args: GetOrsicPostArgs) {
       return GetOrsicPost(args);
+    },
+    getBuildOrsicList() {
+      return GetBuildOrsicList();
     },
   },
 

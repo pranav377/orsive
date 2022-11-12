@@ -61,7 +61,7 @@ jobs:
             cd orsive
             git pull origin main
             cd .deploy
-            docker compose down
             docker compose pull
+            docker compose down
             docker compose up -d
             echo 'Deployment successful to DigitalOcean'

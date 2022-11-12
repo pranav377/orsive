@@ -19,6 +19,7 @@ import insertItem, {
 import updateItem from "../../../../utils/mepster/item/updateItem";
 import deleteItem from "../../../../utils/mepster/item/deleteItem";
 import probe from "probe-image-size";
+import { POSTS_BUILD_LIMIT } from "../../../../config";
 
 export interface AddImagePostArgs {
   input: AddImageInput;
@@ -204,4 +205,17 @@ export async function DeleteImagePost(args: DeleteImagePostArgs, user: User) {
   });
 
   return "success";
+}
+
+export async function GetBuildImageList() {
+  let images = await prisma.image.findMany({
+    take: POSTS_BUILD_LIMIT,
+    orderBy: {
+      post: {
+        createdAt: "desc",
+      },
+    },
+  });
+
+  return images.map((image) => image.slug);
 }
