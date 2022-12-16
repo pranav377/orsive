@@ -29,7 +29,7 @@ const Layout = ({ children, title }: LayoutProps) => {
         />
       )}
       <AnimatePresence initial={false} mode="wait">
-        <motion.main
+        <motion.div
           key={asPath}
           initial={{ opacity: 0, x: -200, y: 0 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
@@ -40,7 +40,7 @@ const Layout = ({ children, title }: LayoutProps) => {
           }}
         >
           <div className="mb-24">{children}</div>
-        </motion.main>
+        </motion.div>
       </AnimatePresence>
     </>
   );
