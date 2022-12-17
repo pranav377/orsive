@@ -35,7 +35,7 @@ const Layout = ({ children, title }: LayoutProps) => {
         className="overflow-x-hidden"
         transition={{
           x: { type: "tween", stiffness: 100 },
-          duration: 0.6,
+          duration: 0.8,
           delay: 0.2,
         }}
       >
