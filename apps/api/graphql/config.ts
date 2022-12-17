@@ -23,8 +23,6 @@ const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || " ";
 const S3_ACCESS_KEY = process.env.S3_ACCESS_KEY || " ";
 const S3_SECRET_KEY = process.env.S3_SECRET_KEY || " ";
 const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME || " ";
-const FIREBASE_NOTIFICATIONS_SERVER_KEY =
-  process.env.FIREBASE_NOTIFICATIONS_SERVER_KEY || " ";
 const EMAIL_API_KEY = process.env.EMAIL_API_KEY || " ";
 const GORSE_URL = process.env.GORSE_URL || "http://localhost:8088/api";
 const NEXTJS_API_URL =
@@ -57,7 +55,6 @@ export {
   S3_ACCESS_KEY,
   S3_SECRET_KEY,
   S3_BUCKET_NAME,
-  FIREBASE_NOTIFICATIONS_SERVER_KEY,
   EMAIL_API_KEY,
   GORSE_URL,
   NEXTJS_API_URL,
