@@ -11,11 +11,10 @@ import _ from "lodash";
 import { createUploadLink } from "apollo-upload-client";
 import { DefaultSeo } from "next-seo";
 import NextNProgress from "nextjs-progressbar";
-import { AnimatePresence } from "framer-motion";
 import LoginDialog from "../components/app/LoginDialog";
 import { useAnalytics } from "../hooks/app/useAnalytics";
+import { AnimatePresence } from "framer-motion";
 
-import { createContext, useRef } from "react";
 import { usePWA } from "../hooks/app/usePWA";
 import { setContext } from "@apollo/client/link/context";
 import "animate.css/animate.min.css";

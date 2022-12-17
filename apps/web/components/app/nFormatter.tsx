@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export function nFormatter(num: number, digits: number) {
   const lookup = [
     { value: 1, symbol: "" },

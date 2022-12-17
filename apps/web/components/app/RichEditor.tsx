@@ -103,7 +103,7 @@ const contentParserOptions: HTMLReactParserOptions = {
     if (domNode instanceof Element && domNode.attribs) {
       if (domNode.tagName === "img") {
         let src = domNode.attribs.src;
-        return <img src={src} />;
+        return <img src={src} alt="User posted image" />;
       }
     }
   },
