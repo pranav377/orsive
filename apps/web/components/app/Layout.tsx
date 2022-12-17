@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { NextSeo } from "next-seo";
-import { AnimatePresence } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -28,20 +27,20 @@ const Layout = ({ children, title }: LayoutProps) => {
           }}
         />
       )}
-      <AnimatePresence initial={false} mode="wait">
-        <motion.div
-          key={asPath}
-          initial={{ opacity: 0, x: -200, y: 0 }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          exit={{ opacity: 0, x: -200, y: 0 }}
-          className="overflow-x-hidden"
-          transition={{
-            type: "inertia",
-          }}
-        >
-          <div className="mb-24">{children}</div>
-        </motion.div>
-      </AnimatePresence>
+      <motion.main
+        key={asPath}
+        initial={{ opacity: 0, x: -200, y: 0 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        exit={{ opacity: 0, x: -200, y: 0 }}
+        className="overflow-x-hidden"
+        transition={{
+          x: { type: "tween", stiffness: 100 },
+          duration: 0.6,
+          delay: 0.2,
+        }}
+      >
+        <div className="mb-24">{children}</div>
+      </motion.main>
     </>
   );
 };

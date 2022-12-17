@@ -13,6 +13,7 @@ import { DefaultSeo } from "next-seo";
 import NextNProgress from "nextjs-progressbar";
 import LoginDialog from "../components/app/LoginDialog";
 import { useAnalytics } from "../hooks/app/useAnalytics";
+import { AnimatePresence } from "framer-motion";
 
 import { usePWA } from "../hooks/app/usePWA";
 import { setContext } from "@apollo/client/link/context";
@@ -184,7 +185,9 @@ function Web({ Component, pageProps, router }: AppProps) {
           }}
         />
         <LoginDialog />
-        <Component {...pageProps} key={url} />
+        <AnimatePresence initial={false} mode="wait">
+          <Component {...pageProps} key={url} />
+        </AnimatePresence>
 
         <BottomNavigation />
       </ApolloProvider>
