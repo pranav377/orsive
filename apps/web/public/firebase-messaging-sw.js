@@ -18,6 +18,7 @@ firebase.initializeApp({
 const initMessaging = firebase.messaging();
 
 initMessaging.setBackgroundMessageHandler((payload) => {
+  // for multiple accounts in same device
   const { data } = payload;
   localforage.getItem("username").then((username) => {
     if (username === data.for) {
