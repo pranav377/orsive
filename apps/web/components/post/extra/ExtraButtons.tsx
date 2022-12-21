@@ -1,9 +1,5 @@
-import {
-  ChatIcon,
-  ThumbDownIcon,
-  ThumbUpIcon,
-  ShareIcon,
-} from "@heroicons/react/outline";
+import { ChatIcon, ThumbUpIcon, ShareIcon } from "@heroicons/react/outline";
+import { HeartIcon, ThumbDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -40,26 +36,30 @@ export default function ExtraButtons(props: {
             onClick={() => {
               props.like();
             }}
-            className={`rounded-full p-1 transition-all duration-150 ${
-              props.likeStatus?.type === "like" ? "bg-blue-700" : ""
-            }`}
+            className={`rounded-full `}
           >
-            <ThumbUpIcon className="h-7 m-1" />{" "}
+            <HeartIcon
+              className={`h-5 m-1 transition-all duration-150 ${
+                props.likeStatus?.type === "like" ? "text-red-700 " : ""
+              }`}
+            />
           </button>
           <span className="ml-1">
             {props.likeStatus && props.likeStatus.likes !== 0
               ? nFormatter(props.likeStatus.likes, 2)
-              : null}
+              : 0}
           </span>
         </div>
         <div className="flex items-center justify-center flex-1">
           <button
             onClick={props.dislike}
-            className={`rounded-full p-1 transition-all duration-150 ${
-              props.likeStatus?.type === "dislike" ? "bg-blue-700" : ""
-            }`}
+            className={`rounded-full p-1 transition-all duration-150`}
           >
-            <ThumbDownIcon className="h-7 m-1" />{" "}
+            <ThumbDownIcon
+              className={`h-5 m-1 ${
+                props.likeStatus?.type === "dislike" ? "text-blue-700" : ""
+              }`}
+            />{" "}
           </button>
         </div>
         <div className="flex items-center justify-center flex-1">
@@ -67,7 +67,7 @@ export default function ExtraButtons(props: {
             onClick={() => setShareOpen(true)}
             className="rounded-full p-2"
           >
-            <ShareIcon className="h-7 m-1" />{" "}
+            <ShareIcon className="h-5 m-1" />{" "}
           </button>
         </div>
         {props.postUrl && (
@@ -80,7 +80,7 @@ export default function ExtraButtons(props: {
             }}
           >
             <button className="rounded-full p-2">
-              <ChatIcon className="h-7 m-1" />{" "}
+              <ChatIcon className="h-5 m-1" />{" "}
             </button>
           </div>
         )}
@@ -99,7 +99,7 @@ export function ExtraButtonsDesign() {
             showLoginDialog();
           }}
         >
-          <ChatIcon className="h-7 m-1" />{" "}
+          <ChatIcon className="h-5 m-1" />{" "}
         </button>
       </div>
       <div className="flex items-center justify-center flex-1">
@@ -109,7 +109,7 @@ export function ExtraButtonsDesign() {
             showLoginDialog();
           }}
         >
-          <ThumbUpIcon className="h-7 m-1" />{" "}
+          <ThumbUpIcon className="h-5 m-1" />{" "}
         </button>
       </div>
       <div className="flex items-center justify-center flex-1">
@@ -119,7 +119,7 @@ export function ExtraButtonsDesign() {
             showLoginDialog();
           }}
         >
-          <ThumbDownIcon className="h-7 m-1" />{" "}
+          <ThumbDownIcon className="h-5 m-1" />{" "}
         </button>
       </div>
     </div>
