@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import firebase, { PUBLIC_VAPID_KEY } from "../../firebase";
-import { getMessaging, isSupported, getToken } from "firebase/messaging";
 import { gql } from "@apollo/client";
 import { client } from "../../pages/_app";
+import { getMessaging, getToken, isSupported } from "firebase/messaging";
+import firebaseApp from "../../firebase";
 
 const UPDATE_NOTIFICATION_TOKEN_MUTATION = gql`
   mutation UpdateNotificationToken($token: String!) {
@@ -26,11 +27,9 @@ export const usePWA = () => {
 
       (async () => {
         if (await isSupported()) {
-          const messaging = getMessaging(firebase);
-
           Notification.requestPermission().then((permission) => {
             if (permission === "granted") {
-              getToken(messaging, {
+              getToken(getMessaging(firebaseApp), {
                 vapidKey: PUBLIC_VAPID_KEY,
               })
                 .then((token) => {
