@@ -8,7 +8,8 @@
     "Prisma.prisma",
     "bradlc.vscode-tailwindcss",
     "orsenkucher.vscode-graphql",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "jakebecker.elixir-ls"
   ],
   "postCreateCommand": [
     "bash",
@@ -25,10 +26,11 @@
       "version": "latest"
     }
   },
-  "remoteUser": "node",
+  "remoteUser": "orsive",
   "forwardPorts": [
     4000,
     3000,
-    19000
+    19000,
+    5000
   ]
 }

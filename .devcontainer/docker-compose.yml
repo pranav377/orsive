@@ -8,7 +8,6 @@ services:
       dockerfile: .devcontainer/dev.Dockerfile
     volumes:
       - ..:/workspace:cached
-      - main-node_modules:/workspace/node_modules
 
     ports:
       - 3000:3000
@@ -110,7 +109,6 @@ services:
       - gorse-master
 
 volumes:
-  main-node_modules:
   gorse_worker_data:
   gorse_server_data:
   gorse_master_data:
