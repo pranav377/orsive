@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel --no-daemon --filter=!mobile-app",
-    "backend": "turbo run dev --parallel --filter=!mobile-app --filter=!web",
+    "dev": "turbo run dev --parallel --no-daemon",
+    "backend": "turbo run dev --parallel --filter=!web",
     "setup": "ts-node setup.ts",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
