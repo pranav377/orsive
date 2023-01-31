@@ -23,8 +23,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /root/.gnupg
 
-# Elixir Setup
-RUN apt-get update && apt-get install -y inotify-tools && mix local.hex --force && mix archive.install hex phx_new --force
+# Elixir and Git Flow Setup
+RUN apt-get update && apt-get install -y inotify-tools git-flow && mix local.hex --force && mix archive.install hex phx_new --force
 
 # Cleanup scripts
 RUN rm -rf /tmp/scripts
