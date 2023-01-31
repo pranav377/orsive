@@ -1,115 +1,115 @@
-version: "3.4"
+version: '3.4'
 
 services:
-  # Main Workspace
-  workspace:
-    build:
-      context: ../
-      dockerfile: .devcontainer/dev.Dockerfile
-    volumes:
-      - ..:/workspace:cached
+    # Main Workspace
+    workspace:
+        build:
+            context: ../
+            dockerfile: .devcontainer/dev.Dockerfile
+        volumes:
+            - ..:/workspace:cached
 
-    ports:
-      - 3000:3000
-      - 4000:4000
-      - 19000:19000
-    command: /bin/sh -c "while sleep 1000; do :; done"
-    depends_on:
-      - mongodb
-      - meilisearch
-    env_file:
-      - .env.dev
+        ports:
+            - 3000:3000
+            - 4000:4000
+            - 19000:19000
+        command: /bin/sh -c "while sleep 1000; do :; done"
+        depends_on:
+            - mongodb
+            - meilisearch
+        env_file:
+            - .env.dev
 
-  # MongoDB Database
-  mongodb:
-    image: mongo
-    hostname: mongodb
-    restart: unless-stopped
-    container_name: mongodb
-    ports:
-      - 27017:27017
-    command: ["--replSet", "dbrs", "--bind_ip_all"]
+    # MongoDB Database
+    mongodb:
+        image: mongo
+        hostname: mongodb
+        restart: unless-stopped
+        container_name: mongodb
+        ports:
+            - 27017:27017
+        command: ['--replSet', 'dbrs', '--bind_ip_all']
 
-  # Meilisearch
-  meilisearch:
-    container_name: meilisearch
-    image: getmeili/meilisearch:v0.29
-    environment:
-      - MEILI_MASTER_KEY=1234
-      - MEILI_ENV=development
-    ports:
-      - 7700:7700
-    restart: unless-stopped
+    # Meilisearch
+    meilisearch:
+        container_name: meilisearch
+        image: getmeili/meilisearch:v0.29
+        environment:
+            - MEILI_MASTER_KEY=1234
+            - MEILI_ENV=development
+        ports:
+            - 7700:7700
+        restart: unless-stopped
 
-  # Setup (MongoDB, Meilisearch)
-  setup:
-    build:
-      context: .
-      dockerfile: setup.Dockerfile
-    depends_on:
-      - mongodb
-      - meilisearch
-    restart: "no"
-    volumes:
-      - ./scripts/setup.sh:/scripts/setup.sh
-      - ./setup/meilisearch-setup.js:/setup/meilisearch-setup.js
-      - ./setup/package.json:/setup/package.json
-    command: ["/bin/sh", "/scripts/setup.sh"]
-    env_file:
-      - .env.dev
+    # Setup (MongoDB, Meilisearch)
+    setup:
+        build:
+            context: .
+            dockerfile: setup.Dockerfile
+        depends_on:
+            - mongodb
+            - meilisearch
+        restart: 'no'
+        volumes:
+            - ./scripts/setup.sh:/scripts/setup.sh
+            - ./setup/meilisearch-setup.js:/setup/meilisearch-setup.js
+            - ./setup/package.json:/setup/package.json
+        command: ['/bin/sh', '/scripts/setup.sh']
+        env_file:
+            - .env.dev
 
-  # Gorse
-  gorse-master:
-    image: zhenghaoz/gorse-master:0.4
-    restart: unless-stopped
-    ports:
-      - 8086:8086
-      - 8088:8088
-    command: >
-      -c /etc/gorse/config.toml 
-      --log-path /var/log/gorse/master.log 
-      --cache-path /var/lib/gorse/master_cache.data
-    volumes:
-      - ./config/gorse-config.toml:/etc/gorse/config.toml
-      - gorse_log:/var/log/gorse
-      - gorse_master_data:/var/lib/gorse
-    depends_on:
-      - setup
+    # Gorse
+    gorse-master:
+        image: zhenghaoz/gorse-master:0.4
+        restart: unless-stopped
+        ports:
+            - 8086:8086
+            - 8088:8088
+        command: >
+            -c /etc/gorse/config.toml 
+            --log-path /var/log/gorse/master.log 
+            --cache-path /var/lib/gorse/master_cache.data
+        volumes:
+            - ./config/gorse-config.toml:/etc/gorse/config.toml
+            - gorse_log:/var/log/gorse
+            - gorse_master_data:/var/lib/gorse
+        depends_on:
+            - setup
 
-  gorse-server:
-    image: zhenghaoz/gorse-server:0.4
-    restart: unless-stopped
-    ports:
-      - 8087:8087
-    command: >
-      --master-host gorse-master --master-port 8086 
-      --http-host 0.0.0.0 --http-port 8087
-      --log-path /var/log/gorse/server.log 
-      --cache-path /var/lib/gorse/server_cache.data
-    volumes:
-      - gorse_log:/var/log/gorse
-      - gorse_server_data:/var/lib/gorse
-    depends_on:
-      - gorse-master
+    gorse-server:
+        image: zhenghaoz/gorse-server:0.4
+        restart: unless-stopped
+        ports:
+            - 8087:8087
+        command: >
+            --master-host gorse-master --master-port 8086 
+            --http-host 0.0.0.0 --http-port 8087
+            --log-path /var/log/gorse/server.log 
+            --cache-path /var/lib/gorse/server_cache.data
+        volumes:
+            - gorse_log:/var/log/gorse
+            - gorse_server_data:/var/lib/gorse
+        depends_on:
+            - gorse-master
 
-  gorse-worker:
-    image: zhenghaoz/gorse-worker:0.4
-    restart: unless-stopped
-    ports:
-      - 8089:8089
-    command: >
-      --master-host gorse-master --master-port 8086 
-      --http-host 0.0.0.0 --http-port 8089
-      --log-path /var/log/gorse/worker.log 
-      --cache-path /var/lib/gorse/worker_cache.data
-    volumes:
-      - gorse_log:/var/log/gorse
-      - gorse_worker_data:/var/lib/gorse
-    depends_on:
-      - gorse-master
+    gorse-worker:
+        image: zhenghaoz/gorse-worker:0.4
+        restart: unless-stopped
+        ports:
+            - 8089:8089
+        command: >
+            --master-host gorse-master --master-port 8086 
+            --http-host 0.0.0.0 --http-port 8089
+            --log-path /var/log/gorse/worker.log 
+            --cache-path /var/lib/gorse/worker_cache.data
+        volumes:
+            - gorse_log:/var/log/gorse
+            - gorse_worker_data:/var/lib/gorse
+        depends_on:
+            - gorse-master
 
 volumes:
-  gorse_worker_data:
-  gorse_server_data:
-  gorse_master_data:
-  gorse_log:
+    gorse_worker_data:
+    gorse_server_data:
+    gorse_master_data:
+    gorse_log:

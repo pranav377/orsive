@@ -1,33 +1,25 @@
 {
-  "name": "Orsive",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "workspace",
-  "workspaceFolder": "/workspace",
-  "extensions": [
-    "esbenp.prettier-vscode",
-    "Prisma.prisma",
-    "bradlc.vscode-tailwindcss",
-    "orsenkucher.vscode-graphql",
-    "dbaeumer.vscode-eslint",
-    "jakebecker.elixir-ls"
-  ],
-  "postCreateCommand": [
-    "bash",
-    ".devcontainer/scripts/postCreate.sh"
-  ],
-  "features": {
-    "ghcr.io/devcontainers/features/git:1": {
-      "version": "latest"
+    "name": "Orsive",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "workspace",
+    "workspaceFolder": "/workspace",
+    "extensions": [
+        "esbenp.prettier-vscode",
+        "Prisma.prisma",
+        "bradlc.vscode-tailwindcss",
+        "orsenkucher.vscode-graphql",
+        "dbaeumer.vscode-eslint",
+        "jakebecker.elixir-ls"
+    ],
+    "postCreateCommand": ["bash", ".devcontainer/scripts/postCreate.sh"],
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/docker-from-docker:1": {
+            "version": "latest"
+        }
     },
-    "ghcr.io/devcontainers/features/docker-from-docker:1": {
-      "version": "latest"
-    }
-  },
-  "remoteUser": "orsive",
-  "forwardPorts": [
-    4000,
-    3000,
-    19000,
-    5000
-  ]
+    "remoteUser": "orsive",
+    "forwardPorts": [4000, 3000, 19000, 5000]
 }

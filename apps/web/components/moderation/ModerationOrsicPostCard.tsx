@@ -1,66 +1,74 @@
-import { memo, useState } from "react";
-import { useTimer } from "react-timer-hook";
-import ContentParser from "../app/ContentParser";
-import LinkifyContent from "../app/LinkifyContent";
-import Ripples from "../app/Ripple";
-import TextContent from "../app/TextContent";
-import ExtraButtonsForModeration from "./subcomponents/ExtraButtonsForModeration";
-import ModerationAvatarArea from "./subcomponents/ModerationAvatarArea";
-import Link from "next/link";
+import { memo, useState } from 'react';
+import { useTimer } from 'react-timer-hook';
+import ContentParser from '../app/ContentParser';
+import LinkifyContent from '../app/LinkifyContent';
+import Ripples from '../app/Ripple';
+import TextContent from '../app/TextContent';
+import ExtraButtonsForModeration from './subcomponents/ExtraButtonsForModeration';
+import ModerationAvatarArea from './subcomponents/ModerationAvatarArea';
+import Link from 'next/link';
 
 function ModerationOrsicPostCardComponent(props: {
-  report: any;
-  onClick?: () => void;
+    report: any;
+    onClick?: () => void;
 }) {
-  let post = props.report.post;
-  let postUrl = `/orsic/${post.slug}`;
+    let post = props.report.post;
+    let postUrl = `/orsic/${post.slug}`;
 
-  const [votingEnded, setVotingEnded] = useState(false);
+    const [votingEnded, setVotingEnded] = useState(false);
 
-  const { seconds, minutes, hours, days } = useTimer({
-    expiryTimestamp: new Date(props.report.votingEnds),
-    onExpire: () => setVotingEnded(true),
-  });
+    const { seconds, minutes, hours, days } = useTimer({
+        expiryTimestamp: new Date(props.report.votingEnds),
+        onExpire: () => setVotingEnded(true),
+    });
 
-  return (
-    <div className="bg-slate-900 rounded-md p-5 flex flex-col w-[90vw] md:max-w-3xl my-2">
-      <span className="font-semibold">
-        {votingEnded ? (
-          <>Waiting for results</>
-        ) : (
-          <>
-            Voting ends in {days}d : {hours}h : {minutes}m : {seconds}s
-          </>
-        )}
-      </span>
-      <ModerationAvatarArea uploadedBy={post.post.uploadedBy} />
-      <Ripples>
-        <div className="w-full">
-          <Link href={postUrl} passHref scroll={false} onClick={props.onClick}>
-            <div>
-              {post.title && (
-                <span className="font-semibold text-2xl text-gray-100 text-break">
-                  {post.title}
-                </span>
-              )}
-              <LinkifyContent>
-                <TextContent>{ContentParser(post.content)}</TextContent>
-              </LinkifyContent>
-              {post.truncated && (
-                <div className="w-full p-1 bg-slate-700 hover:bg-slate-800 transition-all duration-300 font-semibold text-center rounded-b-xl">
-                  Read More
+    return (
+        <div className="my-2 flex w-[90vw] flex-col rounded-md bg-slate-900 p-5 md:max-w-3xl">
+            <span className="font-semibold">
+                {votingEnded ? (
+                    <>Waiting for results</>
+                ) : (
+                    <>
+                        Voting ends in {days}d : {hours}h : {minutes}m :{' '}
+                        {seconds}s
+                    </>
+                )}
+            </span>
+            <ModerationAvatarArea uploadedBy={post.post.uploadedBy} />
+            <Ripples>
+                <div className="w-full">
+                    <Link
+                        href={postUrl}
+                        passHref
+                        scroll={false}
+                        onClick={props.onClick}
+                    >
+                        <div>
+                            {post.title && (
+                                <span className="text-break text-2xl font-semibold text-gray-100">
+                                    {post.title}
+                                </span>
+                            )}
+                            <LinkifyContent>
+                                <TextContent>
+                                    {ContentParser(post.content)}
+                                </TextContent>
+                            </LinkifyContent>
+                            {post.truncated && (
+                                <div className="w-full rounded-b-xl bg-slate-700 p-1 text-center font-semibold transition-all duration-300 hover:bg-slate-800">
+                                    Read More
+                                </div>
+                            )}
+                        </div>
+                    </Link>
+                    <ExtraButtonsForModeration
+                        postId={post.post.id}
+                        votingEnded={votingEnded}
+                    />
                 </div>
-              )}
-            </div>
-          </Link>
-          <ExtraButtonsForModeration
-            postId={post.post.id}
-            votingEnded={votingEnded}
-          />
+            </Ripples>
         </div>
-      </Ripples>
-    </div>
-  );
+    );
 }
 
 const ModerationOrsicPost = memo(ModerationOrsicPostCardComponent);

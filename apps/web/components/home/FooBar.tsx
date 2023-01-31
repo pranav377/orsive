@@ -1,22 +1,22 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function FooBar() {
-  return (
-    <footer className="text-center bg-gray-900 text-white absolute bottom-0 w-full">
-      <div
-        className="text-center p-2"
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-      >
-        <div className="flex gap-4 justify-center mb-2">
-          <Link
-            href="https://github.com/pranav377/orsive"
-            passHref
-            className="text-blue-700 hover:underline hover:text-blue-800 "
-          >
-            Github
-          </Link>
+    return (
+        <footer className="absolute bottom-0 w-full bg-gray-900 text-center text-white">
+            <div
+                className="p-2 text-center"
+                style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
+            >
+                <div className="mb-2 flex justify-center gap-4">
+                    <Link
+                        href="https://github.com/pranav377/orsive"
+                        passHref
+                        className="text-blue-700 hover:text-blue-800 hover:underline "
+                    >
+                        Github
+                    </Link>
 
-          {/* <Link
+                    {/* <Link
             href="/terms-and-conditions"
             passHref
             className="text-blue-700 hover:underline hover:text-blue-800 "
@@ -31,9 +31,9 @@ export default function FooBar() {
           >
             Privacy Policy
           </Link> */}
-        </div>
-        © Orsive
-      </div>
-    </footer>
-  );
+                </div>
+                © Orsive
+            </div>
+        </footer>
+    );
 }

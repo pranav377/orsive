@@ -1,5 +1,5 @@
-import parse, { HTMLReactParserOptions, Element } from "html-react-parser";
-import Image from "next/image";
+import parse, { HTMLReactParserOptions, Element } from 'html-react-parser';
+import Image from 'next/image';
 
 const convertImage = (w: number, h: number) => `
   <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -16,42 +16,42 @@ const convertImage = (w: number, h: number) => `
   </svg>`;
 
 const toBase64 = (str: string) =>
-  typeof window === "undefined"
-    ? Buffer.from(str).toString("base64")
-    : window.btoa(str);
+    typeof window === 'undefined'
+        ? Buffer.from(str).toString('base64')
+        : window.btoa(str);
 
 export function generatePlaceholder(width: number, height: number) {
-  return `data:image/svg+xml;base64,${toBase64(convertImage(width, height))}`;
+    return `data:image/svg+xml;base64,${toBase64(convertImage(width, height))}`;
 }
 
 const options: HTMLReactParserOptions = {
-  replace: (domNode) => {
-    if (domNode instanceof Element && domNode.attribs) {
-      if (domNode.tagName === "img") {
-        let width = parseInt(domNode.attribs.width || "400");
-        let height = parseInt(domNode.attribs.height || "400");
-        return (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Image
-              placeholder="blur"
-              alt="User's posted image"
-              blurDataURL={generatePlaceholder(width, height)}
-              src={domNode.attribs.src}
-              width={width}
-              height={height}
-            />
-          </div>
-        );
-      }
-    }
-  },
+    replace: (domNode) => {
+        if (domNode instanceof Element && domNode.attribs) {
+            if (domNode.tagName === 'img') {
+                let width = parseInt(domNode.attribs.width || '400');
+                let height = parseInt(domNode.attribs.height || '400');
+                return (
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Image
+                            placeholder="blur"
+                            alt="User's posted image"
+                            blurDataURL={generatePlaceholder(width, height)}
+                            src={domNode.attribs.src}
+                            width={width}
+                            height={height}
+                        />
+                    </div>
+                );
+            }
+        }
+    },
 };
 
 export default function ContentParser(html: string) {
-  return parse(html, options);
+    return parse(html, options);
 }

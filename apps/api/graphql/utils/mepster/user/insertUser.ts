@@ -1,23 +1,23 @@
-import recommenderClient from "../client";
-import { searchIndex } from "../searchClient";
+import recommenderClient from '../client';
+import { searchIndex } from '../searchClient';
 
 interface UserType {
-  UserId: string;
+    UserId: string;
 }
 
 export default function insertUser(user: UserType, userDetails: any) {
-  searchIndex.addDocuments([
-    {
-      id: userDetails.id,
-      type: "Profile",
-      username: userDetails.username,
-      name: userDetails.name,
-      avatar: userDetails.avatar,
-      joined: userDetails.joined,
-      _count: { ...userDetails._count },
-    },
-  ]);
-  recommenderClient.post("/user/", user);
+    searchIndex.addDocuments([
+        {
+            id: userDetails.id,
+            type: 'Profile',
+            username: userDetails.username,
+            name: userDetails.name,
+            avatar: userDetails.avatar,
+            joined: userDetails.joined,
+            _count: { ...userDetails._count },
+        },
+    ]);
+    recommenderClient.post('/user/', user);
 }
 
 /*

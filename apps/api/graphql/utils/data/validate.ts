@@ -1,14 +1,14 @@
-import Joi from "joi";
-import { UserInputError } from "apollo-server-express";
+import Joi from 'joi';
+import { UserInputError } from 'apollo-server-express';
 
 export default function validate(args: any, schema: Joi.ObjectSchema<any>) {
-  const { value, error } = schema.validate(args);
+    const { value, error } = schema.validate(args);
 
-  if (error) {
-    throw new UserInputError("Aborting operation as user's data is evil", {
-      validationErrors: error,
-    });
-  }
+    if (error) {
+        throw new UserInputError("Aborting operation as user's data is evil", {
+            validationErrors: error,
+        });
+    }
 
-  return value;
+    return value;
 }

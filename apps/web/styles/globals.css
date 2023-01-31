@@ -3,99 +3,99 @@
 @tailwind utilities;
 
 html {
-  -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  overscroll-behavior-y: contain;
+    overscroll-behavior-y: contain;
 }
 
 ::-webkit-scrollbar {
-  width: 0.2rem;
+    width: 0.2rem;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+    background: #0f172a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2563eb;
+    background: #2563eb;
 }
 
 .react-modal-sheet-container {
-  background-color: rgb(15 23 42) !important;
+    background-color: rgb(15 23 42) !important;
 }
 
 .text-break {
-  word-break: break-word;
-  word-wrap: break-word;
-  white-space: pre-wrap;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .text-content * {
-  margin: 1rem;
-  word-break: break-word;
-  word-wrap: break-word;
-  white-space: pre-wrap;
+    margin: 1rem;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .text-content ol,
 .text-content ul,
 .text-content li {
-  margin: 0;
+    margin: 0;
 }
 
 .text-content a {
-  margin: 0;
-  color: rgb(37 99 235);
+    margin: 0;
+    color: rgb(37 99 235);
 }
 
 .text-content a * {
-  color: rgb(59 130 246);
+    color: rgb(59 130 246);
 }
 
 .text-content strong {
-  margin: 0;
+    margin: 0;
 }
 
 .tox-tinymce-aux {
-  z-index: 999999999 !important;
+    z-index: 999999999 !important;
 }
 
 .tox-collection__item-label * {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .tox-notifications-container {
-  display: none;
+    display: none;
 }
 
 .floating {
-  animation-name: floating;
-  animation-duration: 3s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-  margin-left: 30px;
-  margin-top: 5px;
+    animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    margin-left: 30px;
+    margin-top: 5px;
 }
 
 @keyframes floating {
-  0% {
-    transform: translate(0, 0px);
-  }
-  50% {
-    transform: translate(0, 10px);
-  }
-  100% {
-    transform: translate(0, -0px);
-  }
+    0% {
+        transform: translate(0, 0px);
+    }
+    50% {
+        transform: translate(0, 10px);
+    }
+    100% {
+        transform: translate(0, -0px);
+    }
 }
 
 /* for refreshing */
 .lds-ellipsis div {
-  background: rgb(96 165 250) !important;
+    background: rgb(96 165 250) !important;
 }
 
 .home * {
-  z-index: 9999999999 !important;
+    z-index: 9999999999 !important;
 }

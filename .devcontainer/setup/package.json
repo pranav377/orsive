@@ -1,11 +1,11 @@
 {
-  "name": "orsive-docker-setup",
-  "version": "0.0.0",
-  "description": "Orsive Docker setup scripts",
-  "keywords": [],
-  "author": "Pranava Mohan (https://github.com/pranav377)",
-  "license": "ISC",
-  "dependencies": {
-    "meilisearch": "^0.28.0"
-  }
+    "name": "orsive-docker-setup",
+    "version": "0.0.0",
+    "description": "Orsive Docker setup scripts",
+    "keywords": [],
+    "author": "Pranava Mohan (https://github.com/pranav377)",
+    "license": "ISC",
+    "dependencies": {
+        "meilisearch": "^0.28.0"
+    }
 }

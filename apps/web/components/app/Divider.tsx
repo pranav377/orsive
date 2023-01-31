@@ -1,5 +1,5 @@
 export default function Divider() {
-  return (
-    <span className="p-1 bg-slate-600 w-[90vw] md:max-w-3xl rounded-md mt-1" />
-  );
+    return (
+        <span className="mt-1 w-[90vw] rounded-md bg-slate-600 p-1 md:max-w-3xl" />
+    );
 }

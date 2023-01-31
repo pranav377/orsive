@@ -1,11 +1,11 @@
-import { useUser } from "../auth/useUser";
+import { useUser } from '../auth/useUser';
 
 export const useHomeUrl = () => {
-  const user = useUser();
+    const user = useUser();
 
-  if (user.is) {
-    return "/feed";
-  } else {
-    return "/";
-  }
+    if (user.is) {
+        return '/feed';
+    } else {
+        return '/';
+    }
 };

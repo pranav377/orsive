@@ -1,19 +1,19 @@
-import { ReadStream } from "fs-capacitor";
+import { ReadStream } from 'fs-capacitor';
 
 class BaseStorage {
-  options: any = {};
+    options: any = {};
 
-  getFileUploadPath(fileRelativePath: string) {
-    return fileRelativePath;
-  }
+    getFileUploadPath(fileRelativePath: string) {
+        return fileRelativePath;
+    }
 
-  async create(fileRelativePath: string, _content: any, _mime: string) {
-    return fileRelativePath;
-  }
+    async create(fileRelativePath: string, _content: any, _mime: string) {
+        return fileRelativePath;
+    }
 
-  async save(_createReadStream: ReadStream, fileRelativePath: string) {
-    return fileRelativePath;
-  }
+    async save(_createReadStream: ReadStream, fileRelativePath: string) {
+        return fileRelativePath;
+    }
 }
 
 export default BaseStorage;

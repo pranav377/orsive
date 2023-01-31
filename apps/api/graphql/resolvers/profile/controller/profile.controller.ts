@@ -1,226 +1,226 @@
-import { FileUpload } from "graphql-upload";
-import invariant from "tiny-invariant";
-import { PAGINATION_SET_SIZE } from "../../../config";
-import { User } from "../../../permissions/IsUserAuthenticated";
-import prisma from "../../../utils/data/dbClient";
-import IsUsernameValidForEditProfile from "../../../utils/data/IsUsernameValidForEditProfile";
-import validate from "../../../utils/data/validate";
-import generateFilename from "../../../utils/files/generateFilename";
-import IsImageFileValid from "../../../utils/files/isImageFileValid";
-import saveFile from "../../../utils/files/saveFile";
-import updateUser from "../../../utils/mepster/user/updateUser";
-import GetObjOrNotFound from "../../../utils/getObjOrNotFound";
-import { userOptions } from "../../auth/controllers/auth.controller";
+import { FileUpload } from 'graphql-upload';
+import invariant from 'tiny-invariant';
+import { PAGINATION_SET_SIZE } from '../../../config';
+import { User } from '../../../permissions/IsUserAuthenticated';
+import prisma from '../../../utils/data/dbClient';
+import IsUsernameValidForEditProfile from '../../../utils/data/IsUsernameValidForEditProfile';
+import validate from '../../../utils/data/validate';
+import generateFilename from '../../../utils/files/generateFilename';
+import IsImageFileValid from '../../../utils/files/isImageFileValid';
+import saveFile from '../../../utils/files/saveFile';
+import updateUser from '../../../utils/mepster/user/updateUser';
+import GetObjOrNotFound from '../../../utils/getObjOrNotFound';
+import { userOptions } from '../../auth/controllers/auth.controller';
 import {
-  getPostsData,
-  POST_PRISMA_ARGS,
-} from "../../post/controllers/post.controller";
-import { EDIT_PROFILE_VALIDATOR } from "../validators";
+    getPostsData,
+    POST_PRISMA_ARGS,
+} from '../../post/controllers/post.controller';
+import { EDIT_PROFILE_VALIDATOR } from '../validators';
 
 export interface GetProfilePostsArgs {
-  username: string;
-  page?: number;
+    username: string;
+    page?: number;
 }
 
 export interface GetFollowingPostsArgs {
-  page: number;
+    page: number;
 }
 
 export interface AmIFollowingArgs {
-  username: string;
+    username: string;
 }
 
 export interface EditProfileArgs {
-  input: EditProfileInput;
+    input: EditProfileInput;
 }
 
 export interface EditProfileInput {
-  username?: string;
-  name: string;
-  avatar?: FileUpload;
-  banner?: FileUpload;
-  bio?: string;
+    username?: string;
+    name: string;
+    avatar?: FileUpload;
+    banner?: FileUpload;
+    bio?: string;
 }
 
 export async function GetFollowingPosts(
-  args: GetFollowingPostsArgs,
-  user: User
+    args: GetFollowingPostsArgs,
+    user: User
 ) {
-  let me = await prisma.profile.findUnique({
-    where: {
-      id: user.id,
-    },
-  });
-  invariant(me);
+    let me = await prisma.profile.findUnique({
+        where: {
+            id: user.id,
+        },
+    });
+    invariant(me);
 
-  let page = (args.page || 1) - 1;
-  let offset = page * PAGINATION_SET_SIZE;
+    let page = (args.page || 1) - 1;
+    let offset = page * PAGINATION_SET_SIZE;
 
-  let followingPostsCount = await prisma.post.count({
-    where: {
-      postType: {
-        in: ["image", "orsic"],
-      },
-      uploadedById: {
-        in: me.followingIDs,
-      },
-    },
-  });
+    let followingPostsCount = await prisma.post.count({
+        where: {
+            postType: {
+                in: ['image', 'orsic'],
+            },
+            uploadedById: {
+                in: me.followingIDs,
+            },
+        },
+    });
 
-  let hasNextPage =
-    (args.page || 1) * PAGINATION_SET_SIZE < followingPostsCount;
-  let nextPage = (args.page || 1) + 1;
-  let followingPosts = await prisma.post.findMany({
-    skip: offset,
-    take: PAGINATION_SET_SIZE,
-    where: {
-      postType: {
-        in: ["image", "orsic"],
-      },
-      uploadedById: {
-        in: me.followingIDs,
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      image: {
-        ...POST_PRISMA_ARGS,
-      },
-      orsic: {
-        ...POST_PRISMA_ARGS,
-      },
-    },
-  });
+    let hasNextPage =
+        (args.page || 1) * PAGINATION_SET_SIZE < followingPostsCount;
+    let nextPage = (args.page || 1) + 1;
+    let followingPosts = await prisma.post.findMany({
+        skip: offset,
+        take: PAGINATION_SET_SIZE,
+        where: {
+            postType: {
+                in: ['image', 'orsic'],
+            },
+            uploadedById: {
+                in: me.followingIDs,
+            },
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+        include: {
+            image: {
+                ...POST_PRISMA_ARGS,
+            },
+            orsic: {
+                ...POST_PRISMA_ARGS,
+            },
+        },
+    });
 
-  return {
-    data: getPostsData(followingPosts),
-    hasNextPage,
-    nextPage,
-  };
+    return {
+        data: getPostsData(followingPosts),
+        hasNextPage,
+        nextPage,
+    };
 }
 
 export async function GetProfilePosts(args: GetProfilePostsArgs) {
-  let profile = GetObjOrNotFound(
-    await prisma.profile.findUnique({
-      where: {
-        username: args.username,
-      },
-    })
-  );
+    let profile = GetObjOrNotFound(
+        await prisma.profile.findUnique({
+            where: {
+                username: args.username,
+            },
+        })
+    );
 
-  let page = (args.page || 1) - 1;
-  let offset = page * PAGINATION_SET_SIZE;
+    let page = (args.page || 1) - 1;
+    let offset = page * PAGINATION_SET_SIZE;
 
-  let postsCount = await prisma.post.count({
-    where: {
-      postType: {
-        in: ["image", "orsic"],
-      },
-      uploadedById: profile!.id,
-    },
-  });
+    let postsCount = await prisma.post.count({
+        where: {
+            postType: {
+                in: ['image', 'orsic'],
+            },
+            uploadedById: profile!.id,
+        },
+    });
 
-  let hasNextPage = (args.page || 1) * PAGINATION_SET_SIZE < postsCount;
-  let nextPage = (args.page || 1) + 1;
+    let hasNextPage = (args.page || 1) * PAGINATION_SET_SIZE < postsCount;
+    let nextPage = (args.page || 1) + 1;
 
-  let profilePosts = await prisma.post.findMany({
-    skip: offset,
-    take: PAGINATION_SET_SIZE,
-    where: {
-      uploadedById: profile!.id,
-      postType: {
-        in: ["image", "orsic"],
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      image: {
-        ...POST_PRISMA_ARGS,
-      },
-      orsic: {
-        ...POST_PRISMA_ARGS,
-      },
-    },
-  });
+    let profilePosts = await prisma.post.findMany({
+        skip: offset,
+        take: PAGINATION_SET_SIZE,
+        where: {
+            uploadedById: profile!.id,
+            postType: {
+                in: ['image', 'orsic'],
+            },
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+        include: {
+            image: {
+                ...POST_PRISMA_ARGS,
+            },
+            orsic: {
+                ...POST_PRISMA_ARGS,
+            },
+        },
+    });
 
-  return {
-    data: getPostsData(profilePosts),
-    hasNextPage,
-    nextPage,
-  };
+    return {
+        data: getPostsData(profilePosts),
+        hasNextPage,
+        nextPage,
+    };
 }
 
 export async function AmIFollowing(args: AmIFollowingArgs, user: User) {
-  let profile = GetObjOrNotFound(
-    await prisma.profile.findUnique({
-      where: {
-        username: args.username,
-      },
-    })
-  );
-  let meFollowingProfile = await prisma.profile.findFirst({
-    where: {
-      id: user.id,
-      following: {
-        some: {
-          id: profile!.id,
+    let profile = GetObjOrNotFound(
+        await prisma.profile.findUnique({
+            where: {
+                username: args.username,
+            },
+        })
+    );
+    let meFollowingProfile = await prisma.profile.findFirst({
+        where: {
+            id: user.id,
+            following: {
+                some: {
+                    id: profile!.id,
+                },
+            },
         },
-      },
-    },
-  });
+    });
 
-  return !!meFollowingProfile;
+    return !!meFollowingProfile;
 }
 
 export async function EditProfile(args: EditProfileArgs, user: User) {
-  let data: EditProfileInput = validate(args.input, EDIT_PROFILE_VALIDATOR);
+    let data: EditProfileInput = validate(args.input, EDIT_PROFILE_VALIDATOR);
 
-  if (data.username) {
-    await IsUsernameValidForEditProfile({ username: data.username, user });
-  }
-  let avatar,
-    banner = null;
+    if (data.username) {
+        await IsUsernameValidForEditProfile({ username: data.username, user });
+    }
+    let avatar,
+        banner = null;
 
-  if (data.avatar) {
-    const avatarData = await data.avatar;
+    if (data.avatar) {
+        const avatarData = await data.avatar;
 
-    await IsImageFileValid(avatarData);
+        await IsImageFileValid(avatarData);
 
-    avatar = await saveFile(
-      `avatars/${generateFilename(avatarData.filename)}`,
-      avatarData
-    );
-  }
+        avatar = await saveFile(
+            `avatars/${generateFilename(avatarData.filename)}`,
+            avatarData
+        );
+    }
 
-  if (data.banner) {
-    const bannerData = await data.banner;
-    await IsImageFileValid(bannerData);
-    banner = await saveFile(
-      `banners/${generateFilename(bannerData.filename)}`,
-      bannerData
-    );
-  }
+    if (data.banner) {
+        const bannerData = await data.banner;
+        await IsImageFileValid(bannerData);
+        banner = await saveFile(
+            `banners/${generateFilename(bannerData.filename)}`,
+            bannerData
+        );
+    }
 
-  let updatedProfile = await prisma.profile.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      name: data.name,
-      ...(data.username && { username: data.username }),
-      ...(avatar && { avatar }),
-      ...(banner && { banner }),
-      ...(data.bio && { bio: data.bio }),
-    },
+    let updatedProfile = await prisma.profile.update({
+        where: {
+            id: user.id,
+        },
+        data: {
+            name: data.name,
+            ...(data.username && { username: data.username }),
+            ...(avatar && { avatar }),
+            ...(banner && { banner }),
+            ...(data.bio && { bio: data.bio }),
+        },
 
-    ...userOptions,
-  });
+        ...userOptions,
+    });
 
-  updateUser(updatedProfile);
+    updateUser(updatedProfile);
 
-  return updatedProfile;
+    return updatedProfile;
 }

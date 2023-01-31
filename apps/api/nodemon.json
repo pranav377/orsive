@@ -1,6 +1,6 @@
 {
-  "watch": ["."],
-  "ext": "ts,json",
-  "ignore": ["./**/*.spec.ts", "migration.ts", "devMigration.ts"],
-  "exec": "npx ts-node app.ts"
+    "watch": ["."],
+    "ext": "ts,json",
+    "ignore": ["./**/*.spec.ts", "migration.ts", "devMigration.ts"],
+    "exec": "npx ts-node app.ts"
 }
