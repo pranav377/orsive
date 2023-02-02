@@ -22,7 +22,7 @@ services:
 
     # MongoDB Database
     mongodb:
-        image: mongo
+        image: mongo:6.0.4
         hostname: mongodb
         restart: unless-stopped
         container_name: mongodb
