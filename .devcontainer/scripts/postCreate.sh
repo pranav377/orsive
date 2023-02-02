@@ -9,3 +9,9 @@ npm install
 cd apps/api
 
 npx prisma generate
+
+cd ..
+
+cd rograph
+
+mix deps.get
