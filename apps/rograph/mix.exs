@@ -38,7 +38,8 @@ defmodule Rograph.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:mongodb_driver, "~> 1.0"}
+      {:mongodb_driver, "~> 1.0"},
+      {:absinthe, "~> 1.7"}
     ]
   end
 
