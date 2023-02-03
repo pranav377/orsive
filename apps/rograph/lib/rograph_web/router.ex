@@ -5,7 +5,7 @@ defmodule RographWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "" do
+  scope "/" do
     pipe_through(:api)
 
     forward("/graphql", Absinthe.Plug, schema: RographWeb.Graphql.Schema)
