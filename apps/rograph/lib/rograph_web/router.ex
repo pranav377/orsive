@@ -3,6 +3,7 @@ defmodule RographWeb.Router do
 
   pipeline :api do
     plug(:accepts, ["json"])
+    plug(RographWeb.Plugs.Context)
   end
 
   scope "/" do

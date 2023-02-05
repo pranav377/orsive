@@ -10,10 +10,23 @@ defmodule Rograph.DataStore.Mongodb.Collections.Profile do
 
   # get user by id string
   def get_user(id) do
-    {:ok, id} = BSON.ObjectId.decode(id)
+    case BSON.ObjectId.decode(id) do
+      {:ok, id} ->
+        user =
+          :mongo
+          |> Mongo.find_one(@collection, %{@id => id})
+          |> load()
 
-    :mongo
-    |> Mongo.find_one(@collection, %{@id => id})
-    |> load()
+        case user do
+          nil ->
+            {:error, "User not found"}
+
+          _ ->
+            {:ok, user}
+        end
+
+      _ ->
+        {:error, "Invalid ID"}
+    end
   end
 end
