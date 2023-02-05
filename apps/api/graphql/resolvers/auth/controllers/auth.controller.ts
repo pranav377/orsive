@@ -104,9 +104,19 @@ export const extraUserCreateData = {
 };
 
 export function getUserJwtToken(user: any) {
-    return jwt.sign({ id: user.id }, JWT_SECRET, {
-        expiresIn: '365d',
-    });
+    return jwt.sign(
+        {
+            id: user.id,
+            password_hash: user.password,
+        },
+        JWT_SECRET,
+        {
+            expiresIn: '365d',
+            issuer: 'Orsive',
+            jwtid: nanoid(56),
+            audience: 'Orsive',
+        }
+    );
 }
 
 async function simpleSignIn(context: any, email: string, password: string) {

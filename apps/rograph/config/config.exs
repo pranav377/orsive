@@ -25,6 +25,9 @@ config :phoenix, :json_library, Jason
 # Configure the MongoDB database
 config :rograph, Rograph.DataStore.Mongodb.Repo, url: System.get_env("DATABASE_URL")
 
+# Configure Joken
+config :joken, default_signer: System.get_env("JWT_SECRET")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
