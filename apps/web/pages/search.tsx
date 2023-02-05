@@ -7,8 +7,7 @@ import OrsicPostCard from '../components/post/cards/OrsicPostCard';
 import { useSearch } from '../hooks/app/search/useSearch';
 
 export default function Search() {
-    const { router, results } = useSearch();
-
+    const { searchQuery, setSearchQuery, results } = useSearch();
     return (
         <>
             <Layout title={'Search | Orsive'}>
@@ -17,16 +16,13 @@ export default function Search() {
                         <div className="mb-3 w-full p-5 md:w-2/3 xl:w-2/3">
                             <div className="mb-4 flex w-full rounded">
                                 <input
+                                    value={searchQuery || ''}
                                     onChange={(e) => {
                                         e.preventDefault();
-
-                                        router.push(
-                                            `/search?q=${e.target.value}`,
-                                            undefined,
-                                            {
-                                                shallow: true,
-                                            }
-                                        );
+                                        setSearchQuery(e.target.value, {
+                                            scroll: false,
+                                            shallow: true,
+                                        });
                                     }}
                                     type="search"
                                     className="form-control m-0 block w-full min-w-0 flex-auto rounded border bg-slate-800 bg-clip-padding px-3 py-1.5 text-base font-normal placeholder-gray-400 transition ease-in-out focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600"
@@ -40,35 +36,37 @@ export default function Search() {
                         </div>
                     </div>
                 </div>
+
+                <div className="mb-24 flex flex-col items-center">
+                    {results.map((result: any) => {
+                        if (result.type === 'Post') {
+                            if (result.post.postType === 'image') {
+                                return (
+                                    <ImagePostCard
+                                        post={result}
+                                        key={result.post.id}
+                                    />
+                                );
+                            }
+                            if (result.post.postType === 'orsic') {
+                                return (
+                                    <OrsicPostCard
+                                        post={result}
+                                        key={result.post.id}
+                                    />
+                                );
+                            }
+                        }
+
+                        if (result.type === 'Profile') {
+                            return <UserCard user={result} key={result.id} />;
+                        }
+                    })}
+                    {results.length === 0 && (
+                        <Empty message="No results found" />
+                    )}
+                </div>
             </Layout>
-
-            <div className="mb-24 flex flex-col items-center">
-                {results.map((result: any) => {
-                    if (result.type === 'Post') {
-                        if (result.post.postType === 'image') {
-                            return (
-                                <ImagePostCard
-                                    post={result}
-                                    key={result.post.id}
-                                />
-                            );
-                        }
-                        if (result.post.postType === 'orsic') {
-                            return (
-                                <OrsicPostCard
-                                    post={result}
-                                    key={result.post.id}
-                                />
-                            );
-                        }
-                    }
-
-                    if (result.type === 'Profile') {
-                        return <UserCard user={result} key={result.id} />;
-                    }
-                })}
-                {results.length === 0 && <Empty message="No results found" />}
-            </div>
         </>
     );
 }

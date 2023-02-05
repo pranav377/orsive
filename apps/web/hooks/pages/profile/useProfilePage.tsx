@@ -9,11 +9,11 @@ import GET_PROFILE_QUERY from '../../../logic/profile/queries/getProfileQuery';
 export const useProfilePage = () => {
     useHideBars();
     const router = useRouter();
-
     const profileQuery = useQuery(GET_PROFILE_QUERY, {
         variables: {
             username: router.query['profile_slug'],
         },
+        skip: !router.query['profile_slug'],
     });
 
     const [shouldShowTopBar, setShouldShowTopBar] = useState(false);

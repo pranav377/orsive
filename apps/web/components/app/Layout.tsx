@@ -2,14 +2,16 @@ import { motion } from 'framer-motion';
 import { NextSeo } from 'next-seo';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { memo } from 'react';
 
 type LayoutProps = {
     children: React.ReactNode;
     title?: string;
 };
 
-const Layout = ({ children, title }: LayoutProps) => {
-    const { asPath } = useRouter();
+function LayoutComponent(props: LayoutProps) {
+    const { children, title } = props;
+    const { route } = useRouter();
 
     return (
         <>
@@ -28,7 +30,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                 />
             )}
             <motion.main
-                key={asPath}
+                key={route}
                 initial={{ opacity: 0, x: -200, y: 0 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 exit={{ opacity: 0, x: -200, y: 0 }}
@@ -43,6 +45,7 @@ const Layout = ({ children, title }: LayoutProps) => {
             </motion.main>
         </>
     );
-};
+}
 
+const Layout = memo(LayoutComponent);
 export { Layout };
