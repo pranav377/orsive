@@ -1,67 +1,67 @@
 name: Create/Deploy Orsive API Docker image
 
 on:
-  push:
-    branches: [main]
+    push:
+        branches: [main]
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: pranav377/orsive-api
+    REGISTRY: ghcr.io
+    IMAGE_NAME: pranav377/orsive-api
 
 jobs:
-  build-and-push-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+    build-and-push-image:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            packages: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Log in to the Container registry
+              uses: docker/login-action@v2
+              with:
+                  registry: ${{ env.REGISTRY }}
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          flavor: |
-            latest=true
-            prefix=
-            suffix=
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: type=sha
+            - name: Extract metadata (tags, labels) for Docker
+              id: meta
+              uses: docker/metadata-action@v4
+              with:
+                  flavor: |
+                      latest=true
+                      prefix=
+                      suffix=
+                  images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+                  tags: type=sha
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: apps/api/api.Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+            - name: Build and push Docker image
+              uses: docker/build-push-action@v3
+              with:
+                  context: .
+                  file: apps/api/api.Dockerfile
+                  push: true
+                  tags: ${{ steps.meta.outputs.tags }}
+                  labels: ${{ steps.meta.outputs.labels }}
 
-  deploy:
-    needs: build-and-push-image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy API
-        uses: appleboy/ssh-action@v0.1.2
-        with:
-          host: ${{secrets.SSH_HOST}}
-          username: ${{secrets.SSH_USERNAME}}
-          password: ${{secrets.SSH_PASSWORD}}
+    deploy:
+        needs: build-and-push-image
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy API
+              uses: appleboy/ssh-action@v0.1.2
+              with:
+                  host: ${{secrets.SSH_HOST}}
+                  username: ${{secrets.SSH_USERNAME}}
+                  password: ${{secrets.SSH_PASSWORD}}
 
-          script: |
-            cd orsive
-            git pull origin main
-            cd .deploy
-            docker compose pull
-            docker compose down
-            docker compose up -d
-            echo 'Deployment successful to DigitalOcean'
+                  script: |
+                      cd orsive
+                      git pull origin main
+                      cd .deploy
+                      docker compose pull
+                      docker compose down
+                      docker compose up -d
+                      echo 'Deployment successful to DigitalOcean'

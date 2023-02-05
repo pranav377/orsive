@@ -1,8 +1,8 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 export default function validateAsync(
-  args: any,
-  schema: Joi.ObjectSchema<any>
+    args: any,
+    schema: Joi.ObjectSchema<any>
 ) {
-  return schema.validateAsync(args);
+    return schema.validateAsync(args);
 }

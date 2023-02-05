@@ -1,29 +1,29 @@
-import prisma from "../dbClient";
+import prisma from '../dbClient';
 
 export async function getLikeStatus(postId: string, userId: string) {
-  let alreadyLikeStatus: "like" | "dislike" | "nope" = "nope";
+    let alreadyLikeStatus: 'like' | 'dislike' | 'nope' = 'nope';
 
-  let alreadyLiked = await prisma.like.findFirst({
-    where: {
-      postId,
-      userId,
-    },
-  });
+    let alreadyLiked = await prisma.like.findFirst({
+        where: {
+            postId,
+            userId,
+        },
+    });
 
-  if (alreadyLiked) {
-    alreadyLikeStatus = "like";
-  }
+    if (alreadyLiked) {
+        alreadyLikeStatus = 'like';
+    }
 
-  let alreadyDisliked = await prisma.dislike.findFirst({
-    where: {
-      postId,
-      userId,
-    },
-  });
+    let alreadyDisliked = await prisma.dislike.findFirst({
+        where: {
+            postId,
+            userId,
+        },
+    });
 
-  if (alreadyDisliked) {
-    alreadyLikeStatus = "dislike";
-  }
+    if (alreadyDisliked) {
+        alreadyLikeStatus = 'dislike';
+    }
 
-  return { alreadyLikeStatus, alreadyLiked, alreadyDisliked };
+    return { alreadyLikeStatus, alreadyLiked, alreadyDisliked };
 }

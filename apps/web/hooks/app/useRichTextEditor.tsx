@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react';
 
 export const useRichTextEditor = (onChange: any) => {
-  const editorInstance: any = useRef(null);
-  const [loading, setLoading] = useState(true);
+    const editorInstance: any = useRef(null);
+    const [loading, setLoading] = useState(true);
 
-  return { editorInstance, loading, setLoading };
+    return { editorInstance, loading, setLoading };
 };

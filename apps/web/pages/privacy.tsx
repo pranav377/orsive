@@ -1,3 +1,3 @@
 export default function PrivacyPolicyPage() {
-  return null;
+    return null;
 }

@@ -1,125 +1,133 @@
-import { User } from "../../../permissions/IsUserAuthenticated";
-import prisma from "../../../utils/data/dbClient";
-import { getLikeStatus } from "../../../utils/data/like/getLikeStatus";
+import { User } from '../../../permissions/IsUserAuthenticated';
+import prisma from '../../../utils/data/dbClient';
+import { getLikeStatus } from '../../../utils/data/like/getLikeStatus';
 import {
-  dislikeReputation,
-  likeReputation,
-} from "../../../utils/data/reputation";
-import validate from "../../../utils/data/validate";
-import insertFeedback from "../../../utils/mepster/insertFeedback";
-import GetObjOrNotFound from "../../../utils/getObjOrNotFound";
-import { ADD_LIKE_VALIDATOR } from "../validators";
+    dislikeReputation,
+    likeReputation,
+} from '../../../utils/data/reputation';
+import validate from '../../../utils/data/validate';
+import insertFeedback from '../../../utils/mepster/insertFeedback';
+import GetObjOrNotFound from '../../../utils/getObjOrNotFound';
+import { ADD_LIKE_VALIDATOR } from '../validators';
 
 export interface AddLikeArgs {
-  input: AddLikeInput;
+    input: AddLikeInput;
 }
 
 export interface AddLikeInput {
-  id: string;
-  like_type: LikeType;
+    id: string;
+    like_type: LikeType;
 }
 
 export interface LikeStatusInput {
-  post_id: string;
+    post_id: string;
 }
 
-type LikeType = "like" | "dislike";
+type LikeType = 'like' | 'dislike';
 
 export async function AddLike(args: AddLikeArgs, user: User) {
-  let data: AddLikeInput = validate(args.input, ADD_LIKE_VALIDATOR);
+    let data: AddLikeInput = validate(args.input, ADD_LIKE_VALIDATOR);
 
-  const post = GetObjOrNotFound(
-    await prisma.post.findUnique({
-      where: {
-        id: data.id,
-      },
-    }),
-    "Post not found"
-  );
+    const post = GetObjOrNotFound(
+        await prisma.post.findUnique({
+            where: {
+                id: data.id,
+            },
+        }),
+        'Post not found'
+    );
 
-  let { alreadyLikeStatus, alreadyLiked, alreadyDisliked } =
-    await getLikeStatus(data.id, user.id);
+    let { alreadyLikeStatus, alreadyLiked, alreadyDisliked } =
+        await getLikeStatus(data.id, user.id);
 
-  if (alreadyLikeStatus !== "nope") {
-    if (alreadyLikeStatus === data.like_type) {
-      if (alreadyLiked) {
-        await prisma.like.delete({
-          where: {
-            id: alreadyLiked.id,
-          },
-        });
-      } else {
-        await prisma.dislike.delete({
-          where: {
-            id: alreadyDisliked!.id,
-          },
-        });
-      }
+    if (alreadyLikeStatus !== 'nope') {
+        if (alreadyLikeStatus === data.like_type) {
+            if (alreadyLiked) {
+                await prisma.like.delete({
+                    where: {
+                        id: alreadyLiked.id,
+                    },
+                });
+            } else {
+                await prisma.dislike.delete({
+                    where: {
+                        id: alreadyDisliked!.id,
+                    },
+                });
+            }
+        } else {
+            if (data.like_type === 'like') {
+                await insertFeedback(user.id, data.id, 'like');
+                await prisma.dislike.delete({
+                    where: {
+                        id: alreadyDisliked!.id,
+                    },
+                });
+                let userLike = await prisma.like.create({
+                    data: {
+                        postId: data.id,
+                        userId: user.id,
+                    },
+                });
+
+                await likeReputation(post!.uploadedById, userLike.id, user.id);
+            } else {
+                await insertFeedback(user.id, data.id, 'view', true);
+                await prisma.like.delete({
+                    where: {
+                        id: alreadyLiked!.id,
+                    },
+                });
+                let userDislike = await prisma.dislike.create({
+                    data: {
+                        postId: data.id,
+                        userId: user.id,
+                    },
+                });
+                await dislikeReputation(
+                    post!.uploadedById,
+                    userDislike.id,
+                    user.id
+                );
+            }
+        }
     } else {
-      if (data.like_type === "like") {
-        await insertFeedback(user.id, data.id, "like");
-        await prisma.dislike.delete({
-          where: {
-            id: alreadyDisliked!.id,
-          },
-        });
-        let userLike = await prisma.like.create({
-          data: {
-            postId: data.id,
-            userId: user.id,
-          },
-        });
+        if (data.like_type === 'like') {
+            await insertFeedback(user.id, data.id, 'like');
 
-        await likeReputation(post!.uploadedById, userLike.id, user.id);
-      } else {
-        await insertFeedback(user.id, data.id, "view", true);
-        await prisma.like.delete({
-          where: {
-            id: alreadyLiked!.id,
-          },
-        });
-        let userDislike = await prisma.dislike.create({
-          data: {
-            postId: data.id,
-            userId: user.id,
-          },
-        });
-        await dislikeReputation(post!.uploadedById, userDislike.id, user.id);
-      }
+            let userLike = await prisma.like.create({
+                data: {
+                    userId: user.id,
+                    postId: data.id,
+                },
+            });
+
+            await likeReputation(post!.uploadedById, userLike.id, user.id);
+        } else {
+            await insertFeedback(user.id, data.id, 'view', true);
+
+            let userDislike = await prisma.dislike.create({
+                data: {
+                    userId: user.id,
+                    postId: data.id,
+                },
+            });
+
+            await dislikeReputation(
+                post!.uploadedById,
+                userDislike.id,
+                user.id
+            );
+        }
     }
-  } else {
-    if (data.like_type === "like") {
-      await insertFeedback(user.id, data.id, "like");
 
-      let userLike = await prisma.like.create({
-        data: {
-          userId: user.id,
-          postId: data.id,
-        },
-      });
-
-      await likeReputation(post!.uploadedById, userLike.id, user.id);
-    } else {
-      await insertFeedback(user.id, data.id, "view", true);
-
-      let userDislike = await prisma.dislike.create({
-        data: {
-          userId: user.id,
-          postId: data.id,
-        },
-      });
-
-      await dislikeReputation(post!.uploadedById, userDislike.id, user.id);
-    }
-  }
-
-  return "success";
+    return 'success';
 }
 
 export async function GetLikes(args: LikeStatusInput) {
-  return await prisma.like.count({
-    where: {
-      postId: args.post_id,
-    },
-  });
+    return await prisma.like.count({
+        where: {
+            postId: args.post_id,
+        },
+    });
 }

@@ -1,12 +1,12 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export const useScrollTop = () => {
-  const router = useRouter();
+    const router = useRouter();
 
-  useEffect(() => {
-    if (router.pathname !== "/feed") {
-      window.scrollTo(0, 0);
-    }
-  }, []);
+    useEffect(() => {
+        if (router.pathname !== '/feed') {
+            window.scrollTo(0, 0);
+        }
+    }, []);
 };

@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { withSentry } from "@sentry/nextjs";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { withSentry } from '@sentry/nextjs';
 
 /*
   Request Objects {
@@ -9,22 +9,22 @@ import { withSentry } from "@sentry/nextjs";
   }
  */
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { secret, slug, type } = req.query;
+    const { secret, slug, type } = req.query;
 
-  if (secret !== process.env.REVALIDATE_KEY) {
-    return res.status(401).json({ message: "Invalid token" });
-  }
-
-  try {
-    if (type !== "profile") {
-      await res.revalidate(`/${type}/${slug}`);
-    } else {
-      await res.revalidate(`/${slug}`);
+    if (secret !== process.env.REVALIDATE_KEY) {
+        return res.status(401).json({ message: 'Invalid token' });
     }
-    return res.json({ revalidated: true });
-  } catch (err) {
-    return res.status(500).send("Error revalidating");
-  }
+
+    try {
+        if (type !== 'profile') {
+            await res.revalidate(`/${type}/${slug}`);
+        } else {
+            await res.revalidate(`/${slug}`);
+        }
+        return res.json({ revalidated: true });
+    } catch (err) {
+        return res.status(500).send('Error revalidating');
+    }
 }
 
 export default withSentry(handler);

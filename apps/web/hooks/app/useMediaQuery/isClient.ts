@@ -1,3 +1,3 @@
-const isClient = typeof window === "object";
+const isClient = typeof window === 'object';
 
 export default isClient;

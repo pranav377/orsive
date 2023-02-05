@@ -1,5 +1,5 @@
-import { nanoid } from "nanoid";
+import { nanoid } from 'nanoid';
 
 export default function generateFilename(filename: string) {
-  return `${nanoid()}-${filename}`;
+    return `${nanoid()}-${filename}`;
 }

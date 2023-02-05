@@ -1,6 +1,6 @@
-import ORSIC_SCHEMA from "./orsic/orsic";
+import ORSIC_SCHEMA from './orsic/orsic';
 // import FORUM_SCHEMA from "./forum/forum";
-import IMAGE_SCHEMA from "./image/image";
+import IMAGE_SCHEMA from './image/image';
 
 const PAGE_SCHEMA = [IMAGE_SCHEMA, ORSIC_SCHEMA];
 

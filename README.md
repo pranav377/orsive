@@ -43,11 +43,11 @@
 
 ### Apps and Packages🛠️
 
-- `web`: a [Next.js](https://nextjs.org) app
-- `api`: a GraphQL API made with apollo-server
-- `belly`: a storage engine to handle file uploads for Local file storage and S3 cloud upload
-- `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+-   `web`: a [Next.js](https://nextjs.org) app
+-   `api`: a GraphQL API made with apollo-server
+-   `belly`: a storage engine to handle file uploads for Local file storage and S3 cloud upload
+-   `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+-   `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
 All packages and apps are 100% [TypeScript](https://www.typescriptlang.org/)
 
@@ -65,10 +65,10 @@ Click [here](DEVELOPMENT.md)
 
 This turborepo has some additional tools already setup for you:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Jest](https://jestjs.io) test runner for all things JavaScript
-- [Prettier](https://prettier.io) for code formatting
+-   [TypeScript](https://www.typescriptlang.org/) for static type checking
+-   [ESLint](https://eslint.org/) for code linting
+-   [Jest](https://jestjs.io) test runner for all things JavaScript
+-   [Prettier](https://prettier.io) for code formatting
 
 ### Remote Caching
 

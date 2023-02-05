@@ -1,10 +1,10 @@
-import recommenderClient from "../client";
+import recommenderClient from '../client';
 
 export default async function addLabelsForUser(
-  Labels: Array<string>,
-  userId: string
+    Labels: Array<string>,
+    userId: string
 ) {
-  return recommenderClient.patch(`/user/${userId}`, {
-    Labels,
-  });
+    return recommenderClient.patch(`/user/${userId}`, {
+        Labels,
+    });
 }

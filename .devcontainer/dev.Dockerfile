@@ -23,8 +23,15 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /root/.gnupg
 
-# Elixir and Git Flow Setup
-RUN apt-get update && apt-get install -y inotify-tools git-flow && mix local.hex --force && mix archive.install hex phx_new --force
+# Git Flow Setup
+RUN apt-get update && apt-get install -y git-flow
+
+# MongoDB client for debugging
+RUN apt-get install gnupg
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
+RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" |  tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+RUN apt-get update
+RUN apt-get install -y mongodb-mongosh
 
 # Cleanup scripts
 RUN rm -rf /tmp/scripts

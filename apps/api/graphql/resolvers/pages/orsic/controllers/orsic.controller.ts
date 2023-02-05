@@ -1,204 +1,204 @@
-import { User } from "../../../../permissions/IsUserAuthenticated";
-import IsUserOwner from "../../../../permissions/IsUserOwner";
-import prisma from "../../../../utils/data/dbClient";
-import generateSlug from "../../../../utils/data/generateSlug";
-import validate from "../../../../utils/data/validate";
-import GetObjOrNotFound from "../../../../utils/getObjOrNotFound";
+import { User } from '../../../../permissions/IsUserAuthenticated';
+import IsUserOwner from '../../../../permissions/IsUserOwner';
+import prisma from '../../../../utils/data/dbClient';
+import generateSlug from '../../../../utils/data/generateSlug';
+import validate from '../../../../utils/data/validate';
+import GetObjOrNotFound from '../../../../utils/getObjOrNotFound';
 import {
-  ADD_ORSIC_POST_VALIDATOR,
-  DELETE_ORSIC_POST_VALIDATOR,
-  GET_ORSIC_POST_VALIDATOR,
-  UPDATE_ORSIC_POST_VALIDATOR,
-} from "../validators";
+    ADD_ORSIC_POST_VALIDATOR,
+    DELETE_ORSIC_POST_VALIDATOR,
+    GET_ORSIC_POST_VALIDATOR,
+    UPDATE_ORSIC_POST_VALIDATOR,
+} from '../validators';
 import insertItem, {
-  EXTRA_POST_ARGS,
-} from "../../../../utils/mepster/item/insertItem";
-import updateItem from "../../../../utils/mepster/item/updateItem";
-import deleteItem from "../../../../utils/mepster/item/deleteItem";
-import { JSDOM } from "jsdom";
-import validateAsync from "../../../../utils/data/validateAsync";
-import { POSTS_BUILD_LIMIT } from "../../../../config";
+    EXTRA_POST_ARGS,
+} from '../../../../utils/mepster/item/insertItem';
+import updateItem from '../../../../utils/mepster/item/updateItem';
+import deleteItem from '../../../../utils/mepster/item/deleteItem';
+import { JSDOM } from 'jsdom';
+import validateAsync from '../../../../utils/data/validateAsync';
+import { POSTS_BUILD_LIMIT } from '../../../../config';
 
 export interface AddOrsicPostArgs {
-  input: AddOrsicPostInput;
+    input: AddOrsicPostInput;
 }
 export interface UpdateOrsicPostArgs {
-  input: UpdateOrsicPostInput;
+    input: UpdateOrsicPostInput;
 }
 
 export interface AddOrsicPostInput {
-  title?: string;
-  content: string;
+    title?: string;
+    content: string;
 }
 
 export interface UpdateOrsicPostInput {
-  title?: string;
-  content: string;
-  slug: string;
+    title?: string;
+    content: string;
+    slug: string;
 }
 
 export interface GetOrsicPostArgs {
-  slug: string;
+    slug: string;
 }
 
 export interface DeleteOrsicPostArgs {
-  slug: string;
+    slug: string;
 }
 
 function getFirstImage(content: string) {
-  const dom = new JSDOM(content, { includeNodeLocations: true });
-  return dom?.window?.document?.querySelector("img")?.getAttribute("src");
+    const dom = new JSDOM(content, { includeNodeLocations: true });
+    return dom?.window?.document?.querySelector('img')?.getAttribute('src');
 }
 
 export async function AddOrsicPost(args: AddOrsicPostArgs, user: User) {
-  let data: AddOrsicPostInput = await validateAsync(
-    args.input,
-    ADD_ORSIC_POST_VALIDATOR
-  );
-  let slug = generateSlug(data.title);
+    let data: AddOrsicPostInput = await validateAsync(
+        args.input,
+        ADD_ORSIC_POST_VALIDATOR
+    );
+    let slug = generateSlug(data.title);
 
-  let orsicPost = await prisma.orsic.create({
-    data: {
-      title: data.title,
-      content: data.content,
-      slug: slug,
+    let orsicPost = await prisma.orsic.create({
+        data: {
+            title: data.title,
+            content: data.content,
+            slug: slug,
 
-      post: {
-        create: {
-          postType: "orsic",
-          uploadedById: user.id,
+            post: {
+                create: {
+                    postType: 'orsic',
+                    uploadedById: user.id,
+                },
+            },
         },
-      },
-    },
-    ...EXTRA_POST_ARGS,
-  });
-  insertItem(
-    {
-      ItemId: orsicPost.post!.id,
-    },
-    orsicPost
-  );
+        ...EXTRA_POST_ARGS,
+    });
+    insertItem(
+        {
+            ItemId: orsicPost.post!.id,
+        },
+        orsicPost
+    );
 
-  return orsicPost;
+    return orsicPost;
 }
 
 export async function GetOrsicPost(args: GetOrsicPostArgs) {
-  let data: GetOrsicPostArgs = validate(args, GET_ORSIC_POST_VALIDATOR);
+    let data: GetOrsicPostArgs = validate(args, GET_ORSIC_POST_VALIDATOR);
 
-  let orsic: any = GetObjOrNotFound(
-    await prisma.orsic.findUnique({
-      where: {
-        slug: data.slug,
-      },
+    let orsic: any = GetObjOrNotFound(
+        await prisma.orsic.findUnique({
+            where: {
+                slug: data.slug,
+            },
 
-      include: {
-        post: {
-          include: {
-            uploadedBy: true,
-          },
-        },
-      },
-    })
-  );
+            include: {
+                post: {
+                    include: {
+                        uploadedBy: true,
+                    },
+                },
+            },
+        })
+    );
 
-  orsic = {
-    ...orsic,
-    image: getFirstImage(orsic.content) || orsic.post.uploadedBy.avatar,
-  };
+    orsic = {
+        ...orsic,
+        image: getFirstImage(orsic.content) || orsic.post.uploadedBy.avatar,
+    };
 
-  return orsic;
+    return orsic;
 }
 
 export async function UpdateOrsicPost(args: UpdateOrsicPostArgs, user: User) {
-  let data: UpdateOrsicPostInput = await validateAsync(
-    args.input,
-    UPDATE_ORSIC_POST_VALIDATOR
-  );
+    let data: UpdateOrsicPostInput = await validateAsync(
+        args.input,
+        UPDATE_ORSIC_POST_VALIDATOR
+    );
 
-  let oldPost = GetObjOrNotFound(
-    await prisma.orsic.findUnique({
-      where: {
-        slug: data.slug,
-      },
-      include: {
-        post: true,
-      },
-    })
-  );
-  IsUserOwner(user, oldPost);
+    let oldPost = GetObjOrNotFound(
+        await prisma.orsic.findUnique({
+            where: {
+                slug: data.slug,
+            },
+            include: {
+                post: true,
+            },
+        })
+    );
+    IsUserOwner(user, oldPost);
 
-  let newSlug = generateSlug(data.title);
+    let newSlug = generateSlug(data.title);
 
-  let post = await prisma.orsic.update({
-    where: {
-      slug: data.slug,
-    },
-
-    data: {
-      title: data.title,
-      content: data.content,
-      slug: newSlug,
-      post: {
-        update: {
-          updatedAt: new Date(),
+    let post = await prisma.orsic.update({
+        where: {
+            slug: data.slug,
         },
-      },
-    },
 
-    include: {
-      post: {
+        data: {
+            title: data.title,
+            content: data.content,
+            slug: newSlug,
+            post: {
+                update: {
+                    updatedAt: new Date(),
+                },
+            },
+        },
+
         include: {
-          uploadedBy: true,
+            post: {
+                include: {
+                    uploadedBy: true,
+                },
+            },
         },
-      },
-    },
-  });
+    });
 
-  updateItem(post.post!.id, post);
+    updateItem(post.post!.id, post);
 
-  return post;
+    return post;
 }
 
 export async function DeleteOrsicPost(args: DeleteOrsicPostArgs, user: User) {
-  let data: DeleteOrsicPostArgs = validate(args, DELETE_ORSIC_POST_VALIDATOR);
+    let data: DeleteOrsicPostArgs = validate(args, DELETE_ORSIC_POST_VALIDATOR);
 
-  let post = GetObjOrNotFound(
-    await prisma.orsic.findUnique({
-      where: {
-        slug: data.slug,
-      },
-      include: {
-        post: true,
-      },
-    })
-  );
+    let post = GetObjOrNotFound(
+        await prisma.orsic.findUnique({
+            where: {
+                slug: data.slug,
+            },
+            include: {
+                post: true,
+            },
+        })
+    );
 
-  IsUserOwner(user, post);
+    IsUserOwner(user, post);
 
-  deleteItem(post!.post!.id, post);
+    deleteItem(post!.post!.id, post);
 
-  await prisma.orsic.delete({
-    where: { slug: data.slug },
-  });
+    await prisma.orsic.delete({
+        where: { slug: data.slug },
+    });
 
-  await prisma.comment.deleteMany({
-    where: {
-      parentPostId: post!.post!.id,
-    },
-  });
+    await prisma.comment.deleteMany({
+        where: {
+            parentPostId: post!.post!.id,
+        },
+    });
 
-  return "success";
+    return 'success';
 }
 
 export async function GetBuildOrsicList() {
-  let orsics = await prisma.orsic.findMany({
-    take: POSTS_BUILD_LIMIT,
-    orderBy: {
-      post: {
-        createdAt: "desc",
-      },
-    },
-  });
+    let orsics = await prisma.orsic.findMany({
+        take: POSTS_BUILD_LIMIT,
+        orderBy: {
+            post: {
+                createdAt: 'desc',
+            },
+        },
+    });
 
-  return orsics.map((orsic) => orsic.slug);
+    return orsics.map((orsic) => orsic.slug);
 }
