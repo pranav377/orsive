@@ -1,77 +1,118 @@
-version: '3.4'
+version: "3.8"
 
 services:
-    # MeiliSearch
-    meilisearch:
-        image: getmeili/meilisearch:v0.29
-        restart: always
-        volumes:
-            - meilisearch-data:/meili_data
-        env_file:
-            - .env.production
-        ports:
-            - 7700:7700
+  # MeiliSearch
+  meilisearch:
+    image: getmeili/meilisearch:v0.29
+    restart: always
+    volumes:
+      - meilisearch-data:/meili_data
+    env_file:
+      - .env.production
+    ports:
+      - 7700:7700
 
-    # Gorse
-    gorse-master:
-        image: zhenghaoz/gorse-master:0.4
-        restart: always
-        ports:
-            - 8086:8086
-            - 8088:8088
-        command: >
-            -c /etc/gorse/config.toml 
-            --log-path /var/log/gorse/master.log 
-            --cache-path /var/lib/gorse/master_cache.data
-        volumes:
-            - ./gorse-config.toml:/etc/gorse/config.toml
-            - gorse_log:/var/log/gorse
-            - gorse_master_data:/var/lib/gorse
+  # Gorse
+  gorse-master:
+    image: zhenghaoz/gorse-master:0.4
+    restart: always
+    ports:
+      - 8086:8086
+      - 8088:8088
+    command: >
+      -c /etc/gorse/config.toml 
+      --log-path /var/log/gorse/master.log 
+      --cache-path /var/lib/gorse/master_cache.data
+    volumes:
+      - ./gorse-config.toml:/etc/gorse/config.toml
+      - gorse_log:/var/log/gorse
+      - gorse_master_data:/var/lib/gorse
+    depends_on:
+      - mongo1
 
-    gorse-server:
-        image: zhenghaoz/gorse-server:0.4
-        restart: always
-        ports:
-            - 8087:8087
-        command: >
-            --master-host gorse-master --master-port 8086 
-            --http-host 0.0.0.0 --http-port 8087
-            --log-path /var/log/gorse/server.log 
-            --cache-path /var/lib/gorse/server_cache.data
-        volumes:
-            - gorse_log:/var/log/gorse
-            - gorse_server_data:/var/lib/gorse
-        depends_on:
-            - gorse-master
+  gorse-server:
+    image: zhenghaoz/gorse-server:0.4
+    restart: always
+    ports:
+      - 8087:8087
+    command: >
+      --master-host gorse-master --master-port 8086 
+      --http-host 0.0.0.0 --http-port 8087
+      --log-path /var/log/gorse/server.log 
+      --cache-path /var/lib/gorse/server_cache.data
+    volumes:
+      - gorse_log:/var/log/gorse
+      - gorse_server_data:/var/lib/gorse
+    depends_on:
+      - gorse-master
 
-    gorse-worker:
-        image: zhenghaoz/gorse-worker:0.4
-        restart: always
-        ports:
-            - 8089:8089
-        command: >
-            --master-host gorse-master --master-port 8086 
-            --http-host 0.0.0.0 --http-port 8089
-            --log-path /var/log/gorse/worker.log 
-            --cache-path /var/lib/gorse/worker_cache.data
-        volumes:
-            - gorse_log:/var/log/gorse
-            - gorse_worker_data:/var/lib/gorse
-        depends_on:
-            - gorse-master
+  gorse-worker:
+    image: zhenghaoz/gorse-worker:0.4
+    restart: always
+    ports:
+      - 8089:8089
+    command: >
+      --master-host gorse-master --master-port 8086 
+      --http-host 0.0.0.0 --http-port 8089
+      --log-path /var/log/gorse/worker.log 
+      --cache-path /var/lib/gorse/worker_cache.data
+    volumes:
+      - gorse_log:/var/log/gorse
+      - gorse_worker_data:/var/lib/gorse
+    depends_on:
+      - gorse-master
 
-    # Main Server
-    orsive-api:
-        image: ghcr.io/pranav377/orsive-api:latest
-        restart: always
-        ports:
-            - 4000:4000
-        env_file:
-            - .env.production
+  # MongoDB
+  mongo1:
+    container_name: mongo1
+    image: mongo:6.0.4
+    volumes:
+      - ./data/data1:/data/db
+    ports:
+      - 27017:27017
+    depends_on:
+      - mongo2
+      - mongo3
+    links:
+      - mongo2
+      - mongo3
+    restart: always
+    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs"]
+
+  mongo2:
+    container_name: mongo2
+    image: mongo:6.0.4
+    volumes:
+      - ./data/data2:/data/db
+    ports:
+      - 27018:27017
+    restart: always
+    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs"]
+
+  mongo3:
+    container_name: mongo3
+    image: mongo:6.0.4
+    volumes:
+      - ./data/data3:/data/db
+    ports:
+      - 27019:27017
+    restart: always
+    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs"]
+
+  # Main Server
+  orsive-api:
+    image: ghcr.io/pranav377/orsive-api:latest
+    restart: always
+    ports:
+      - 4000:4000
+    env_file:
+      - .env.production
+    depends_on:
+      - mongo1
 
 volumes:
-    meilisearch-data:
-    gorse_master_data:
-    gorse_server_data:
-    gorse_worker_data:
-    gorse_log:
+  meilisearch-data:
+  gorse_master_data:
+  gorse_server_data:
+  gorse_worker_data:
+  gorse_log:
