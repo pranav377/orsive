@@ -64,40 +64,15 @@ services:
 
   # MongoDB
   mongo1:
-    container_name: mongo1
     image: mongo:6.0.4
+    hostname: mongodb
+    restart: always
+    container_name: mongo1
     volumes:
-      - ./data/data1:/data/db
+      - ./data:/data/db
     ports:
       - 27017:27017
-    depends_on:
-      - mongo2
-      - mongo3
-    links:
-      - mongo2
-      - mongo3
-    restart: always
-    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs"]
-
-  mongo2:
-    container_name: mongo2
-    image: mongo:6.0.4
-    volumes:
-      - ./data/data2:/data/db
-    ports:
-      - 27018:27017
-    restart: always
-    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs"]
-
-  mongo3:
-    container_name: mongo3
-    image: mongo:6.0.4
-    volumes:
-      - ./data/data3:/data/db
-    ports:
-      - 27019:27017
-    restart: always
-    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs"]
+    command: ["--replSet", "dbrs", "--bind_ip_all"]
 
   # Main Server
   orsive-api:
