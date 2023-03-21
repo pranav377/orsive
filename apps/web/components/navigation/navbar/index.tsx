@@ -14,6 +14,8 @@ import 'react-modern-drawer/dist/index.css';
 import classNames from '../../utils/classnames';
 import { BellIcon } from '@heroicons/react/outline';
 import { BellIcon as BellIconSolid } from '@heroicons/react/solid';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
 import Image from 'next/image';
 
 export const withoutNavbarPaths = [
@@ -106,7 +108,7 @@ function ProfileDropdown() {
 
     return (
         <>
-            <button
+            {/* <button
                 className="flex rounded-full bg-gray-800 text-sm"
                 onClick={toggleDrawer}
             >
@@ -119,7 +121,18 @@ function ProfileDropdown() {
                         alt="user avatar"
                     />
                 </div>
-            </button>
+            </button> */}
+            <IconButton onClick={toggleDrawer} sx={{ p: 0 }}>
+                <Avatar>
+                    <Image
+                        fill
+                        alt="user avatar"
+                        className="bg-black p-0.5"
+                        src={user.avatar}
+                    />
+                </Avatar>
+            </IconButton>
+
             {isOpen && (
                 <style jsx global>{`
                     html,
