@@ -12,8 +12,10 @@ import Drawer from 'react-modern-drawer';
 
 import 'react-modern-drawer/dist/index.css';
 import classNames from '../../utils/classnames';
-import { BellIcon } from '@heroicons/react/outline';
-import { BellIcon as BellIconSolid } from '@heroicons/react/solid';
+
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import NotificationsSolidIcon from '@mui/icons-material/Notifications';
+
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Image from 'next/image';
@@ -69,9 +71,9 @@ export default function Navbar() {
                                     >
                                         {router.pathname ===
                                         '/notifications' ? (
-                                            <BellIconSolid className="h-6 w-6" />
+                                            <NotificationsSolidIcon />
                                         ) : (
-                                            <BellIcon className="h-6 w-6" />
+                                            <NotificationsOutlinedIcon />
                                         )}
                                         {user.unreadNotifications && (
                                             <span className="absolute top-0 right-0 -mt-1 -mr-1 flex h-2 w-2">
@@ -108,26 +110,12 @@ function ProfileDropdown() {
 
     return (
         <>
-            {/* <button
-                className="flex rounded-full bg-gray-800 text-sm"
-                onClick={toggleDrawer}
-            >
-                <span className="sr-only">Open user menu</span>
-                <div className="relative h-8 w-8">
-                    <Image
-                        className="rounded-full object-cover object-center"
-                        fill
-                        src={user.avatar}
-                        alt="user avatar"
-                    />
-                </div>
-            </button> */}
             <IconButton onClick={toggleDrawer} sx={{ p: 0 }}>
-                <Avatar>
+                <Avatar className="bg-gray-800">
                     <Image
                         fill
                         alt="user avatar"
-                        className="bg-black p-0.5"
+                        className=" p-0.5"
                         src={user.avatar}
                     />
                 </Avatar>
