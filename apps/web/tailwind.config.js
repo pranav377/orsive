@@ -1,4 +1,8 @@
 module.exports = {
+    corePlugins: {
+        preflight: false,
+    },
+    important: '#__next',
     darkMode: 'class',
     content: [
         './pages/**/*.{js,ts,jsx,tsx}',

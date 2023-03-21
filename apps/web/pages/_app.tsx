@@ -17,8 +17,24 @@ import { AnimatePresence } from 'framer-motion';
 
 import { usePWA } from '../hooks/app/usePWA';
 import { setContext } from '@apollo/client/link/context';
-import 'animate.css/animate.min.css';
 import { store } from '../store';
+import {
+    StyledEngineProvider,
+    ThemeProvider,
+    createTheme,
+} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+});
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 const authLink = setContext((_, { headers }) => {
     let token;
@@ -152,59 +168,66 @@ function Web({ Component, pageProps, router }: AppProps) {
     return (
         <Provider store={store}>
             <ApolloProvider client={client}>
-                <AppMiddleware />
-                <Toaster
-                    position="bottom-center"
-                    reverseOrder={false}
-                    containerStyle={{
-                        zIndex: 99999999,
-                    }}
-                    toastOptions={{
-                        style: {
-                            zIndex: 99999999,
-                        },
-                    }}
-                />
-                <DefaultSeo
-                    additionalLinkTags={[
-                        {
-                            rel: 'shortcut icon',
-                            href: '/logo.png',
-                            type: 'image/x-icon',
-                        },
-                        {
-                            rel: 'icon',
-                            href: '/logo.png',
-                            type: 'image/x-icon',
-                        },
-                    ]}
-                    openGraph={{
-                        type: 'website',
-                        locale: 'en_US',
-                        url: 'https://www.orsive.com/',
-                        title: 'Orsive',
-                        description: 'An open source social media platform',
-                        site_name: 'Orsive',
-                        images: [
-                            {
-                                url: 'https://www.orsive.com/logo.png',
-                            },
-                        ],
-                    }}
-                />
-                <Navbar />
-                <NextNProgress
-                    showOnShallow={false}
-                    options={{
-                        showSpinner: false,
-                    }}
-                />
-                <LoginDialog />
-                <AnimatePresence initial={false} mode="wait">
-                    <Component {...pageProps} key={url} />
-                </AnimatePresence>
+                <StyledEngineProvider injectFirst>
+                    <ThemeProvider theme={darkTheme}>
+                        <CssBaseline />
 
-                <BottomNavigation />
+                        <AppMiddleware />
+                        <Toaster
+                            position="bottom-center"
+                            reverseOrder={false}
+                            containerStyle={{
+                                zIndex: 99999999,
+                            }}
+                            toastOptions={{
+                                style: {
+                                    zIndex: 99999999,
+                                },
+                            }}
+                        />
+                        <DefaultSeo
+                            additionalLinkTags={[
+                                {
+                                    rel: 'shortcut icon',
+                                    href: '/logo.png',
+                                    type: 'image/x-icon',
+                                },
+                                {
+                                    rel: 'icon',
+                                    href: '/logo.png',
+                                    type: 'image/x-icon',
+                                },
+                            ]}
+                            openGraph={{
+                                type: 'website',
+                                locale: 'en_US',
+                                url: 'https://www.orsive.com/',
+                                title: 'Orsive',
+                                description:
+                                    'An open source social media platform',
+                                site_name: 'Orsive',
+                                images: [
+                                    {
+                                        url: 'https://www.orsive.com/logo.png',
+                                    },
+                                ],
+                            }}
+                        />
+                        <Navbar />
+                        <NextNProgress
+                            showOnShallow={false}
+                            options={{
+                                showSpinner: false,
+                            }}
+                        />
+                        <LoginDialog />
+                        <AnimatePresence initial={false} mode="wait">
+                            <Component {...pageProps} key={url} />
+                        </AnimatePresence>
+
+                        <BottomNavigation />
+                    </ThemeProvider>
+                </StyledEngineProvider>
             </ApolloProvider>
         </Provider>
     );
