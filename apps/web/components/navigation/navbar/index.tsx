@@ -45,7 +45,7 @@ export default function Navbar() {
         return (
             <>
                 <div className="grid w-full grid-cols-6 gap-0 bg-slate-900 p-5">
-                    <Link href={homeUrl} passHref className="w-fit">
+                    <Link href={homeUrl} className="w-fit">
                         <div className="flex items-center">
                             <LogoSVG className="h-10" />
                             {router.pathname === '/' && (
@@ -61,7 +61,6 @@ export default function Navbar() {
                                 <span className="relative mr-5 inline-flex cursor-pointer">
                                     <Link
                                         href={'/notifications'}
-                                        passHref
                                         className={classNames(
                                             router.pathname === '/notifications'
                                                 ? 'text-blue-400'
@@ -86,7 +85,7 @@ export default function Navbar() {
                                 <ProfileDropdown />
                             </>
                         ) : (
-                            <Link href="/auth" passHref>
+                            <Link href="/auth">
                                 <Button className="ripple-bg-blue-600 bg-blue-600 hover:bg-blue-700">
                                     Login
                                 </Button>
@@ -138,7 +137,7 @@ function ProfileDropdown() {
                 className="!bg-slate-900"
             >
                 <div className="h-full p-4">
-                    <Link href={`/${user.username}`} passHref>
+                    <Link href={`/${user.username}`}>
                         <div className="flex-col">
                             <div className="relative ml-auto mr-auto h-20 w-20">
                                 <Image
@@ -189,7 +188,6 @@ function ProfileDropdown() {
                         {user.isMod && (
                             <Link
                                 href={`/moderation`}
-                                passHref
                                 onClick={() => {
                                     setIsOpen(false);
                                 }}
@@ -202,7 +200,6 @@ function ProfileDropdown() {
                         )}
                         <Link
                             href={`/support`}
-                            passHref
                             onClick={() => {
                                 setIsOpen(false);
                             }}

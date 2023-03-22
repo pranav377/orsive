@@ -89,7 +89,6 @@ function PasswordResetPage(props: { setCurrPage: any }) {
                                         </p>
                                         <Link
                                             href="/"
-                                            passHref
                                             className="m-2 flex items-center justify-center text-sm font-semibold text-blue-600"
                                         >
                                             <ArrowLeftIcon className="mr-1 h-4 w-4" />{' '}
@@ -139,7 +138,6 @@ function SignUpPage(props: { setCurrPage: any }) {
                                         </p>
                                         <Link
                                             href="/"
-                                            passHref
                                             className="m-2 flex items-center justify-center text-sm font-semibold text-blue-600"
                                         >
                                             <ArrowLeftIcon className="mr-1 h-4 w-4" />{' '}
@@ -203,7 +201,6 @@ function LoginPage(props: { setCurrPage: any }) {
                                             </button>
                                             <Link
                                                 href="/"
-                                                passHref
                                                 className="m-2 flex items-center justify-center text-sm font-semibold text-blue-600"
                                             >
                                                 <ArrowLeftIcon className="mr-1 h-4 w-4" />{' '}

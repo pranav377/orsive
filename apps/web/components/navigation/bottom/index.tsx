@@ -46,7 +46,6 @@ export default function BottomNavigation() {
                         href={{
                             pathname: homeUrl,
                         }}
-                        passHref
                         className={classNames(
                             router.pathname === homeUrl && 'text-blue-400',
                             'flex flex-col items-center transition duration-200 ease-in hover:text-blue-400'
@@ -60,7 +59,6 @@ export default function BottomNavigation() {
                     </Link>
                     <Link
                         href={'/following'}
-                        passHref
                         className={classNames(
                             router.pathname === '/following' && 'text-blue-400',
                             'flex flex-col items-center transition duration-200 ease-in hover:text-blue-400'
@@ -76,7 +74,6 @@ export default function BottomNavigation() {
                     <AddPostDropup />
                     <Link
                         href={'/search'}
-                        passHref
                         className={classNames(
                             router.pathname === '/search' && 'text-blue-400',
                             'flex flex-col items-center transition duration-200 ease-in hover:text-blue-400'
@@ -91,7 +88,6 @@ export default function BottomNavigation() {
                     {user.is ? (
                         <Link
                             href={`/${user.username}`}
-                            passHref
                             className={classNames(
                                 router.pathname === `/${user.username}` &&
                                     user.username !== '' &&

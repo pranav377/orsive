@@ -101,7 +101,6 @@ export default function OrsicPost(props: { post: OrsicPostType | null }) {
                                 Go to{' '}
                                 <Link
                                     href={'/feed'}
-                                    passHref
                                     className="text-blue-500 hover:text-blue-700"
                                 >
                                     Feed

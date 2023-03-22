@@ -10,7 +10,6 @@ export default function FooBar() {
                 <div className="mb-2 flex justify-center gap-4">
                     <Link
                         href="https://github.com/pranav377/orsive"
-                        passHref
                         className="text-blue-700 hover:text-blue-800 hover:underline "
                     >
                         Github
@@ -18,7 +17,7 @@ export default function FooBar() {
 
                     {/* <Link
             href="/terms-and-conditions"
-            passHref
+             
             className="text-blue-700 hover:underline hover:text-blue-800 "
           >
             Terms And Conditions
@@ -26,7 +25,7 @@ export default function FooBar() {
 
           <Link
             href="/privacy"
-            passHref
+             
             className="text-blue-700 hover:underline hover:text-blue-800 "
           >
             Privacy Policy

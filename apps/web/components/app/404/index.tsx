@@ -41,7 +41,6 @@ export default function Comp404() {
 
                                 <Link
                                     href={homeUrl}
-                                    passHref
                                     className="ripple-bg-blue-100 rounded-md px-6 py-2 text-sm font-semibold text-blue-800"
                                 >
                                     Go back to home

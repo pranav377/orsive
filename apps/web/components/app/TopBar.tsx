@@ -24,7 +24,6 @@ export default function TopBar(props: TopBarPropTypes) {
             <Link
                 scroll={props.backLink === '/feed' ? false : true}
                 href={props.backLink}
-                passHref
             >
                 <ArrowLeftIcon className="h-10 w-10 rounded-full p-2 md:h-12 md:w-12" />
             </Link>

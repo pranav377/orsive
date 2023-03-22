@@ -45,7 +45,6 @@ export default function EditImage() {
                                         Go to{' '}
                                         <Link
                                             href={`/image/${postSlug}`}
-                                            passHref
                                             className="text-blue-500 hover:text-blue-700"
                                         >
                                             Post

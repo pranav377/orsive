@@ -13,7 +13,7 @@ export default function AccessDenied() {
                     <span className="m-1 text-2xl font-semibold">
                         Please login to continue
                     </span>
-                    <Link href="/auth" passHref>
+                    <Link href="/auth">
                         <Button className="ripple-bg-blue-600 w-full bg-blue-600 hover:bg-blue-700">
                             Login
                         </Button>

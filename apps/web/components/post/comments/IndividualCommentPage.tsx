@@ -84,7 +84,6 @@ export default function IndividualCommentPage(props: {
                             <span className="ml-1">to</span>
                             <Link
                                 href={props.backLink}
-                                passHref
                                 className="ml-1 text-blue-500 hover:text-blue-700"
                             >
                                 Post

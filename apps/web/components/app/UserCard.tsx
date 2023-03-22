@@ -28,10 +28,11 @@ export default function UserCard(props: {
                     alt={props.user.name}
                 />
                 <h5 className="mb-1 text-xl font-medium">{props.user.name}</h5>
-                <Link href={`/${props.user.username}`}>
-                    <span className="text-sm text-gray-300">
-                        ${props.user.username}
-                    </span>
+                <Link
+                    href={`/${props.user.username}`}
+                    className="text-sm text-gray-300"
+                >
+                    ${props.user.username}
                 </Link>
                 {count.data ? (
                     <Transition

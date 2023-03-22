@@ -10,7 +10,6 @@ export default function LinkifyContent(props: { children: any }) {
                     <Link
                         key={key}
                         href={decoratedHref}
-                        passHref
                         rel="noopener noreferrer"
                         className="text-blue-500 hover:text-blue-700"
                     >
@@ -32,13 +31,10 @@ export function NotificationLinkifyContent(props: { children: any }) {
                     <Link
                         key={key}
                         href={decoratedHref}
-                        passHref
                         rel="noopener noreferrer"
-                        className="text-blue-500 hover:text-blue-700"
+                        className="w-2/4 overflow-hidden text-ellipsis whitespace-nowrap text-blue-500 hover:text-blue-700"
                     >
-                        <p className="w-2/4 overflow-hidden text-ellipsis whitespace-nowrap">
-                            {decoratedText}
-                        </p>
+                        {decoratedText}
                     </Link>
                 )}
             >

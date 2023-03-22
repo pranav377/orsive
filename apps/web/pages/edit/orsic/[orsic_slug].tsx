@@ -54,7 +54,6 @@ export default function EditOrsic() {
                                         Go to{' '}
                                         <Link
                                             href={`/orsic/${postSlug}`}
-                                            passHref
                                             className="text-blue-500 hover:text-blue-700"
                                         >
                                             Post

@@ -99,7 +99,6 @@ export default function ImagePost(props: { post: ImagePostType | null }) {
                             Go to{' '}
                             <Link
                                 href={'/feed'}
-                                passHref
                                 className="text-blue-500 hover:text-blue-700"
                             >
                                 Feed

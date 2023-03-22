@@ -36,12 +36,7 @@ function OrsicPostCardComponent(props: { post: any; onClick?: () => void }) {
                     delete={deleteOrsicPost}
                 />
                 <div className="w-full">
-                    <Link
-                        href={postUrl}
-                        passHref
-                        scroll={false}
-                        onClick={props.onClick}
-                    >
+                    <Link href={postUrl} scroll={false} onClick={props.onClick}>
                         <div>
                             {post.title && (
                                 <span className="text-break text-2xl font-semibold text-gray-100">

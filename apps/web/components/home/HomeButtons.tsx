@@ -38,7 +38,6 @@ export default function HomeButtons() {
 
             <Link
                 href={'/feed'}
-                passHref
                 className="ripple-bg-blue-700 flex w-56 items-center justify-center gap-2 rounded-3xl p-2 font-medium"
             >
                 Explore

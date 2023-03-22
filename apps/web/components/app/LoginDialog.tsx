@@ -27,7 +27,6 @@ export default function LoginDialog() {
                             />
                             <Link
                                 href={`/auth?page=signup`}
-                                passHref
                                 onClick={() => {
                                     setLoginDialogOpen(false);
                                 }}
@@ -38,7 +37,6 @@ export default function LoginDialog() {
 
                             <Link
                                 href={`/auth`}
-                                passHref
                                 onClick={() => {
                                     setLoginDialogOpen(false);
                                 }}

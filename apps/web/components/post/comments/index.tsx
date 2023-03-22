@@ -109,7 +109,7 @@ export function SingleComment(props: {
                 delete={deleteCommentMutation}
             />
             <div className="w-full">
-                <Link href={`${props.commentUrl}`} passHref>
+                <Link href={`${props.commentUrl}`}>
                     <LinkifyContent>
                         <TextContent className="p-2">
                             {ContentParser(props.comment.content)}
@@ -118,7 +118,7 @@ export function SingleComment(props: {
                 </Link>
                 <ExtraButtons url={props.commentUrl} {...likeFeatures} />
                 {props.comment.replies && props.comment.replies > 0 ? (
-                    <Link href={props.commentUrl} passHref>
+                    <Link href={props.commentUrl}>
                         <span className="font-semibold text-blue-700">
                             View {props.comment.replies}
                             {props.comment.replies === 1 ? (

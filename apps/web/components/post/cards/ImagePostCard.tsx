@@ -37,12 +37,7 @@ function ImagePostCardComponent(props: { post: any; onClick?: () => void }) {
                     delete={deleteImagePost}
                 />
                 <div className="w-full">
-                    <Link
-                        href={postUrl}
-                        passHref
-                        scroll={false}
-                        onClick={props.onClick}
-                    >
+                    <Link href={postUrl} scroll={false} onClick={props.onClick}>
                         <LinkifyContent>
                             <TextContent className="text-break p-2">
                                 {post.title}

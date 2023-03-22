@@ -44,11 +44,9 @@ export function NotificationForPost(props: { notification: any }) {
                                 </p>
                                 <Link
                                     href={`/${uploadedBy.username}`}
-                                    className="w-fit"
+                                    className="w-fit font-normal text-gray-300 hover:underline"
                                 >
-                                    <span className="font-normal text-gray-300 hover:underline">
-                                        ${uploadedBy.username}
-                                    </span>
+                                    ${uploadedBy.username}
                                 </Link>
                             </div>
                         </div>
@@ -112,11 +110,9 @@ export function NotificationForComment(props: { notification: any }) {
                                 </p>
                                 <Link
                                     href={`/${uploadedBy.username}`}
-                                    className="w-fit"
+                                    className="w-fit font-normal text-gray-300 hover:underline"
                                 >
-                                    <span className="font-normal text-gray-300 hover:underline">
-                                        ${uploadedBy.username}
-                                    </span>
+                                    ${uploadedBy.username}
                                 </Link>
                             </div>
                         </div>

@@ -23,11 +23,7 @@ export default function AvatarArea(props: {
             </div>
             <div className="ml-2 flex w-10/12 flex-col text-sm md:text-base">
                 <p className="font-semibold">{props.uploadedBy.name}</p>
-                <Link
-                    href={`/${props.uploadedBy.username}`}
-                    passHref
-                    className="w-fit"
-                >
+                <Link href={`/${props.uploadedBy.username}`} className="w-fit">
                     <span className="font-normal text-gray-300 hover:underline">
                         ${props.uploadedBy.username}
                     </span>
