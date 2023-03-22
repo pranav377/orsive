@@ -2,7 +2,7 @@ module.exports = {
     corePlugins: {
         preflight: false,
     },
-    important: '#__next',
+    important: '#__orsive',
     darkMode: 'class',
     content: [
         './pages/**/*.{js,ts,jsx,tsx}',
