@@ -1,13 +1,17 @@
 {
-    "extends": "../../packages/tsconfig/nextjs.json",
-    "include": [
-        "next-env.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        "../../packages/common/**/*.ts"
-    ],
-    "exclude": ["node_modules"],
-    "compilerOptions": {
-        "downlevelIteration": true
-    }
+  "extends": "../../packages/tsconfig/nextjs.json",
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "../../packages/common/**/*.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "strictNullChecks": true
+  }
 }
