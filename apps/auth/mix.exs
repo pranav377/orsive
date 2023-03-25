@@ -39,7 +39,8 @@ defmodule Auth.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:ueberauth, "~> 0.7"},
       {:ueberauth_google, "~> 0.10"},
-      {:ueberauth_discord, "~> 0.6"}
+      {:ueberauth_discord, "~> 0.6"},
+      {:mongodb_driver, "~> 1.0.0"}
     ]
   end
 

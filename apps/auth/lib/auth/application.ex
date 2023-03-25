@@ -12,6 +12,7 @@ defmodule Auth.Application do
       AuthWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Auth.PubSub},
+      {Mongo, Auth.DataStore.Mongodb.Repo.config()},
       # Start the Endpoint (http/https)
       AuthWeb.Endpoint
       # Start a worker by calling: Auth.Worker.start_link(arg)
