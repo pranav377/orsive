@@ -10,9 +10,12 @@ import Config
 # Configures the endpoint
 config :rograph, RographWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: RographWeb.ErrorView, accepts: ~w(json), layout: false],
+  render_errors: [
+    formats: [json: RographWeb.ErrorJSON],
+    layout: false
+  ],
   pubsub_server: Rograph.PubSub,
-  live_view: [signing_salt: "pD5yxBy5"]
+  live_view: [signing_salt: "HQXwM8I7"]
 
 # Configures Elixir's Logger
 config :logger, :console,

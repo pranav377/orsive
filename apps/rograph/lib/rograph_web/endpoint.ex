@@ -7,7 +7,8 @@ defmodule RographWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_rograph_key",
-    signing_salt: "ABlixv99"
+    signing_salt: "wktfwOYk",
+    same_site: "Lax"
   ]
 
   # socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
@@ -20,7 +21,7 @@ defmodule RographWeb.Endpoint do
     at: "/",
     from: :rograph,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: RographWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
