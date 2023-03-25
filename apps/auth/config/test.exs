@@ -4,7 +4,7 @@ import Config
 # you can enable the server option below.
 config :auth, AuthWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "QKdHB8rouz/Z0wacSyD3AYxu8roVbNCf9HVoq5OitCHmdOiKTL3EBL/Ghvu1TY3t",
+  secret_key_base: "xHlcC6AqT/BVarAXHcKX0vzUbWBeRfY/VRZmJLUX2crCq7/FzsS4EqO9+AvDFlzK",
   server: false
 
 # Print only warnings and errors during test

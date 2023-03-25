@@ -9,11 +9,11 @@ import Config
 config :auth, AuthWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {0, 0, 0, 0}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "WiOmJ22bgbXDAFSEbhi76eB4eEXQHPhUIPD911X+JGnwaTukBv/AKlZxF6fa9v14",
+  secret_key_base: "ZqNq3BK3Kay/lcdc629T5g6b5diUpQfomE2oIEZV4qNixdamKkdN3BPv+aqtlPHd",
   watchers: []
 
 # ## SSL Support

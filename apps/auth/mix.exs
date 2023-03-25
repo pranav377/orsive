@@ -38,8 +38,7 @@ defmodule Auth.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:ueberauth, "~> 0.7"},
-      {:joken, "~> 2.5"},
-      {:mongodb_driver, "~> 1.0"}
+      {:ueberauth_google, "~> 0.10"}
     ]
   end
 

@@ -19,6 +19,7 @@ services:
             - meilisearch
         env_file:
             - .env.dev
+            - .env.local
 
     # MongoDB Database
     mongodb:

@@ -19,7 +19,7 @@
         "@dicebear/avatars": "^4.10.2",
         "@dicebear/avatars-bottts-sprites": "^4.10.2",
         "@graphql-tools/schema": "^8.3.1",
-        "@prisma/client": "^4.2.1",
+        "@prisma/client": "^4.11.0",
         "@sendinblue/client": "^3.1.0",
         "@types/express-session": "^1.17.4",
         "@types/graphql-upload": "^8.0.11",
@@ -66,6 +66,6 @@
         "@types/passport-oauth2-refresh": "^1.1.1",
         "dotenv": "^16.0.1",
         "nodemon": "^2.0.15",
-        "prisma": "^4.2.1"
+        "prisma": "^4.11.0"
     }
 }

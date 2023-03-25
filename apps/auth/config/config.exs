@@ -15,7 +15,7 @@ config :auth, AuthWeb.Endpoint,
     layout: false
   ],
   pubsub_server: Auth.PubSub,
-  live_view: [signing_salt: "VF/kDFpA"]
+  live_view: [signing_salt: "A5BghZLo"]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -24,6 +24,18 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+# Configure Ueberauth
+config :ueberauth, Ueberauth,
+  providers: [
+    google:
+      {Ueberauth.Strategy.Google,
+       [
+         client_id: System.get_env("GOOGLE_CLIENT_ID"),
+         client_secret: System.get_env("GOOGLE_CLIENT_SECRET"),
+         default_scope: "profile email"
+       ]}
+  ]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
