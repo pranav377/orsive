@@ -9,6 +9,7 @@ git flow init -d
 
 git config gitflow.branch.master main
 git config gitflow.branch.develop development
+git update-index --skip-worktree .devcontainer/.env.local
 
 npm install
 
