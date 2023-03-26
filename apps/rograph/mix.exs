@@ -40,7 +40,8 @@ defmodule Rograph.MixProject do
       {:mongodb_driver, "~> 1.0"},
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
-      {:joken, "~> 2.5"}
+      {:joken, "~> 2.5"},
+      {:xandra, "~> 0.14"}
     ]
   end
 

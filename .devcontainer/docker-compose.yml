@@ -31,6 +31,13 @@ services:
             - 27017:27017
         command: ['--replSet', 'dbrs', '--bind_ip_all']
 
+    # ScyllaDB Database
+    scylladb:
+        image: scylladb/scylla
+        container_name: scylladb
+        ports:
+            - '9042:9042'
+
     # Meilisearch
     meilisearch:
         container_name: meilisearch

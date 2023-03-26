@@ -25,8 +25,13 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Configure the MongoDB database
+# Configure the MongoDB database client
 config :rograph, Rograph.DataStore.Mongodb.Repo, url: System.get_env("DATABASE_URL")
+
+# Configure the ScyllaDB database client
+config :rograph, :xandra,
+  name: :scylla_conn,
+  nodes: [System.get_env("SCYLLADB_URL")]
 
 # Configure Joken
 config :joken, default_signer: System.get_env("JWT_SECRET")
