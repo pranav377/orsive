@@ -29,6 +29,7 @@ config :phoenix, :json_library, Jason
 config :rograph, Rograph.DataStore.Mongodb.Repo, url: System.get_env("DATABASE_URL")
 
 # Configure the ScyllaDB database client
+# Usage -> Xandra.execute(:scylla_conn, query)
 config :rograph, :xandra,
   name: :scylla_conn,
   nodes: [System.get_env("SCYLLADB_URL")]

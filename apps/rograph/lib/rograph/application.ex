@@ -13,6 +13,7 @@ defmodule Rograph.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Rograph.PubSub},
       {Mongo, Rograph.DataStore.Mongodb.Repo.config()},
+      {Xandra, Application.fetch_env!(:rograph, :xandra)},
 
       # Start the Endpoint (http/https)
       RographWeb.Endpoint
