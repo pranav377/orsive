@@ -1,0 +1,11 @@
+{
+    "name": "rograph",
+    "version": "0.0.1",
+    "description": "Elixir communications server for Orsive",
+    "scripts": {
+        "dev": "mix phx.server"
+    },
+    "keywords": [],
+    "author": "Pranava Mohan (https://github.com/pranav377)",
+    "license": "ISC"
+}
