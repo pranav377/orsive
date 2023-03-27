@@ -23,6 +23,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /root/.gnupg
 
+# Install Python / Cassandra devlopment tools
+RUN apt-get update && apt-get install -y python3 python3-dev python3-pip && pip3 install cqlsh
+
 # Git Flow Setup
 RUN apt-get update && apt-get install -y git-flow
 

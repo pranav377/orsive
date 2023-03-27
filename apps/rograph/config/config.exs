@@ -28,11 +28,11 @@ config :phoenix, :json_library, Jason
 # Configure the MongoDB database client
 config :rograph, Rograph.DataStore.Mongodb.Repo, url: System.get_env("DATABASE_URL")
 
-# Configure the ScyllaDB database client
-# Usage -> Xandra.execute(:scylla_conn, query)
+# Configure the Cassandra database client
+# Usage -> Xandra.execute(:cassandra_conn, query)
 config :rograph, :xandra,
-  name: :scylla_conn,
-  nodes: [System.get_env("SCYLLADB_URL")]
+  name: :cassandra_conn,
+  nodes: [System.get_env("CASSANDRA_URL")]
 
 # Configure Joken
 config :joken, default_signer: System.get_env("JWT_SECRET")
