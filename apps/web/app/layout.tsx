@@ -1,6 +1,14 @@
 import { Metadata } from 'next';
 import Script from 'next/script';
 
+import './globals.css';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import MUISetup from './MUISetup';
+
 export const metadata: Metadata = {
     title: 'Orsive',
     description: 'An open source social media platform',
@@ -37,7 +45,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body>{children}</body>
+            <MUISetup>{children}</MUISetup>
             <Script
                 async
                 src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}

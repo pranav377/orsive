@@ -1,3 +1,3 @@
 export default function LandingPage() {
-    return <>hi</>;
+    return <>landing page soon</>;
 }

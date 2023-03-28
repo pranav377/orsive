@@ -1,5 +1,3 @@
-import { Metadata } from 'next';
-
 export default function HomeLayout({
     children,
 }: {
