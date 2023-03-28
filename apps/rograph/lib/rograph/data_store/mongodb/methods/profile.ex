@@ -1,4 +1,4 @@
-defmodule Rograph.DataStore.Mongodb.Collections.Profile do
+defmodule Rograph.DataStore.Mongodb.Methods.Profile do
   use Mongo.Collection
 
   collection "Profile" do
