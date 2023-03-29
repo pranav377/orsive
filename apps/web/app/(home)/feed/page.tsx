@@ -1,22 +1,10 @@
-'use client';
+import { Metadata } from 'next';
 
-import { Button, Grid, Stack } from '@mui/material';
+export const metadata: Metadata = {
+    title: 'Feed | Orsive',
+    description: 'Your curated list of content from amazing people :)',
+};
 
 export default function Feed() {
-    return (
-        <Grid
-            container
-            height="100vh"
-            alignItems="center"
-            justifyContent="center"
-            direction="column"
-        >
-            <h1>Using Material UI with Next.js 13</h1>
-            <Stack direction="row" columnGap={1}>
-                <Button variant="text">Text</Button>
-                <Button variant="contained">Contained</Button>
-                <Button variant="outlined">Outlined</Button>
-            </Stack>
-        </Grid>
-    );
+    return <div></div>;
 }

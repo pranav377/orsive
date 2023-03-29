@@ -109,7 +109,7 @@ function ProfileDropdown() {
 
     return (
         <>
-            <IconButton onClick={toggleDrawer} sx={{ p: 0 }}>
+            <IconButton onClick={toggleDrawer} style={{ padding: 0 }}>
                 <Avatar className="bg-gray-800">
                     <Image
                         fill

@@ -3,10 +3,15 @@ import Script from 'next/script';
 
 import './globals.css';
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import { Roboto } from 'next/font/google';
+
+const roboto = Roboto({
+    weight: ['300', '400', '500', '700'],
+    subsets: ['latin'],
+    display: 'swap',
+    variable: '--orsive-roboto-font', // for using in mui theme
+});
+
 import MUISetup from './MUISetup';
 
 export const metadata: Metadata = {
@@ -44,7 +49,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang="en" className={roboto.className}>
             <MUISetup>{children}</MUISetup>
             <Script
                 async
