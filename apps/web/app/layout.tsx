@@ -3,16 +3,16 @@ import Script from 'next/script';
 
 import './globals.css';
 
+import MUISetup from './MUISetup';
 import { Roboto } from 'next/font/google';
 
-const roboto = Roboto({
+export const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
     subsets: ['latin'],
     display: 'swap',
     variable: '--orsive-roboto-font', // for using in mui theme
+    fallback: ['Helvetica', 'Arial', 'sans-serif'],
 });
-
-import MUISetup from './MUISetup';
 
 export const metadata: Metadata = {
     title: 'Orsive',

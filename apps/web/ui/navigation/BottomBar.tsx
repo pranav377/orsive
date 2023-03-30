@@ -4,12 +4,16 @@ import * as React from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
-import FolderIcon from '@mui/icons-material/Folder';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import Fab from '@mui/material/Fab';
+
+import SvgIcon from '@mui/material/SvgIcon';
+
+import AddIcon from '@mui/icons-material/Add';
+import { useTheme } from '@mui/material';
+import routes from './routes';
 
 export default function BottomBar() {
+    const theme = useTheme();
     const [value, setValue] = React.useState('recents');
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -30,26 +34,28 @@ export default function BottomBar() {
             elevation={1}
         >
             <BottomNavigation value={value} onChange={handleChange}>
-                <BottomNavigationAction
-                    label="Recents"
-                    value="recents"
-                    icon={<RestoreIcon />}
-                />
-                <BottomNavigationAction
-                    label="Favorites"
-                    value="favorites"
-                    icon={<FavoriteIcon />}
-                />
-                <BottomNavigationAction
-                    label="Nearby"
-                    value="nearby"
-                    icon={<LocationOnIcon />}
-                />
-                <BottomNavigationAction
-                    label="Folder"
-                    value="folder"
-                    icon={<FolderIcon />}
-                />
+                {routes.map((route, idx) => (
+                    <BottomNavigationAction
+                        key={idx}
+                        label={route.name}
+                        value={route.name}
+                        icon={<SvgIcon>{route.icon}</SvgIcon>}
+                    />
+                ))}
+                <Fab
+                    color="primary"
+                    aria-label="add post"
+                    sx={{
+                        position: 'absolute',
+                        top: -30,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        zIndex: 1,
+                        boxShadow: theme.shadows[6],
+                    }}
+                >
+                    <AddIcon />
+                </Fab>
             </BottomNavigation>
         </Paper>
     );
