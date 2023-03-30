@@ -47,7 +47,7 @@ export default function SideBar() {
                         <ListItem key={idx}>
                             <ListItemButton
                                 sx={{
-                                    p: 1.5,
+                                    p: 1.2,
                                     borderRadius: theme.spacing(4),
                                 }}
                             >
