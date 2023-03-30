@@ -34,6 +34,7 @@ export default function Navbar() {
                         }}
                         LinkComponent={Link}
                         href="/auth"
+                        color="primary"
                     >
                         Login
                     </Button>
