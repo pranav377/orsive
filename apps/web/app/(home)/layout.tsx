@@ -1,4 +1,8 @@
-import Navbar from '@/ui/navbar';
+'use client';
+
+import Navbar from '@/ui/navigation/Navbar';
+import BottomBar from '@/ui/navigation/BottomBar';
+import SideBar from '@/ui/navigation/SideBar';
 
 export default function HomeLayout({
     children,
@@ -9,6 +13,8 @@ export default function HomeLayout({
         <>
             <Navbar />
             {children}
+            <SideBar />
+            <BottomBar />
         </>
     );
 }

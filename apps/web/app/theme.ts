@@ -10,6 +10,12 @@ export const theme = createTheme({
         background: {
             paper: colors.slate[900],
         },
+
+        primary: {
+            light: colors.blue[500],
+            main: colors.blue[600],
+            dark: colors.blue[700],
+        },
     },
 
     typography: {
