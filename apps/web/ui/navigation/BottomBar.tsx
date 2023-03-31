@@ -47,7 +47,7 @@ export default function BottomBar() {
                     aria-label="add post"
                     sx={{
                         position: 'absolute',
-                        top: -30,
+                        top: -60,
                         left: '50%',
                         transform: 'translateX(-50%)',
                         zIndex: 1,
