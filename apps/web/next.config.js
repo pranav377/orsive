@@ -17,11 +17,20 @@ const moduleExports = {
         return config;
     },
     images: {
-        domains: [
-            'localhost',
-            'cdn.orsive.com',
-            'cdn.discordapp.com',
-            'placeimg.com',
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: 'localhost',
+                port: '4000',
+            },
+            {
+                protocol: 'https',
+                hostname: 'cdn.orsive.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'cdn.discordapp.com',
+            },
         ],
     },
     experimental: {

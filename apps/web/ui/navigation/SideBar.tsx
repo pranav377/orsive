@@ -14,7 +14,7 @@ import routes from './routes';
 
 import { useTheme } from '@mui/material/styles';
 
-const drawerWidth = 240;
+export const drawerWidth = 240;
 
 export default function SideBar() {
     const theme = useTheme();

@@ -1,5 +1,5 @@
+import PostsRenderer from '@/ui/posts/PostsRenderer';
 import { Metadata } from 'next';
-import ImagePostCard from '@/ui/posts/ImagePostCard';
 
 export const metadata: Metadata = {
     title: 'Home | Orsive',
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function Feed() {
     return (
         <div>
-            <ImagePostCard />
+            <PostsRenderer />
         </div>
     );
 }
