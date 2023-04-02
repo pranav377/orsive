@@ -14,6 +14,7 @@ export default function PostsRenderer() {
                 }}
             >
                 <ImagePostCard />
+                <ImagePostCard />
             </Box>
         </>
     );

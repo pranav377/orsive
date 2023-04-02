@@ -11,6 +11,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import colors from '@/logic/colors';
 import Image from 'next/image';
 import { useTheme } from '@mui/material/styles';
+import Linkify from 'react-linkify';
+import Link from 'next/link';
 
 export default function ImagePostCard() {
     const theme = useTheme();
@@ -18,21 +20,22 @@ export default function ImagePostCard() {
     return (
         <>
             <Card
-                raised
                 sx={{
                     maxWidth: theme.spacing(96),
                     width: '100%',
                     borderRadius: 2,
-                    backgroundColor: colors.slate[900],
+                    background: colors.slate[900],
+                    my: 1,
                 }}
             >
                 <CardHeader
                     avatar={
-                        <Avatar
-                            sx={{ bgcolor: colors.red[500] }}
-                            aria-label="recipe"
-                        >
-                            R
+                        <Avatar aria-label="Pranava Mohan (pranav377)">
+                            <Image
+                                src="https://cdn.orsive.com/avatars/6R-L4VXiYH-FnrBsSCCXR-20220520_200235.jpg"
+                                alt="Pranava Mohan (pranav377)"
+                                fill
+                            />
                         </Avatar>
                     }
                     action={
@@ -40,8 +43,8 @@ export default function ImagePostCard() {
                             <MoreVertIcon />
                         </IconButton>
                     }
-                    title="Shrimp and Chorizo Paella"
-                    subheader="September 14, 2016"
+                    title="Pranava Mohan"
+                    subheader="@pranav377"
                 />
 
                 <CardMedia>
@@ -53,15 +56,31 @@ export default function ImagePostCard() {
                         width={4556}
                         height={2010}
                         style={{ width: '100%', height: 'auto' }}
+                        placeholder="blur"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAAC"
                     />
                 </CardMedia>
 
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                        This impressive paella is a perfect party dish and a fun
-                        meal to cook together with your guests. Add 1 cup of
-                        frozen peas along with the mussels, if you like.
-                    </Typography>
+                    <Linkify
+                        componentDecorator={(
+                            decoratedHref,
+                            decoratedText,
+                            key
+                        ) => (
+                            <Link
+                                key={key}
+                                href={decoratedHref}
+                                rel="noopener noreferrer"
+                            >
+                                {decoratedText}
+                            </Link>
+                        )}
+                    >
+                        <Typography variant="body1" color="text.secondary">
+                            Aur Kya, https://www.youtube.com/watch?v=Z1xYQZ5wGgk
+                        </Typography>
+                    </Linkify>
                 </CardContent>
             </Card>
         </>
