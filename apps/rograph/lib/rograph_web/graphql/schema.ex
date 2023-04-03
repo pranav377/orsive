@@ -15,7 +15,7 @@ defmodule RographWeb.Graphql.Schema do
   mutation do
     @desc "Send a message to a channel (can have single user or multiple users)"
     field :chat_send_message, :chat_send_message_type do
-      middleware([Middleware.BlockUnauthenticatedMiddleware])
+      middleware(Middleware.BlockUnauthenticatedMiddleware)
       arg(:channel_id, non_null(:id))
       arg(:message, non_null(:string))
       resolve(&Resolvers.ChatResolver.send_message/3)
