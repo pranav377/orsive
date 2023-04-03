@@ -16,7 +16,8 @@ defmodule Rograph.Application do
       {Xandra, Application.fetch_env!(:rograph, :xandra)},
 
       # Start the Endpoint (http/https)
-      RographWeb.Endpoint
+      RographWeb.Endpoint,
+      {Absinthe.Subscription, pubsub: RographWeb.Endpoint}
       # Start a worker by calling: Rograph.Worker.start_link(arg)
       # {Rograph.Worker, arg}
     ]

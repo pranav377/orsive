@@ -3,4 +3,5 @@ defmodule RographWeb.Graphql.Schema.Types do
   alias RographWeb.Graphql.Schema.Types
 
   import_types(Types.HelloType)
+  import_types(Types.ChatType)
 end

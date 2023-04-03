@@ -39,6 +39,8 @@ defmodule Rograph.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
+      {:phoenix_pubsub, "~> 2.0"},
+      {:absinthe_phoenix, "~> 2.0"},
       {:joken, "~> 2.5"},
       {:mongodb_driver, "~> 1.0"},
       {:xandra, "~> 0.14"},
