@@ -8,7 +8,6 @@ defmodule RographWeb.Graphql.Schema.Types.ChatType do
     field(:user_id, :id)
     field(:message, :string)
     field(:created_at, :datetime)
-    field(:updated_at, :datetime)
   end
 
   object :chat_send_message_type do

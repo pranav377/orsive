@@ -16,7 +16,7 @@ defmodule RographWeb.Plugs.Context do
          {:ok, user} <- Auth.verify_user_from_token(token) do
       %{user: user, is_authenticated: true}
     else
-      _ -> %{is_authenticated: false}
+      _ -> %{user: nil, is_authenticated: false}
     end
   end
 end

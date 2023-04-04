@@ -3,6 +3,7 @@ defmodule Rograph.DataStore.Mongodb.Methods.Profile do
 
   collection "Profile" do
     attribute(:username, String.t())
+    attribute(:avatar, String.t())
     attribute(:email, String.t())
     attribute(:name, String.t())
     attribute(:joined, DateString.t())
