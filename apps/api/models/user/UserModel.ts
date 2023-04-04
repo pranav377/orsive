@@ -2,6 +2,7 @@ import { getOrsicContent } from '../../graphql/resolvers/post/controllers/post.c
 import prisma from '../../graphql/utils/data/dbClient';
 import recommenderClient from '../../graphql/utils/mepster/client';
 import { searchIndex } from '../../graphql/utils/mepster/searchClient';
+import { EXTRA_POST_ARGS } from '../post';
 
 export const extraUserCreateData = {
     roles: {
@@ -18,22 +19,6 @@ export const userOptions = {
             select: {
                 followers: true,
                 following: true,
-            },
-        },
-    },
-};
-
-export const EXTRA_POST_ARGS = {
-    include: {
-        post: {
-            include: {
-                uploadedBy: true,
-                _count: {
-                    select: {
-                        dislikes: true,
-                        likes: true,
-                    },
-                },
             },
         },
     },
