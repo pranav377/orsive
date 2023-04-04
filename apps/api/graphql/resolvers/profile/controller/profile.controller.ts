@@ -8,9 +8,7 @@ import validate from '../../../utils/data/validate';
 import generateFilename from '../../../utils/files/generateFilename';
 import IsImageFileValid from '../../../utils/files/isImageFileValid';
 import saveFile from '../../../utils/files/saveFile';
-import updateUser from '../../../utils/mepster/user/updateUser';
 import GetObjOrNotFound from '../../../utils/getObjOrNotFound';
-import UserModel, { userOptions } from '../../../../models/user/UserModel';
 import {
     getPostsData,
     POST_PRISMA_ARGS,

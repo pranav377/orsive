@@ -13,13 +13,9 @@ import {
 import GetObjOrNotFound from '../../../../utils/getObjOrNotFound';
 import IsImageFileValid from '../../../../utils/files/isImageFileValid';
 import saveFile from '../../../../utils/files/saveFile';
-import insertItem, {
-    EXTRA_POST_ARGS,
-} from '../../../../utils/mepster/item/insertItem';
-import updateItem from '../../../../utils/mepster/item/updateItem';
-import deleteItem from '../../../../utils/mepster/item/deleteItem';
 import probe from 'probe-image-size';
 import { POSTS_BUILD_LIMIT } from '../../../../config';
+import imageModel from '../../../../../models/post/ImageModel';
 
 export interface AddImagePostArgs {
     input: AddImageInput;
@@ -63,30 +59,14 @@ export async function AddImagePost(args: AddImagePostArgs, user: User) {
 
     let { width, height } = await probe(imageData.createReadStream());
 
-    let imagePost = await prisma.image.create({
-        data: {
-            image,
-            width,
-            height,
-            slug,
-            title: data.title,
-            post: {
-                create: {
-                    postType: 'image',
-                    uploadedById: user.id,
-                },
-            },
-        },
-
-        ...EXTRA_POST_ARGS,
+    let imagePost = await imageModel.createImage({
+        image,
+        title: data.title,
+        width,
+        height,
+        slug,
+        userId: user.id,
     });
-
-    insertItem(
-        {
-            ItemId: imagePost.post!.id,
-        },
-        imagePost
-    );
 
     return imagePost;
 }
@@ -144,42 +124,21 @@ export async function UpdateImagePost(args: UpdateImagePostArgs, user: User) {
         height = result.height;
     }
 
-    let post = await prisma.image.update({
-        where: {
-            slug: data.slug,
-        },
-        data: {
-            ...(image && {
-                image,
-                width,
-                height,
-            }),
-            slug: newSlug,
-            title: data.title,
-            post: {
-                update: {
-                    updatedAt: new Date(),
-                },
-            },
-        },
-        include: {
-            post: {
-                include: {
-                    uploadedBy: true,
-                },
-            },
-        },
+    let imagePost = await imageModel.updateImage(oldPost.id, {
+        image,
+        width,
+        height,
+        slug: newSlug,
+        title: data.title,
     });
 
-    updateItem(post.post!.id, post);
-
-    return post;
+    return imagePost;
 }
 
 export async function DeleteImagePost(args: DeleteImagePostArgs, user: User) {
     let data: DeleteImagePostArgs = validate(args, IMAGE_VALIDATOR);
 
-    let post = GetObjOrNotFound(
+    let imagePost = GetObjOrNotFound(
         await prisma.image.findUnique({
             where: {
                 slug: data.slug,
@@ -190,19 +149,9 @@ export async function DeleteImagePost(args: DeleteImagePostArgs, user: User) {
         })
     );
 
-    IsUserOwner(user, post);
+    IsUserOwner(user, imagePost);
 
-    deleteItem(post!.post!.id, post);
-
-    await prisma.image.delete({
-        where: { slug: data.slug },
-    });
-
-    await prisma.comment.deleteMany({
-        where: {
-            parentPostId: post!.post!.id,
-        },
-    });
+    await imageModel.deleteImage(imagePost);
 
     return 'success';
 }

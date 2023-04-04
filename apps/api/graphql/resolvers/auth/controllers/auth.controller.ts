@@ -137,7 +137,7 @@ export async function SignUp(args: SignUpArgs, context: any) {
     let avatar = await createFullAvatar();
 
     try {
-        userModel.createUser({
+        await userModel.createUser({
             username: data.username,
             email: data.email,
             name: data.name,

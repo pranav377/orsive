@@ -1,82 +1,83 @@
 import prisma from '../../graphql/utils/data/dbClient';
 import { EXTRA_POST_ARGS, insertItem, updateItem, deleteItem } from '../post';
-import { Orsic, Post } from '@prisma/client';
+import { Image, Post } from '@prisma/client';
 
-class OrsicModel {
-    async createOrsic(input: {
-        title?: string;
-        content: string;
+class ImageModel {
+    async createImage(input: {
+        image: string;
+        width: number;
+        height: number;
         slug: string;
+        title?: string;
         userId: string;
     }) {
-        let orsicPost = await prisma.orsic.create({
+        let imagePost = await prisma.image.create({
             data: {
-                title: input.title,
-                content: input.content,
+                image: input.image,
+                width: input.width,
+                height: input.height,
                 slug: input.slug,
-
+                title: input.title,
                 post: {
                     create: {
-                        postType: 'orsic',
+                        postType: 'image',
                         uploadedById: input.userId,
                     },
                 },
             },
+
             ...EXTRA_POST_ARGS,
         });
 
         insertItem(
             {
-                ItemId: orsicPost.post!.id,
+                ItemId: imagePost.post!.id,
             },
-            orsicPost
+            imagePost
         );
 
-        return orsicPost;
+        return imagePost;
     }
 
-    async updateOrsic(
+    async updateImage(
         id: string,
         input: {
-            title?: string;
-            content: string;
+            image?: string;
+            width?: number;
+            height?: number;
             slug: string;
-            userId: string;
+            title?: string;
         }
     ) {
-        let orsicPost = await prisma.orsic.update({
+        let imagePost = await prisma.image.update({
             where: {
                 id,
             },
-
             data: {
-                title: input.title,
-                content: input.content,
-                slug: input.slug,
+                ...input,
                 post: {
                     update: {
                         updatedAt: new Date(),
                     },
                 },
             },
-
             ...EXTRA_POST_ARGS,
         });
 
-        updateItem(orsicPost.post!.id, orsicPost);
+        updateItem(imagePost.post!.id, imagePost);
 
-        return orsicPost;
+        return imagePost;
     }
 
-    async deleteOrsic(
-        post: Orsic & {
+    async deleteImage(
+        post: Image & {
             post: Post | null;
         }
     ) {
         deleteItem(post!.post!.id, post);
 
-        await prisma.orsic.delete({
-            where: { id: post.id },
+        await prisma.image.delete({
+            where: { slug: post.slug },
         });
 
         await prisma.comment.deleteMany({
@@ -87,6 +88,6 @@ class OrsicModel {
     }
 }
 
-const orsicModel = new OrsicModel();
+const imageModel = new ImageModel();
 
-export default orsicModel;
+export default imageModel;

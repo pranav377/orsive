@@ -53,7 +53,7 @@ export async function AddOrsicPost(args: AddOrsicPostArgs, user: User) {
     );
     let slug = generateSlug(data.title);
 
-    let orsicPost = orsicModel.createOrsic({
+    let orsicPost = await orsicModel.createOrsic({
         ...data,
         slug,
         userId: user.id,
@@ -109,7 +109,7 @@ export async function UpdateOrsicPost(args: UpdateOrsicPostArgs, user: User) {
 
     let newSlug = generateSlug(data.title);
 
-    let orsicPost = orsicModel.updateOrsic(oldPost.id, {
+    let orsicPost = await orsicModel.updateOrsic(oldPost.id, {
         title: data.title,
         content: data.content,
         slug: newSlug,
@@ -135,7 +135,7 @@ export async function DeleteOrsicPost(args: DeleteOrsicPostArgs, user: User) {
 
     IsUserOwner(user, post);
 
-    orsicModel.deleteOrsic(post);
+    await orsicModel.deleteOrsic(post);
 
     return 'success';
 }
