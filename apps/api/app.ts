@@ -14,10 +14,7 @@ import passport from 'passport';
 import { GraphQLLocalStrategy, buildContext } from 'graphql-passport';
 import prisma from './graphql/utils/data/dbClient';
 import bcrypt from 'bcrypt';
-import {
-    getUserJwtToken,
-    userOptions,
-} from './graphql/resolvers/auth/controllers/auth.controller';
+import { getUserJwtToken } from './graphql/resolvers/auth/controllers/auth.controller';
 import {
     discordAndroidStrat,
     discordStrat,
@@ -33,6 +30,7 @@ import {
 import passportJWT from 'passport-jwt';
 import { graphqlUploadExpress } from 'graphql-upload';
 import getUserPermissions from './graphql/permissions/getUserPermissions';
+import { userOptions } from './models/user/UserModel';
 
 passport.use(
     new GraphQLLocalStrategy(async (email: any, password: any, done) => {

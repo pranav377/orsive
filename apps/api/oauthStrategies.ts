@@ -10,11 +10,8 @@ import {
     VerifyCallback,
 } from 'passport-google-oauth20';
 import slugify from 'slugify';
-import {
-    createFullAvatar,
-    extraUserCreateData,
-    userOptions,
-} from './graphql/resolvers/auth/controllers/auth.controller';
+import { createFullAvatar } from './graphql/resolvers/auth/controllers/auth.controller';
+import { extraUserCreateData, userOptions } from './models/user/UserModel';
 import prisma from './graphql/utils/data/dbClient';
 import insertUser from './graphql/utils/mepster/user/insertUser';
 import {

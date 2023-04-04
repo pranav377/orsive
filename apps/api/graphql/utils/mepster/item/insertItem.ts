@@ -9,22 +9,6 @@ interface ItemType {
     Timestamp?: Date;
 }
 
-export const EXTRA_POST_ARGS = {
-    include: {
-        post: {
-            include: {
-                uploadedBy: true,
-                _count: {
-                    select: {
-                        dislikes: true,
-                        likes: true,
-                    },
-                },
-            },
-        },
-    },
-};
-
 export default function insertItem(item: ItemType, post: any) {
     let basePost = post.post;
     sendNotificationsForPost(

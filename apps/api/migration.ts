@@ -1,10 +1,10 @@
 /*The code in this file will be run while deploying. 
 Can include db operations, data transfer, data migration, etc.
 */
-import { userOptions } from './graphql/resolvers/auth/controllers/auth.controller';
+import { userOptions } from './models/user/UserModel';
 import { getOrsicContent } from './graphql/resolvers/post/controllers/post.controller';
 import prisma from './graphql/utils/data/dbClient';
-import { EXTRA_POST_ARGS } from './graphql/utils/mepster/item/insertItem';
+import { EXTRA_POST_ARGS } from './models/user/UserModel';
 import { searchIndex } from './graphql/utils/mepster/searchClient';
 
 async function imagesMigrate() {
