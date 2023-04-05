@@ -21,11 +21,10 @@ import GetObjOrNotFound from '../../../utils/getObjOrNotFound';
 import { User } from '../../../permissions/IsUserAuthenticated';
 import invariant from 'tiny-invariant';
 import getUserReputation from '../../../utils/data/reputation/getUserReputation';
-import updateUser from '../../../utils/mepster/user/updateUser';
 import sendPasswordResetOTP from '../../../utils/email/sendPasswordResetOTP';
 import IsPasswordResetValid from '../validators/extra/passwordResetValidator';
 import getUserPermissions from '../../../permissions/getUserPermissions';
-import addLabelsForUser from '../../../utils/mepster/user/addLablesForUser';
+import addLabelsForUser from '../../../utils/mepster/user/addLabelsForUser';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET, NODE_ENV } from '../../../config';
 import userModel, { userOptions } from '../../../../models/user/UserModel';
@@ -331,15 +330,6 @@ export async function FollowUser(args: FollowUserInput, user: User) {
             },
         });
     }
-
-    updateUser(
-        await prisma.profile.findUnique({
-            where: {
-                username: data.username,
-            },
-            ...userOptions,
-        })
-    );
 
     return 'success';
 }

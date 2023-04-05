@@ -31,6 +31,10 @@ class UserModel {
         name: string;
         password: string;
         avatar: string;
+        banner?: string | null;
+        googleId?: string;
+        discordId?: string;
+        authMethod?: 'google' | 'discord' | 'local';
     }) {
         const user = await prisma.profile.create({
             data: {
@@ -48,7 +52,6 @@ class UserModel {
                 name: user.name,
                 avatar: user.avatar,
                 joined: user.joined,
-                _count: { ...user._count },
             },
         ]);
 
@@ -75,7 +78,6 @@ class UserModel {
                 id,
             },
             data: input,
-            ...userOptions,
         });
 
         const batchSize = 32;
@@ -88,7 +90,6 @@ class UserModel {
                 name: user.name,
                 avatar: user.avatar,
                 joined: user.joined,
-                _count: { ...user._count },
             },
         ]);
 
