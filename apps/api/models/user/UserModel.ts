@@ -171,6 +171,17 @@ class UserModel {
 
         return user;
     }
+
+    async deleteUser(username: string) {
+        const user = await prisma.profile.delete({
+            where: {
+                username,
+            },
+        });
+
+        await searchIndex.deleteDocument(user.id);
+        await recommenderClient.delete(`/user/${user.id}/`);
+    }
 }
 
 const userModel = new UserModel();

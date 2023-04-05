@@ -4,10 +4,9 @@
 import axios from 'axios';
 import { print } from 'graphql';
 import SIGN_UP_MUTATION_SCHEMA from '../../web/logic/auth/mutations/signUpMutate';
+import userModel from '../models/user/UserModel';
 
-const graphqlClient = axios.create({
-    baseURL: `${process.env['NEXT_PUBLIC_API_URL']}/graphql`,
-});
+const graphqlAPIEndpoint = `${process.env['NEXT_PUBLIC_API_URL']}/graphql`;
 
 const userCreateQueryData = {
     query: print(SIGN_UP_MUTATION_SCHEMA),
@@ -24,9 +23,14 @@ let authToken;
 
 describe('e2e test', () => {
     it('create test user', async () => {
-        const response = await axios.post('', userCreateQueryData);
-        const data = response.data;
+        const response = await axios.post(
+            graphqlAPIEndpoint,
+            userCreateQueryData
+        );
+        const data = response.data.data.signUp;
 
-        console.log(data);
+        expect(data).toHaveProperty('token');
+
+        authToken = data.token;
     });
 });
