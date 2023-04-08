@@ -26,10 +26,17 @@ defmodule Rograph.DataStore.Mongodb.Methods.Profile do
   # get users count with list of ids
   def get_users_count(ids) do
     bson_ids =
-      Enum.map(ids, fn id ->
-        {:ok, bson_id} = BSON.ObjectId.decode(id)
-        bson_id
-      end)
+      Enum.map(
+        ids,
+        fn id ->
+          with {:ok, bson_id} <- BSON.ObjectId.decode(id) do
+            bson_id
+          else
+            _ ->
+              nil
+          end
+        end
+      )
 
     with {:ok, users_count} <-
            Repo.count(__MODULE__, %{
