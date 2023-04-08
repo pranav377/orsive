@@ -1,4 +1,6 @@
 defmodule RographWeb.Graphql.Resolvers.ChatResolver do
+  alias Rograph.DataStore.Mongodb.Methods.Profile
+
   def send_message(_parent, %{channel_id: channel_id, message: message}, %{context: context}) do
     IO.puts("channel_id: #{channel_id} || message: #{message}")
     IO.inspect(context.user)
@@ -7,5 +9,22 @@ defmodule RographWeb.Graphql.Resolvers.ChatResolver do
      %{
        result: "ok"
      }}
+
+    #  logic
+    # check if channel exists , if not -> error
+    # check if user exists in channel, if not -> error
+    # finally -> send message to the channel
+  end
+
+  def create_channel(_parent, %{user_ids: user_ids}, %{
+        context: %{
+          user: user,
+          channel_type: channel_type
+        }
+      }) do
+    IO.inspect(user)
+    IO.puts(channel_type)
+
+    {:ok, %{}}
   end
 end
