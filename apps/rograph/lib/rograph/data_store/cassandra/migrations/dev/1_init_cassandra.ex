@@ -1,11 +1,13 @@
-defmodule Rograph.DataStore.Cassandra.Repo.Migrations.Dev.InitCassandra do
-  alias Rograph.DataStore.Cassandra.Repo
+defmodule Rograph.DataStore.Cassandra.Migrations.Dev.InitCassandra do
+  alias Rograph.DataStore.Cassandra.CassandraRepo
 
   def up do
-    Repo.execute("CREATE KEYSPACE rograph_data WITH REPLICATION = {'class': 'SimpleStrategy'};")
+    CassandraRepo.execute(
+      "CREATE KEYSPACE rograph_data WITH REPLICATION = {'class': 'SimpleStrategy'};"
+    )
   end
 
   def down do
-    Repo.execute("DROP KEYSPACE rograph_data")
+    CassandraRepo.execute("DROP KEYSPACE rograph_data")
   end
 end

@@ -26,7 +26,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Configure the MongoDB database client
-config :rograph, Rograph.DataStore.Mongodb.Repo, url: System.get_env("DATABASE_URL")
+config :rograph, Rograph.DataStore.Mongodb.MongoRepo, url: System.get_env("DATABASE_URL")
 
 # Configure the Cassandra database client
 # Usage -> Xandra.execute(:cassandra_conn, query)

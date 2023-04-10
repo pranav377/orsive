@@ -1,8 +1,8 @@
 defmodule Rograph.DataStore.Cassandra.Migrations.Dev.AddChatChannels do
-  alias Rograph.DataStore.Cassandra.Repo
+  alias Rograph.DataStore.Cassandra.CassandraRepo
 
   def up do
-    Repo.execute("
+    CassandraRepo.execute("
     CREATE TABLE rograph_data.chat_channels (
       for_user_id uuid,
       avatar text,
@@ -23,6 +23,6 @@ defmodule Rograph.DataStore.Cassandra.Migrations.Dev.AddChatChannels do
   end
 
   def down do
-    Repo.execute("DROP TABLE rograph_data.chat_channels;")
+    CassandraRepo.execute("DROP TABLE rograph_data.chat_channels;")
   end
 end

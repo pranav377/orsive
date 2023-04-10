@@ -1,5 +1,5 @@
 defmodule RographWeb.Graphql.Resolvers.ChatResolver do
-  alias Rograph.DataStore.Mongodb.Methods.Profile
+  alias Rograph.Chat.Channel
 
   def send_message(_parent, %{channel_id: channel_id, message: message}, %{context: context}) do
     IO.puts("channel_id: #{channel_id} || message: #{message}")
@@ -19,12 +19,15 @@ defmodule RographWeb.Graphql.Resolvers.ChatResolver do
   def create_channel(_parent, %{user_ids: user_ids}, %{
         context: %{
           user: user,
+          user_id: user_id,
           channel_type: channel_type
         }
       }) do
-    IO.inspect(user)
-    IO.puts(channel_type)
-
-    {:ok, %{}}
+    Channel.create(%{
+      channel_type: channel_type,
+      user_ids: user_ids,
+      user: user,
+      user_id: user_id
+    })
   end
 end

@@ -1,19 +1,21 @@
 defmodule Rograph.DataStore.Mongodb.Methods.Profile do
   use Mongo.Collection
-  alias Rograph.DataStore.Mongodb.Repo
+  alias Rograph.DataStore.Mongodb.MongoRepo
 
   collection "Profile" do
     attribute(:username, String.t())
     attribute(:avatar, String.t())
     attribute(:email, String.t())
     attribute(:name, String.t())
+    attribute(:bio, String.t())
+    attribute(:banner, String.t())
     attribute(:joined, DateString.t())
   end
 
   # get user by id string
   def get_user(id) do
     with {:ok, id} <- BSON.ObjectId.decode(id) do
-      with {:ok, user} <- Repo.fetch(__MODULE__, id) do
+      with {:ok, user} <- MongoRepo.fetch(Rograph.DataStore.Mongodb.Methods.Profile, id) do
         {:ok, user}
       else
         _ -> {:error, "User not found"}
@@ -39,7 +41,7 @@ defmodule Rograph.DataStore.Mongodb.Methods.Profile do
       )
 
     with {:ok, users_count} <-
-           Repo.count(__MODULE__, %{
+           MongoRepo.count(__MODULE__, %{
              "_id" => %{"$in" => bson_ids}
            }) do
       {:ok, users_count}

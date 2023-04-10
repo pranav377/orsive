@@ -12,7 +12,7 @@ defmodule Rograph.Application do
       RographWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Rograph.PubSub},
-      {Mongo, Rograph.DataStore.Mongodb.Repo.config()},
+      {Mongo, Rograph.DataStore.Mongodb.MongoRepo.config()},
       {Xandra, Application.fetch_env!(:rograph, :xandra)},
 
       # Start the Endpoint (http/https)
