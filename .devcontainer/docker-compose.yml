@@ -31,12 +31,13 @@ services:
             - 27017:27017
         command: ['--replSet', 'dbrs', '--bind_ip_all']
 
-    # Cassandra Database
-    cassandra:
-        image: cassandra:4.1
-        container_name: cassandra
+    # CockroachDB Database
+    crdb:
+        image: cockroachdb/cockroach:v22.2.7
         ports:
-            - '9042:9042'
+            - '26257:26257'
+            - '8080:8080'
+        command: start-single-node --insecure
 
     # Meilisearch
     meilisearch:

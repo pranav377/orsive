@@ -43,9 +43,9 @@ defmodule Rograph.MixProject do
       {:absinthe_phoenix, "~> 2.0"},
       {:joken, "~> 2.5"},
       {:mongodb_driver, "~> 1.0"},
-      {:xandra, "~> 0.14"},
-      {:decimal, "~> 1.7", override: true, prefer: true},
-      {:elixir_uuid, "~> 1.2"}
+      {:elixir_uuid, "~> 1.2"},
+      {:ecto_sql, "~> 3.9"},
+      {:postgrex, "~> 0.16.5"}
     ]
   end
 

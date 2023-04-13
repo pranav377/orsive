@@ -36,5 +36,8 @@ RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mon
 RUN apt-get update
 RUN apt-get install -y mongodb-mongosh
 
+# Installing PostgreSQL client for CockroachDB
+RUN apt-get update && apt-get install -y postgresql-client
+
 # Cleanup scripts
 RUN rm -rf /tmp/scripts

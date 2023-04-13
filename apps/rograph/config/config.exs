@@ -7,6 +7,12 @@
 # General application configuration
 import Config
 
+config :rograph, Rograph.Repo,
+  database: "rograph_repo",
+  username: "user",
+  password: "pass",
+  hostname: "localhost"
+
 # Configures the endpoint
 config :rograph, RographWeb.Endpoint,
   url: [host: "localhost"],
@@ -28,11 +34,17 @@ config :phoenix, :json_library, Jason
 # Configure the MongoDB database client
 config :rograph, Rograph.DataStore.Mongodb.MongoRepo, url: System.get_env("DATABASE_URL")
 
-# Configure the Cassandra database client
-# Usage -> Xandra.execute(:cassandra_conn, query)
-config :rograph, :xandra,
-  name: :cassandra_conn,
-  nodes: [System.get_env("CASSANDRA_URL")]
+# Configure Ecto for CockroachDB
+config :rograph,
+  ecto_repos: [Rograph.Repo]
+
+config :rograph, Rograph.Repo,
+  database: "rograph",
+  username: "root",
+  hostname: "crdb",
+  port: "26257",
+  ssl: false,
+  migration_lock: false
 
 # Configure Joken
 config :joken, default_signer: System.get_env("JWT_SECRET")
