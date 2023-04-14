@@ -4,8 +4,17 @@ defmodule Rograph.Chat.Channel do
 
   @primary_key {:id, :string, []}
   schema "channels" do
+    # for group only
     field(:name, :string)
-    has_many(:channel_users, Rograph.Chat.ChannelUser)
+    # for group only
+    field(:avatar, :string)
+    # for group only
+    field(:banner, :string)
+    # for group only
+    field(:bio, :string)
+    # group or single
+    field(:type, :string)
+    many_to_many(:users, Rograph.User, join_through: "users_channels")
     has_many(:messages, Rograph.Chat.Message)
     timestamps()
   end

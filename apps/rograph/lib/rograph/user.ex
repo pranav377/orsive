@@ -11,7 +11,8 @@ defmodule Rograph.User do
     field(:banner, :string)
     field(:bio, :string)
     field(:is_online, :boolean, default: false)
-    has_many(:channel_users, ChatApp.ChannelUser)
+    field(:joined, :utc_datetime)
+    many_to_many(:channels, Rograph.Chat.Channel, join_through: "users_channels")
     timestamps()
   end
 
