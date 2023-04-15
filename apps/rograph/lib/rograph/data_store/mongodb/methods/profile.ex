@@ -49,4 +49,30 @@ defmodule Rograph.DataStore.Mongodb.Methods.Profile do
       _ -> {:error, "Error getting users count"}
     end
   end
+
+  # get users with list of ids
+  def get_users(ids) do
+    bson_ids =
+      Enum.map(
+        ids,
+        fn id ->
+          with {:ok, bson_id} <- BSON.ObjectId.decode(id) do
+            bson_id
+          else
+            _ ->
+              nil
+          end
+        end
+      )
+
+    users =
+      MongoRepo.all(
+        __MODULE__,
+        %{
+          "_id" => %{"$in" => bson_ids}
+        }
+      )
+
+    {:ok, users}
+  end
 end

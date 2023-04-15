@@ -31,13 +31,11 @@ defmodule RographWeb.Graphql.Schema.Types.ChatType do
   end
 
   object :chat_mutations do
-    @desc "Create a message channel (single/group)"
-    field :chat_create_channel, :chat_type do
+    @desc "Create a message channel (single)"
+    field :chat_create_single_channel, :chat_type do
       middleware(Middleware.BlockUnauthenticatedMiddleware)
-      arg(:user_ids, list_of(non_null(:id)))
-      middleware(Middleware.Chat.Channel.ValidateChannelType)
-      middleware(Middleware.Chat.Channel.ValidateUserIds)
-      resolve(&Resolvers.ChatResolver.create_channel/3)
+      arg(:user_id, non_null(:id))
+      resolve(&Resolvers.ChatResolver.create_single_channel/3)
     end
 
     @desc "Send a message to a channel (can have single user or multiple users)"

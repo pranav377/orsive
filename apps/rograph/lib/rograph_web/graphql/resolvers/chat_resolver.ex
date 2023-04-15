@@ -1,5 +1,5 @@
 defmodule RographWeb.Graphql.Resolvers.ChatResolver do
-  alias Rograph.Chat.Channel
+  alias Rograph.Chat
 
   def send_message(_parent, %{channel_id: channel_id, message: message}, %{context: context}) do
     IO.puts("channel_id: #{channel_id} || message: #{message}")
@@ -16,18 +16,20 @@ defmodule RographWeb.Graphql.Resolvers.ChatResolver do
     # finally -> send message to the channel
   end
 
-  def create_channel(_parent, %{user_ids: user_ids}, %{
+  def create_single_channel(_parent, %{user_id: user_id}, %{
         context: %{
-          user: user,
-          user_id: user_id,
-          channel_type: channel_type
+          user_id: self_user_id
         }
       }) do
-    Channel.create(%{
-      channel_type: channel_type,
-      user_ids: user_ids,
-      user: user,
-      user_id: user_id
-    })
+    {:ok, channel} =
+      Chat.create_channel(%{
+        type: "single",
+        self_user_id: self_user_id,
+        user_ids: [user_id]
+      })
+
+    IO.inspect(channel)
+
+    {:ok, %{}}
   end
 end
