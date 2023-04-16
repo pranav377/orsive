@@ -12,6 +12,7 @@ services:
         ports:
             - 3000:3000
             - 4000:4000
+            - 5000:5000
             - 19000:19000
         command: /bin/sh -c "while sleep 1000; do :; done"
         depends_on:

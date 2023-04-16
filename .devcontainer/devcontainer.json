@@ -27,11 +27,5 @@
             "version": "latest"
         }
     },
-    "remoteUser": "orsive",
-    "forwardPorts": [
-        4000,
-        3000,
-        5000,
-        7700
-    ]
+    "remoteUser": "orsive"
 }
