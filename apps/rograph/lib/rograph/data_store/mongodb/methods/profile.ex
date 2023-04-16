@@ -59,6 +59,7 @@ defmodule Rograph.DataStore.Mongodb.Methods.Profile do
     Map.from_struct(result_struct)
     |> Map.new(fn
       {:_id, id} -> {:id, BSON.ObjectId.encode!(id)}
+      {:joined, joined} -> {:joined, DateTime.truncate(joined, :second)}
       pair -> pair
     end)
   end

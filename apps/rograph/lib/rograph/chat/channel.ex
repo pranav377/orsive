@@ -74,7 +74,6 @@ defmodule Rograph.Chat.Channel do
     all_user_ids = [self_user_id | user_ids]
 
     with {:ok, users} <- Rograph.DataStore.Mongodb.Methods.Profile.get_users(all_user_ids) do
-      IO.inspect(users)
       put_assoc(changeset, :users, users)
     else
       _ ->

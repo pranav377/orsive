@@ -1,5 +1,6 @@
 defmodule RographWeb.Graphql.Resolvers.ChatResolver do
   alias Rograph.Chat
+  alias RographWeb.Graphql.HandleChangesetError
 
   def send_message(_parent, %{channel_id: channel_id, message: message}, %{context: context}) do
     IO.puts("channel_id: #{channel_id} || message: #{message}")
@@ -21,15 +22,16 @@ defmodule RographWeb.Graphql.Resolvers.ChatResolver do
           user_id: self_user_id
         }
       }) do
-    {:ok, channel} =
-      Chat.create_channel(%{
-        type: "single",
-        self_user_id: self_user_id,
-        user_ids: [user_id]
-      })
+    case Chat.create_channel(%{
+           type: "single",
+           self_user_id: self_user_id,
+           user_ids: [user_id]
+         }) do
+      {:ok, channel} ->
+        {:ok, channel}
 
-    IO.inspect(channel)
-
-    {:ok, %{}}
+      {:error, changeset} ->
+        HandleChangesetError.handle(changeset)
+    end
   end
 end

@@ -15,7 +15,6 @@ defmodule Rograph.User do
     many_to_many(:channels, Rograph.Chat.Channel, join_through: "users_channels")
     many_to_many(:typing_channels, Rograph.Chat.Channel, join_through: "typing_users_channels")
     has_many(:read_messages, Rograph.Chat.MessageRead)
-    timestamps()
   end
 
   @doc false
