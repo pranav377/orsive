@@ -81,6 +81,7 @@ export default function ImagePostCard() {
                             Aur Kya, https://www.youtube.com/watch?v=Z1xYQZ5wGgk
                         </Typography>
                     </Linkify>
+                    <Link href="/chat">Chat</Link>
                 </CardContent>
             </Card>
         </>

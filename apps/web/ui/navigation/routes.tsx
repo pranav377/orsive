@@ -7,7 +7,7 @@ import CommunityIcon from '@/components/svgs/home/communities.svg';
 const routes = [
     {
         name: 'Home',
-        route: '/feed',
+        route: '/home',
         icon: <HomeIcon />,
     },
     {

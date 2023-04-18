@@ -8,11 +8,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import routes from './routes';
 
 import { useTheme } from '@mui/material/styles';
+import Link from 'next/link';
 
 export const drawerWidth = 240;
 
@@ -50,6 +50,8 @@ export default function SideBar() {
                                     p: 1.2,
                                     borderRadius: theme.spacing(4),
                                 }}
+                                component={Link}
+                                href={route.route}
                             >
                                 <ListItemIcon
                                     sx={{
