@@ -1,3 +1,12 @@
+html {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    height: 100%;
+}
+
 ::-webkit-scrollbar {
     display: none;
 }

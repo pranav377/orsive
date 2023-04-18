@@ -1,3 +1,4 @@
+import Chat from '@/ui/chat';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ChatHome() {
-    return <div></div>;
+    return <Chat />;
 }

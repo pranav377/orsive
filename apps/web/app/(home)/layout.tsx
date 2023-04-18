@@ -21,10 +21,7 @@ export default function HomeLayout({
                         xs: 0,
                         lg: `${drawerWidth}px`,
                     },
-                    p: {
-                        xs: 0.5,
-                        lg: 2,
-                    },
+                    height: '100%',
                 }}
             >
                 {children}
