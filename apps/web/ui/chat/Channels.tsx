@@ -5,29 +5,65 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
-import colors from '@/logic/colors';
+import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import colors from '@/logic/colors';
+
+const channelsDrawerWidth = '25%';
 
 export default function Channels() {
     return (
-        <Box sx={{ flex: 1 / 4 }}>
-            {/* <List
+        <Drawer
+            variant="permanent"
+            anchor="left"
             sx={{
-                flex: 1 / 4,
-                backgroundColor: colors.slate[800],
-                overflowY: 'scroll',
+                width: channelsDrawerWidth,
+                flexShrink: 0,
+                '& .MuiDrawer-root': {
+                    position: 'absolute',
+                },
+                [`& .MuiDrawer-paper`]: {
+                    width: channelsDrawerWidth,
+                    boxSizing: 'border-box',
+                    position: 'absolute',
+                    backgroundColor: colors.slate[800],
+                },
+                display: {
+                    xs: 'none',
+                    lg: 'block',
+                },
+            }}
+            PaperProps={{
+                sx: {
+                    border: 0,
+                },
             }}
         >
-            {channels.map(({ primary, secondary, person }, index) => (
-                <ListItemButton key={index + person}>
-                    <ListItemAvatar>
-                        <Avatar alt="Profile Picture" src={person} />
-                    </ListItemAvatar>
-                    <ListItemText primary={primary} secondary={secondary} />
-                </ListItemButton>
-            ))}
-        </List> */}
-        </Box>
+            <Toolbar />
+            <Box sx={{ overflow: 'auto' }}>
+                <List
+                    sx={{
+                        flex: 1 / 4,
+                        height: '100%',
+                        overflowY: 'scroll',
+                        position: 'sticky',
+                    }}
+                >
+                    {channels.map(({ primary, secondary, person }, index) => (
+                        <ListItemButton key={index + person}>
+                            <ListItemAvatar>
+                                <Avatar alt="Profile Picture" src={person} />
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={primary}
+                                secondary={secondary}
+                            />
+                        </ListItemButton>
+                    ))}
+                </List>
+            </Box>
+        </Drawer>
     );
 }
 

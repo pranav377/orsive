@@ -14,19 +14,20 @@ export default function HomeLayout({
     return (
         <>
             <Navbar />
-            <Toolbar />
+            <SideBar />
             <Box
                 sx={{
                     marginLeft: {
                         xs: 0,
                         lg: `${drawerWidth}px`,
                     },
+                    position: 'relative',
                     height: '100%',
+                    paddingTop: (theme) => theme.mixins.toolbar.minHeight / 7,
                 }}
             >
                 {children}
             </Box>
-            <SideBar />
             <BottomBar />
         </>
     );
