@@ -1,6 +1,6 @@
 'use client';
 
-import Box from '@mui/material/Box';
+import colors from '@/logic/colors';
 import Channels from '@/ui/chat/Channels';
 
 export default function ChatLayout({
@@ -11,7 +11,15 @@ export default function ChatLayout({
     return (
         <>
             <Channels />
-            <main style={{ marginLeft: '25%' }}>{children}</main>
+            <main
+                style={{
+                    marginLeft: '25%',
+                    backgroundColor: colors.slate[700],
+                    height: '100%',
+                }}
+            >
+                {children}
+            </main>
         </>
     );
 }
