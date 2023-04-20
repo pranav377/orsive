@@ -38,6 +38,7 @@ export default function SideBar() {
                     border: 0,
                 },
             }}
+            id="main-sidebar"
         >
             <Toolbar />
             <Toolbar />
