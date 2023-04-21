@@ -77,11 +77,11 @@ export default function ImagePostCard() {
                             </Link>
                         )}
                     >
-                        <Typography variant="body1" color="text.secondary">
+                        {/* <Typography variant="body1" color="text.secondary">
                             Aur Kya, https://www.youtube.com/watch?v=Z1xYQZ5wGgk
-                        </Typography>
+                        </Typography> */}
                     </Linkify>
-                    <Link href="/chat">Chat</Link>
+                    {/* <Link href="/chat">Chat</Link> */}
                 </CardContent>
             </Card>
         </>

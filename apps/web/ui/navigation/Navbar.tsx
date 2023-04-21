@@ -38,6 +38,7 @@ export default function Navbar() {
                             height: (theme) => theme.spacing(4),
                             marginRight: 'auto',
                             marginLeft: 'auto',
+                            mx: 0.5,
                         }}
                     >
                         <SearchIconWrapper>

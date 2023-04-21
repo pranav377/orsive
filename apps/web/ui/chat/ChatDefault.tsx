@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import Image from 'next/image';
 import Grid from '@mui/material/Grid';
 import Badge from '@mui/material/Badge';
-import { styled, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import {
@@ -17,42 +17,7 @@ import {
     StyledInputBase,
 } from '@/ui/navigation/Search';
 import { useState } from 'react';
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-    '& .MuiBadge-badge': {
-        backgroundColor: '#44b700',
-        color: '#44b700',
-        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-        '&::after': {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            borderRadius: '50%',
-            animation: 'ripple 1.2s infinite ease-in-out',
-            border: '1px solid currentColor',
-            content: '""',
-        },
-    },
-    '@keyframes ripple': {
-        '0%': {
-            transform: 'scale(.8)',
-            opacity: 1,
-        },
-        '100%': {
-            transform: 'scale(2.4)',
-            opacity: 0,
-        },
-    },
-}));
-
-function randomColor() {
-    let hex = Math.floor(Math.random() * 0xffffff);
-    let color = '#' + hex.toString(16);
-
-    return color;
-}
+import AvatarActiveBadge from './AvatarActiveBadge';
 
 export default function ChatDefault() {
     const theme = useTheme();
@@ -111,23 +76,30 @@ export default function ChatDefault() {
                             }
                         }
                     >
-                        <Avatar
-                            key={idx}
-                            sx={{
-                                width: theme.spacing(8),
-                                height: theme.spacing(8),
-                                // boxShadow: theme.shadows[6],
-                                border: 2,
-                                borderColor: randomColor(),
-                                mt: idx % 2 === 0 ? 0 : 1.5,
+                        <AvatarActiveBadge
+                            overlap="circular"
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
                             }}
+                            variant="dot"
                         >
-                            <Image
-                                src={`${friend.avatar}?random=${idx}`}
-                                alt={friend.name}
-                                fill
-                            />
-                        </Avatar>
+                            <Avatar
+                                key={idx}
+                                sx={{
+                                    width: theme.spacing(8),
+                                    height: theme.spacing(8),
+                                    boxShadow: theme.shadows[9],
+                                    mt: idx % 2 === 0 ? 0 : 1.5,
+                                }}
+                            >
+                                <Image
+                                    src={`${friend.avatar}?random=${idx}`}
+                                    alt={friend.name}
+                                    fill
+                                />
+                            </Avatar>
+                        </AvatarActiveBadge>
                     </Grid>
                 ))}
             </Grid>

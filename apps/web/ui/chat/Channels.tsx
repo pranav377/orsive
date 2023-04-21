@@ -11,6 +11,7 @@ import colors from '@/logic/colors';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import relativeDate from '@/logic/relativeDate';
+import AvatarActiveBadge from './AvatarActiveBadge';
 
 const channelsDrawerWidth = '25%';
 
@@ -50,19 +51,29 @@ export default function Channels() {
                         height: '100%',
                         overflowY: 'scroll',
                         position: 'sticky',
+                        padding: 0,
                     }}
                 >
                     {channels.map((channel, index) => (
                         <ListItemButton
                             key={index}
                             component={Link}
-                            href={channel.id}
+                            href={`/chat/${channel.id}`}
                         >
                             <ListItemAvatar>
-                                <Avatar
-                                    alt="Profile Picture"
-                                    src={channel.metadata.avatar}
-                                />
+                                <AvatarActiveBadge
+                                    overlap="circular"
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
+                                    }}
+                                    variant="dot"
+                                >
+                                    <Avatar
+                                        alt="Profile Picture"
+                                        src={channel.metadata.avatar}
+                                    />
+                                </AvatarActiveBadge>
                             </ListItemAvatar>
                             <Box
                                 sx={{
