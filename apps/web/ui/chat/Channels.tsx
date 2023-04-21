@@ -3,12 +3,14 @@
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import colors from '@/logic/colors';
+import Typography from '@mui/material/Typography';
+import Link from 'next/link';
+import relativeDate from '@/logic/relativeDate';
 
 const channelsDrawerWidth = '25%';
 
@@ -50,15 +52,67 @@ export default function Channels() {
                         position: 'sticky',
                     }}
                 >
-                    {channels.map(({ primary, secondary, person }, index) => (
-                        <ListItemButton key={index + person}>
+                    {channels.map((channel, index) => (
+                        <ListItemButton
+                            key={index}
+                            component={Link}
+                            href={channel.id}
+                        >
                             <ListItemAvatar>
-                                <Avatar alt="Profile Picture" src={person} />
+                                <Avatar
+                                    alt="Profile Picture"
+                                    src={channel.metadata.avatar}
+                                />
                             </ListItemAvatar>
-                            <ListItemText
-                                primary={primary}
-                                secondary={secondary}
-                            />
+                            <Box
+                                sx={{
+                                    width: '100%',
+                                }}
+                            >
+                                <Typography variant="body1">
+                                    {channel.metadata.name}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        display: '-webkit-box',
+                                        overflow: 'hidden',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: 1,
+                                        wordBreak: 'break-all',
+                                    }}
+                                    color={
+                                        channel.unreadCount > 0
+                                            ? 'text.primary'
+                                            : 'text.secondary'
+                                    }
+                                >
+                                    {channel.type === 'single'
+                                        ? `${channel.lastMessage.content}`
+                                        : `${channel.lastMessage.by.name}: ${channel.lastMessage.content}`}
+                                </Typography>
+
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        textAlign: 'left',
+                                    }}
+                                    color={'text.secondary'}
+                                >
+                                    {channel.unreadCount > 0 ? (
+                                        <>
+                                            Sent{' '}
+                                            {relativeDate(
+                                                new Date(
+                                                    channel.lastMessage.timestamp
+                                                )
+                                            )}
+                                        </>
+                                    ) : (
+                                        <>Seen</>
+                                    )}
+                                </Typography>
+                            </Box>
                         </ListItemButton>
                     ))}
                 </List>
@@ -69,45 +123,56 @@ export default function Channels() {
 
 const channels = [
     {
-        primary: 'Brunch this week?',
-        secondary:
-            "I'll be in the neighbourhood this week. Let's grab a bite to eat",
-        person: 'mui.com/static/images/avatar/5.jpg',
+        id: '4c1f9518-dff9-11ed-b5ea-0242ac120002',
+        type: 'single',
+        metadata: {
+            name: 'Pranava Mohan',
+            avatar: 'https://avatars.githubusercontent.com/u/47032027?v=4',
+            isActive: true,
+        },
+        lastMessage: {
+            content: 'Hey, how are you doing?',
+            timestamp: '2021-08-01T18:25:43.511Z',
+            by: {
+                id: '5f9f1c5c-7b1e-4b9f-8c1a-1c5c7b1e4b9f',
+                name: 'Pranava Mohan',
+            },
+        },
+        unreadCount: 0,
     },
     {
-        primary: 'Birthday Gift',
-        secondary: `Do you have a suggestion for a good present for John on his work
-        anniversary. I am really confused & would love your thoughts on it.`,
-        person: '/static/images/avatar/1.jpg',
+        id: '5b804b9c-dff9-11ed-b5ea-0242ac120002',
+        type: 'group',
+        metadata: {
+            name: 'Tech Club',
+            avatar: 'https://avatars.githubusercontent.com/u/47032027?v=4',
+        },
+        lastMessage: {
+            content: 'Yooo, did you see the new episode of Rick and Morty?',
+            timestamp: '2021-08-01T18:25:43.511Z',
+            by: {
+                id: '5f9s1c5c-7b1e-6b9f-8c1a-1c5t7b1e4b9f',
+                name: 'Alex Smith',
+            },
+        },
+        unreadCount: 2,
     },
     {
-        primary: 'Recipe to try',
-        secondary:
-            'I am try out this new BBQ recipe, I think this might be amazing',
-        person: '/static/images/avatar/2.jpg',
-    },
-    {
-        primary: 'Yes!',
-        secondary: 'I have the tickets to the ReactConf for this year.',
-        person: '/static/images/avatar/3.jpg',
-    },
-    {
-        primary: "Doctor's Appointment",
-        secondary:
-            'My appointment for the doctor was rescheduled for next Saturday.',
-        person: '/static/images/avatar/4.jpg',
-    },
-    {
-        primary: 'Discussion',
-        secondary: `Menus that are generated by the bottom app bar (such as a bottom
-        navigation drawer or overflow menu) open as bottom sheets at a higher elevation
-        than the bar.`,
-        person: '/static/images/avatar/5.jpg',
-    },
-    {
-        primary: 'Summer BBQ',
-        secondary: `Who wants to have a cookout this weekend? I just got some furniture
-        for my backyard and would love to fire up the grill.`,
-        person: '/static/images/avatar/1.jpg',
+        id: '672c9d10-dff9-11ed-b5ea-0242ac120002',
+        type: 'group',
+        metadata: {
+            name: 'Music Club',
+            avatar: 'https://avatars.githubusercontent.com/u/47032027?v=4',
+        },
+        lastMessage: {
+            content:
+                'hehehehehehehehehehemhehehehhehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh Yooo, did you see the new episode of Rick and Morty?',
+            timestamp: '2021-08-01T18:25:43.511Z',
+            by: {
+                id: '7f9s1c5c-7e1e-6b9f-8c1a-1c5t7b1e4b9f',
+                name: 'Ben Awad',
+            },
+        },
+        unreadCount: 7,
     },
 ];

@@ -77,7 +77,6 @@ export default function ChatDefault() {
                 aria-label="Online and Stories tabs"
             >
                 <Tab label="Online" />
-                <Tab label="Stories" />
             </Tabs>
 
             <Search
