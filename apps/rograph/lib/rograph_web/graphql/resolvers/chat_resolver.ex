@@ -22,16 +22,26 @@ defmodule RographWeb.Graphql.Resolvers.ChatResolver do
           user_id: self_user_id
         }
       }) do
-    case Chat.create_channel(%{
-           type: "single",
-           self_user_id: self_user_id,
-           user_ids: [user_id]
-         }) do
-      {:ok, channel} ->
-        {:ok, channel}
+    all_user_ids = [self_user_id, user_id]
+    id = Enum.sort(all_user_ids) |> Enum.join("-")
 
-      {:error, changeset} ->
-        HandleChangesetError.handle(changeset)
+    case Chat.get_channel(id) do
+      nil ->
+        case Chat.create_channel(%{
+               type: "single",
+               self_user_id: self_user_id,
+               user_ids: [user_id],
+               id: id
+             }) do
+          {:ok, channel} ->
+            {:ok, channel}
+
+          {:error, changeset} ->
+            HandleChangesetError.handle(changeset)
+        end
+
+      channel ->
+        {:ok, channel}
     end
   end
 end

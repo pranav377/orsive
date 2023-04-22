@@ -37,6 +37,8 @@ defmodule Rograph.Chat do
   """
   def get_channel!(id), do: Repo.get!(Channel, id)
 
+  def get_channel(id), do: Repo.get(Channel, id)
+
   @doc """
   Creates a channel.
 

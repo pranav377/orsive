@@ -32,13 +32,14 @@ defmodule Rograph.Chat.Channel do
   @doc false
   def changeset(channel, attrs) do
     channel
-    |> cast(attrs, [:type, :name, :avatar, :banner, :bio, :self_user_id, :user_ids])
-    |> validate_required([:type, :self_user_id, :user_ids])
+    |> cast(attrs, [:id, :type, :name, :avatar, :banner, :bio, :self_user_id, :user_ids])
+    |> validate_required([:id, :type, :self_user_id, :user_ids])
     |> validate_inclusion(:type, ["group", "single"])
     |> check_user_ids()
     |> check_users_exist()
     |> add_users()
-    |> generate_id()
+
+    # |> generate_id()
   end
 
   defp check_user_ids(changeset) do
@@ -85,9 +86,23 @@ defmodule Rograph.Chat.Channel do
     end
   end
 
-  defp generate_id(changeset) do
-    id = UUID.uuid1()
+  # defp generate_id(changeset) do
+  #   type = get_change(changeset, :type)
+  #   user_ids = get_change(changeset, :user_ids)
+  #   self_user_id = get_change(changeset, :self_user_id)
 
-    put_change(changeset, :id, id)
-  end
+  #   all_user_ids = [self_user_id | user_ids]
+
+  #   case type do
+  #     "group" ->
+  #       id = UUID.uuid1()
+
+  #       put_change(changeset, :id, id)
+
+  #     "single" ->
+  #       id = Enum.sort(all_user_ids) |> Enum.join("-")
+
+  #       put_change(changeset, :id, id)
+  #   end
+  # end
 end

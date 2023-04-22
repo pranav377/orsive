@@ -4,8 +4,8 @@ defmodule Rograph.Chat.Message do
 
   schema "messages" do
     field(:content, :string)
-    belongs_to(:channel, Rograph.Chat.Channel)
-    belongs_to(:user, Rograph.User)
+    belongs_to(:channel, Rograph.Chat.Channel, type: :string)
+    belongs_to(:user, Rograph.User, type: :string)
     timestamps()
   end
 end
