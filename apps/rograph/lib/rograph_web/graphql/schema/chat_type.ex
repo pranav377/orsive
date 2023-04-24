@@ -31,7 +31,7 @@ defmodule RographWeb.Graphql.Schema.Types.ChatType do
   end
 
   object :channel_type do
-    field(:channel_id, :id)
+    field(:id, :id)
     field(:type, :string)
     field(:metadata, :channel_metadata)
     field(:last_message, :chat_message)

@@ -1,6 +1,7 @@
 defmodule RographWeb.Graphql.Resolvers.ChatResolver do
   alias Rograph.Chat
   alias RographWeb.Graphql.HandleChangesetError
+  alias RographWeb.Graphql.EctoParsers.ChannelParser
 
   def send_message(_parent, %{channel_id: channel_id, message: message}, %{context: context}) do
     IO.puts("channel_id: #{channel_id} || message: #{message}")
@@ -34,14 +35,14 @@ defmodule RographWeb.Graphql.Resolvers.ChatResolver do
                id: id
              }) do
           {:ok, channel} ->
-            {:ok, channel}
+            {:ok, ChannelParser.parse(channel)}
 
           {:error, changeset} ->
             HandleChangesetError.handle(changeset)
         end
 
       channel ->
-        {:ok, channel}
+        {:ok, ChannelParser.parse(channel, self_user_id)}
     end
   end
 end
