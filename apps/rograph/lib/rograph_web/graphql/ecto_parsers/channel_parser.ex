@@ -17,7 +17,7 @@ defmodule RographWeb.Graphql.EctoParsers.ChannelParser do
     %{
       id: id,
       type: type,
-      metadata: generate_metadata(channel, self_user_id),
+      metadata: channel |> generate_metadata(self_user_id),
       last_message: nil
     }
   end

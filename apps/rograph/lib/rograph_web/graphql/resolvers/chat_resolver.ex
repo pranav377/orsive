@@ -35,14 +35,14 @@ defmodule RographWeb.Graphql.Resolvers.ChatResolver do
                id: id
              }) do
           {:ok, channel} ->
-            {:ok, ChannelParser.parse(channel)}
+            {:ok, channel |> ChannelParser.parse(self_user_id)}
 
           {:error, changeset} ->
             HandleChangesetError.handle(changeset)
         end
 
       channel ->
-        {:ok, ChannelParser.parse(channel, self_user_id)}
+        {:ok, channel |> ChannelParser.parse(self_user_id)}
     end
   end
 end
