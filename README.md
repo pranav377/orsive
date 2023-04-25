@@ -49,8 +49,6 @@
 -   `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 -   `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
-All packages and apps are 100% [TypeScript](https://www.typescriptlang.org/)
-
 ### How to run locally👨‍💻?
 
 Click [here](DEVELOPMENT.md)
