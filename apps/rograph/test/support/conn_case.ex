@@ -19,15 +19,15 @@ defmodule RographWeb.ConnCase do
 
   using do
     quote do
+      # The default endpoint for testing
+      @endpoint RographWeb.Endpoint
+
+      use RographWeb, :verified_routes
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
       import RographWeb.ConnCase
-
-      alias RographWeb.Router.Helpers, as: Routes
-
-      # The default endpoint for testing
-      @endpoint RographWeb.Endpoint
     end
   end
 

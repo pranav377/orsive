@@ -20,15 +20,14 @@ import prisma from '../../../utils/data/dbClient';
 import GetObjOrNotFound from '../../../utils/getObjOrNotFound';
 import { User } from '../../../permissions/IsUserAuthenticated';
 import invariant from 'tiny-invariant';
-import insertUser from '../../../utils/mepster/user/insertUser';
 import getUserReputation from '../../../utils/data/reputation/getUserReputation';
-import updateUser from '../../../utils/mepster/user/updateUser';
 import sendPasswordResetOTP from '../../../utils/email/sendPasswordResetOTP';
 import IsPasswordResetValid from '../validators/extra/passwordResetValidator';
 import getUserPermissions from '../../../permissions/getUserPermissions';
-import addLabelsForUser from '../../../utils/mepster/user/addLablesForUser';
+import addLabelsForUser from '../../../utils/mepster/user/addLabelsForUser';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET, NODE_ENV } from '../../../config';
+import userModel, { userOptions } from '../../../../models/user/UserModel';
 
 const otp_nanoid = customAlphabet('1234567890', 4);
 
@@ -82,26 +81,6 @@ export interface FollowUserInput {
 export interface SetupLanguagesInput {
     langs: Array<string>;
 }
-
-export const userOptions = {
-    include: {
-        _count: {
-            select: {
-                followers: true,
-                following: true,
-            },
-        },
-    },
-};
-
-export const extraUserCreateData = {
-    roles: {
-        create: {
-            name: 'Early User',
-            weight: 0.5,
-        },
-    },
-};
 
 export function getUserJwtToken(user: any) {
     return jwt.sign(
@@ -157,24 +136,13 @@ export async function SignUp(args: SignUpArgs, context: any) {
     let avatar = await createFullAvatar();
 
     try {
-        const user = await prisma.profile.create({
-            data: {
-                username: data.username,
-                email: data.email,
-                name: data.name,
-                password: hashed,
-                avatar: avatar,
-                ...extraUserCreateData,
-            },
-            ...userOptions,
+        await userModel.createUser({
+            username: data.username,
+            email: data.email,
+            name: data.name,
+            password: hashed,
+            avatar: avatar,
         });
-
-        insertUser(
-            {
-                UserId: user.id,
-            },
-            user
-        );
 
         return simpleSignIn(context, data.email, data.password);
     } catch (err) {
@@ -362,15 +330,6 @@ export async function FollowUser(args: FollowUserInput, user: User) {
             },
         });
     }
-
-    updateUser(
-        await prisma.profile.findUnique({
-            where: {
-                username: data.username,
-            },
-            ...userOptions,
-        })
-    );
 
     return 'success';
 }

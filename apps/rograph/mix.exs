@@ -5,9 +5,8 @@ defmodule Rograph.MixProject do
     [
       app: :rograph,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -33,15 +32,20 @@ defmodule Rograph.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.6.15"},
+      {:phoenix, "~> 1.7.2"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:mongodb_driver, "~> 1.0"},
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
-      {:joken, "~> 2.5"}
+      {:phoenix_pubsub, "~> 2.0"},
+      {:absinthe_phoenix, "~> 2.0"},
+      {:joken, "~> 2.5"},
+      {:mongodb_driver, "~> 1.0"},
+      {:elixir_uuid, "~> 1.2"},
+      {:ecto_sql, "~> 3.9"},
+      {:postgrex, "~> 0.16.5"}
     ]
   end
 

@@ -7,12 +7,21 @@
 # General application configuration
 import Config
 
+config :rograph, Rograph.Repo,
+  database: "rograph_repo",
+  username: "user",
+  password: "pass",
+  hostname: "localhost"
+
 # Configures the endpoint
 config :rograph, RographWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: RographWeb.ErrorView, accepts: ~w(json), layout: false],
+  render_errors: [
+    formats: [json: RographWeb.ErrorJSON],
+    layout: false
+  ],
   pubsub_server: Rograph.PubSub,
-  live_view: [signing_salt: "pD5yxBy5"]
+  live_view: [signing_salt: "HQXwM8I7"]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -22,8 +31,20 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Configure the MongoDB database
-config :rograph, Rograph.DataStore.Mongodb.Repo, url: System.get_env("DATABASE_URL")
+# Configure the MongoDB database client
+config :rograph, Rograph.DataStore.Mongodb.MongoRepo, url: System.get_env("DATABASE_URL")
+
+# Configure Ecto for CockroachDB
+config :rograph,
+  ecto_repos: [Rograph.Repo]
+
+config :rograph, Rograph.Repo,
+  database: "rograph",
+  username: "root",
+  hostname: "crdb",
+  port: "26257",
+  ssl: false,
+  migration_lock: false
 
 # Configure Joken
 config :joken, default_signer: System.get_env("JWT_SECRET")

@@ -10,13 +10,10 @@ import {
     VerifyCallback,
 } from 'passport-google-oauth20';
 import slugify from 'slugify';
-import {
-    createFullAvatar,
-    extraUserCreateData,
-    userOptions,
-} from './graphql/resolvers/auth/controllers/auth.controller';
+import { createFullAvatar } from './graphql/resolvers/auth/controllers/auth.controller';
+import userModel, { userOptions } from './models/user/UserModel';
 import prisma from './graphql/utils/data/dbClient';
-import insertUser from './graphql/utils/mepster/user/insertUser';
+
 import {
     DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET,
@@ -44,26 +41,17 @@ async function googleAccountCreate(
             cb(null, matchingUser);
             return;
         }
-        const newUser = await prisma.profile.create({
-            data: {
-                googleId: profile.id,
-                username: slugify(`${profile.displayName}${profile.id}`),
-                name: profile.displayName,
-                email: profile.emails[0].value,
-                avatar: await createFullAvatar(),
-                password: nanoid(77),
-                authMethod: 'google',
-                ...extraUserCreateData,
-            },
-            ...userOptions,
+
+        const newUser = await userModel.createUser({
+            googleId: profile.id,
+            username: slugify(`${profile.displayName}${profile.id}`),
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            avatar: await createFullAvatar(),
+            password: nanoid(77),
+            authMethod: 'google',
         });
 
-        insertUser(
-            {
-                UserId: newUser.id,
-            },
-            newUser
-        );
         cb(null, newUser);
     } else {
         cb(null, new Error('No email found'));
@@ -87,31 +75,20 @@ async function discordAccountCreate(
             cb(null, matchingUser);
             return;
         }
-        const newUser = await prisma.profile.create({
-            data: {
-                discordId: profile.id,
-                username: slugify(
-                    `${profile.username}${profile.discriminator}`
-                ),
-                name: profile.username,
-                email: profile.email,
-                avatar: profile.avatar
-                    ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
-                    : await createFullAvatar(),
-                banner: profile.banner,
-                password: nanoid(77),
-                authMethod: 'discord',
-                ...extraUserCreateData,
-            },
-            ...userOptions,
+
+        const newUser = await userModel.createUser({
+            discordId: profile.id,
+            username: slugify(`${profile.username}${profile.discriminator}`),
+            name: profile.username,
+            email: profile.email,
+            avatar: profile.avatar
+                ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+                : await createFullAvatar(),
+            banner: profile.banner,
+            password: nanoid(77),
+            authMethod: 'discord',
         });
 
-        insertUser(
-            {
-                UserId: newUser.id,
-            },
-            newUser
-        );
         cb(null, newUser);
     } else {
         cb(new Error('No email found'));

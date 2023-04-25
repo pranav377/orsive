@@ -1,6 +1,6 @@
 defmodule Rograph.Auth do
   use Joken.Config
-  alias Rograph.DataStore.Mongodb.Collections.Profile
+  alias Rograph.DataStore.Mongodb.Methods.Profile
 
   def token_config do
     %{}

@@ -8,14 +8,13 @@ import validate from '../../../utils/data/validate';
 import generateFilename from '../../../utils/files/generateFilename';
 import IsImageFileValid from '../../../utils/files/isImageFileValid';
 import saveFile from '../../../utils/files/saveFile';
-import updateUser from '../../../utils/mepster/user/updateUser';
 import GetObjOrNotFound from '../../../utils/getObjOrNotFound';
-import { userOptions } from '../../auth/controllers/auth.controller';
 import {
     getPostsData,
     POST_PRISMA_ARGS,
 } from '../../post/controllers/post.controller';
 import { EDIT_PROFILE_VALIDATOR } from '../validators';
+import userModel from '../../../../models/user/UserModel';
 
 export interface GetProfilePostsArgs {
     username: string;
@@ -205,22 +204,13 @@ export async function EditProfile(args: EditProfileArgs, user: User) {
         );
     }
 
-    let updatedProfile = await prisma.profile.update({
-        where: {
-            id: user.id,
-        },
-        data: {
-            name: data.name,
-            ...(data.username && { username: data.username }),
-            ...(avatar && { avatar }),
-            ...(banner && { banner }),
-            ...(data.bio && { bio: data.bio }),
-        },
-
-        ...userOptions,
+    const updatedProfile = await userModel.updateuser(user.id, {
+        name: data.name,
+        ...(data.username && { username: data.username }),
+        ...(avatar && { avatar }),
+        ...(banner && { banner }),
+        ...(data.bio && { bio: data.bio }),
     });
-
-    updateUser(updatedProfile);
 
     return updatedProfile;
 }

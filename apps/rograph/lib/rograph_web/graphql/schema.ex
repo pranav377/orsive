@@ -10,4 +10,12 @@ defmodule RographWeb.Graphql.Schema do
       resolve(&Resolvers.HelloResolver.hello/3)
     end
   end
+
+  mutation do
+    import_fields(:chat_mutations)
+  end
+
+  subscription do
+    import_fields(:chat_subscriptions)
+  end
 end

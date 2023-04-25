@@ -9,11 +9,11 @@ import Config
 config :rograph, RographWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 5000],
+  http: [ip: {0, 0, 0, 0}, port: 5000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "0sKmglYZhBLvgUuB3+vS5o8uf2m1Xz9Wlmu71fgP4pbEpeOtDjg9er+Wwg8Zudqt",
+  secret_key_base: "RvHwBFAZQW9eKxk96qAh8IraxagNKeNE07CuULUGIJOzEdLtsNoXWteofV3EkR1Z",
   watchers: []
 
 # ## SSL Support
@@ -24,7 +24,6 @@ config :rograph, RographWeb.Endpoint,
 #
 #     mix phx.gen.cert
 #
-# Note that this task requires Erlang/OTP 20 or later.
 # Run `mix help phx.gen.cert` for more information.
 #
 # The `http:` config above can be replaced with:
@@ -39,6 +38,9 @@ config :rograph, RographWeb.Endpoint,
 # If desired, both `http:` and `https:` keys can be
 # configured to run both http and https servers on
 # different ports.
+
+# Enable dev routes for dashboard and mailbox
+config :rograph, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

@@ -12,10 +12,12 @@ defmodule Rograph.Application do
       RographWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Rograph.PubSub},
-      # Start MongoDB client
-      {Mongo, Rograph.DataStore.Mongodb.Repo.config()},
+      {Mongo, Rograph.DataStore.Mongodb.MongoRepo.config()},
+      Rograph.Repo,
+
       # Start the Endpoint (http/https)
-      RographWeb.Endpoint
+      RographWeb.Endpoint,
+      {Absinthe.Subscription, pubsub: RographWeb.Endpoint}
       # Start a worker by calling: Rograph.Worker.start_link(arg)
       # {Rograph.Worker, arg}
     ]

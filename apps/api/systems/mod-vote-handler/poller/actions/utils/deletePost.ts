@@ -1,6 +1,7 @@
 import { PostType } from '@prisma/client';
 import prisma from '../../../../../graphql/utils/data/dbClient';
-import deleteItem from '../../../../../graphql/utils/mepster/item/deleteItem';
+import imageModel from '../../../../../models/post/ImageModel';
+import orsicModel from '../../../../../models/post/OrsicModel';
 
 export default async function (postId: string, postType: PostType) {
     switch (postType) {
@@ -44,17 +45,7 @@ export default async function (postId: string, postType: PostType) {
                 },
             });
 
-            deleteItem(image!.post!.id, image);
-
-            await prisma.image.delete({
-                where: { slug: image!.slug },
-            });
-
-            await prisma.comment.deleteMany({
-                where: {
-                    parentPostId: image!.post!.id,
-                },
-            });
+            await imageModel.deleteImage(image!);
 
             break;
 
@@ -70,17 +61,7 @@ export default async function (postId: string, postType: PostType) {
                 },
             });
 
-            deleteItem(orsic!.post!.id, orsic);
-
-            await prisma.orsic.delete({
-                where: { slug: orsic!.slug },
-            });
-
-            await prisma.comment.deleteMany({
-                where: {
-                    parentPostId: orsic!.post!.id,
-                },
-            });
+            await orsicModel.deleteOrsic(orsic!);
 
             break;
     }

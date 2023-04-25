@@ -10,7 +10,7 @@
         "migrate-dev": "ts-node devMigration.ts",
         "prisma-validate": "npx prisma validate",
         "test-users": "ts-node initTestUsers.ts",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "jest"
     },
     "keywords": [],
     "author": "Pranava Mohan (https://github.com/pranav377)",
@@ -19,7 +19,7 @@
         "@dicebear/avatars": "^4.10.2",
         "@dicebear/avatars-bottts-sprites": "^4.10.2",
         "@graphql-tools/schema": "^8.3.1",
-        "@prisma/client": "^4.2.1",
+        "@prisma/client": "^4.11.0",
         "@sendinblue/client": "^3.1.0",
         "@types/express-session": "^1.17.4",
         "@types/graphql-upload": "^8.0.11",
@@ -56,6 +56,7 @@
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.0",
+        "@types/jest": "^29.5.0",
         "@types/jsdom": "^16.2.14",
         "@types/jsonwebtoken": "^8.5.8",
         "@types/lodash": "^4.14.178",
@@ -65,7 +66,9 @@
         "@types/passport-google-oauth20": "^2.0.11",
         "@types/passport-oauth2-refresh": "^1.1.1",
         "dotenv": "^16.0.1",
+        "jest": "^29.5.0",
         "nodemon": "^2.0.15",
-        "prisma": "^4.2.1"
+        "prisma": "^4.11.0",
+        "ts-jest": "^29.1.0"
     }
 }

@@ -8,6 +8,7 @@
         "test": "playwright test",
         "lint": "next lint"
     },
+    "author": "Pranava Mohan (https://github.com/pranav377)",
     "dependencies": {
         "@apollo/client": "^3.7.1",
         "@emotion/react": "^11.10.6",
