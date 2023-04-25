@@ -9,6 +9,17 @@ defmodule RographWeb.Router do
   scope "/" do
     pipe_through(:api)
 
-    forward("/graphql", Absinthe.Plug, schema: RographWeb.Graphql.Schema)
+    forward("/graphql", Absinthe.Plug,
+      schema: RographWeb.Graphql.Schema,
+      socket: RographWeb.Graphql.RographSocket
+    )
+
+    # graphiql only available in dev
+    if Mix.env() == :dev do
+      forward("/graphiql", Absinthe.Plug.GraphiQL,
+        schema: RographWeb.Graphql.Schema,
+        socket: RographWeb.Graphql.RographSocket
+      )
+    end
   end
 end

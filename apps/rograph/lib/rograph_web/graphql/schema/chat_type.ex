@@ -32,6 +32,7 @@ defmodule RographWeb.Graphql.Schema.Types.ChatType do
 
   object :channel_type do
     field(:id, :id)
+    field(:your_id, :id)
     field(:type, :string)
     field(:metadata, :channel_metadata)
     field(:last_message, :chat_message)
@@ -52,5 +53,48 @@ defmodule RographWeb.Graphql.Schema.Types.ChatType do
     #   arg(:message, non_null(:string))
     #   resolve(&Resolvers.ChatResolver.send_message/3)
     # end
+  end
+
+  object :chat_subscriptions do
+    field :get_channels, list_of(:channel_type) do
+      middleware(Middleware.BlockUnauthenticatedMiddleware)
+      # The topic function is used to determine what topic a given subscription
+      # cares about based on its arguments. You can think of it as a way to tell the
+      # difference between
+      # subscription {
+      #   commentAdded(repoName: "absinthe-graphql/absinthe") { content }
+      # }
+      #
+      # and
+      #
+      # subscription {
+      #   commentAdded(repoName: "elixir-lang/elixir") { content }
+      # }
+      #
+      # If needed, you can also provide a list of topics:
+      #   {:ok, topic: ["absinthe-graphql/absinthe", "elixir-lang/elixir"]}
+      config(fn args, context ->
+        IO.inspect(context.context)
+        {:ok, topic: "pranav"}
+      end)
+
+      # this tells Absinthe to run any subscriptions with this field every time
+      # the :submit_comment mutation happens.
+      # It also has a topic function used to find what subscriptions care about
+      # this particular comment
+      trigger(:chat_create_single_channel,
+        topic: fn _ ->
+          "pranav"
+        end
+      )
+
+      resolve(fn _, _, _ ->
+        # this function is often not actually necessary, as the default resolver
+        # for subscription functions will just do what we're doing here.
+        # The point is, subscription resolvers receive whatever value triggers
+        # the subscription, in our case a comment.
+        {:ok, []}
+      end)
+    end
   end
 end
