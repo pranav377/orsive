@@ -1,0 +1,25 @@
+html {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+#main-sidebar:before {
+    content: '';
+    position: fixed;
+    top: 64px;
+    left: 240px;
+    height: 40px;
+    width: 40px;
+    border-top-left-radius: 50%;
+    box-shadow: -20px 0 0 0 #0f172a;
+    z-index: 9999;
+}

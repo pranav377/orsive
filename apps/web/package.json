@@ -18,7 +18,7 @@
         "@heroicons/react": "^1.0.5",
         "@kodingdotninja/use-tailwind-breakpoint": "^0.0.5",
         "@mui/icons-material": "^5.11.11",
-        "@mui/material": "^5.11.13",
+        "@mui/material": "^5.11.14",
         "@reduxjs/toolkit": "^1.8.6",
         "@sentry/nextjs": "^7.10.0",
         "@tailwindcss/forms": "^0.4.0",
@@ -27,6 +27,7 @@
         "@tinymce/tinymce-react": "^4.0.0",
         "animate.css": "^4.1.1",
         "apollo-upload-client": "^17.0.0",
+        "date-fns": "^2.29.3",
         "firebase": "^9.8.3",
         "formik": "^2.2.9",
         "framer-motion": "^7.6.1",
@@ -64,7 +65,8 @@
         "tailwindcss-ripple": "^0.7.1",
         "text-vide": "^1.5.0",
         "tsparticles": "^2.0.6",
-        "yup": "^0.32.11"
+        "yup": "^0.32.11",
+        "zustand": "^4.3.6"
     },
     "devDependencies": {
         "@playwright/test": "^1.27.1",

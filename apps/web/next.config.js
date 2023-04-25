@@ -5,14 +5,7 @@
 /** @type {import('next').NextConfig} */
 const { withSentryConfig } = require('@sentry/nextjs');
 
-const withPWA = require('next-pwa')({
-    dest: 'public',
-    register: false,
-    cacheOnFrontEndNav: true,
-    dynamicStartUrlRedirect: true,
-});
-
-const moduleExports = withPWA({
+const moduleExports = {
     reactStrictMode: true,
     webpack(config) {
         config.module.rules.push({
@@ -24,14 +17,30 @@ const moduleExports = withPWA({
         return config;
     },
     images: {
-        domains: [
-            'localhost',
-            'cdn.orsive.com',
-            'cdn.discordapp.com',
-            'placeimg.com',
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: 'localhost',
+                port: '4000',
+            },
+            {
+                protocol: 'https',
+                hostname: 'cdn.orsive.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'cdn.discordapp.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'picsum.photos',
+            },
         ],
     },
-});
+    experimental: {
+        appDir: true,
+    },
+};
 
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
