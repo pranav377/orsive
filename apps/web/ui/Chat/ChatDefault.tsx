@@ -15,7 +15,7 @@ import {
     SearchIcon,
     SearchIconWrapper,
     StyledInputBase,
-} from '@/ui/navigation/Search';
+} from '@/ui/Navigation/Search';
 import { useState } from 'react';
 import AvatarActiveBadge from './AvatarActiveBadge';
 

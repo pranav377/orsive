@@ -1,7 +1,7 @@
 'use client';
 
 import Box from '@mui/material/Box';
-import ImagePostCard from '@/ui/posts/ImagePostCard';
+import ImagePostCard from '@/ui/Posts/ImagePostCard';
 
 export default function PostsRenderer() {
     return (

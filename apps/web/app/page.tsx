@@ -1,3 +1,9 @@
+import LandingPageDisplay from '@/ui/LandingPage';
+
 export default function LandingPage() {
-    return <>landing page soon</>;
+    return (
+        <>
+            <LandingPageDisplay />
+        </>
+    );
 }

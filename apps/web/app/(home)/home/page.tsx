@@ -1,4 +1,4 @@
-import PostsRenderer from '@/ui/posts/PostsRenderer';
+import PostsRenderer from '@/ui/Posts/PostsRenderer';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

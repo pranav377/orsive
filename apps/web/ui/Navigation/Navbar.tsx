@@ -12,7 +12,7 @@ import {
     SearchIcon,
     SearchIconWrapper,
     StyledInputBase,
-} from '@/ui/navigation/Search';
+} from '@/ui/Navigation/Search';
 import Link from 'next/link';
 
 export default function Navbar() {
@@ -36,9 +36,10 @@ export default function Navbar() {
                     <Search
                         sx={{
                             height: (theme) => theme.spacing(4),
-                            marginRight: 'auto',
-                            marginLeft: 'auto',
-                            mx: 0.5,
+                            [theme.breakpoints.up('lg')]: {
+                                marginRight: 'auto',
+                                marginLeft: 'auto',
+                            },
                         }}
                     >
                         <SearchIconWrapper>
