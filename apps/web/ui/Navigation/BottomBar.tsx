@@ -41,21 +41,21 @@ export default function BottomBar() {
                         icon={<SvgIcon>{route.icon}</SvgIcon>}
                     />
                 ))}
-                <Fab
-                    color="primary"
-                    aria-label="add post"
-                    sx={{
-                        position: 'absolute',
-                        top: -60,
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        zIndex: 1,
-                        boxShadow: theme.shadows[6],
-                    }}
-                >
-                    <AddIcon />
-                </Fab>
             </BottomNavigation>
+            <Fab
+                color="primary"
+                aria-label="add post"
+                sx={{
+                    position: 'absolute',
+                    bottom: 60,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 1,
+                    boxShadow: theme.shadows[6],
+                }}
+            >
+                <AddIcon />
+            </Fab>
         </Paper>
     );
 }

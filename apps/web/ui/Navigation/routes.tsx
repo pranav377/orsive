@@ -1,8 +1,8 @@
-import HomeIcon from '@/components/svgs/home/home.svg';
-import NotificationsIcon from '@/components/svgs/home/notifications.svg';
-import ChatIcon from '@/components/svgs/home/chat.svg';
-import RoomsIcon from '@/components/svgs/home/rooms.svg';
-import CommunityIcon from '@/components/svgs/home/communities.svg';
+import HomeIcon from '@/components/svgs/Home/home.svg';
+import NotificationsIcon from '@/components/svgs/Home/notifications.svg';
+import ChatIcon from '@/components/svgs/Home/chat.svg';
+import RoomsIcon from '@/components/svgs/Home/rooms.svg';
+import CommunityIcon from '@/components/svgs/Home/communities.svg';
 
 const routes = [
     {
