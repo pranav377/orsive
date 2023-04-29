@@ -8,8 +8,9 @@ import { useTheme } from '@mui/material/styles';
 import GoogleSVG from '@/components/svgs/google-color-logo.svg';
 import DiscordSVG from '@/components/svgs/discord-color-logo.svg';
 import EmailIcon from '@mui/icons-material/Email';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
+import Footer from '@/ui/Navigation/Footer';
+
+import Link from 'next/link';
 
 export default function Auth() {
     const theme = useTheme();
@@ -84,6 +85,8 @@ export default function Auth() {
                             borderRadius: 5,
                             mt: 1,
                         }}
+                        LinkComponent={Link}
+                        href="/auth/login"
                         startIcon={
                             <EmailIcon
                                 sx={
@@ -120,27 +123,7 @@ export default function Auth() {
                 </Box>
             </Box>
 
-            <Paper
-                sx={{
-                    width: '100%',
-                    border: 0,
-                }}
-                component="footer"
-                square
-                variant="outlined"
-            >
-                <Container
-                    maxWidth="lg"
-                    sx={{
-                        textAlign: 'center',
-                        padding: 2,
-                    }}
-                >
-                    <Typography variant="caption">
-                        Copyright ©2023 - Orsive
-                    </Typography>
-                </Container>
-            </Paper>
+            <Footer />
         </>
     );
 }

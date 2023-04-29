@@ -51,7 +51,7 @@ export default function SideBar() {
                                     p: 1.2,
                                     borderRadius: theme.spacing(4),
                                 }}
-                                component={Link}
+                                LinkComponent={Link}
                                 href={route.route}
                             >
                                 <ListItemIcon
