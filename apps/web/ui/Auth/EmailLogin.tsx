@@ -16,7 +16,13 @@ import BackBar from '../Navigation/BackBar';
 import { useRouter } from 'next/navigation';
 import Footer from '@/ui/Navigation/Footer';
 
-const steps = ['Enter E-Mail', 'Enter OTP'];
+const loginSteps = ['Enter E-Mail', 'Enter OTP'];
+const signupSteps = [
+    'Enter E-Mail',
+    'Enter OTP',
+    'Enter Details',
+    'Language Preferences',
+];
 
 const EMAIL_LOGIN_SCHEMA = yup.object({
     email: yup
@@ -79,10 +85,10 @@ export default function EmailLogin() {
                         activeStep={activeStep}
                         sx={{
                             width: '100%',
-                            maxWidth: theme.spacing(48),
+                            maxWidth: theme.spacing(96),
                         }}
                     >
-                        {steps.map((label, index) => {
+                        {loginSteps.map((label, index) => {
                             const stepProps: { completed?: boolean } = {};
                             const labelProps: {
                                 optional?: React.ReactNode;
@@ -124,7 +130,7 @@ export default function EmailLogin() {
                     />
 
                     <Typography variant="h5" sx={{ mt: 1 }}>
-                        Login to continue
+                        Login or Sign up to continue
                     </Typography>
                 </Box>
                 <Box

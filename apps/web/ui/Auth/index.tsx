@@ -59,7 +59,6 @@ export default function Auth() {
                     >
                         Login with Google
                     </Button>
-
                     <Button
                         variant="contained"
                         color="slate"
@@ -77,7 +76,6 @@ export default function Auth() {
                     >
                         Login with Discord
                     </Button>
-
                     <Button
                         variant="contained"
                         sx={{
@@ -87,38 +85,9 @@ export default function Auth() {
                         }}
                         LinkComponent={Link}
                         href="/auth/login"
-                        startIcon={
-                            <EmailIcon
-                                sx={
-                                    {
-                                        // mr: 1.5,
-                                    }
-                                }
-                            />
-                        }
+                        startIcon={<EmailIcon />}
                     >
                         Login with E-Mail
-                    </Button>
-
-                    <Typography
-                        variant="body2"
-                        sx={{
-                            mt: 1,
-                            textAlign: 'center',
-                        }}
-                    >
-                        Or
-                    </Typography>
-
-                    <Button
-                        variant="outlined"
-                        sx={{
-                            textTransform: 'none',
-                            borderRadius: 5,
-                            mt: 1,
-                        }}
-                    >
-                        New here? Sign up
                     </Button>
                 </Box>
             </Box>
