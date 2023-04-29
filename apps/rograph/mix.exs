@@ -45,7 +45,9 @@ defmodule Rograph.MixProject do
       {:mongodb_driver, "~> 1.0"},
       {:elixir_uuid, "~> 1.2"},
       {:ecto_sql, "~> 3.9"},
-      {:postgrex, "~> 0.16.5"}
+      {:postgrex, "~> 0.16.5"},
+      {:swoosh, "~> 1.10"},
+      {:hackney, "~> 1.18"}
     ]
   end
 
@@ -57,7 +59,7 @@ defmodule Rograph.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get", "ecto.create", "ecto.migrate"]
     ]
   end
 end

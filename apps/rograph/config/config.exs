@@ -49,6 +49,11 @@ config :rograph, Rograph.Repo,
 # Configure Joken
 config :joken, default_signer: System.get_env("JWT_SECRET")
 
+# Configure Swoosh
+config :rograph, Rograph.Mailer,
+  adapter: Swoosh.Adapters.Sendinblue,
+  api_key: "my-api-key"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
