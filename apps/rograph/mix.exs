@@ -47,7 +47,9 @@ defmodule Rograph.MixProject do
       {:ecto_sql, "~> 3.9"},
       {:postgrex, "~> 0.16.5"},
       {:swoosh, "~> 1.10"},
-      {:hackney, "~> 1.18"}
+      {:hackney, "~> 1.18"},
+      {:hammer, "~> 6.0"},
+      {:email_checker, "~> 0.2.4"}
     ]
   end
 

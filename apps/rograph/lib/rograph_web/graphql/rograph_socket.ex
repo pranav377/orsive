@@ -6,8 +6,6 @@ defmodule RographWeb.Graphql.RographSocket do
     schema: RographWeb.Graphql.Schema
 
   def connect(params, socket) do
-    IO.inspect(params)
-
     with %{"token" => token} <- params, {:ok, user} <- Auth.verify_user_from_token(token) do
       socket =
         Absinthe.Phoenix.Socket.put_options(socket,

@@ -74,7 +74,6 @@ defmodule RographWeb.Graphql.Schema.Types.ChatType do
       # If needed, you can also provide a list of topics:
       #   {:ok, topic: ["absinthe-graphql/absinthe", "elixir-lang/elixir"]}
       config(fn args, context ->
-        IO.inspect(context.context)
         {:ok, topic: "pranav"}
       end)
 
