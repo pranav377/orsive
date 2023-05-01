@@ -3,6 +3,8 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
   alias Rograph.Auth.User
   alias(Rograph.Auth.OtpEmailLogin)
 
+  import Swoosh.Email
+
   def send_auth_otp(_parent, %{email: email}, _context) do
     case Repo.get_by(User, email: email) do
       # signup process
