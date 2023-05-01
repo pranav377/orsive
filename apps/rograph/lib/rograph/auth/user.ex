@@ -1,9 +1,9 @@
-defmodule Rograph.User do
+defmodule Rograph.Auth.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Rograph.User
-  alias Rograph.Relationship
+  alias Rograph.Auth.User
+  alias Rograph.Auth.Relationship
 
   @primary_key {:id, :string, []}
   schema "users" do

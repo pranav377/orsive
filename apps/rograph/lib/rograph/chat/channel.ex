@@ -18,8 +18,8 @@ defmodule Rograph.Chat.Channel do
     # for handling message requests
     field(:hidden, :boolean)
 
-    many_to_many(:users, Rograph.User, join_through: "users_channels")
-    many_to_many(:typing_users, Rograph.User, join_through: "typing_users_channels")
+    many_to_many(:users, Rograph.Auth.User, join_through: "users_channels")
+    many_to_many(:typing_users, Rograph.Auth.User, join_through: "typing_users_channels")
     has_many(:messages, Rograph.Chat.Message)
     has_many(:read_messages, Rograph.Chat.MessageRead)
     timestamps()

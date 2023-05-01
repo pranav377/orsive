@@ -1,4 +1,4 @@
-defmodule Rograph.Relationship do
+defmodule Rograph.Auth.Relationship do
   use Ecto.Schema
 
   schema "relationships" do
