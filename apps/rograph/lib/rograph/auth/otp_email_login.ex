@@ -17,6 +17,5 @@ defmodule Rograph.Auth.OtpEmailLogin do
     |> cast(attrs, [:otp, :user])
     |> validate_required([:otp, :user])
     |> validate_length(:otp, is: 7)
-    |> add_user()
   end
 end

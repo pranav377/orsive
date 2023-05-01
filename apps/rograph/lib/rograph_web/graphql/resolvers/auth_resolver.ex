@@ -1,7 +1,8 @@
 defmodule RographWeb.Graphql.Resolvers.AuthResolver do
   alias Rograph.Repo
   alias Rograph.Auth.User
-  alias(Rograph.Auth.OtpEmailLogin)
+  alias Rograph.Auth.OtpEmailLogin
+  alias Rograph.Mailer
 
   import Swoosh.Email
 
@@ -25,6 +26,17 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
         |> Repo.insert()
 
         # send otp to email
+        email =
+          new()
+          |> from({"Orsive", "no-reply@orsive.com"})
+          |> to(user.email)
+          |> put_provider_option(
+            :template_id,
+            Application.get_env(:rograph, Rograph.Mailer)[:email_login_template_id]
+          )
+          |> put_provider_option(:params, %{otp: otp, fullname: user.name})
+
+        Mailer.deliver(email)
 
         {:ok, %{type: "login"}}
     end
