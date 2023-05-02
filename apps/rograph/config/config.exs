@@ -53,8 +53,8 @@ config :joken, default_signer: System.get_env("JWT_SECRET")
 config :rograph, Rograph.Mailer,
   adapter: Swoosh.Adapters.Sendinblue,
   api_key: System.get_env("SENDINBLUE_API_KEY") || "my-api-key",
-  email_login_template_id: System.get_env("EMAIL_LOGIN_TEMPLATE_ID") || 1,
-  email_signup_template_id: System.get_env("EMAIL_SIGNUP_TEMPLATE_ID") || 2
+  email_login_template_id: String.to_integer(System.get_env("EMAIL_LOGIN_TEMPLATE_ID") || "1"),
+  email_signup_template_id: String.to_integer(System.get_env("EMAIL_SIGNUP_TEMPLATE_ID") || "2")
 
 # Configure Rate Limiter
 config :hammer,

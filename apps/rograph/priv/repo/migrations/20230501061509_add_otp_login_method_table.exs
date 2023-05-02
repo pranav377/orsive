@@ -4,7 +4,7 @@ defmodule Rograph.Repo.Migrations.AddOtpLoginMethodTable do
   def change do
     create table(:otp_email_login) do
       add(:otp, :text, null: false)
-      add(:user_id, references(:users, type: :text, on_delete: :delete_all))
+      add(:email, :text, null: false)
 
       timestamps()
     end

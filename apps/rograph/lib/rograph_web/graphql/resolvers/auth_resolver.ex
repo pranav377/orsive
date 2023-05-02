@@ -7,23 +7,43 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
   import Swoosh.Email
 
   def send_auth_otp(_parent, %{email: email}, _context) do
+    otp = generate_otp()
+
     case Repo.get_by(User, email: email) do
       # signup process
       nil ->
-        IO.puts("signup")
+        {:ok, _} =
+          %OtpEmailLogin{}
+          |> OtpEmailLogin.changeset(%{
+            otp: otp,
+            email: email
+          })
+          |> Repo.insert()
+
+        # send otp to email
+        email =
+          new()
+          |> from({"Orsive", "no-reply@orsive.com"})
+          |> to(email)
+          |> put_provider_option(
+            :template_id,
+            Application.get_env(:rograph, Rograph.Mailer)[:email_signup_template_id]
+          )
+          |> put_provider_option(:params, %{otp: otp})
+
+        {:ok, _} = Mailer.deliver(email)
+
         {:ok, %{type: "signup"}}
 
       # login process
       user ->
-        # generate 7 digit otp
-        otp = generate_otp()
-
-        %OtpEmailLogin{}
-        |> OtpEmailLogin.changeset(%{
-          otp: otp,
-          user: user
-        })
-        |> Repo.insert()
+        {:ok, _} =
+          %OtpEmailLogin{}
+          |> OtpEmailLogin.changeset(%{
+            otp: otp,
+            email: user.email
+          })
+          |> Repo.insert()
 
         # send otp to email
         email =
@@ -36,7 +56,7 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
           )
           |> put_provider_option(:params, %{otp: otp, fullname: user.name})
 
-        Mailer.deliver(email)
+        {:ok, _} = Mailer.deliver(email)
 
         {:ok, %{type: "login"}}
     end

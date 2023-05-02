@@ -6,7 +6,7 @@ defmodule Rograph.Auth.OtpEmailLogin do
 
   schema "otp_email_login" do
     field(:otp, :string)
-    belongs_to(:user, Rograph.Auth.User, type: :string)
+    field(:email, :string)
 
     timestamps()
   end
@@ -14,8 +14,9 @@ defmodule Rograph.Auth.OtpEmailLogin do
   @doc false
   def changeset(channel, attrs) do
     channel
-    |> cast(attrs, [:otp, :user])
-    |> validate_required([:otp, :user])
+    |> cast(attrs, [:otp, :email])
+    |> validate_required([:otp, :email])
+    |> validate_format(:email, ~r/@/)
     |> validate_length(:otp, is: 7)
   end
 end
