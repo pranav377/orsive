@@ -1,6 +1,8 @@
 defmodule Rograph.Auth.Relationship do
   use Ecto.Schema
 
+  @timestamps_opts [type: :utc_datetime]
+
   schema "relationships" do
     field(:user_id, :string)
     field(:relation_id, :string)

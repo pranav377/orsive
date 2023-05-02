@@ -49,7 +49,8 @@ defmodule Rograph.MixProject do
       {:swoosh, "~> 1.10"},
       {:hackney, "~> 1.18"},
       {:hammer, "~> 6.0"},
-      {:email_checker, "~> 0.2.4"}
+      {:email_checker, "~> 0.2.4"},
+      {:hash_color_avatar, "~> 0.1.0"}
     ]
   end
 

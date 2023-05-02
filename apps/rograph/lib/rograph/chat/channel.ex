@@ -2,6 +2,8 @@ defmodule Rograph.Chat.Channel do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [type: :utc_datetime]
+
   @primary_key {:id, :string, []}
   schema "channels" do
     # for group only

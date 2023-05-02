@@ -9,6 +9,11 @@ defmodule RographWeb.Graphql.Schema.Types.AuthType do
     field(:type, :string)
   end
 
+  object :login_response do
+    field(:user, :chat_user)
+    field(:token, :string)
+  end
+
   object :auth_mutations do
     @desc "Send OTP for login or signup"
     field :send_auth_otp, :otp_response do
@@ -17,6 +22,28 @@ defmodule RographWeb.Graphql.Schema.Types.AuthType do
       middleware(Middleware.Validators.EmailValidator)
       arg(:email, non_null(:string))
       resolve(&Resolvers.AuthResolver.send_auth_otp/3)
+    end
+
+    @desc "Login with email"
+    field :login_auth_email, :login_response do
+      middleware(Middleware.BlockAlreadyAuthenticatedMiddleware)
+      middleware(Middleware.RateLimitingMiddleware, field: "send_auth_otp", limit: 50, period: 60)
+      middleware(Middleware.Validators.EmailValidator)
+      arg(:email, non_null(:string))
+      arg(:otp, non_null(:string))
+      resolve(&Resolvers.AuthResolver.login_auth_email/3)
+    end
+
+    @desc "Login with email"
+    field :signup_auth_email, :login_response do
+      middleware(Middleware.BlockAlreadyAuthenticatedMiddleware)
+      middleware(Middleware.RateLimitingMiddleware, field: "send_auth_otp", limit: 50, period: 60)
+      middleware(Middleware.Validators.EmailValidator)
+      arg(:email, non_null(:string))
+      arg(:username, non_null(:string))
+      arg(:name, non_null(:string))
+      arg(:otp, non_null(:string))
+      resolve(&Resolvers.AuthResolver.signup_auth_email/3)
     end
   end
 end

@@ -13,6 +13,8 @@ defmodule Rograph.Auth.User do
     field(:avatar, :string)
     field(:banner, :string)
     field(:bio, :string)
+    # email / google / discord
+    field(:auth_method, :string)
     field(:last_active, :utc_datetime)
     field(:joined, :utc_datetime)
     many_to_many(:channels, Rograph.Chat.Channel, join_through: "users_channels")
@@ -38,10 +40,10 @@ defmodule Rograph.Auth.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:id, :username, :email, :name])
+    |> cast(attrs, [:id, :username, :email, :name, :avatar, :banner, :bio, :auth_method])
+    |> validate_required([:id, :username, :email, :name, :avatar, :auth_method])
     |> unique_constraint(:id)
     |> unique_constraint(:email)
     |> unique_constraint(:username)
-    |> validate_required([])
   end
 end
