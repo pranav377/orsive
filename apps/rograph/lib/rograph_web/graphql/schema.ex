@@ -9,6 +9,8 @@ defmodule RographWeb.Graphql.Schema do
     field :hello, :hello_type do
       resolve(&Resolvers.HelloResolver.hello/3)
     end
+
+    import_fields(:auth_queries)
   end
 
   mutation do
