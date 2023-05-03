@@ -4,6 +4,7 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
   alias Rograph.Auth.OtpEmailLogin
   alias Rograph.Mailer
   alias Swoosh.Email
+  alias Rograph.Uploaders.UserAvatar
 
   import Ecto.Query
 
@@ -104,12 +105,22 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
 
     if generated_otp != nil do
       with true <- OtpEmailLogin.is_valid?(generated_otp, otp) do
+        avatar = HashColorAvatar.gen_avatar(name, shape: "rect", size: 180)
+
+        url =
+          UserAvatar.save_file!(%{
+            name: "avatar.svg",
+            binary: avatar
+          })
+
         {:ok, _} =
           %User{}
           |> User.changeset(%{
             email: email,
             username: username,
-            name: name
+            name: name,
+            avatar: url,
+            type: "email"
           })
           |> Repo.insert()
       else

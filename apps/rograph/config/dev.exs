@@ -51,3 +51,9 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# for file uploading
+config :arc,
+  storage: Arc.Storage.Local,
+  storage_dir: "uploads-dev",
+  cdn: "http://localhost:5000/uploads"
