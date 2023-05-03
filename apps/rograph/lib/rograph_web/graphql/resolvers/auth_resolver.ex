@@ -1,5 +1,6 @@
 defmodule RographWeb.Graphql.Resolvers.AuthResolver do
   alias Rograph.Repo
+  alias Rograph.Auth
   alias Rograph.Auth.User
   alias Rograph.Auth.OtpEmailLogin
   alias Rograph.Mailer
@@ -105,24 +106,34 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
 
     if generated_otp != nil do
       with true <- OtpEmailLogin.is_valid?(generated_otp, otp) do
-        avatar = HashColorAvatar.gen_avatar(name, shape: "rect", size: 180)
+        user_id = UUID.uuid1()
+        avatar = HashColorAvatar.gen_avatar(name, size: 180)
 
-        url =
+        avatar_url =
           UserAvatar.save_file!(%{
             name: "avatar.svg",
             binary: avatar
           })
 
-        {:ok, _} =
+        {:ok, user} =
           %User{}
           |> User.changeset(%{
+            id: user_id,
             email: email,
             username: username,
             name: name,
-            avatar: url,
-            type: "email"
+            avatar: avatar_url,
+            auth_method: "email"
           })
           |> Repo.insert()
+
+        {:ok, jwt_token, _} = Auth.encode_and_sign(user, %{}, auth_time: true)
+
+        {:ok,
+         %{
+           user: user,
+           token: jwt_token
+         }}
       else
         _ -> {:error, "OTP doesn't match"}
       end

@@ -1,19 +1,30 @@
 defmodule Rograph.Auth do
-  use Joken.Config
-  alias Rograph.DataStore.Mongodb.Methods.Profile
+  use Guardian, otp_app: :rograph
+  alias Rograph.Auth.User
+  alias Rograph.Repo
 
-  def token_config do
-    %{}
-    |> add_claim("iss", fn -> "Orsive" end, &(&1 == "Orsive"))
-    |> add_claim("aud", fn -> "Orsive" end, &(&1 == "Orsive"))
+  def subject_for_token(%{id: id}, _claims) do
+    # You can use any value for the subject of your token but
+    # it should be useful in retrieving the resource later, see
+    # how it being used on `resource_from_claims/1` function.
+    # A unique `id` is a good subject, a non-unique email address
+    # is a poor subject.
+    sub = to_string(id)
+    {:ok, sub}
   end
 
-  def verify_user_from_token(token) do
-    with {:ok, %{"id" => id}} <- verify_and_validate(token),
-         {:ok, user} <- Profile.get_user(id) do
-      {:ok, user}
-    else
-      _ -> {:error, "Unable to verify user"}
+  def subject_for_token(_, _) do
+    {:error, :reason_for_error}
+  end
+
+  def resource_from_claims(%{"sub" => id}) do
+    case Repo.get(User, id) do
+      nil -> {:error, :resource_not_found}
+      user -> {:ok, user}
     end
+  end
+
+  def resource_from_claims(_claims) do
+    {:error, :reason_for_error}
   end
 end

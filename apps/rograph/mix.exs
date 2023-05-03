@@ -41,8 +41,6 @@ defmodule Rograph.MixProject do
       {:absinthe_plug, "~> 1.5"},
       {:phoenix_pubsub, "~> 2.0"},
       {:absinthe_phoenix, "~> 2.0"},
-      {:joken, "~> 2.5"},
-      {:mongodb_driver, "~> 1.0"},
       {:elixir_uuid, "~> 1.2"},
       {:ecto_sql, "~> 3.9"},
       {:postgrex, "~> 0.16.5"},
@@ -55,7 +53,8 @@ defmodule Rograph.MixProject do
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:poison, "~> 3.1"},
-      {:sweet_xml, "~> 0.6"}
+      {:sweet_xml, "~> 0.6"},
+      {:guardian, "~> 2.0"}
     ]
   end
 

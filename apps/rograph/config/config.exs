@@ -46,8 +46,10 @@ config :rograph, Rograph.Repo,
   ssl: false,
   migration_lock: false
 
-# Configure Joken
-config :joken, default_signer: System.get_env("JWT_SECRET")
+# Configure Guardian
+config :rograph, Rograph.Auth,
+  issuer: "Orsive",
+  secret_key: System.get_env("JWT_SECRET")
 
 # Configure Swoosh
 config :rograph, Rograph.Mailer,

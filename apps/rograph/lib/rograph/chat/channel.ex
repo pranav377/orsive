@@ -56,36 +56,36 @@ defmodule Rograph.Chat.Channel do
   end
 
   defp check_users_exist(changeset) do
-    user_ids = get_change(changeset, :user_ids)
-    self_user_id = get_change(changeset, :self_user_id)
+    # user_ids = get_change(changeset, :user_ids)
+    # self_user_id = get_change(changeset, :self_user_id)
 
-    all_user_ids = [self_user_id | user_ids]
+    # all_user_ids = [self_user_id | user_ids]
 
-    with {:ok, user_count} <-
-           Rograph.DataStore.Mongodb.Methods.Profile.get_users_count(all_user_ids) do
-      if length(all_user_ids) == user_count do
-        changeset
-      else
-        add_error(changeset, :user_ids, "1 or more users don't exist")
-      end
-    else
-      _ ->
-        add_error(changeset, :user_ids, "1 or more IDs is invalid")
-    end
+    # with {:ok, user_count} <-
+    #        Rograph.DataStore.Mongodb.Methods.Profile.get_users_count(all_user_ids) do
+    #   if length(all_user_ids) == user_count do
+    #     changeset
+    #   else
+    #     add_error(changeset, :user_ids, "1 or more users don't exist")
+    #   end
+    # else
+    #   _ ->
+    #     add_error(changeset, :user_ids, "1 or more IDs is invalid")
+    # end
   end
 
   defp add_users(changeset) do
-    user_ids = get_change(changeset, :user_ids)
-    self_user_id = get_change(changeset, :self_user_id)
+    # user_ids = get_change(changeset, :user_ids)
+    # self_user_id = get_change(changeset, :self_user_id)
 
-    all_user_ids = [self_user_id | user_ids]
+    # all_user_ids = [self_user_id | user_ids]
 
-    with {:ok, users} <- Rograph.DataStore.Mongodb.Methods.Profile.get_users(all_user_ids) do
-      put_assoc(changeset, :users, users)
-    else
-      _ ->
-        add_error(changeset, :user_ids, "1 or more IDs is invalid")
-    end
+    # with {:ok, users} <- Rograph.DataStore.Mongodb.Methods.Profile.get_users(all_user_ids) do
+    #   put_assoc(changeset, :users, users)
+    # else
+    #   _ ->
+    #     add_error(changeset, :user_ids, "1 or more IDs is invalid")
+    # end
   end
 
   # defp generate_id(changeset) do

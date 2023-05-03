@@ -16,7 +16,8 @@ defmodule RographWeb.Plugs.Context do
     client_ip = Enum.join(Tuple.to_list(ip), ".")
 
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, user} <- Auth.verify_user_from_token(token) do
+         {:ok, claims} <- Auth.decode_and_verify(token, %{}, max_age: {365, :days}),
+         {:ok, user} <- Auth.resource_from_claims(claims) do
       %{user: user, user_id: user.id, is_authenticated: true, client_ip: client_ip}
     else
       _ -> %{user: nil, user_id: nil, is_authenticated: false, client_ip: client_ip}
