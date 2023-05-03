@@ -55,5 +55,5 @@ config :phoenix, :plug_init_mode, :runtime
 # for file uploading
 config :arc,
   storage: Arc.Storage.Local,
-  storage_dir: "uploads-dev",
+  storage_dir: "uploads",
   cdn: "http://localhost:5000/uploads"

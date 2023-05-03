@@ -31,7 +31,7 @@ defmodule RographWeb.Endpoint do
   )
 
   if Mix.env() == :dev do
-    plug(Plug.Static, at: "/uploads", from: Path.expand("./uploads-dev"))
+    plug(Plug.Static, at: "/uploads", from: Path.expand("./uploads"))
   end
 
   # Code reloading can be explicitly enabled under the

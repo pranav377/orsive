@@ -3,7 +3,7 @@ defmodule Rograph.Uploaders.UserAvatar do
   alias Rograph.Uploaders.UserAvatar
   alias RographWeb.Uploaders.Methods
 
-  def acl(:thumb, _), do: :public_read
+  @acl :public_read
 
   # Include ecto support (requires package arc_ecto installed):
   # use Arc.Ecto.Definition
@@ -36,7 +36,7 @@ defmodule Rograph.Uploaders.UserAvatar do
 
   # Override the storage directory:
   def storage_dir(version, {file, scope}) do
-    "uploads-dev/avatars/#{scope.id}"
+    "uploads/avatars/#{scope.id}"
   end
 
   # Provide a default URL if there hasn't been a file uploaded
