@@ -48,7 +48,6 @@ defmodule Rograph.MixProject do
       {:hackney, "~> 1.18"},
       {:hammer, "~> 6.0"},
       {:email_checker, "~> 0.2.4"},
-      {:hash_color_avatar, "~> 0.1.0"},
       {:arc, "~> 0.11.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},

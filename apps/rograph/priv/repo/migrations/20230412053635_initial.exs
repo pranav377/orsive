@@ -16,7 +16,9 @@ defmodule Rograph.Repo.Migrations.Initial do
       add(:joined, :utc_datetime, default: fragment("now()"))
     end
 
-    create(unique_index(:users, [:id, :username, :email]))
+    create(unique_index(:users, [:id]))
+    create(unique_index(:users, [:username]))
+    create(unique_index(:users, [:email]))
 
     create table(:channels, primary_key: false) do
       add(:id, :text, primary_key: true)

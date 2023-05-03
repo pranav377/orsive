@@ -6,6 +6,8 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
   alias Rograph.Mailer
   alias Swoosh.Email
   alias Rograph.Uploaders.UserAvatar
+  alias Rograph.HashColorAvatar
+  alias RographWeb.Graphql.HandleChangesetError
 
   import Ecto.Query
 
@@ -107,7 +109,7 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
     if generated_otp != nil do
       with true <- OtpEmailLogin.is_valid?(generated_otp, otp) do
         user_id = UUID.uuid1()
-        avatar = HashColorAvatar.gen_avatar(name, size: 180)
+        avatar = HashColorAvatar.gen_avatar(name, shape: "rect", size: 180)
 
         avatar_url =
           UserAvatar.save_file!(%{
@@ -115,25 +117,28 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
             binary: avatar
           })
 
-        {:ok, user} =
-          %User{}
-          |> User.changeset(%{
-            id: user_id,
-            email: email,
-            username: username,
-            name: name,
-            avatar: avatar_url,
-            auth_method: "email"
-          })
-          |> Repo.insert()
+        case %User{}
+             |> User.changeset(%{
+               id: user_id,
+               email: email,
+               username: username,
+               name: name,
+               avatar: avatar_url,
+               auth_method: "email"
+             })
+             |> Repo.insert() do
+          {:ok, user} ->
+            {:ok, jwt_token, _} = Auth.encode_and_sign(user, %{}, auth_time: true)
 
-        {:ok, jwt_token, _} = Auth.encode_and_sign(user, %{}, auth_time: true)
+            {:ok,
+             %{
+               user: user,
+               token: jwt_token
+             }}
 
-        {:ok,
-         %{
-           user: user,
-           token: jwt_token
-         }}
+          {:error, changeset} ->
+            HandleChangesetError.handle(changeset)
+        end
       else
         _ -> {:error, "OTP doesn't match"}
       end
