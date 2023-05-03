@@ -87,9 +87,23 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
         )
       )
 
-    IO.inspect(generated_otp)
+    if generated_otp != nil do
+      with true <- OtpEmailLogin.is_valid?(generated_otp, otp) do
+        user = Repo.get_by!(User, email: email)
 
-    {:ok, %{}}
+        {:ok, jwt_token, _} = Auth.encode_and_sign(user, %{}, auth_time: true)
+
+        {:ok,
+         %{
+           user: user,
+           token: jwt_token
+         }}
+      else
+        _ -> {:error, "OTP doesn't match"}
+      end
+    else
+      {:error, "OTP not generated for user"}
+    end
   end
 
   def signup_auth_email(
