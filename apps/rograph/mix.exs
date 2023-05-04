@@ -53,7 +53,8 @@ defmodule Rograph.MixProject do
       {:ex_aws_s3, "~> 2.0"},
       {:poison, "~> 3.1"},
       {:sweet_xml, "~> 0.6"},
-      {:guardian, "~> 2.0"}
+      {:guardian, "~> 2.0"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 

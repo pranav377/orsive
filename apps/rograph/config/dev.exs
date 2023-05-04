@@ -9,7 +9,7 @@ import Config
 config :rograph, RographWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {0, 0, 0, 0}, port: 5000],
+  http: [ip: {0, 0, 0, 0}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
@@ -56,4 +56,4 @@ config :phoenix, :plug_init_mode, :runtime
 config :arc,
   storage: Arc.Storage.Local,
   storage_dir: "uploads",
-  cdn: "http://localhost:5000/uploads"
+  cdn: "http://localhost:4000/uploads"

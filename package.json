@@ -8,7 +8,7 @@
     ],
     "scripts": {
         "build": "turbo run build",
-        "dev": "NODE_OPTIONS='--inspect' turbo run dev --parallel --no-daemon",
+        "dev": "NODE_OPTIONS='--inspect' turbo run dev --parallel --no-daemon --filter=!api",
         "backend": "turbo run dev --parallel --filter=!web",
         "setup": "ts-node setup.ts",
         "lint": "turbo run lint",

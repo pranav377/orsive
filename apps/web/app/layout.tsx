@@ -3,7 +3,7 @@ import Script from 'next/script';
 
 import './globals.css';
 
-import MUISetup from './MUISetup';
+import Setup from './setup';
 import { Roboto } from 'next/font/google';
 
 export const roboto = Roboto({
@@ -50,7 +50,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" className={roboto.className}>
-            <MUISetup>{children}</MUISetup>
+            <Setup>{children}</Setup>
             <Script
                 async
                 src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
