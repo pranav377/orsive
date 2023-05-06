@@ -1,6 +1,6 @@
 'use client';
 
-import colors from '@/logic/colors';
+import colors from '@/technique/colors';
 import Channels from '@/ui/Chat/Channels';
 
 export default function ChatLayout({

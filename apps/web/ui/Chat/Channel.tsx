@@ -8,11 +8,11 @@ import Typography from '@mui/material/Typography';
 import Image from 'next/image';
 
 import { useTheme } from '@mui/material/styles';
-import colors from '@/logic/colors';
+import colors from '@/technique/colors';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useRouter } from 'next/navigation';
-import relativeDate from '@/logic/relativeDate';
+import relativeDate from '@/technique/relativeDate';
 import AvatarActiveBadge from './AvatarActiveBadge';
 
 const channel = {

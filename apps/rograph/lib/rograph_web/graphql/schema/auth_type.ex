@@ -6,7 +6,7 @@ defmodule RographWeb.Graphql.Schema.Types.AuthType do
 
   object :otp_response do
     # login or signup
-    field(:type, :string)
+    field(:type, non_null(:string))
   end
 
   object :login_response do

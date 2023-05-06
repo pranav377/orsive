@@ -1,7 +1,8 @@
 'use client';
 
 import { PaletteColorOptions, createTheme } from '@mui/material/styles';
-import colors from '@/logic/colors';
+import colors from '@/technique/colors';
+import type {} from '@mui/lab/themeAugmentation';
 
 declare module '@mui/material/styles' {
     interface CustomPalette {

@@ -84,7 +84,7 @@ export default function Auth() {
                             mt: 1,
                         }}
                         LinkComponent={Link}
-                        href="/auth/login"
+                        href="/auth/email"
                         startIcon={<EmailIcon />}
                     >
                         Login with E-Mail

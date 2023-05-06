@@ -7,10 +7,10 @@ import Avatar from '@mui/material/Avatar';
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import colors from '@/logic/colors';
+import colors from '@/technique/colors';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
-import relativeDate from '@/logic/relativeDate';
+import relativeDate from '@/technique/relativeDate';
 import AvatarActiveBadge from './AvatarActiveBadge';
 
 const channelsDrawerWidth = '25%';

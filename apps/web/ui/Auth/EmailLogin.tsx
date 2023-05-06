@@ -10,19 +10,29 @@ import { useFormik, FormikErrors, FormikTouched } from 'formik';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
+import CircularProgress from '@mui/material/CircularProgress';
+import LoadingButton from '@mui/lab/LoadingButton';
 import * as yup from 'yup';
-import { useState } from 'react';
+import { Dispatch, FocusEvent, SetStateAction, useState } from 'react';
 import BackBar from '../Navigation/BackBar';
 import { useRouter } from 'next/navigation';
 import Footer from '@/ui/Navigation/Footer';
+import { useMutation } from 'urql';
+import invariant from 'tiny-invariant';
+import SEND_AUTH_OTP from '@/graphql/mutations/sendAuthOtp';
+import CHECK_USERNAME from '@/graphql/queries/checkUsername';
+import SIGNUP_AUTH_EMAIL from '@/graphql/mutations/signupAuthEmail';
+import LOGIN_AUTH_EMAIL from '@/graphql/mutations/loginAuthEmail';
 
-const loginSteps = ['Enter E-Mail', 'Enter OTP'];
-const signupSteps = [
-    'Enter E-Mail',
-    'Enter OTP',
-    'Enter Details',
-    'Language Preferences',
-];
+const steps = {
+    login: ['Enter E-Mail', 'Enter OTP'],
+    signup: [
+        'Enter E-Mail',
+        'Enter OTP',
+        'Enter Details',
+        'Language Preferences',
+    ],
+};
 
 const EMAIL_LOGIN_SCHEMA = yup.object({
     email: yup
@@ -41,11 +51,18 @@ interface MultiStepFormProps<Values> {
     errors: FormikErrors<Values>;
     touched: FormikTouched<Values>;
     handleChange: (e: any) => void;
+    handleBlur: {
+        (e: FocusEvent<any, Element>): void;
+        <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
+    };
+
+    setFieldError: (field: string, value: string | undefined) => void;
 }
 
 export default function EmailLogin() {
     const theme = useTheme();
 
+    const [currForm, setCurrForm] = useState<'login' | 'signup'>('login');
     const [activeStep, setActiveStep] = useState(0);
 
     const formik = useFormik({
@@ -55,13 +72,13 @@ export default function EmailLogin() {
         },
         validationSchema: EMAIL_LOGIN_SCHEMA,
         onSubmit: (values, helpers) => {
-            alert(JSON.stringify(values, null, 2));
-
             helpers.setSubmitting(false);
         },
     });
 
     const router = useRouter();
+
+    formik.handleChange;
 
     return (
         <>
@@ -88,7 +105,7 @@ export default function EmailLogin() {
                             maxWidth: theme.spacing(96),
                         }}
                     >
-                        {loginSteps.map((label, index) => {
+                        {steps[currForm].map((label, index) => {
                             const stepProps: { completed?: boolean } = {};
                             const labelProps: {
                                 optional?: React.ReactNode;
@@ -128,9 +145,14 @@ export default function EmailLogin() {
                             width: theme.spacing(6),
                         }}
                     />
-
                     <Typography variant="h5" sx={{ mt: 1 }}>
-                        Login or Sign up to continue
+                        {activeStep === 0 && 'Login or Sign up to continue'}
+                        {activeStep === 1 &&
+                            currForm === 'login' &&
+                            'Enter OTP'}
+                        {activeStep === 1 &&
+                            currForm === 'signup' &&
+                            'We are thrilled to welcome you here!'}
                     </Typography>
                 </Box>
                 <Box
@@ -150,24 +172,14 @@ export default function EmailLogin() {
                             width: '100%',
                         }}
                     >
-                        {activeStep === 0 && <Step1 {...formik} />}
+                        {activeStep === 0 && (
+                            <Step1
+                                {...formik}
+                                setActiveStep={setActiveStep}
+                                setCurrForm={setCurrForm}
+                            />
+                        )}
                         {activeStep === 1 && <Step2 {...formik} />}
-
-                        <Button
-                            variant="contained"
-                            sx={{ mt: 1, textTransform: 'none' }}
-                            type="button"
-                            disabled={formik.isSubmitting}
-                            onClick={() => {
-                                if (activeStep === 0) {
-                                    setActiveStep(1);
-                                } else {
-                                    formik.handleSubmit;
-                                }
-                            }}
-                        >
-                            Send OTP
-                        </Button>
                     </form>
                 </Box>
             </Box>
@@ -181,9 +193,15 @@ function Step1(
     props: MultiStepFormProps<{
         email: string;
         otp: string;
-    }>
+    }> & {
+        setCurrForm: Dispatch<SetStateAction<'login' | 'signup'>>;
+        setActiveStep: Dispatch<SetStateAction<number>>;
+    }
 ) {
     const formik = props;
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [_sendAuthOtpResult, sendAuthOtp] = useMutation(SEND_AUTH_OTP);
 
     return (
         <>
@@ -193,11 +211,40 @@ function Step1(
                 label="Email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 type="email"
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
                 variant="outlined"
             />
+
+            <LoadingButton
+                variant="contained"
+                sx={{ mt: 1, textTransform: 'none' }}
+                type="button"
+                loading={isSubmitting}
+                size="medium"
+                onClick={() => {
+                    setIsSubmitting(true);
+
+                    sendAuthOtp({
+                        email: formik.values.email,
+                    })
+                        .then((result) => {
+                            invariant(result.data?.sendAuthOtp);
+                            const email_auth_type = result.data.sendAuthOtp
+                                .type as 'login' | 'signup';
+                            formik.setCurrForm(email_auth_type);
+                            formik.setActiveStep(1);
+                        })
+                        .catch(() => {
+                            formik.setFieldError('email', 'Email is not valid');
+                        })
+                        .finally(() => setIsSubmitting(false));
+                }}
+            >
+                Send Otp
+            </LoadingButton>
         </>
     );
 }
@@ -209,6 +256,9 @@ function Step2(
     }>
 ) {
     const formik = props;
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [_loginAuthEmailResult, loginAuthEmail] =
+        useMutation(LOGIN_AUTH_EMAIL);
 
     return (
         <>
@@ -218,11 +268,25 @@ function Step2(
                 label="OTP"
                 value={formik.values.otp}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 type="text"
                 error={formik.touched.otp && Boolean(formik.errors.otp)}
                 helperText={formik.touched.otp && formik.errors.otp}
                 variant="outlined"
             />
+
+            <LoadingButton
+                variant="contained"
+                sx={{ mt: 1, textTransform: 'none' }}
+                type="button"
+                loading={isSubmitting}
+                size="medium"
+                onClick={() => {
+                    setIsSubmitting(true);
+                }}
+            >
+                Login
+            </LoadingButton>
         </>
     );
 }

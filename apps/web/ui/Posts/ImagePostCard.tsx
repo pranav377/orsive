@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import colors from '@/logic/colors';
+import colors from '@/technique/colors';
 import Image from 'next/image';
 import { useTheme } from '@mui/material/styles';
 import Linkify from 'react-linkify';

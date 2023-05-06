@@ -42,6 +42,7 @@ defmodule Rograph.Auth.User do
     user
     |> cast(attrs, [:id, :username, :email, :name, :avatar, :banner, :bio, :auth_method])
     |> validate_required([:id, :username, :email, :name, :avatar, :auth_method])
+    |> validate_length(:username, max: 20)
     |> unique_constraint(:id)
     |> unique_constraint(:email)
     |> unique_constraint(:username)
