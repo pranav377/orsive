@@ -6,10 +6,10 @@ defmodule RographWeb.Graphql.Schema.Types.ChatType do
   alias RographWeb.Graphql.Middleware
 
   object :chat_user do
-    field(:id, :id)
-    field(:username, :string)
-    field(:name, :string)
-    field(:avatar, :string)
+    field(:id, non_null(:id))
+    field(:username, non_null(:string))
+    field(:name, non_null(:string))
+    field(:avatar, non_null(:string))
   end
 
   object :chat_message do

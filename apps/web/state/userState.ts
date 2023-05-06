@@ -2,44 +2,30 @@ import { create } from 'zustand';
 
 interface UserState {
     is: boolean;
+    id: string;
     username: string;
     avatar: string;
     name: string;
-    unreadNotifications: boolean;
-    setupComplete: boolean;
-    isMod: boolean;
-    isStaff: boolean;
     bio?: string;
 }
 
 interface UserActions {
     login: (data: {
+        id: string;
         username: string;
         avatar: string;
         name: string;
-        setupComplete: boolean;
-        isMod: boolean;
-        isStaff: boolean;
     }) => void;
 
     logout: () => void;
-
-    notificationsRead: () => void;
-
-    setNotification: (status: boolean) => void;
-
-    makeSetupComplete: () => void;
 }
 
 const initialState: UserState = {
     is: false,
+    id: '',
     username: '',
     avatar: '',
     name: '',
-    unreadNotifications: false,
-    setupComplete: true,
-    isMod: false,
-    isStaff: false,
 };
 
 const useUserState = create<UserState & UserActions>()((set) => ({
@@ -47,28 +33,14 @@ const useUserState = create<UserState & UserActions>()((set) => ({
     login: (data) => {
         set({
             is: true,
+            id: data.id,
             username: data.username,
             avatar: data.avatar,
             name: data.name,
-            setupComplete: data.setupComplete,
-            isMod: data.isMod,
-            isStaff: data.isStaff,
         });
     },
     logout: () => {
         set(initialState);
-    },
-
-    notificationsRead: () => {
-        set({ unreadNotifications: false });
-    },
-
-    setNotification: (status) => {
-        set({ unreadNotifications: status });
-    },
-
-    makeSetupComplete: () => {
-        set({ setupComplete: true });
     },
 }));
 

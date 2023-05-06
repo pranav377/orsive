@@ -37,9 +37,6 @@ const moduleExports = {
             },
         ],
     },
-    experimental: {
-        appDir: true,
-    },
     sentry: {
         hideSourceMaps: true,
     },

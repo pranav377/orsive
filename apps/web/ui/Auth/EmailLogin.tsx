@@ -2,18 +2,22 @@
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import LogoSVG from '@/components/svgs/logo.svg';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import { useFormik, FormikErrors, FormikTouched } from 'formik';
+import { useFormik } from 'formik';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import CircularProgress from '@mui/material/CircularProgress';
 import LoadingButton from '@mui/lab/LoadingButton';
 import * as yup from 'yup';
-import { Dispatch, FocusEvent, SetStateAction, useState } from 'react';
+import {
+    Dispatch,
+    useState,
+    createContext,
+    useContext,
+    useReducer,
+} from 'react';
 import BackBar from '../Navigation/BackBar';
 import { useRouter } from 'next/navigation';
 import Footer from '@/ui/Navigation/Footer';
@@ -23,8 +27,12 @@ import SEND_AUTH_OTP from '@/graphql/mutations/sendAuthOtp';
 import CHECK_USERNAME from '@/graphql/queries/checkUsername';
 import SIGNUP_AUTH_EMAIL from '@/graphql/mutations/signupAuthEmail';
 import LOGIN_AUTH_EMAIL from '@/graphql/mutations/loginAuthEmail';
+import login from '@/technique/auth/login';
+import AppSnackbar from '../AppSnackbar';
+import useUserState from '@/state/userState';
 
 const steps = {
+    check: ['Enter E-mail'],
     login: ['Enter E-Mail', 'Enter OTP'],
     signup: [
         'Enter E-Mail',
@@ -34,177 +42,233 @@ const steps = {
     ],
 };
 
-const EMAIL_LOGIN_SCHEMA = yup.object({
+type forms = 'check' | 'login' | 'signup';
+
+interface EmailAuthState {
+    currForm: forms;
+    activeStep: number;
+    email: string;
+}
+
+const DefaultEmailAuthState: EmailAuthState = {
+    currForm: 'check',
+    activeStep: 0,
+    email: '',
+};
+
+function formsReducer(
+    state: EmailAuthState,
+    action: {
+        type: 'setCurrForm' | 'setActiveStep' | 'setEmail';
+        payload?: any;
+    }
+): EmailAuthState {
+    switch (action.type) {
+        case 'setCurrForm': {
+            return {
+                ...state,
+                currForm: action.payload,
+            };
+        }
+        case 'setActiveStep': {
+            return {
+                ...state,
+                activeStep: action.payload,
+            };
+        }
+        case 'setEmail': {
+            return {
+                ...state,
+                email: action.payload,
+            };
+        }
+        default: {
+            throw Error('Unknown action: ' + action.type);
+        }
+    }
+}
+
+const EmailAuthContext = createContext<EmailAuthState>(DefaultEmailAuthState);
+const EmailAuthDispatchContext = createContext<
+    Dispatch<{
+        type: 'setCurrForm' | 'setActiveStep' | 'setEmail';
+        payload?: any;
+    }>
+>(() => null);
+
+export default function EmailAuth() {
+    const router = useRouter();
+    const theme = useTheme();
+    const [{ activeStep, currForm, email }, dispatch] = useReducer(
+        formsReducer,
+        DefaultEmailAuthState
+    );
+
+    return (
+        <EmailAuthContext.Provider value={{ activeStep, currForm, email }}>
+            <EmailAuthDispatchContext.Provider value={dispatch}>
+                <BackBar
+                    onBackClick={() => {
+                        if (activeStep === 0) {
+                            router.push('/auth');
+                        } else {
+                            dispatch({
+                                type: 'setActiveStep',
+                                payload: activeStep - 1,
+                            });
+                        }
+                    }}
+                >
+                    <Box
+                        sx={{
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Stepper
+                            activeStep={activeStep}
+                            sx={{
+                                width: '100%',
+                                maxWidth: theme.spacing(96),
+                            }}
+                        >
+                            {steps[currForm].map((label, index) => {
+                                const stepProps: { completed?: boolean } = {};
+                                const labelProps: {
+                                    optional?: React.ReactNode;
+                                } = {};
+                                return (
+                                    <Step key={label} {...stepProps}>
+                                        <StepLabel {...labelProps}>
+                                            {label}
+                                        </StepLabel>
+                                    </Step>
+                                );
+                            })}
+                        </Stepper>
+                    </Box>
+                </BackBar>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '100%',
+                        width: '100%',
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <LogoSVG
+                            style={{
+                                height: theme.spacing(6),
+                                width: theme.spacing(6),
+                            }}
+                        />
+                        <Typography variant="h5" sx={{ mt: 1 }}>
+                            {activeStep === 0 && 'Login or Sign up to continue'}
+                            {activeStep === 1 &&
+                                currForm === 'login' &&
+                                'Enter OTP'}
+                            {activeStep === 1 &&
+                                currForm === 'signup' &&
+                                'We are thrilled to welcome you here!'}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            padding: 2,
+                            maxWidth: theme.spacing(48),
+                            width: '100%',
+                        }}
+                    >
+                        <FormsRenderer currForm={currForm} />
+                    </Box>
+                </Box>
+
+                <Footer fixed />
+            </EmailAuthDispatchContext.Provider>
+        </EmailAuthContext.Provider>
+    );
+}
+
+function FormsRenderer(props: { currForm: forms }) {
+    switch (props.currForm) {
+        case 'check':
+            return <CheckForm />;
+        case 'login':
+            return <EmailLoginForm />;
+        case 'signup':
+            return <></>;
+        default:
+            return null;
+    }
+}
+
+const AUTH_TYPE_CHECK_SCHEMA = yup.object({
     email: yup
         .string()
         .email('Not a valid email')
         .required('Email is required'),
-    otp: yup
-        .string()
-        .matches(/[0-9]/, 'OTP is not valid')
-        .required('OTP is required')
-        .length(7, 'OTP should be 7 characters long'),
 });
 
-interface MultiStepFormProps<Values> {
-    values: Values;
-    errors: FormikErrors<Values>;
-    touched: FormikTouched<Values>;
-    handleChange: (e: any) => void;
-    handleBlur: {
-        (e: FocusEvent<any, Element>): void;
-        <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
-    };
-
-    setFieldError: (field: string, value: string | undefined) => void;
-}
-
-export default function EmailLogin() {
-    const theme = useTheme();
-
-    const [currForm, setCurrForm] = useState<'login' | 'signup'>('login');
-    const [activeStep, setActiveStep] = useState(0);
+function CheckForm() {
+    const [_sendAuthOtpResult, sendAuthOtp] = useMutation(SEND_AUTH_OTP);
+    const dispatch = useContext(EmailAuthDispatchContext);
 
     const formik = useFormik({
         initialValues: {
             email: '',
-            otp: '',
         },
-        validationSchema: EMAIL_LOGIN_SCHEMA,
+        validationSchema: AUTH_TYPE_CHECK_SCHEMA,
         onSubmit: (values, helpers) => {
-            helpers.setSubmitting(false);
+            sendAuthOtp({
+                email: values.email,
+            })
+                .then((result) => {
+                    invariant(result.data?.sendAuthOtp);
+                    const email_auth_type = result.data.sendAuthOtp.type as
+                        | 'login'
+                        | 'signup';
+                    dispatch({
+                        type: 'setEmail',
+                        payload: values.email,
+                    });
+                    dispatch({
+                        type: 'setCurrForm',
+                        payload: email_auth_type,
+                    });
+                    dispatch({
+                        type: 'setActiveStep',
+                        payload: 1,
+                    });
+                })
+                .catch(() => {
+                    helpers.setFieldError('email', 'Email is not valid');
+                })
+                .finally(() => helpers.setSubmitting(false));
         },
     });
 
-    const router = useRouter();
-
-    formik.handleChange;
-
     return (
-        <>
-            <BackBar
-                onBackClick={() => {
-                    if (activeStep === 0) {
-                        router.push('/auth');
-                    } else {
-                        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-                    }
-                }}
-            >
-                <Box
-                    sx={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <Stepper
-                        activeStep={activeStep}
-                        sx={{
-                            width: '100%',
-                            maxWidth: theme.spacing(96),
-                        }}
-                    >
-                        {steps[currForm].map((label, index) => {
-                            const stepProps: { completed?: boolean } = {};
-                            const labelProps: {
-                                optional?: React.ReactNode;
-                            } = {};
-                            return (
-                                <Step key={label} {...stepProps}>
-                                    <StepLabel {...labelProps}>
-                                        {label}
-                                    </StepLabel>
-                                </Step>
-                            );
-                        })}
-                    </Stepper>
-                </Box>
-            </BackBar>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '100%',
-                    width: '100%',
-                }}
-            >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
-                    <LogoSVG
-                        style={{
-                            height: theme.spacing(6),
-                            width: theme.spacing(6),
-                        }}
-                    />
-                    <Typography variant="h5" sx={{ mt: 1 }}>
-                        {activeStep === 0 && 'Login or Sign up to continue'}
-                        {activeStep === 1 &&
-                            currForm === 'login' &&
-                            'Enter OTP'}
-                        {activeStep === 1 &&
-                            currForm === 'signup' &&
-                            'We are thrilled to welcome you here!'}
-                    </Typography>
-                </Box>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        padding: 2,
-                        maxWidth: theme.spacing(48),
-                        width: '100%',
-                    }}
-                >
-                    <form
-                        onSubmit={formik.handleSubmit}
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            width: '100%',
-                        }}
-                    >
-                        {activeStep === 0 && (
-                            <Step1
-                                {...formik}
-                                setActiveStep={setActiveStep}
-                                setCurrForm={setCurrForm}
-                            />
-                        )}
-                        {activeStep === 1 && <Step2 {...formik} />}
-                    </form>
-                </Box>
-            </Box>
-
-            <Footer fixed />
-        </>
-    );
-}
-
-function Step1(
-    props: MultiStepFormProps<{
-        email: string;
-        otp: string;
-    }> & {
-        setCurrForm: Dispatch<SetStateAction<'login' | 'signup'>>;
-        setActiveStep: Dispatch<SetStateAction<number>>;
-    }
-) {
-    const formik = props;
-
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [_sendAuthOtpResult, sendAuthOtp] = useMutation(SEND_AUTH_OTP);
-
-    return (
-        <>
+        <form
+            onSubmit={formik.handleSubmit}
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+            }}
+        >
             <TextField
                 id="email"
                 name="email"
@@ -221,47 +285,77 @@ function Step1(
             <LoadingButton
                 variant="contained"
                 sx={{ mt: 1, textTransform: 'none' }}
-                type="button"
-                loading={isSubmitting}
+                type="submit"
+                loading={formik.isSubmitting}
                 size="medium"
-                onClick={() => {
-                    setIsSubmitting(true);
-
-                    sendAuthOtp({
-                        email: formik.values.email,
-                    })
-                        .then((result) => {
-                            invariant(result.data?.sendAuthOtp);
-                            const email_auth_type = result.data.sendAuthOtp
-                                .type as 'login' | 'signup';
-                            formik.setCurrForm(email_auth_type);
-                            formik.setActiveStep(1);
-                        })
-                        .catch(() => {
-                            formik.setFieldError('email', 'Email is not valid');
-                        })
-                        .finally(() => setIsSubmitting(false));
-                }}
             >
                 Send Otp
             </LoadingButton>
-        </>
+        </form>
     );
 }
 
-function Step2(
-    props: MultiStepFormProps<{
-        email: string;
-        otp: string;
-    }>
-) {
-    const formik = props;
-    const [isSubmitting, setIsSubmitting] = useState(false);
+const EMAIL_LOGIN_SCHEMA = yup.object({
+    email: yup
+        .string()
+        .email('Not a valid email')
+        .required('Email is required'),
+    otp: yup
+        .string()
+        .matches(/[0-9]/, 'OTP is not valid')
+        .required('OTP is required')
+        .length(7, 'OTP should be 7 characters long'),
+});
+
+function EmailLoginForm() {
+    const data = useContext(EmailAuthContext);
     const [_loginAuthEmailResult, loginAuthEmail] =
         useMutation(LOGIN_AUTH_EMAIL);
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const currUser = useUserState();
+
+    const formik = useFormik({
+        initialValues: {
+            email: data.email,
+            otp: '',
+        },
+        validationSchema: EMAIL_LOGIN_SCHEMA,
+        onSubmit: (values, helpers) => {
+            loginAuthEmail(values)
+                .then((result) => {
+                    invariant(result.data?.loginAuthEmail);
+                    const response = result.data.loginAuthEmail;
+
+                    login(response);
+
+                    // display welcome message
+                    setSnackbarOpen(true);
+                })
+                .catch(() =>
+                    helpers.setErrors({
+                        otp: 'OTP is not valid',
+                    })
+                )
+                .finally(() => helpers.setSubmitting(false));
+        },
+    });
+
     return (
-        <>
+        <form
+            onSubmit={formik.handleSubmit}
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+            }}
+        >
+            <AppSnackbar
+                open={snackbarOpen}
+                setOpen={setSnackbarOpen}
+                message={`Welcome ${currUser.name}`}
+            />
+
             <TextField
                 id="otp"
                 name="otp"
@@ -278,15 +372,12 @@ function Step2(
             <LoadingButton
                 variant="contained"
                 sx={{ mt: 1, textTransform: 'none' }}
-                type="button"
-                loading={isSubmitting}
+                type="submit"
+                loading={formik.isSubmitting}
                 size="medium"
-                onClick={() => {
-                    setIsSubmitting(true);
-                }}
             >
                 Login
             </LoadingButton>
-        </>
+        </form>
     );
 }

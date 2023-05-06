@@ -50,15 +50,15 @@ export type ChatMessage = {
 
 export type ChatUser = {
   __typename?: 'ChatUser';
-  avatar?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
+  avatar: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type CheckUsernameResponse = {
   __typename?: 'CheckUsernameResponse';
-  available?: Maybe<Scalars['Boolean']>;
+  available: Scalars['Boolean'];
 };
 
 export type HelloType = {
@@ -68,8 +68,8 @@ export type HelloType = {
 
 export type LoginResponse = {
   __typename?: 'LoginResponse';
-  token?: Maybe<Scalars['String']>;
-  user?: Maybe<ChatUser>;
+  token: Scalars['String'];
+  user: ChatUser;
 };
 
 export type OtpResponse = {
@@ -137,7 +137,7 @@ export type LoginAuthEmailMutationVariables = Exact<{
 }>;
 
 
-export type LoginAuthEmailMutation = { __typename?: 'RootMutationType', loginAuthEmail?: { __typename?: 'LoginResponse', token?: string | null, user?: { __typename?: 'ChatUser', avatar?: string | null, id?: string | null, name?: string | null, username?: string | null } | null } | null };
+export type LoginAuthEmailMutation = { __typename?: 'RootMutationType', loginAuthEmail?: { __typename?: 'LoginResponse', token: string, user: { __typename?: 'ChatUser', avatar: string, id: string, name: string, username: string } } | null };
 
 export type SendAuthOtpMutationVariables = Exact<{
   email: Scalars['String'];
@@ -154,14 +154,14 @@ export type SignupAuthEmailMutationVariables = Exact<{
 }>;
 
 
-export type SignupAuthEmailMutation = { __typename?: 'RootMutationType', signupAuthEmail?: { __typename?: 'LoginResponse', token?: string | null, user?: { __typename?: 'ChatUser', avatar?: string | null, id?: string | null, name?: string | null, username?: string | null } | null } | null };
+export type SignupAuthEmailMutation = { __typename?: 'RootMutationType', signupAuthEmail?: { __typename?: 'LoginResponse', token: string, user: { __typename?: 'ChatUser', avatar: string, id: string, name: string, username: string } } | null };
 
 export type CheckUsernameQueryVariables = Exact<{
   username: Scalars['String'];
 }>;
 
 
-export type CheckUsernameQuery = { __typename?: 'RootQueryType', checkUsername?: { __typename?: 'CheckUsernameResponse', available?: boolean | null } | null };
+export type CheckUsernameQuery = { __typename?: 'RootQueryType', checkUsername?: { __typename?: 'CheckUsernameResponse', available: boolean } | null };
 
 
 export const LoginAuthEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginAuthEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"otp"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginAuthEmail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"otp"},"value":{"kind":"Variable","name":{"kind":"Name","value":"otp"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]}}]} as unknown as DocumentNode<LoginAuthEmailMutation, LoginAuthEmailMutationVariables>;
