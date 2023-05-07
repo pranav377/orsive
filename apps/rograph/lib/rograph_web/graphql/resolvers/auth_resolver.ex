@@ -122,25 +122,11 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
 
     if generated_otp != nil do
       with true <- OtpEmailLogin.is_valid?(generated_otp, otp) do
-        user_id = UUID.uuid1()
-        avatar = HashColorAvatar.gen_avatar(name, shape: "rect", size: 180)
-
-        avatar_url =
-          UserAvatar.save_file!(%{
-            name: "avatar.svg",
-            binary: avatar
-          })
-
-        case %User{}
-             |> User.changeset(%{
-               id: user_id,
+        case Auth.create_user(%{
                email: email,
                username: username,
-               name: name,
-               avatar: avatar_url,
-               auth_method: "email"
-             })
-             |> Repo.insert() do
+               name: name
+             }) do
           {:ok, user} ->
             {:ok, jwt_token, _} = Auth.encode_and_sign(user, %{}, auth_time: true)
 

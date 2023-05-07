@@ -54,7 +54,10 @@ defmodule Rograph.MixProject do
       {:poison, "~> 3.1"},
       {:sweet_xml, "~> 0.6"},
       {:guardian, "~> 2.0"},
-      {:cors_plug, "~> 3.0"}
+      {:cors_plug, "~> 3.0"},
+      {:ueberauth, "~> 0.10.5"},
+      {:ueberauth_google, "~> 0.10"},
+      {:ueberauth_discord, "~> 0.7.0"}
     ]
   end
 

@@ -1,6 +1,8 @@
 defmodule Rograph.Auth do
   use Guardian, otp_app: :rograph
   alias Rograph.Auth.User
+  alias Rograph.Uploaders.UserAvatar
+  alias Rograph.HashColorAvatar
   alias Rograph.Repo
 
   def subject_for_token(%{id: id}, _claims) do
@@ -26,5 +28,91 @@ defmodule Rograph.Auth do
 
   def resource_from_claims(_claims) do
     {:error, :reason_for_error}
+  end
+
+  defp generate_id_and_avatar(name) when is_bitstring(name) do
+    user_id = UUID.uuid1()
+    avatar = HashColorAvatar.gen_avatar(name, shape: "rect", size: 180)
+
+    avatar_url =
+      UserAvatar.save_file!(%{
+        name: "avatar.svg",
+        binary: avatar
+      })
+
+    %{
+      user_id: user_id,
+      avatar_url: avatar_url
+    }
+  end
+
+  def create_user(%{
+        email: email,
+        username: username,
+        name: name
+      }) do
+    %{
+      user_id: user_id,
+      avatar_url: avatar_url
+    } = generate_id_and_avatar(name)
+
+    %User{}
+    |> User.changeset(%{
+      id: user_id,
+      email: email,
+      username: username,
+      name: name,
+      avatar: avatar_url,
+      auth_method: "email"
+    })
+    |> Repo.insert()
+  end
+
+  def create_user(%{
+        email: email,
+        username: username,
+        name: name,
+        google_id: google_id
+      }) do
+    %{
+      user_id: user_id,
+      avatar_url: avatar_url
+    } = generate_id_and_avatar(name)
+
+    %User{}
+    |> User.changeset(%{
+      id: user_id,
+      email: email,
+      username: username,
+      name: name,
+      avatar: avatar_url,
+      auth_method: "google",
+      google_id: google_id
+    })
+    |> Repo.insert()
+  end
+
+  def create_user(%{
+        email: email,
+        username: username,
+        name: name,
+        discord_id: discord_id
+      }) do
+    %{
+      user_id: user_id,
+      avatar_url: avatar_url
+    } = generate_id_and_avatar(name)
+
+    %User{}
+    |> User.changeset(%{
+      id: user_id,
+      email: email,
+      username: username,
+      name: name,
+      avatar: avatar_url,
+      auth_method: "discord",
+      discord_id: discord_id
+    })
+    |> Repo.insert()
   end
 end

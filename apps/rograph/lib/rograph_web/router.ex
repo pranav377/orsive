@@ -6,6 +6,14 @@ defmodule RographWeb.Router do
     plug(RographWeb.Plugs.Context)
   end
 
+  pipeline :browser do
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_flash)
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
+  end
+
   scope "/" do
     pipe_through(:api)
 
@@ -21,5 +29,12 @@ defmodule RographWeb.Router do
         socket: RographWeb.Graphql.RographSocket
       )
     end
+  end
+
+  scope "/auth", RographWeb do
+    pipe_through(:browser)
+
+    get("/:provider", AuthController, :request)
+    get("/:provider/callback", AuthController, :callback)
   end
 end
