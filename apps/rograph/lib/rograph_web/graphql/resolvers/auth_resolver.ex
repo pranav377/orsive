@@ -154,7 +154,12 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
             HandleChangesetError.handle(changeset)
         end
       else
-        _ -> {:error, "OTP doesn't match"}
+        _ ->
+          {:error,
+           %{
+             field: "otp",
+             message: "OTP doesn't match"
+           }}
       end
     else
       {:error, "OTP not generated for user"}

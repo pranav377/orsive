@@ -49,9 +49,9 @@ defmodule Rograph.Uploaders.UserAvatar do
   #    :content_encoding, :content_length, :content_type,
   #    :expect, :expires, :storage_class, :website_redirect_location]
   #
-  # def s3_object_headers(version, {file, scope}) do
-  #   [content_type: MIME.from_path(file.file_name)]
-  # end
+  def s3_object_headers(version, {file, _scope}) do
+    [content_type: MIME.from_path(file.file_name)]
+  end
 
   # returns relative file url in the end
   def save_file!(%{name: name, binary: binary}) do

@@ -10,7 +10,13 @@ defmodule RographWeb.Graphql.Middleware.Validators.UsernameValidator do
       resolution
     else
       resolution
-      |> Absinthe.Resolution.put_result({:error, "Invalid username"})
+      |> Absinthe.Resolution.put_result(
+        {:error,
+         %{
+           field: "username",
+           message: "Username is not valid"
+         }}
+      )
     end
   end
 end

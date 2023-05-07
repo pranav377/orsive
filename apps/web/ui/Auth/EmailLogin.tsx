@@ -17,6 +17,7 @@ import {
     createContext,
     useContext,
     useReducer,
+    memo,
 } from 'react';
 import BackBar from '../Navigation/BackBar';
 import { useRouter } from 'next/navigation';
@@ -32,14 +33,9 @@ import AppSnackbar from '../AppSnackbar';
 import useUserState from '@/state/userState';
 
 const steps = {
-    check: ['Enter E-mail'],
+    check: ['Enter E-mail', 'Enter OTP'],
     login: ['Enter E-Mail', 'Enter OTP'],
-    signup: [
-        'Enter E-Mail',
-        'Enter OTP',
-        'Enter Details',
-        'Language Preferences',
-    ],
+    signup: ['Enter E-Mail', 'Enter Details', 'Language Preferences'],
 };
 
 type forms = 'check' | 'login' | 'signup';
@@ -96,8 +92,7 @@ const EmailAuthDispatchContext = createContext<
     }>
 >(() => null);
 
-export default function EmailAuth() {
-    const router = useRouter();
+function EmailAuthComponent() {
     const theme = useTheme();
     const [{ activeStep, currForm, email }, dispatch] = useReducer(
         formsReducer,
@@ -107,48 +102,6 @@ export default function EmailAuth() {
     return (
         <EmailAuthContext.Provider value={{ activeStep, currForm, email }}>
             <EmailAuthDispatchContext.Provider value={dispatch}>
-                <BackBar
-                    onBackClick={() => {
-                        if (activeStep === 0) {
-                            router.push('/auth');
-                        } else {
-                            dispatch({
-                                type: 'setActiveStep',
-                                payload: activeStep - 1,
-                            });
-                        }
-                    }}
-                >
-                    <Box
-                        sx={{
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <Stepper
-                            activeStep={activeStep}
-                            sx={{
-                                width: '100%',
-                                maxWidth: theme.spacing(96),
-                            }}
-                        >
-                            {steps[currForm].map((label, index) => {
-                                const stepProps: { completed?: boolean } = {};
-                                const labelProps: {
-                                    optional?: React.ReactNode;
-                                } = {};
-                                return (
-                                    <Step key={label} {...stepProps}>
-                                        <StepLabel {...labelProps}>
-                                            {label}
-                                        </StepLabel>
-                                    </Step>
-                                );
-                            })}
-                        </Stepper>
-                    </Box>
-                </BackBar>
                 <Box
                     sx={{
                         display: 'flex',
@@ -173,7 +126,7 @@ export default function EmailAuth() {
                                 width: theme.spacing(6),
                             }}
                         />
-                        <Typography variant="h5" sx={{ mt: 1 }}>
+                        <Typography variant="h6" sx={{ mt: 1 }}>
                             {activeStep === 0 && 'Login or Sign up to continue'}
                             {activeStep === 1 &&
                                 currForm === 'login' &&
@@ -202,14 +155,14 @@ export default function EmailAuth() {
     );
 }
 
-function FormsRenderer(props: { currForm: forms }) {
+function FormsRendererComponent(props: { currForm: forms }) {
     switch (props.currForm) {
         case 'check':
             return <CheckForm />;
         case 'login':
             return <EmailLoginForm />;
         case 'signup':
-            return <></>;
+            return <EmailSignupForm />;
         default:
             return null;
     }
@@ -222,13 +175,15 @@ const AUTH_TYPE_CHECK_SCHEMA = yup.object({
         .required('Email is required'),
 });
 
-function CheckForm() {
+function CheckFormComponent() {
     const [_sendAuthOtpResult, sendAuthOtp] = useMutation(SEND_AUTH_OTP);
     const dispatch = useContext(EmailAuthDispatchContext);
+    const data = useContext(EmailAuthContext);
+    const router = useRouter();
 
     const formik = useFormik({
         initialValues: {
-            email: '',
+            email: data.email,
         },
         validationSchema: AUTH_TYPE_CHECK_SCHEMA,
         onSubmit: (values, helpers) => {
@@ -261,37 +216,44 @@ function CheckForm() {
     });
 
     return (
-        <form
-            onSubmit={formik.handleSubmit}
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-            }}
-        >
-            <TextField
-                id="email"
-                name="email"
-                label="Email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                type="email"
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-                variant="outlined"
+        <>
+            <EmailAuthBackBar
+                onBackClick={() => {
+                    router.push('/auth');
+                }}
             />
-
-            <LoadingButton
-                variant="contained"
-                sx={{ mt: 1, textTransform: 'none' }}
-                type="submit"
-                loading={formik.isSubmitting}
-                size="medium"
+            <form
+                onSubmit={formik.handleSubmit}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                }}
             >
-                Send Otp
-            </LoadingButton>
-        </form>
+                <TextField
+                    id="email"
+                    name="email"
+                    label="Email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    type="email"
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                    variant="outlined"
+                />
+
+                <LoadingButton
+                    variant="contained"
+                    sx={{ mt: 1, textTransform: 'none' }}
+                    type="submit"
+                    loading={formik.isSubmitting}
+                    size="medium"
+                >
+                    Send Otp
+                </LoadingButton>
+            </form>
+        </>
     );
 }
 
@@ -307,8 +269,9 @@ const EMAIL_LOGIN_SCHEMA = yup.object({
         .length(7, 'OTP should be 7 characters long'),
 });
 
-function EmailLoginForm() {
+function EmailLoginFormComponent() {
     const data = useContext(EmailAuthContext);
+    const dispatch = useContext(EmailAuthDispatchContext);
     const [_loginAuthEmailResult, loginAuthEmail] =
         useMutation(LOGIN_AUTH_EMAIL);
 
@@ -342,42 +305,250 @@ function EmailLoginForm() {
     });
 
     return (
-        <form
-            onSubmit={formik.handleSubmit}
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-            }}
-        >
-            <AppSnackbar
-                open={snackbarOpen}
-                setOpen={setSnackbarOpen}
-                message={`Welcome ${currUser.name}`}
+        <>
+            <EmailAuthBackBar
+                onBackClick={() => {
+                    dispatch({
+                        type: 'setCurrForm',
+                        payload: 'check',
+                    });
+                    dispatch({
+                        type: 'setActiveStep',
+                        payload: 0,
+                    });
+                }}
             />
-
-            <TextField
-                id="otp"
-                name="otp"
-                label="OTP"
-                value={formik.values.otp}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                type="text"
-                error={formik.touched.otp && Boolean(formik.errors.otp)}
-                helperText={formik.touched.otp && formik.errors.otp}
-                variant="outlined"
-            />
-
-            <LoadingButton
-                variant="contained"
-                sx={{ mt: 1, textTransform: 'none' }}
-                type="submit"
-                loading={formik.isSubmitting}
-                size="medium"
+            <form
+                onSubmit={formik.handleSubmit}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                }}
             >
-                Login
-            </LoadingButton>
-        </form>
+                <AppSnackbar
+                    open={snackbarOpen}
+                    setOpen={setSnackbarOpen}
+                    message={`Welcome ${currUser.name}`}
+                />
+
+                <TextField
+                    id="otp"
+                    name="otp"
+                    label="OTP"
+                    value={formik.values.otp}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    type="text"
+                    error={formik.touched.otp && Boolean(formik.errors.otp)}
+                    helperText={formik.touched.otp && formik.errors.otp}
+                    variant="outlined"
+                />
+
+                <LoadingButton
+                    variant="contained"
+                    sx={{ mt: 1, textTransform: 'none' }}
+                    type="submit"
+                    loading={formik.isSubmitting}
+                    size="medium"
+                >
+                    Login
+                </LoadingButton>
+            </form>
+        </>
     );
 }
+
+const EMAIL_SIGNUP_SCHEMA = yup.object({
+    email: yup
+        .string()
+        .email('Not a valid email')
+        .required('Email is required'),
+    username: yup
+        .string()
+        .required('Username is required')
+        .max(20, "Username shouldn't be more than 20 characters"),
+    name: yup.string().required('Name is required'),
+    otp: yup
+        .string()
+        .matches(/[0-9]/, 'OTP is not valid')
+        .required('OTP is required')
+        .length(7, 'OTP should be 7 characters long'),
+});
+
+function EmailSignupFormComponent() {
+    const data = useContext(EmailAuthContext);
+    const dispatch = useContext(EmailAuthDispatchContext);
+    const [_signupAuthEmailResult, signupAuthEmail] =
+        useMutation(SIGNUP_AUTH_EMAIL);
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const currUser = useUserState();
+
+    const formik = useFormik({
+        initialValues: {
+            email: data.email,
+            username: '',
+            name: '',
+            otp: '',
+        },
+        validationSchema: EMAIL_SIGNUP_SCHEMA,
+        onSubmit: (values, helpers) => {
+            signupAuthEmail(values)
+                .then((result) => {
+                    if (!result.error) {
+                        invariant(result.data?.signupAuthEmail);
+                        const response = result.data.signupAuthEmail;
+
+                        login(response);
+
+                        // display welcome message
+                        setSnackbarOpen(true);
+                    } else {
+                        invariant(result.error.graphQLErrors[0].originalError);
+                        const error = result.error.graphQLErrors[0]
+                            .originalError as any;
+                        helpers.setErrors({
+                            [error.field]: error.message,
+                        });
+                    }
+                })
+                .catch(() => {
+                    helpers.setErrors({
+                        name: 'Something went wrong. Try again',
+                    });
+                })
+                .finally(() => helpers.setSubmitting(false));
+        },
+    });
+
+    return (
+        <>
+            <EmailAuthBackBar
+                onBackClick={() => {
+                    dispatch({
+                        type: 'setCurrForm',
+                        payload: 'check',
+                    });
+                    dispatch({
+                        type: 'setActiveStep',
+                        payload: 0,
+                    });
+                }}
+            />
+
+            <form
+                onSubmit={formik.handleSubmit}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                }}
+            >
+                <AppSnackbar
+                    open={snackbarOpen}
+                    setOpen={setSnackbarOpen}
+                    message={`Welcome ${currUser.name}`}
+                />
+
+                <TextField
+                    id="username"
+                    name="username"
+                    label="Username"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    type="text"
+                    error={
+                        formik.touched.username &&
+                        Boolean(formik.errors.username)
+                    }
+                    helperText={
+                        formik.touched.username && formik.errors.username
+                    }
+                    variant="outlined"
+                />
+                <TextField
+                    id="name"
+                    name="name"
+                    label="Name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    type="text"
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
+                    variant="outlined"
+                    sx={{ my: 1 }}
+                />
+                <TextField
+                    id="otp"
+                    name="otp"
+                    label="OTP"
+                    value={formik.values.otp}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    type="text"
+                    error={formik.touched.otp && Boolean(formik.errors.otp)}
+                    helperText={formik.touched.otp && formik.errors.otp}
+                    variant="outlined"
+                />
+
+                <LoadingButton
+                    variant="contained"
+                    sx={{ mt: 1, textTransform: 'none' }}
+                    type="submit"
+                    loading={formik.isSubmitting}
+                    size="medium"
+                >
+                    Sign Up
+                </LoadingButton>
+            </form>
+        </>
+    );
+}
+
+function EmailAuthBackBarComponent(props: { onBackClick: () => any }) {
+    const { activeStep, currForm } = useContext(EmailAuthContext);
+
+    return (
+        <BackBar onBackClick={props.onBackClick}>
+            <Box
+                sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                <Stepper
+                    activeStep={activeStep}
+                    sx={{
+                        width: '100%',
+                        maxWidth: (theme) => theme.spacing(96),
+                    }}
+                >
+                    {steps[currForm].map((label, index) => {
+                        const stepProps: { completed?: boolean } = {};
+                        const labelProps: {
+                            optional?: React.ReactNode;
+                        } = {};
+                        return (
+                            <Step key={label} {...stepProps}>
+                                <StepLabel {...labelProps}>{label}</StepLabel>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
+            </Box>
+        </BackBar>
+    );
+}
+
+const EmailAuth = memo(EmailAuthComponent);
+const FormsRenderer = memo(FormsRendererComponent);
+const CheckForm = memo(CheckFormComponent);
+const EmailLoginForm = memo(EmailLoginFormComponent);
+const EmailSignupForm = memo(EmailSignupFormComponent);
+const EmailAuthBackBar = memo(EmailAuthBackBarComponent);
+
+export default EmailAuth;
