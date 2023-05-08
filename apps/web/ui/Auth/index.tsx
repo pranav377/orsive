@@ -22,13 +22,15 @@ export default function Auth() {
 
     const authParams = useSearchParams();
     const router = useRouter();
-    const { displayLoginWelcome } = useSnackbars();
+    const { displayLoginWelcome, displayLoginError } = useSnackbars();
 
     useEffect(() => {
         if (authParams) {
             let userAndToken = Object.fromEntries(authParams);
 
-            if (userAndToken.token) {
+            if (userAndToken.error) {
+                displayLoginError(userAndToken.error);
+            } else if (userAndToken.token) {
                 login({
                     user: {
                         id: userAndToken.id,
@@ -42,7 +44,7 @@ export default function Auth() {
                 displayLoginWelcome(userAndToken.name);
             }
         }
-    }, [authParams, displayLoginWelcome]);
+    }, [authParams, displayLoginWelcome, displayLoginError]);
 
     return (
         <>
@@ -54,6 +56,7 @@ export default function Auth() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     height: '100vh',
+                    textAlign: 'center',
                 }}
             >
                 <LogoSVG

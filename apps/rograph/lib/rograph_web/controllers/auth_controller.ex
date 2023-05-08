@@ -72,11 +72,10 @@ defmodule RographWeb.AuthController do
             existing_user = Repo.get_by!(User, email: email)
 
             conn
-            |> put_flash(
-              :error,
-              "You already have an Orsive account created with #{existing_user.auth_method}. Please use that to sign in"
+            |> redirect(
+              external:
+                "#{@oauth_redirect_url}?error=You already have an account created with #{existing_user.auth_method}. Please use that to sign in"
             )
-            |> redirect(external: @oauth_redirect_url)
         end
 
       # just login
