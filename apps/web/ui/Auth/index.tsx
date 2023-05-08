@@ -11,9 +11,36 @@ import EmailIcon from '@mui/icons-material/Email';
 import Footer from '@/ui/Navigation/Footer';
 
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import login from '@/technique/auth/login';
+import { DISCORD_AUTH_URL } from '@/config';
+import { GOOGLE_AUTH_URL } from '@/config';
 
 export default function Auth() {
     const theme = useTheme();
+
+    const authParams = useSearchParams();
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (authParams) {
+            let userAndToken = Object.fromEntries(authParams);
+
+            if (userAndToken.token) {
+                login({
+                    user: {
+                        id: userAndToken.id,
+                        name: userAndToken.name,
+                        username: userAndToken.username,
+                        avatar: userAndToken.avatar,
+                    },
+                    token: userAndToken.token,
+                });
+            }
+        }
+    }, [authParams]);
 
     return (
         <>
@@ -51,6 +78,9 @@ export default function Auth() {
                             borderRadius: 5,
                             px: 4,
                         }}
+                        onClick={() => {
+                            router.push(GOOGLE_AUTH_URL);
+                        }}
                         startIcon={
                             <SvgIcon>
                                 <GoogleSVG />
@@ -68,6 +98,9 @@ export default function Auth() {
                             // px: 4,
                             mt: 1,
                         }}
+                        onClick={() => {
+                            router.push(DISCORD_AUTH_URL);
+                        }}
                         startIcon={
                             <SvgIcon>
                                 <DiscordSVG />
@@ -83,8 +116,9 @@ export default function Auth() {
                             borderRadius: 5,
                             mt: 1,
                         }}
-                        LinkComponent={Link}
-                        href="/auth/email"
+                        onClick={() => {
+                            router.push('/auth/email');
+                        }}
                         startIcon={<EmailIcon />}
                     >
                         Login with E-Mail

@@ -5,6 +5,8 @@ defmodule RographWeb.AuthController do
   alias Rograph.Auth
   plug(Ueberauth)
 
+  @oauth_redirect_url Application.get_env(:rograph, Auth)[:success_redirect_url]
+
   defp random_string(length) do
     :crypto.strong_rand_bytes(length) |> Base.url_encode64() |> binary_part(0, length)
   end
@@ -29,7 +31,7 @@ defmodule RographWeb.AuthController do
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
     conn
     |> put_flash(:error, "Failed to authenticate.")
-    |> redirect(to: "/")
+    |> redirect(external: @oauth_redirect_url)
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
@@ -49,23 +51,33 @@ defmodule RographWeb.AuthController do
 
     case already_user do
       nil ->
-        {:ok, new_user} =
-          Auth.create_user(%{
-            email: email,
-            username: generate_unique_username(name),
-            name: name,
-            auth_method: Atom.to_string(provider),
-            oauth_id: oauth_id
-          })
+        case Auth.create_user(%{
+               email: email,
+               username: generate_unique_username(name),
+               name: name,
+               auth_method: Atom.to_string(provider),
+               oauth_id: oauth_id
+             }) do
+          {:ok, new_user} ->
+            {:ok, jwt_token, _} = Auth.encode_and_sign(new_user, %{}, auth_time: true)
 
-        {:ok, jwt_token, _} = Auth.encode_and_sign(new_user, %{}, auth_time: true)
+            conn
+            |> redirect(
+              external:
+                "#{@oauth_redirect_url}?#{URI.encode_query(Map.merge(%{id: new_user.id, username: new_user.username, name: new_user.name, avatar: new_user.avatar},
+                %{token: jwt_token}))}"
+            )
 
-        conn
-        |> redirect(
-          external:
-            "http://localhost:3000/auth?#{URI.encode_query(Map.merge(%{id: new_user.id, username: new_user.username, name: new_user.name, avatar: new_user.avatar},
-            %{token: jwt_token}))}"
-        )
+          {:error, _} ->
+            existing_user = Repo.get_by!(User, email: email)
+
+            conn
+            |> put_flash(
+              :error,
+              "You already have an Orsive account created with #{existing_user.auth_method}. Please use that to sign in"
+            )
+            |> redirect(external: @oauth_redirect_url)
+        end
 
       # just login
       _ ->
@@ -74,23 +86,9 @@ defmodule RographWeb.AuthController do
         conn
         |> redirect(
           external:
-            "http://localhost:3000/auth?#{URI.encode_query(Map.merge(%{id: already_user.id, username: already_user.username, name: already_user.name, avatar: already_user.avatar},
+            "#{@oauth_redirect_url}?#{URI.encode_query(Map.merge(%{id: already_user.id, username: already_user.username, name: already_user.name, avatar: already_user.avatar},
             %{token: jwt_token}))}"
         )
     end
-
-    # case UserFromAuth.find_or_create(auth) do
-    #   {:ok, user} ->
-    #     conn
-    #     |> put_flash(:info, "Successfully authenticated.")
-    #     |> put_session(:current_user, user)
-    #     |> configure_session(renew: true)
-    #     |> redirect(to: "/")
-
-    #   {:error, reason} ->
-    #     conn
-    #     |> put_flash(:error, reason)
-    #     |> redirect(to: "/")
-    # end
   end
 end

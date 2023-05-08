@@ -49,7 +49,8 @@ config :rograph, Rograph.Repo,
 # Configure Guardian
 config :rograph, Rograph.Auth,
   issuer: "Orsive",
-  secret_key: System.get_env("JWT_SECRET")
+  secret_key: System.get_env("JWT_SECRET"),
+  success_redirect_url: System.get_env("OAUTH_SUCCESS_REDIRECT_URL")
 
 # Configure Swoosh
 config :rograph, Rograph.Mailer,

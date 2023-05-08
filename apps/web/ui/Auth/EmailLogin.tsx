@@ -25,7 +25,6 @@ import Footer from '@/ui/Navigation/Footer';
 import { useMutation } from 'urql';
 import invariant from 'tiny-invariant';
 import SEND_AUTH_OTP from '@/graphql/mutations/sendAuthOtp';
-import CHECK_USERNAME from '@/graphql/queries/checkUsername';
 import SIGNUP_AUTH_EMAIL from '@/graphql/mutations/signupAuthEmail';
 import LOGIN_AUTH_EMAIL from '@/graphql/mutations/loginAuthEmail';
 import login from '@/technique/auth/login';
@@ -98,9 +97,6 @@ function EmailAuthComponent() {
         formsReducer,
         DefaultEmailAuthState
     );
-
-    const authParams = useSearchParams();
-    console.log(authParams);
 
     return (
         <EmailAuthContext.Provider value={{ activeStep, currForm, email }}>
