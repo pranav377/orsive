@@ -10,19 +10,19 @@ import DiscordSVG from '@/components/svgs/discord-color-logo.svg';
 import EmailIcon from '@mui/icons-material/Email';
 import Footer from '@/ui/Navigation/Footer';
 
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import login from '@/technique/auth/login';
 import { DISCORD_AUTH_URL } from '@/config';
 import { GOOGLE_AUTH_URL } from '@/config';
+import useSnackbars from '@/hooks/new/useSnackbars';
 
 export default function Auth() {
     const theme = useTheme();
 
     const authParams = useSearchParams();
-
     const router = useRouter();
+    const { displayLoginWelcome } = useSnackbars();
 
     useEffect(() => {
         if (authParams) {
@@ -38,9 +38,11 @@ export default function Auth() {
                     },
                     token: userAndToken.token,
                 });
+
+                displayLoginWelcome(userAndToken.name);
             }
         }
-    }, [authParams]);
+    }, [authParams, displayLoginWelcome]);
 
     return (
         <>

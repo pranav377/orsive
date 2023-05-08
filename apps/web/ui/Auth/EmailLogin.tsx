@@ -28,8 +28,8 @@ import SEND_AUTH_OTP from '@/graphql/mutations/sendAuthOtp';
 import SIGNUP_AUTH_EMAIL from '@/graphql/mutations/signupAuthEmail';
 import LOGIN_AUTH_EMAIL from '@/graphql/mutations/loginAuthEmail';
 import login from '@/technique/auth/login';
-import AppSnackbar from '../AppSnackbar';
 import useUserState from '@/state/userState';
+import useSnackbars from '@/hooks/new/useSnackbars';
 
 const steps = {
     check: ['Enter E-mail', 'Enter OTP'],
@@ -274,7 +274,7 @@ function EmailLoginFormComponent() {
     const [_loginAuthEmailResult, loginAuthEmail] =
         useMutation(LOGIN_AUTH_EMAIL);
 
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const { displayLoginWelcome } = useSnackbars();
     const currUser = useUserState();
 
     const formik = useFormik({
@@ -292,7 +292,7 @@ function EmailLoginFormComponent() {
                     login(response);
 
                     // display welcome message
-                    setSnackbarOpen(true);
+                    displayLoginWelcome(currUser.name);
                 })
                 .catch(() =>
                     helpers.setErrors({
@@ -325,12 +325,6 @@ function EmailLoginFormComponent() {
                     width: '100%',
                 }}
             >
-                <AppSnackbar
-                    open={snackbarOpen}
-                    setOpen={setSnackbarOpen}
-                    message={`Welcome ${currUser.name}`}
-                />
-
                 <TextField
                     id="otp"
                     name="otp"
@@ -381,7 +375,7 @@ function EmailSignupFormComponent() {
     const [_signupAuthEmailResult, signupAuthEmail] =
         useMutation(SIGNUP_AUTH_EMAIL);
 
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const { displayLoginWelcome } = useSnackbars();
     const currUser = useUserState();
 
     const formik = useFormik({
@@ -402,7 +396,7 @@ function EmailSignupFormComponent() {
                         login(response);
 
                         // display welcome message
-                        setSnackbarOpen(true);
+                        displayLoginWelcome(currUser.name);
                     } else {
                         invariant(result.error.graphQLErrors[0].originalError);
                         const error = result.error.graphQLErrors[0]
@@ -444,12 +438,6 @@ function EmailSignupFormComponent() {
                     width: '100%',
                 }}
             >
-                <AppSnackbar
-                    open={snackbarOpen}
-                    setOpen={setSnackbarOpen}
-                    message={`Welcome ${currUser.name}`}
-                />
-
                 <TextField
                     id="username"
                     name="username"
