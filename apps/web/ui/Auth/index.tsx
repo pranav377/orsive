@@ -29,14 +29,14 @@ export default function Auth() {
             >
                 <LogoSVG
                     style={{
-                        height: theme.spacing(16),
-                        width: theme.spacing(16),
+                        height: theme.spacing(14),
+                        width: theme.spacing(14),
+                        marginBottom: theme.spacing(1),
                     }}
                     className="floating"
                 />
 
-                <Typography variant="h4">Welcome back to </Typography>
-                <Typography variant="h4">Orsive</Typography>
+                <Typography variant="h4">Welcome back to Orsive</Typography>
 
                 <Typography variant="body1">
                     We're happy to see you again!

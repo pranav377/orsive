@@ -3,7 +3,6 @@ defmodule RographWeb.AuthController do
   alias Rograph.Repo
   alias Rograph.Auth.User
   alias Rograph.Auth
-  import Ecto.Query
   plug(Ueberauth)
 
   defp random_string(length) do
@@ -39,59 +38,34 @@ defmodule RographWeb.AuthController do
       provider: provider,
       info: %Ueberauth.Auth.Info{
         name: name,
-        email: email,
-        image: image
+        nickname: nickname,
+        email: email
       }
     } = auth
 
-    already_user =
-      Repo.one(
-        from(u in User,
-          where:
-            u.google_id == ^oauth_id or
-              u.discord_id == ^oauth_id
-        )
-      )
+    already_user = Repo.get_by(User, oauth_provider_id: oauth_id)
+
+    name = if provider == :discord, do: nickname, else: name
 
     case already_user do
       nil ->
-        case provider do
-          :google ->
-            {:ok, new_user} =
-              Auth.create_user(%{
-                email: email,
-                username: generate_unique_username(name),
-                name: name,
-                google_id: oauth_id
-              })
+        {:ok, new_user} =
+          Auth.create_user(%{
+            email: email,
+            username: generate_unique_username(name),
+            name: name,
+            auth_method: Atom.to_string(provider),
+            oauth_id: oauth_id
+          })
 
-            {:ok, jwt_token, _} = Auth.encode_and_sign(new_user, %{}, auth_time: true)
+        {:ok, jwt_token, _} = Auth.encode_and_sign(new_user, %{}, auth_time: true)
 
-            conn
-            |> redirect(
-              external:
-                "http://localhost:3000/auth?#{URI.encode_query(Map.merge(%{id: new_user.id, username: new_user.username, name: new_user.name, avatar: new_user.avatar},
-                %{token: jwt_token}))}"
-            )
-
-          :discord ->
-            {:ok, new_user} =
-              Auth.create_user(%{
-                email: email,
-                username: generate_unique_username(name),
-                name: name,
-                discord_id: oauth_id
-              })
-
-            {:ok, jwt_token, _} = Auth.encode_and_sign(new_user, %{}, auth_time: true)
-
-            conn
-            |> redirect(
-              external:
-                "http://localhost:3000/auth?#{URI.encode_query(Map.merge(%{id: new_user.id, username: new_user.username, name: new_user.name, avatar: new_user.avatar},
-                %{token: jwt_token}))}"
-            )
-        end
+        conn
+        |> redirect(
+          external:
+            "http://localhost:3000/auth?#{URI.encode_query(Map.merge(%{id: new_user.id, username: new_user.username, name: new_user.name, avatar: new_user.avatar},
+            %{token: jwt_token}))}"
+        )
 
       # just login
       _ ->

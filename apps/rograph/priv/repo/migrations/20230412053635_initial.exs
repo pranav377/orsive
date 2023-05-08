@@ -12,8 +12,7 @@ defmodule Rograph.Repo.Migrations.Initial do
       add(:bio, :text, null: true)
       # email / google / discord
       add(:auth_method, :text)
-      add(:discord_id, :text, null: true)
-      add(:google_id, :text, null: true)
+      add(:oauth_provider_id, :text, null: true)
 
       add(:last_active, :utc_datetime, default: fragment("now()"), null: true)
       add(:joined, :utc_datetime, default: fragment("now()"))
@@ -22,8 +21,7 @@ defmodule Rograph.Repo.Migrations.Initial do
     create(unique_index(:users, [:id]))
     create(unique_index(:users, [:username]))
     create(unique_index(:users, [:email]))
-    create(unique_index(:users, [:google_id]))
-    create(unique_index(:users, [:discord_id]))
+    create(unique_index(:users, [:oauth_provider_id]))
 
     create table(:channels, primary_key: false) do
       add(:id, :text, primary_key: true)

@@ -5,8 +5,6 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
   alias Rograph.Auth.OtpEmailLogin
   alias Rograph.Mailer
   alias Swoosh.Email
-  alias Rograph.Uploaders.UserAvatar
-  alias Rograph.HashColorAvatar
   alias RographWeb.Graphql.HandleChangesetError
 
   import Ecto.Query
@@ -125,7 +123,8 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
         case Auth.create_user(%{
                email: email,
                username: username,
-               name: name
+               name: name,
+               auth_method: "email"
              }) do
           {:ok, user} ->
             {:ok, jwt_token, _} = Auth.encode_and_sign(user, %{}, auth_time: true)

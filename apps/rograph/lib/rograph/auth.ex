@@ -49,7 +49,8 @@ defmodule Rograph.Auth do
   def create_user(%{
         email: email,
         username: username,
-        name: name
+        name: name,
+        auth_method: "email"
       }) do
     %{
       user_id: user_id,
@@ -72,7 +73,8 @@ defmodule Rograph.Auth do
         email: email,
         username: username,
         name: name,
-        google_id: google_id
+        auth_method: auth_method,
+        oauth_id: oauth_id
       }) do
     %{
       user_id: user_id,
@@ -86,32 +88,8 @@ defmodule Rograph.Auth do
       username: username,
       name: name,
       avatar: avatar_url,
-      auth_method: "google",
-      google_id: google_id
-    })
-    |> Repo.insert()
-  end
-
-  def create_user(%{
-        email: email,
-        username: username,
-        name: name,
-        discord_id: discord_id
-      }) do
-    %{
-      user_id: user_id,
-      avatar_url: avatar_url
-    } = generate_id_and_avatar(name)
-
-    %User{}
-    |> User.changeset(%{
-      id: user_id,
-      email: email,
-      username: username,
-      name: name,
-      avatar: avatar_url,
-      auth_method: "discord",
-      discord_id: discord_id
+      auth_method: auth_method,
+      oauth_provider_id: oauth_id
     })
     |> Repo.insert()
   end

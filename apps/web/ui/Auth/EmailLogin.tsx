@@ -20,7 +20,7 @@ import {
     memo,
 } from 'react';
 import BackBar from '../Navigation/BackBar';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Footer from '@/ui/Navigation/Footer';
 import { useMutation } from 'urql';
 import invariant from 'tiny-invariant';
@@ -98,6 +98,9 @@ function EmailAuthComponent() {
         formsReducer,
         DefaultEmailAuthState
     );
+
+    const authParams = useSearchParams();
+    console.log(authParams);
 
     return (
         <EmailAuthContext.Provider value={{ activeStep, currForm, email }}>
