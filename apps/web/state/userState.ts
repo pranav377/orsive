@@ -55,6 +55,9 @@ const useUserState = create<UserState & UserActions>()((set) => ({
     logout: () => {
         set(logoutState);
     },
+    makeSetupComplete: () => {
+        set((state) => ({ ...state, setupComplete: true }));
+    },
 }));
 
 export default useUserState;

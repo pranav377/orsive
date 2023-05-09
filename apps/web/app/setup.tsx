@@ -6,8 +6,8 @@ import Button from '@mui/material/Button';
 import { Provider as GraphQLProvider } from 'urql';
 import { GraphQLClient } from './GraphQLClient';
 import { SnackbarProvider, closeSnackbar } from 'notistack';
-import NextNProgress from 'nextjs-progressbar';
 import CheckAuth from '@/ui/Auth/CheckAuth';
+import SetupComplete from '@/ui/Auth/SetupComplete';
 
 export default function Setup({ children }: { children: React.ReactNode }) {
     return (
@@ -17,7 +17,7 @@ export default function Setup({ children }: { children: React.ReactNode }) {
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
                     <body id="__orsive">
-                        <NextNProgress />
+                        <SetupComplete />
                         <SnackbarProvider
                             maxSnack={1}
                             action={(snackbarId) => (

@@ -10,7 +10,6 @@ import { Toaster } from 'react-hot-toast';
 import _ from 'lodash';
 import { createUploadLink } from 'apollo-upload-client';
 import { DefaultSeo } from 'next-seo';
-import NextNProgress from 'nextjs-progressbar';
 import LoginDialog from '../components/app/LoginDialog';
 import { useAnalytics } from '../hooks/app/useAnalytics';
 import { AnimatePresence } from 'framer-motion';
