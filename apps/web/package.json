@@ -86,10 +86,10 @@
         "@types/react-infinite-scroller": "^1.2.3",
         "@types/react-instantsearch-dom": "^6.12.2",
         "@types/react-linkify": "^1.0.1",
-        "autoprefixer": "10.4.5",
+        "autoprefixer": "^10.4.14",
         "eslint": "8.7.0",
         "eslint-config-next": "^13.2.4",
-        "postcss": "^8.4.5",
-        "tailwindcss": "^3.0.16"
+        "postcss": "^8.4.23",
+        "tailwindcss": "^3.3.2"
     }
 }

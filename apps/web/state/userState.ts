@@ -20,6 +20,8 @@ interface UserActions {
     }) => void;
 
     logout: () => void;
+
+    makeSetupComplete: () => void;
 }
 
 const initialState: UserState = {

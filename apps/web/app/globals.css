@@ -8,8 +8,20 @@ body {
     margin: 0;
 }
 
-::-webkit-scrollbar {
+body::-webkit-scrollbar {
     display: none;
+}
+
+.orsive-scrollbar::-webkit-scrollbar {
+    width: 0.2rem;
+}
+
+.orsive-scrollbar::-webkit-scrollbar-track {
+    background: #020617;
+}
+
+.orsive-scrollbar::-webkit-scrollbar-thumb {
+    background: #2563eb;
 }
 
 #main-sidebar:before {

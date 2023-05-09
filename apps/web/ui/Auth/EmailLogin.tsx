@@ -11,16 +11,9 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import LoadingButton from '@mui/lab/LoadingButton';
 import * as yup from 'yup';
-import {
-    Dispatch,
-    useState,
-    createContext,
-    useContext,
-    useReducer,
-    memo,
-} from 'react';
+import { Dispatch, createContext, useContext, useReducer, memo } from 'react';
 import BackBar from '../Navigation/BackBar';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Footer from '@/ui/Navigation/Footer';
 import { useMutation } from 'urql';
 import invariant from 'tiny-invariant';

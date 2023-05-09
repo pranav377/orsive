@@ -63,6 +63,6 @@ defmodule Rograph.Auth.User do
     |> unique_constraint(:email)
     |> unique_constraint(:username)
     |> unique_constraint(:oauth_provider_id)
-    |> validate_inclusion(:preferred_languages, Application.get_env(:rograph, :languages))
+    |> validate_subset(:preferred_languages, Application.get_env(:rograph, :languages))
   end
 end

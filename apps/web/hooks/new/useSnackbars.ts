@@ -13,7 +13,22 @@ const useSnackbars = () => {
         });
     };
 
-    return { handleLoginWelcome, displayLoginError };
+    const displaySetupComplete = () => {
+        enqueueSnackbar(`Setup preferred languages`);
+    };
+
+    const displaySetupCompleteError = () => {
+        enqueueSnackbar('Something went wrong. Try again', {
+            variant: 'error',
+        });
+    };
+
+    return {
+        handleLoginWelcome,
+        displayLoginError,
+        displaySetupComplete,
+        displaySetupCompleteError,
+    };
 };
 
 export default useSnackbars;

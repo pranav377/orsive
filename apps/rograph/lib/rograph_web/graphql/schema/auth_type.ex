@@ -66,7 +66,7 @@ defmodule RographWeb.Graphql.Schema.Types.AuthType do
     @desc "Setup languages"
     field :setup_languages, :me_response do
       middleware(Middleware.BlockUnauthenticatedMiddleware)
-      arg(:languages, list_of(non_null(:string)))
+      arg(:languages, non_null(list_of(non_null(:string))))
       resolve(&Resolvers.AuthResolver.setup_languages/3)
     end
   end

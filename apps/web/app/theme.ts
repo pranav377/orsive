@@ -30,10 +30,10 @@ export const theme = createTheme({
         mode: 'dark',
 
         background: {
-            paper: colors.slate[900],
+            paper: colors.slate[950],
         },
 
-        slate: createColor(colors.slate[900]),
+        slate: createColor(colors.slate[950]),
         whitegrey: createColor(colors.gray[100]),
 
         primary: {
