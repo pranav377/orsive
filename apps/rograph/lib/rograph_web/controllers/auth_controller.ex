@@ -5,7 +5,8 @@ defmodule RographWeb.AuthController do
   alias Rograph.Auth
   plug(Ueberauth)
 
-  @oauth_redirect_url Application.get_env(:rograph, Auth)[:success_redirect_url]
+  @oauth_success_redirect_url Application.get_env(:rograph, Auth)[:success_redirect_url]
+  @oauth_error_redirect_url Application.get_env(:rograph, Auth)[:error_redirect_url]
 
   defp random_string(length) do
     :crypto.strong_rand_bytes(length) |> Base.url_encode64() |> binary_part(0, length)
@@ -31,7 +32,7 @@ defmodule RographWeb.AuthController do
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
     conn
     |> put_flash(:error, "Failed to authenticate.")
-    |> redirect(external: @oauth_redirect_url)
+    |> redirect(external: @oauth_error_redirect_url)
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
@@ -64,7 +65,7 @@ defmodule RographWeb.AuthController do
             conn
             |> redirect(
               external:
-                "#{@oauth_redirect_url}?#{URI.encode_query(Map.merge(%{id: new_user.id, username: new_user.username, name: new_user.name, avatar: new_user.avatar},
+                "#{@oauth_success_redirect_url}?#{URI.encode_query(Map.merge(%{id: new_user.id, username: new_user.username, name: new_user.name, avatar: new_user.avatar},
                 %{token: jwt_token}))}"
             )
 
@@ -74,7 +75,7 @@ defmodule RographWeb.AuthController do
             conn
             |> redirect(
               external:
-                "#{@oauth_redirect_url}?error=You already have an account created with #{existing_user.auth_method}. Please use that to sign in"
+                "#{@oauth_error_redirect_url}?error=You already have an account created with #{existing_user.auth_method}. Please use that to sign in"
             )
         end
 
@@ -85,7 +86,7 @@ defmodule RographWeb.AuthController do
         conn
         |> redirect(
           external:
-            "#{@oauth_redirect_url}?#{URI.encode_query(Map.merge(%{id: already_user.id, username: already_user.username, name: already_user.name, avatar: already_user.avatar},
+            "#{@oauth_success_redirect_url}?#{URI.encode_query(Map.merge(%{id: already_user.id, username: already_user.username, name: already_user.name, avatar: already_user.avatar},
             %{token: jwt_token}))}"
         )
     end

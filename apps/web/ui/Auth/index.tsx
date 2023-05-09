@@ -10,41 +10,17 @@ import DiscordSVG from '@/components/svgs/discord-color-logo.svg';
 import EmailIcon from '@mui/icons-material/Email';
 import Footer from '@/ui/Navigation/Footer';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
-import login from '@/technique/auth/login';
+import { useRouter } from 'next/navigation';
 import { DISCORD_AUTH_URL } from '@/config';
 import { GOOGLE_AUTH_URL } from '@/config';
-import useSnackbars from '@/hooks/new/useSnackbars';
+import useHandleOAuthRedirect from '@/hooks/new/auth/useHandleOAuthRedirect';
 
 export default function Auth() {
     const theme = useTheme();
 
-    const authParams = useSearchParams();
     const router = useRouter();
-    const { displayLoginWelcome, displayLoginError } = useSnackbars();
 
-    useEffect(() => {
-        if (authParams) {
-            let userAndToken = Object.fromEntries(authParams);
-
-            if (userAndToken.error) {
-                displayLoginError(userAndToken.error);
-            } else if (userAndToken.token) {
-                login({
-                    user: {
-                        id: userAndToken.id,
-                        name: userAndToken.name,
-                        username: userAndToken.username,
-                        avatar: userAndToken.avatar,
-                    },
-                    token: userAndToken.token,
-                });
-
-                displayLoginWelcome(userAndToken.name);
-            }
-        }
-    }, [authParams, displayLoginWelcome, displayLoginError]);
+    useHandleOAuthRedirect();
 
     return (
         <>

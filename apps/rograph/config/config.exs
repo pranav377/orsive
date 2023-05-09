@@ -50,7 +50,8 @@ config :rograph, Rograph.Repo,
 config :rograph, Rograph.Auth,
   issuer: "Orsive",
   secret_key: System.get_env("JWT_SECRET"),
-  success_redirect_url: System.get_env("OAUTH_SUCCESS_REDIRECT_URL")
+  success_redirect_url: System.get_env("OAUTH_SUCCESS_REDIRECT_URL"),
+  error_redirect_url: System.get_env("OAUTH_ERROR_REDIRECT_URL")
 
 # Configure Swoosh
 config :rograph, Rograph.Mailer,

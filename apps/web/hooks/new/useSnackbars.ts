@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack';
 const useSnackbars = () => {
     const { enqueueSnackbar } = useSnackbar();
 
-    const displayLoginWelcome = (name: string) => {
+    const handleLoginWelcome = (name: string) => {
         enqueueSnackbar(`Welcome ${name}!`);
     };
 
@@ -13,7 +13,7 @@ const useSnackbars = () => {
         });
     };
 
-    return { displayLoginWelcome, displayLoginError };
+    return { handleLoginWelcome, displayLoginError };
 };
 
 export default useSnackbars;

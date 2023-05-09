@@ -274,7 +274,7 @@ function EmailLoginFormComponent() {
     const [_loginAuthEmailResult, loginAuthEmail] =
         useMutation(LOGIN_AUTH_EMAIL);
 
-    const { displayLoginWelcome } = useSnackbars();
+    const { handleLoginWelcome } = useSnackbars();
     const currUser = useUserState();
 
     const formik = useFormik({
@@ -292,7 +292,7 @@ function EmailLoginFormComponent() {
                     login(response);
 
                     // display welcome message
-                    displayLoginWelcome(currUser.name);
+                    handleLoginWelcome(currUser.name);
                 })
                 .catch(() =>
                     helpers.setErrors({
@@ -375,7 +375,7 @@ function EmailSignupFormComponent() {
     const [_signupAuthEmailResult, signupAuthEmail] =
         useMutation(SIGNUP_AUTH_EMAIL);
 
-    const { displayLoginWelcome } = useSnackbars();
+    const { handleLoginWelcome } = useSnackbars();
     const currUser = useUserState();
 
     const formik = useFormik({
@@ -396,7 +396,7 @@ function EmailSignupFormComponent() {
                         login(response);
 
                         // display welcome message
-                        displayLoginWelcome(currUser.name);
+                        handleLoginWelcome(currUser.name);
                     } else {
                         invariant(result.error.graphQLErrors[0].originalError);
                         const error = result.error.graphQLErrors[0]
