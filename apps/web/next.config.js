@@ -37,8 +37,8 @@ const moduleExports = {
             },
         ],
     },
-    experimental: {
-        appDir: true,
+    sentry: {
+        hideSourceMaps: true,
     },
 };
 
@@ -46,5 +46,4 @@ const moduleExports = {
 // ensure that your source maps include changes from all other Webpack plugins
 module.exports = withSentryConfig(moduleExports, {
     silent: true,
-    hideSourceMaps: true,
 });

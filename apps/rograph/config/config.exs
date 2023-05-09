@@ -46,8 +46,72 @@ config :rograph, Rograph.Repo,
   ssl: false,
   migration_lock: false
 
-# Configure Joken
-config :joken, default_signer: System.get_env("JWT_SECRET")
+# Configure Guardian
+config :rograph, Rograph.Auth,
+  issuer: "Orsive",
+  secret_key: System.get_env("JWT_SECRET"),
+  success_redirect_url: System.get_env("OAUTH_SUCCESS_REDIRECT_URL"),
+  error_redirect_url: System.get_env("OAUTH_ERROR_REDIRECT_URL")
+
+# Configure Swoosh
+config :rograph, Rograph.Mailer,
+  adapter: Swoosh.Adapters.Sendinblue,
+  api_key: System.get_env("SENDINBLUE_API_KEY") || "my-api-key",
+  email_login_template_id: String.to_integer(System.get_env("EMAIL_LOGIN_TEMPLATE_ID") || "1"),
+  email_signup_template_id: String.to_integer(System.get_env("EMAIL_SIGNUP_TEMPLATE_ID") || "2")
+
+# Configure Rate Limiter
+config :hammer,
+  backend: {Hammer.Backend.ETS, [expiry_ms: 60_000 * 60 * 4, cleanup_interval_ms: 60_000 * 10]}
+
+# Configure Ueberauth
+config :ueberauth, Ueberauth,
+  providers: [
+    google: {Ueberauth.Strategy.Google, [default_scope: "profile email"]},
+    discord: {Ueberauth.Strategy.Discord, [default_scope: "identify email"]}
+  ]
+
+# Configure Ueberauth providers
+config :ueberauth, Ueberauth.Strategy.Google.OAuth,
+  client_id: {System, :get_env, ["GOOGLE_CLIENT_ID"]},
+  client_secret: {System, :get_env, ["GOOGLE_CLIENT_SECRET"]}
+
+config :ueberauth, Ueberauth.Strategy.Discord.OAuth,
+  client_id: System.get_env("DISCORD_CLIENT_ID"),
+  client_secret: System.get_env("DISCORD_CLIENT_SECRET")
+
+# Configure list of available languages
+config :rograph, :languages, [
+  "English",
+  "Malayalam",
+  "Hindi",
+  "Tamil",
+  "Portuguese",
+  "French",
+  "Dutch",
+  "Spanish",
+  "Greek",
+  "Russian",
+  "Danish",
+  "Italian",
+  "Turkish",
+  "Sweedish",
+  "Arabic",
+  "German",
+  "Kannada",
+  "Telugu",
+  "Estonian",
+  "Swedish",
+  "Thai",
+  "Japanese",
+  "Latin",
+  "Urdu",
+  "Indonesian",
+  "Chinese",
+  "Korean",
+  "Persian",
+  "Romanian"
+]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

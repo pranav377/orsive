@@ -52,6 +52,7 @@ yarn-error.log*
 
 # orsive api development
 uploads-dev
+uploads
 
 # external dependencies
 gorse

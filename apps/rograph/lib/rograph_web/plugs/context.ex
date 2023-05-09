@@ -12,11 +12,15 @@ defmodule RographWeb.Plugs.Context do
   end
 
   defp build_context(conn) do
+    ip = conn.remote_ip
+    client_ip = Enum.join(Tuple.to_list(ip), ".")
+
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, user} <- Auth.verify_user_from_token(token) do
-      %{user: user, user_id: user.id, is_authenticated: true}
+         {:ok, claims} <- Auth.decode_and_verify(token, %{}, max_age: {365, :days}),
+         {:ok, user} <- Auth.resource_from_claims(claims) do
+      %{user: user, is_authenticated: true, client_ip: client_ip}
     else
-      _ -> %{user: nil, user_id: nil, is_authenticated: false}
+      _ -> %{user: nil, is_authenticated: false, client_ip: client_ip}
     end
   end
 end

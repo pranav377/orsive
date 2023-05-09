@@ -21,4 +21,4 @@ cd ..
 
 cd rograph
 
-mix deps.get
+mix setup

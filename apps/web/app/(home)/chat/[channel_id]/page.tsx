@@ -1,4 +1,4 @@
-import Channel from '@/ui/chat/Channel';
+import Channel from '@/ui/Chat/Channel';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

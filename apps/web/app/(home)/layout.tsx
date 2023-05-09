@@ -1,8 +1,8 @@
 'use client';
 
-import Navbar from '@/ui/navigation/Navbar';
-import BottomBar from '@/ui/navigation/BottomBar';
-import SideBar, { drawerWidth } from '@/ui/navigation/SideBar';
+import Navbar from '@/ui/Navigation/Navbar';
+import BottomBar from '@/ui/Navigation/BottomBar';
+import SideBar, { drawerWidth } from '@/ui/Navigation/SideBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 

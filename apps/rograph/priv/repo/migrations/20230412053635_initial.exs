@@ -8,13 +8,22 @@ defmodule Rograph.Repo.Migrations.Initial do
       add(:email, :text)
       add(:name, :text)
       add(:avatar, :text)
-      add(:banner, :text)
-      add(:bio, :text)
-      add(:is_online, :boolean, default: false)
+      add(:banner, :text, null: true)
+      add(:bio, :text, null: true)
+      # email / google / discord
+      add(:auth_method, :text)
+      add(:oauth_provider_id, :text, null: true)
+      add(:setup_complete, :boolean, default: false)
+      add(:preferred_languages, {:array, :string})
+
+      add(:last_active, :utc_datetime, default: fragment("now()"), null: true)
       add(:joined, :utc_datetime, default: fragment("now()"))
     end
 
-    create(unique_index(:users, [:id, :username, :email]))
+    create(unique_index(:users, [:id]))
+    create(unique_index(:users, [:username]))
+    create(unique_index(:users, [:email]))
+    create(unique_index(:users, [:oauth_provider_id]))
 
     create table(:channels, primary_key: false) do
       add(:id, :text, primary_key: true)

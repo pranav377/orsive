@@ -1,4 +1,4 @@
-import PostsRenderer from '@/ui/posts/PostsRenderer';
+import Home from '@/ui/Home';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -6,10 +6,6 @@ export const metadata: Metadata = {
     description: 'Your curated list of content from amazing people :)',
 };
 
-export default function Feed() {
-    return (
-        <div>
-            <PostsRenderer />
-        </div>
-    );
+export default function HomePage() {
+    return <Home />;
 }

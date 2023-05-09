@@ -1,4 +1,4 @@
-import ChatDefault from '@/ui/chat/ChatDefault';
+import ChatDefault from '@/ui/Chat/ChatDefault';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

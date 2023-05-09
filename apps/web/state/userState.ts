@@ -1,74 +1,62 @@
 import { create } from 'zustand';
 
 interface UserState {
-    is: boolean;
+    is: 'authenticated' | 'unauthenticated' | 'loading';
+    id: string;
     username: string;
     avatar: string;
     name: string;
-    unreadNotifications: boolean;
     setupComplete: boolean;
-    isMod: boolean;
-    isStaff: boolean;
     bio?: string;
 }
 
 interface UserActions {
     login: (data: {
+        id: string;
         username: string;
         avatar: string;
         name: string;
         setupComplete: boolean;
-        isMod: boolean;
-        isStaff: boolean;
     }) => void;
 
     logout: () => void;
-
-    notificationsRead: () => void;
-
-    setNotification: (status: boolean) => void;
-
-    makeSetupComplete: () => void;
 }
 
 const initialState: UserState = {
-    is: false,
+    is: 'loading',
+    id: '',
     username: '',
     avatar: '',
     name: '',
-    unreadNotifications: false,
-    setupComplete: true,
-    isMod: false,
-    isStaff: false,
+    setupComplete: false,
+};
+
+const logoutState: UserState = {
+    is: 'unauthenticated',
+    id: '',
+    username: '',
+    avatar: '',
+    name: '',
+    setupComplete: false,
 };
 
 const useUserState = create<UserState & UserActions>()((set) => ({
     ...initialState,
     login: (data) => {
         set({
-            is: true,
+            is: 'authenticated',
+            id: data.id,
             username: data.username,
             avatar: data.avatar,
             name: data.name,
             setupComplete: data.setupComplete,
-            isMod: data.isMod,
-            isStaff: data.isStaff,
         });
     },
     logout: () => {
-        set(initialState);
+        set(logoutState);
     },
-
-    notificationsRead: () => {
-        set({ unreadNotifications: false });
-    },
-
-    setNotification: (status) => {
-        set({ unreadNotifications: status });
-    },
-
     makeSetupComplete: () => {
-        set({ setupComplete: true });
+        set((state) => ({ ...state, setupComplete: true }));
     },
 }));
 

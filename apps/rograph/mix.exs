@@ -41,11 +41,23 @@ defmodule Rograph.MixProject do
       {:absinthe_plug, "~> 1.5"},
       {:phoenix_pubsub, "~> 2.0"},
       {:absinthe_phoenix, "~> 2.0"},
-      {:joken, "~> 2.5"},
-      {:mongodb_driver, "~> 1.0"},
       {:elixir_uuid, "~> 1.2"},
       {:ecto_sql, "~> 3.9"},
-      {:postgrex, "~> 0.16.5"}
+      {:postgrex, "~> 0.16.5"},
+      {:swoosh, "~> 1.10"},
+      {:hackney, "~> 1.18"},
+      {:hammer, "~> 6.0"},
+      {:email_checker, "~> 0.2.4"},
+      {:arc, "~> 0.11.0"},
+      {:ex_aws, "~> 2.0"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:poison, "~> 3.1"},
+      {:sweet_xml, "~> 0.6"},
+      {:guardian, "~> 2.0"},
+      {:cors_plug, "~> 3.0"},
+      {:ueberauth, "~> 0.10.5"},
+      {:ueberauth_google, "~> 0.10"},
+      {:ueberauth_discord, "~> 0.7.0"}
     ]
   end
 
@@ -57,7 +69,7 @@ defmodule Rograph.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get", "ecto.create", "ecto.migrate"]
     ]
   end
 end
