@@ -80,6 +80,39 @@ config :ueberauth, Ueberauth.Strategy.Discord.OAuth,
   client_id: System.get_env("DISCORD_CLIENT_ID"),
   client_secret: System.get_env("DISCORD_CLIENT_SECRET")
 
+# Configure list of available languages
+config :rograph, :languages, [
+  "English",
+  "Malayalam",
+  "Hindi",
+  "Tamil",
+  "Portuguese",
+  "French",
+  "Dutch",
+  "Spanish",
+  "Greek",
+  "Russian",
+  "Danish",
+  "Italian",
+  "Turkish",
+  "Sweedish",
+  "Arabic",
+  "German",
+  "Kannada",
+  "Telugu",
+  "Estonian",
+  "Swedish",
+  "Thai",
+  "Japanese",
+  "Latin",
+  "Urdu",
+  "Indonesian",
+  "Chinese",
+  "Korean",
+  "Persian",
+  "Romanian"
+]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

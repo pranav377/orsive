@@ -19,6 +19,8 @@ defmodule Rograph.Auth.User do
 
     field(:last_active, :utc_datetime)
     field(:joined, :utc_datetime)
+    field(:setup_complete, :boolean)
+    field(:preferred_languages, {:array, :string})
     many_to_many(:channels, Rograph.Chat.Channel, join_through: "users_channels")
     many_to_many(:typing_channels, Rograph.Chat.Channel, join_through: "typing_users_channels")
 
@@ -51,7 +53,9 @@ defmodule Rograph.Auth.User do
       :banner,
       :bio,
       :auth_method,
-      :oauth_provider_id
+      :oauth_provider_id,
+      :setup_complete,
+      :preferred_languages
     ])
     |> validate_required([:id, :username, :email, :name, :avatar, :auth_method])
     |> validate_length(:username, max: 20)
@@ -59,5 +63,6 @@ defmodule Rograph.Auth.User do
     |> unique_constraint(:email)
     |> unique_constraint(:username)
     |> unique_constraint(:oauth_provider_id)
+    |> validate_inclusion(:preferred_languages, Application.get_env(:rograph, :languages))
   end
 end

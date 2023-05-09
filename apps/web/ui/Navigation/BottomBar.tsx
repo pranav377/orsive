@@ -42,6 +42,7 @@ export default function BottomBar() {
                     />
                 ))}
             </BottomNavigation>
+            {/* use speeddial in future */}
             <Fab
                 color="primary"
                 aria-label="add post"

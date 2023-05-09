@@ -13,6 +13,8 @@ defmodule Rograph.Repo.Migrations.Initial do
       # email / google / discord
       add(:auth_method, :text)
       add(:oauth_provider_id, :text, null: true)
+      add(:setup_complete, :boolean, default: false)
+      add(:preferred_languages, {:array, :string})
 
       add(:last_active, :utc_datetime, default: fragment("now()"), null: true)
       add(:joined, :utc_datetime, default: fragment("now()"))

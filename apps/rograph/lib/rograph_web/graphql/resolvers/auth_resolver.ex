@@ -158,4 +158,23 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
       }) do
     {:ok, user}
   end
+
+  def setup_languages(
+        _parent,
+        %{
+          languages: languages
+        },
+        %{
+          context: %{
+            user: current_user
+          }
+        }
+      ) do
+    case current_user
+         |> User.changeset(%{preferred_languages: languages, setup_complete: true})
+         |> Repo.update() do
+      {:ok, user} -> {:ok, user}
+      {:error, changeset} -> HandleChangesetError.handle(changeset)
+    end
+  end
 end

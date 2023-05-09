@@ -14,13 +14,17 @@ defmodule RographWeb.Graphql.Schema.Types.AuthType do
     field(:token, non_null(:string))
   end
 
-  object :check_username_response do
-    field(:available, non_null(:boolean))
+  object :me_response do
+    field(:id, non_null(:id))
+    field(:username, non_null(:string))
+    field(:name, non_null(:string))
+    field(:avatar, non_null(:string))
+    field(:setup_complete, non_null(:boolean))
   end
 
   object :auth_queries do
     @desc "Get current user"
-    field :me, non_null(:chat_user) do
+    field :me, non_null(:me_response) do
       middleware(Middleware.BlockUnauthenticatedMiddleware)
       resolve(&Resolvers.AuthResolver.me/3)
     end
@@ -57,6 +61,13 @@ defmodule RographWeb.Graphql.Schema.Types.AuthType do
       arg(:name, non_null(:string))
       arg(:otp, non_null(:string))
       resolve(&Resolvers.AuthResolver.signup_auth_email/3)
+    end
+
+    @desc "Setup languages"
+    field :setup_languages, :me_response do
+      middleware(Middleware.BlockUnauthenticatedMiddleware)
+      arg(:languages, list_of(non_null(:string)))
+      resolve(&Resolvers.AuthResolver.setup_languages/3)
     end
   end
 end
