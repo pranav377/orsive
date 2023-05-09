@@ -7,10 +7,12 @@ import { Provider as GraphQLProvider } from 'urql';
 import { GraphQLClient } from './GraphQLClient';
 import { SnackbarProvider, closeSnackbar } from 'notistack';
 import NextNProgress from 'nextjs-progressbar';
+import CheckAuth from '@/ui/Auth/CheckAuth';
 
 export default function Setup({ children }: { children: React.ReactNode }) {
     return (
         <GraphQLProvider value={GraphQLClient}>
+            <CheckAuth />
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 interface UserState {
-    is: boolean;
+    is: 'authenticated' | 'unauthenticated' | 'loading';
     id: string;
     username: string;
     avatar: string;
@@ -21,7 +21,15 @@ interface UserActions {
 }
 
 const initialState: UserState = {
-    is: false,
+    is: 'loading',
+    id: '',
+    username: '',
+    avatar: '',
+    name: '',
+};
+
+const logoutState: UserState = {
+    is: 'unauthenticated',
     id: '',
     username: '',
     avatar: '',
@@ -32,7 +40,7 @@ const useUserState = create<UserState & UserActions>()((set) => ({
     ...initialState,
     login: (data) => {
         set({
-            is: true,
+            is: 'authenticated',
             id: data.id,
             username: data.username,
             avatar: data.avatar,
@@ -40,7 +48,7 @@ const useUserState = create<UserState & UserActions>()((set) => ({
         });
     },
     logout: () => {
-        set(initialState);
+        set(logoutState);
     },
 }));
 

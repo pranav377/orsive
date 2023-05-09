@@ -19,11 +19,10 @@ defmodule RographWeb.Graphql.Schema.Types.AuthType do
   end
 
   object :auth_queries do
-    @desc "Check if username already exists"
-    field :check_username, :check_username_response do
-      middleware(Middleware.BlockAlreadyAuthenticatedMiddleware)
-      arg(:username, non_null(:string))
-      resolve(&Resolvers.AuthResolver.check_username/3)
+    @desc "Get current user"
+    field :me, non_null(:chat_user) do
+      middleware(Middleware.BlockUnauthenticatedMiddleware)
+      resolve(&Resolvers.AuthResolver.me/3)
     end
   end
 

@@ -151,21 +151,11 @@ defmodule RographWeb.Graphql.Resolvers.AuthResolver do
     end
   end
 
-  def check_username(_parent, %{username: username}, _context) do
-    regex_check = ~r/[^a-zA-Z0-9-_~]/
-
-    if !String.match?(username, regex_check) and username !== "" do
-      user = Repo.get_by(User, username: username)
-
-      case user do
-        nil -> {:ok, %{available: true}}
-        _ -> {:ok, %{available: false}}
-      end
-    else
-      {:ok,
-       %{
-         available: false
-       }}
-    end
+  def me(_parent, _args, %{
+        context: %{
+          user: user
+        }
+      }) do
+    {:ok, user}
   end
 end

@@ -9,7 +9,13 @@ defmodule RographWeb.Graphql.Middleware.BlockUnauthenticatedMiddleware do
       _ ->
         resolution
         |> Absinthe.Resolution.put_result(
-          {:error, "User is not authenticated to perform this action"}
+          {:error,
+           %{
+             message: "User is not authenticated to perform this action",
+             extensions: %{
+               code: "FORBIDDEN"
+             }
+           }}
         )
     end
   end
