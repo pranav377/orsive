@@ -6,6 +6,7 @@ interface LoginPayload {
         username: string;
         avatar: string;
         name: string;
+        setupComplete: boolean;
     };
     token: string;
 }

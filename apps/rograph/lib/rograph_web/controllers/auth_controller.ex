@@ -65,7 +65,7 @@ defmodule RographWeb.AuthController do
             conn
             |> redirect(
               external:
-                "#{@oauth_success_redirect_url}?#{URI.encode_query(Map.merge(%{id: new_user.id, username: new_user.username, name: new_user.name, avatar: new_user.avatar},
+                "#{@oauth_success_redirect_url}?#{URI.encode_query(Map.merge(%{id: new_user.id, username: new_user.username, name: new_user.name, avatar: new_user.avatar, setupComplete: to_string(new_user.setup_complete)},
                 %{token: jwt_token}))}"
             )
 
@@ -86,7 +86,7 @@ defmodule RographWeb.AuthController do
         conn
         |> redirect(
           external:
-            "#{@oauth_success_redirect_url}?#{URI.encode_query(Map.merge(%{id: already_user.id, username: already_user.username, name: already_user.name, avatar: already_user.avatar},
+            "#{@oauth_success_redirect_url}?#{URI.encode_query(Map.merge(%{id: already_user.id, username: already_user.username, name: already_user.name, avatar: already_user.avatar, setupComplete: to_string(already_user.setup_complete)},
             %{token: jwt_token}))}"
         )
     end

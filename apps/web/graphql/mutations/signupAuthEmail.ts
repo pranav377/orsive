@@ -19,6 +19,7 @@ const SIGNUP_AUTH_EMAIL = graphql(`
                 id
                 name
                 username
+                setupComplete
             }
         }
     }

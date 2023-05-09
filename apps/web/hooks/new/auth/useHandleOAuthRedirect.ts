@@ -25,6 +25,7 @@ const useHandleOAuthRedirect = () => {
                         name: userAndToken.name,
                         username: userAndToken.username,
                         avatar: userAndToken.avatar,
+                        setupComplete: userAndToken.setupComplete == 'true',
                     },
                     token: userAndToken.token,
                 });

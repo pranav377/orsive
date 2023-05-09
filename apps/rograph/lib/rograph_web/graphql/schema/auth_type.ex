@@ -10,7 +10,7 @@ defmodule RographWeb.Graphql.Schema.Types.AuthType do
   end
 
   object :login_response do
-    field(:user, non_null(:chat_user))
+    field(:user, non_null(:me_response))
     field(:token, non_null(:string))
   end
 

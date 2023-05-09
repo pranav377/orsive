@@ -6,6 +6,7 @@ interface UserState {
     username: string;
     avatar: string;
     name: string;
+    setupComplete: boolean;
     bio?: string;
 }
 
@@ -15,6 +16,7 @@ interface UserActions {
         username: string;
         avatar: string;
         name: string;
+        setupComplete: boolean;
     }) => void;
 
     logout: () => void;
@@ -26,6 +28,7 @@ const initialState: UserState = {
     username: '',
     avatar: '',
     name: '',
+    setupComplete: false,
 };
 
 const logoutState: UserState = {
@@ -34,6 +37,7 @@ const logoutState: UserState = {
     username: '',
     avatar: '',
     name: '',
+    setupComplete: false,
 };
 
 const useUserState = create<UserState & UserActions>()((set) => ({
@@ -45,6 +49,7 @@ const useUserState = create<UserState & UserActions>()((set) => ({
             username: data.username,
             avatar: data.avatar,
             name: data.name,
+            setupComplete: data.setupComplete,
         });
     },
     logout: () => {

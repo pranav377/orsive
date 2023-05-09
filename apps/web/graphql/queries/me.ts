@@ -7,6 +7,7 @@ const ME = graphql(`
             id
             name
             username
+            setupComplete
         }
     }
 `);
