@@ -22,6 +22,13 @@ defmodule RographWeb.Graphql.Schema.Types.AuthType do
     field(:setup_complete, non_null(:boolean))
   end
 
+  object :user do
+    field(:id, non_null(:id))
+    field(:username, non_null(:string))
+    field(:name, non_null(:string))
+    field(:avatar, non_null(:string))
+  end
+
   object :auth_queries do
     @desc "Get current user"
     field :me, non_null(:me_response) do
