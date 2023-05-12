@@ -38,7 +38,8 @@ body::-webkit-scrollbar {
     width: 40px;
     border-top-left-radius: 50%;
     box-shadow: -20px 0 0 0 #020617;
-    z-index: 9999;
+    background: none;
+    /* z-index: 9999; */
 }
 
 .floating {
@@ -60,8 +61,4 @@ body::-webkit-scrollbar {
     100% {
         transform: translate(0, -0px);
     }
-}
-
-.test {
-    background-color: red;
 }

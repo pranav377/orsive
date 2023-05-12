@@ -369,8 +369,24 @@ const EMAIL_SIGNUP_SCHEMA = yup.object({
 function EmailSignupFormComponent() {
     const data = useContext(EmailAuthContext);
     const dispatch = useContext(EmailAuthDispatchContext);
-    const [signupAuthEmail, _signupAuthEmailResult] =
-        useMutation(SIGNUP_AUTH_EMAIL);
+    const [signupAuthEmail, _signupAuthEmailResult] = useMutation(
+        SIGNUP_AUTH_EMAIL,
+        {
+            onError: (errors) => {
+                if (errors.graphQLErrors[0].originalError) {
+                    const error = errors.graphQLErrors[0].originalError as any;
+                    formik.setErrors({
+                        [error.field]: error.message,
+                    });
+                } else {
+                    formik.setErrors({
+                        name: 'Something went wrong. Try again',
+                    });
+                }
+            },
+            errorPolicy: 'all',
+        }
+    );
 
     const { handleLoginWelcome } = useSnackbars();
     const currUser = useUserState();
@@ -397,8 +413,8 @@ function EmailSignupFormComponent() {
                         // display welcome message
                         handleLoginWelcome(currUser.name);
                     } else {
-                        invariant(result.errors[0].originalError);
-                        const error = result.errors[0].originalError as any;
+                        invariant(result.errors[0]);
+                        const error = result.errors[0] as any;
                         helpers.setErrors({
                             [error.field]: error.message,
                         });
