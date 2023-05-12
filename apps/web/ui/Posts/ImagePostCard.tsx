@@ -23,8 +23,9 @@ export default function ImagePostCard() {
                 sx={{
                     maxWidth: theme.spacing(96),
                     width: '100%',
-                    borderRadius: 2,
-                    background: colors.slate[900],
+                    borderRadius: 1,
+                    background: colors.slate[950],
+                    boxShadow: 0,
                     my: 1,
                 }}
             >

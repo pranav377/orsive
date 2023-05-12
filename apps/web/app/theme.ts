@@ -31,6 +31,7 @@ export const theme = createTheme({
 
         background: {
             paper: colors.slate[950],
+            default: colors.slate[900],
         },
 
         slate: createColor(colors.slate[950]),

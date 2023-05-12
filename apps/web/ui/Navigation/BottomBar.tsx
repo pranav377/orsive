@@ -4,15 +4,11 @@ import * as React from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
-import Fab from '@mui/material/Fab';
 import SvgIcon from '@mui/material/SvgIcon';
 
-import AddIcon from '@mui/icons-material/Add';
-import { useTheme } from '@mui/material';
 import routes from './routes';
 
 export default function BottomBar() {
-    const theme = useTheme();
     const [value, setValue] = React.useState('recents');
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -42,21 +38,6 @@ export default function BottomBar() {
                     />
                 ))}
             </BottomNavigation>
-            {/* use speeddial in future */}
-            <Fab
-                color="primary"
-                aria-label="add post"
-                sx={{
-                    position: 'absolute',
-                    bottom: 60,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    zIndex: 1,
-                    boxShadow: theme.shadows[6],
-                }}
-            >
-                <AddIcon />
-            </Fab>
         </Paper>
     );
 }

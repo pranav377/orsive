@@ -8,7 +8,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Button from '@mui/material/Button';
 import routes from './routes';
 
 import { useTheme } from '@mui/material/styles';
@@ -75,23 +74,6 @@ export default function SideBar() {
                             </ListItemButton>
                         </ListItem>
                     ))}
-
-                    <ListItem>
-                        <Button
-                            sx={{
-                                p: 1.5,
-                                borderRadius: theme.spacing(4),
-                                width: '100%',
-                                textTransform: 'none',
-                                fontSize: theme.spacing(2.5),
-                                fontWeight: 400,
-                            }}
-                            variant="contained"
-                            color="primary"
-                        >
-                            Add Post
-                        </Button>
-                    </ListItem>
                 </List>
             </Box>
         </Drawer>

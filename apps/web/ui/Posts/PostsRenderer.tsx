@@ -11,6 +11,7 @@ export default function PostsRenderer() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    // px: 0.4,
                 }}
             >
                 <ImagePostCard />

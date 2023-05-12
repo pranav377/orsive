@@ -10,7 +10,6 @@ const useHandleOAuthRedirect = () => {
     const authParams = useSearchParams();
     const { handleLoginWelcome, displayLoginError } = useSnackbars();
     const user = useUserState();
-    console.log(user);
 
     useEffect(() => {
         if (authParams) {
@@ -34,6 +33,8 @@ const useHandleOAuthRedirect = () => {
             }
         }
     }, [authParams, handleLoginWelcome, displayLoginError, user.is]);
+
+    return { currUser: user };
 };
 
 export default useHandleOAuthRedirect;
