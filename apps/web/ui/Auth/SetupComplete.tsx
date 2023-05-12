@@ -23,7 +23,7 @@ import {
 } from '@/ui/Navigation/Search';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useState } from 'react';
-import { useMutation } from 'urql';
+import { useMutation } from '@apollo/client';
 import SETUP_LANGUAGES from '@/graphql/mutations/setupLanguages';
 import useSnackbars from '@/hooks/new/useSnackbars';
 
@@ -36,7 +36,7 @@ export default function SetupComplete() {
         'English',
     ]);
     const [allLangs, setAllLangs] = useState(LANG_CONF.langs);
-    const [{ fetching: setupLanguagesLoading }, setupLanguages] =
+    const [setupLanguages, { loading: setupLanguagesLoading }] =
         useMutation(SETUP_LANGUAGES);
 
     const { displaySetupComplete, displaySetupCompleteError } = useSnackbars();
@@ -142,9 +142,11 @@ export default function SetupComplete() {
                         variant="contained"
                         onClick={() => {
                             setupLanguages({
-                                languages: selectedLangs,
+                                variables: {
+                                    languages: selectedLangs,
+                                },
                             }).then((res) => {
-                                if (res.data && !res.error) {
+                                if (res.data && !res.errors) {
                                     currUser.makeSetupComplete();
                                     displaySetupComplete();
                                 } else {

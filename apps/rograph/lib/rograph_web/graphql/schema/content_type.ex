@@ -1,6 +1,9 @@
 defmodule RographWeb.Graphql.Schema.Types.ContentType do
   use Absinthe.Schema.Notation
-  import_types(Absinthe.Type.Custom)
+
+  alias RographWeb.Graphql.Middleware
+  alias RographWeb.Graphql.Resolvers
+  import_types(Absinthe.Plug.Types)
 
   object :post_type do
     field(:id, non_null(:id))
@@ -15,17 +18,26 @@ defmodule RographWeb.Graphql.Schema.Types.ContentType do
     field(:width, non_null(:integer))
     field(:height, non_null(:integer))
     field(:title, :string)
-    field(:post, non_null(:post))
+    field(:post, non_null(:post_type))
   end
 
   object :orsic_type do
     field(:title, :string)
     field(:content, non_null(:string))
-    field(:post, non_null(:post))
+    field(:post, non_null(:post_type))
   end
 
   object :comment_type do
-    field(:post, non_null(:post))
+    field(:post, non_null(:post_type))
     field(:content, non_null(:string))
+  end
+
+  object :content_mutations do
+    field :create_image, :image_type do
+      middleware(Middleware.BlockUnauthenticatedMiddleware)
+      arg(:title, :string)
+      arg(:image, non_null(:upload))
+      resolve(&Resolvers.ContentMutations.create_image/3)
+    end
   end
 end

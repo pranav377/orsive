@@ -15,7 +15,7 @@ import { Dispatch, createContext, useContext, useReducer, memo } from 'react';
 import BackBar from '../Navigation/BackBar';
 import { useRouter } from 'next/navigation';
 import Footer from '@/ui/Navigation/Footer';
-import { useMutation } from 'urql';
+import { useMutation } from '@apollo/client';
 import invariant from 'tiny-invariant';
 import SEND_AUTH_OTP from '@/graphql/mutations/sendAuthOtp';
 import SIGNUP_AUTH_EMAIL from '@/graphql/mutations/signupAuthEmail';
@@ -168,7 +168,7 @@ const AUTH_TYPE_CHECK_SCHEMA = yup.object({
 });
 
 function CheckFormComponent() {
-    const [_sendAuthOtpResult, sendAuthOtp] = useMutation(SEND_AUTH_OTP);
+    const [sendAuthOtp, _sendAuthOtpResult] = useMutation(SEND_AUTH_OTP);
     const dispatch = useContext(EmailAuthDispatchContext);
     const data = useContext(EmailAuthContext);
     const router = useRouter();
@@ -180,7 +180,9 @@ function CheckFormComponent() {
         validationSchema: AUTH_TYPE_CHECK_SCHEMA,
         onSubmit: (values, helpers) => {
             sendAuthOtp({
-                email: values.email,
+                variables: {
+                    email: values.email,
+                },
             })
                 .then((result) => {
                     invariant(result.data?.sendAuthOtp);
@@ -264,7 +266,7 @@ const EMAIL_LOGIN_SCHEMA = yup.object({
 function EmailLoginFormComponent() {
     const data = useContext(EmailAuthContext);
     const dispatch = useContext(EmailAuthDispatchContext);
-    const [_loginAuthEmailResult, loginAuthEmail] =
+    const [loginAuthEmail, _loginAuthEmailResult] =
         useMutation(LOGIN_AUTH_EMAIL);
 
     const { handleLoginWelcome } = useSnackbars();
@@ -277,7 +279,9 @@ function EmailLoginFormComponent() {
         },
         validationSchema: EMAIL_LOGIN_SCHEMA,
         onSubmit: (values, helpers) => {
-            loginAuthEmail(values)
+            loginAuthEmail({
+                variables: values,
+            })
                 .then((result) => {
                     invariant(result.data?.loginAuthEmail);
                     const response = result.data.loginAuthEmail;
@@ -365,7 +369,7 @@ const EMAIL_SIGNUP_SCHEMA = yup.object({
 function EmailSignupFormComponent() {
     const data = useContext(EmailAuthContext);
     const dispatch = useContext(EmailAuthDispatchContext);
-    const [_signupAuthEmailResult, signupAuthEmail] =
+    const [signupAuthEmail, _signupAuthEmailResult] =
         useMutation(SIGNUP_AUTH_EMAIL);
 
     const { handleLoginWelcome } = useSnackbars();
@@ -380,9 +384,11 @@ function EmailSignupFormComponent() {
         },
         validationSchema: EMAIL_SIGNUP_SCHEMA,
         onSubmit: (values, helpers) => {
-            signupAuthEmail(values)
+            signupAuthEmail({
+                variables: values,
+            })
                 .then((result) => {
-                    if (!result.error) {
+                    if (!result.errors) {
                         invariant(result.data?.signupAuthEmail);
                         const response = result.data.signupAuthEmail;
 
@@ -391,9 +397,8 @@ function EmailSignupFormComponent() {
                         // display welcome message
                         handleLoginWelcome(currUser.name);
                     } else {
-                        invariant(result.error.graphQLErrors[0].originalError);
-                        const error = result.error.graphQLErrors[0]
-                            .originalError as any;
+                        invariant(result.errors[0].originalError);
+                        const error = result.errors[0].originalError as any;
                         helpers.setErrors({
                             [error.field]: error.message,
                         });

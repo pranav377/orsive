@@ -1,47 +1,59 @@
-import { Client, cacheExchange, fetchExchange } from 'urql';
-import { authExchange } from '@urql/exchange-auth';
 import { GRAPHQL_URL } from '@/config';
 import logout from '@/technique/auth/logout';
+import { ApolloClient, InMemoryCache, from } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { createLink } from 'apollo-absinthe-upload-link';
+import { onError } from '@apollo/client/link/error';
 
-export const GraphQLClient = new Client({
-    url: GRAPHQL_URL,
-    exchanges: [
-        cacheExchange,
-        fetchExchange,
-        authExchange(async (utils) => {
-            let token: string | null = null;
+const httpLink = createLink({
+    uri: GRAPHQL_URL,
+});
 
-            if (typeof window !== 'undefined' && window.localStorage) {
-                token = localStorage.getItem('token');
+const errorLink = onError(
+    ({ graphQLErrors, networkError, operation, forward }) => {
+        if (graphQLErrors) {
+            for (let err of graphQLErrors) {
+                if (err.extensions && err.extensions.code) {
+                    switch (err.extensions.code) {
+                        case 'FORBIDDEN':
+                            logout();
+                            const oldHeaders = operation.getContext().headers;
+                            operation.setContext({
+                                headers: {
+                                    ...oldHeaders,
+                                    authorization: undefined,
+                                },
+                            });
+                            return forward(operation);
+                    }
+                }
             }
-
-            return {
-                addAuthToOperation(operation) {
-                    if (!token) return operation;
-                    return utils.appendHeaders(operation, {
-                        authorization: `Bearer ${token}`,
-                    });
-                },
-                didAuthError(error, _operation) {
-                    error.graphQLErrors.some((e) => e.extensions);
-                    return error.graphQLErrors.some(
-                        (e) => e.extensions?.code === 'FORBIDDEN'
-                    );
-                },
-                async refreshAuth() {
-                    logout();
-                },
-            };
-        }),
-    ],
-    fetchOptions: () => {
-        let token;
-
-        if (typeof window !== 'undefined' && window.localStorage) {
-            token = localStorage.getItem('token');
         }
-        return {
-            headers: { authorization: token ? `Bearer ${token}` : '' },
-        };
-    },
+
+        if (networkError) {
+            console.log(`[Network error]: ${networkError}`);
+        }
+    }
+);
+
+const authLink = setContext((_, { headers }) => {
+    let token;
+
+    if (typeof window !== 'undefined' && window.localStorage) {
+        token = localStorage.getItem('token');
+    }
+
+    return {
+        headers: {
+            ...headers,
+            ...(token && {
+                authorization: `Bearer ${token}`,
+            }),
+        },
+    };
+});
+
+export const GraphQLClient = new ApolloClient({
+    link: authLink.concat(from([errorLink, httpLink])),
+    cache: new InMemoryCache(),
 });

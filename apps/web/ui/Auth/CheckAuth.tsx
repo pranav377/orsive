@@ -3,7 +3,7 @@
 import ME from '@/graphql/queries/me';
 import useUserState from '@/state/userState';
 import login from '@/technique/auth/login';
-import { useQuery } from 'urql';
+import { useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 
 // a middleware component that checks user's token in localstorage and sets the auth status
@@ -12,9 +12,8 @@ export default function CheckAuth() {
     const currUser = useUserState();
     const [runQuery, setRunQuery] = useState(false);
 
-    const [me] = useQuery({
-        query: ME,
-        pause: !runQuery,
+    const me = useQuery(ME, {
+        skip: !runQuery,
     });
 
     useEffect(() => {

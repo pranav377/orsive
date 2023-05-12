@@ -3,15 +3,15 @@ import { theme } from './theme';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Button from '@mui/material/Button';
-import { Provider as GraphQLProvider } from 'urql';
 import { GraphQLClient } from './GraphQLClient';
 import { SnackbarProvider, closeSnackbar } from 'notistack';
 import CheckAuth from '@/ui/Auth/CheckAuth';
 import SetupComplete from '@/ui/Auth/SetupComplete';
+import { ApolloProvider } from '@apollo/client';
 
 export default function Setup({ children }: { children: React.ReactNode }) {
     return (
-        <GraphQLProvider value={GraphQLClient}>
+        <ApolloProvider client={GraphQLClient}>
             <CheckAuth />
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
@@ -35,6 +35,6 @@ export default function Setup({ children }: { children: React.ReactNode }) {
                     </body>
                 </ThemeProvider>
             </StyledEngineProvider>
-        </GraphQLProvider>
+        </ApolloProvider>
     );
 }
