@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n    mutation CreateImage($image: Upload!, $description: String) {\n        createImage(image: $image, description: $description) {\n            height\n            image\n            post {\n                id\n                insertedAt\n                slug\n                updatedAt\n                user {\n                    avatar\n                    id\n                    name\n                    username\n                }\n            }\n            description\n            width\n        }\n    }\n": types.CreateImageDocument,
     "\n    mutation LoginAuthEmail($email: String!, $otp: String!) {\n        loginAuthEmail(email: $email, otp: $otp) {\n            token\n            user {\n                avatar\n                id\n                name\n                username\n                setupComplete\n            }\n        }\n    }\n": types.LoginAuthEmailDocument,
     "\n    mutation SendAuthOtp($email: String!) {\n        sendAuthOtp(email: $email) {\n            type\n        }\n    }\n": types.SendAuthOtpDocument,
     "\n    mutation SetupLanguages($languages: [String!]!) {\n        setupLanguages(languages: $languages) {\n            avatar\n            id\n            name\n            setupComplete\n            username\n        }\n    }\n": types.SetupLanguagesDocument,
@@ -34,6 +35,10 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation CreateImage($image: Upload!, $description: String) {\n        createImage(image: $image, description: $description) {\n            height\n            image\n            post {\n                id\n                insertedAt\n                slug\n                updatedAt\n                user {\n                    avatar\n                    id\n                    name\n                    username\n                }\n            }\n            description\n            width\n        }\n    }\n"): (typeof documents)["\n    mutation CreateImage($image: Upload!, $description: String) {\n        createImage(image: $image, description: $description) {\n            height\n            image\n            post {\n                id\n                insertedAt\n                slug\n                updatedAt\n                user {\n                    avatar\n                    id\n                    name\n                    username\n                }\n            }\n            description\n            width\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

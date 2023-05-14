@@ -2,7 +2,7 @@ defmodule RographWeb.Graphql.Resolvers.ContentMutations do
   def create_image(
         _parent,
         %{
-          title: title,
+          description: title,
           image: image
         },
         %{

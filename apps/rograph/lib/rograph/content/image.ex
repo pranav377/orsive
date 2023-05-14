@@ -6,7 +6,7 @@ defmodule Rograph.Content.Image do
     field(:image, :string)
     field(:width, :integer)
     field(:height, :integer)
-    field(:title, :string)
+    field(:description, :string)
 
     has_one(:post, Post)
   end

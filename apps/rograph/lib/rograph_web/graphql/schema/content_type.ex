@@ -17,7 +17,7 @@ defmodule RographWeb.Graphql.Schema.Types.ContentType do
     field(:image, non_null(:string))
     field(:width, non_null(:integer))
     field(:height, non_null(:integer))
-    field(:title, :string)
+    field(:description, :string)
     field(:post, non_null(:post_type))
   end
 
@@ -35,7 +35,7 @@ defmodule RographWeb.Graphql.Schema.Types.ContentType do
   object :content_mutations do
     field :create_image, :image_type do
       middleware(Middleware.BlockUnauthenticatedMiddleware)
-      arg(:title, :string)
+      arg(:description, :string)
       arg(:image, non_null(:upload))
       resolve(&Resolvers.ContentMutations.create_image/3)
     end

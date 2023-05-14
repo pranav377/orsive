@@ -3,20 +3,20 @@ defmodule Rograph.Repo.Migrations.AddContentAndComments do
 
   def change do
     create table(:images) do
-      add(:image, :string)
+      add(:image, :text)
       add(:width, :integer)
       add(:height, :integer)
-      add(:title, :string, null: true)
+      add(:description, :text, null: true)
     end
 
     create table(:orsics) do
-      add(:title, :string, null: true)
-      add(:content, :string)
+      add(:title, :text, null: true)
+      add(:content, :text)
     end
 
     create table(:comments) do
       add(:parent_comment_id, references(:comments, on_delete: :delete_all))
-      add(:content, :string)
+      add(:content, :text)
     end
 
     create table(:posts) do
@@ -24,7 +24,7 @@ defmodule Rograph.Repo.Migrations.AddContentAndComments do
       add(:orsic_id, references(:orsics, on_delete: :delete_all))
       add(:image_id, references(:images, on_delete: :delete_all))
       add(:comment_id, references(:comments, on_delete: :delete_all))
-      add(:slug, :string)
+      add(:slug, :text)
 
       timestamps()
     end

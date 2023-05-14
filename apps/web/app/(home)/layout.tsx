@@ -16,7 +16,6 @@ import DialogActions from '@mui/material/DialogActions';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import TextField from '@mui/material/TextField';
-import { MuiFileInput } from 'mui-file-input';
 
 import ImageIcon from '@mui/icons-material/Image';
 import OrsicIcon from '@mui/icons-material/Feed';
@@ -24,6 +23,10 @@ import * as yup from 'yup';
 import { useTheme } from '@mui/material';
 import colors from '@/technique/colors';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { useFormik } from 'formik';
+import ImageField from '@/ui/FormFields/ImageField';
+import { useMutation } from '@apollo/client';
+import CREATE_IMAGE from '@/graphql/mutations/createImage';
 
 const actions = [
     { icon: <ImageIcon />, name: 'Image' },
@@ -35,7 +38,6 @@ export default function HomeLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const theme = useTheme();
     return (
         <>
             <Navbar />
@@ -59,11 +61,6 @@ export default function HomeLayout({
         </>
     );
 }
-
-export const POST_IMAGE_SCHEMA = yup.object({
-    title: yup.string().max(255, 'Description is too long'),
-    image: yup.mixed().required('Image is required'),
-});
 
 function CreatePosts() {
     const theme = useTheme();
@@ -123,12 +120,34 @@ function CreatePosts() {
     );
 }
 
+export const POST_IMAGE_SCHEMA = yup.object({
+    description: yup.string().max(255, 'Description is too long'),
+    image: yup.mixed().required('Image is required'),
+});
+
 function CreateImageDialog(props: {
     fullScreen: boolean;
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const { fullScreen, open, setOpen } = props;
+    const [createImage] = useMutation(CREATE_IMAGE);
+
+    const formik = useFormik({
+        initialValues: {
+            image: null,
+        },
+        validationSchema: POST_IMAGE_SCHEMA,
+        onSubmit: (values, helpers) => {
+            createImage({
+                variables: values,
+            })
+                .then((result) => {
+                    console.log(result.data);
+                })
+                .finally(() => helpers.setSubmitting(false));
+        },
+    });
 
     return (
         <Dialog
@@ -149,36 +168,26 @@ function CreateImageDialog(props: {
                         flexDirection: 'column',
                     }}
                 >
-                    <MuiFileInput getInputText={() => 'Add Image'} />
-
-                    <Box
-                        sx={{
-                            my: 1,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <img
-                            style={{
-                                height: 300,
-                                width: 'auto',
-                                objectFit: 'cover',
-                            }}
-                            src="https://picsum.photos/1920/1080"
-                            alt="user selected image"
-                        />
-                    </Box>
-
+                    <ImageField
+                        setFieldValue={formik.setFieldValue}
+                        name="image"
+                    />
                     <TextField
-                        label="Description"
+                        sx={{ mt: 1 }}
+                        label="Description (optional)"
                         name="description"
                         variant="outlined"
                     />
                 </form>
             </DialogContent>
             <DialogActions>
-                <LoadingButton variant="contained" startIcon={<AddIcon />}>
+                <LoadingButton
+                    onClick={() => formik.submitForm()}
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    loading={formik.isSubmitting}
+                    disabled={formik.isSubmitting}
+                >
                     Post
                 </LoadingButton>
             </DialogActions>
