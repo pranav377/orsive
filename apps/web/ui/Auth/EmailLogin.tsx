@@ -318,37 +318,39 @@ function EmailLoginFormComponent() {
                     });
                 }}
             />
-            <form
-                onSubmit={formik.handleSubmit}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%',
-                }}
-            >
-                <TextField
-                    id="otp"
-                    name="otp"
-                    label="OTP"
-                    value={formik.values.otp}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    type="text"
-                    error={formik.touched.otp && Boolean(formik.errors.otp)}
-                    helperText={formik.touched.otp && formik.errors.otp}
-                    variant="outlined"
-                />
-
-                <LoadingButton
-                    variant="contained"
-                    sx={{ mt: 1, textTransform: 'none' }}
-                    type="submit"
-                    loading={formik.isSubmitting}
-                    size="medium"
+            <AuthComponentsWrapper>
+                <form
+                    onSubmit={formik.handleSubmit}
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '100%',
+                    }}
                 >
-                    Login
-                </LoadingButton>
-            </form>
+                    <TextField
+                        id="otp"
+                        name="otp"
+                        label="OTP"
+                        value={formik.values.otp}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        type="text"
+                        error={formik.touched.otp && Boolean(formik.errors.otp)}
+                        helperText={formik.touched.otp && formik.errors.otp}
+                        variant="outlined"
+                    />
+
+                    <LoadingButton
+                        variant="contained"
+                        sx={{ mt: 1, textTransform: 'none' }}
+                        type="submit"
+                        loading={formik.isSubmitting}
+                        size="medium"
+                    >
+                        Login
+                    </LoadingButton>
+                </form>
+            </AuthComponentsWrapper>
         </>
     );
 }
@@ -393,7 +395,7 @@ function EmailSignupFormComponent() {
     );
 
     const { handleLoginWelcome } = useSnackbars();
-    const currUser = useUserState();
+    const router = useRouter();
 
     const formik = useFormik({
         initialValues: {
@@ -412,10 +414,10 @@ function EmailSignupFormComponent() {
                         invariant(result.data?.signupAuthEmail);
                         const response = result.data.signupAuthEmail;
 
+                        router.push('/home');
                         login(response);
-
                         // display welcome message
-                        handleLoginWelcome(currUser.name);
+                        handleLoginWelcome(response.user.name);
                     } else {
                         invariant(result.errors[0]);
                         const error = result.errors[0] as any;
@@ -423,6 +425,8 @@ function EmailSignupFormComponent() {
                             [error.field]: error.message,
                         });
                     }
+
+                    debugger;
                 })
                 .catch(() => {
                     helpers.setErrors({
@@ -448,67 +452,71 @@ function EmailSignupFormComponent() {
                 }}
             />
 
-            <form
-                onSubmit={formik.handleSubmit}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%',
-                }}
-            >
-                <TextField
-                    id="username"
-                    name="username"
-                    label="Username"
-                    value={formik.values.username}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    type="text"
-                    error={
-                        formik.touched.username &&
-                        Boolean(formik.errors.username)
-                    }
-                    helperText={
-                        formik.touched.username && formik.errors.username
-                    }
-                    variant="outlined"
-                />
-                <TextField
-                    id="name"
-                    name="name"
-                    label="Name"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    type="text"
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
-                    variant="outlined"
-                    sx={{ my: 1 }}
-                />
-                <TextField
-                    id="otp"
-                    name="otp"
-                    label="OTP"
-                    value={formik.values.otp}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    type="text"
-                    error={formik.touched.otp && Boolean(formik.errors.otp)}
-                    helperText={formik.touched.otp && formik.errors.otp}
-                    variant="outlined"
-                />
-
-                <LoadingButton
-                    variant="contained"
-                    sx={{ mt: 1, textTransform: 'none' }}
-                    type="submit"
-                    loading={formik.isSubmitting}
-                    size="medium"
+            <AuthComponentsWrapper>
+                <form
+                    onSubmit={formik.handleSubmit}
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '100%',
+                    }}
                 >
-                    Sign Up
-                </LoadingButton>
-            </form>
+                    <TextField
+                        id="username"
+                        name="username"
+                        label="Username"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        type="text"
+                        error={
+                            formik.touched.username &&
+                            Boolean(formik.errors.username)
+                        }
+                        helperText={
+                            formik.touched.username && formik.errors.username
+                        }
+                        variant="outlined"
+                    />
+                    <TextField
+                        id="name"
+                        name="name"
+                        label="Name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        type="text"
+                        error={
+                            formik.touched.name && Boolean(formik.errors.name)
+                        }
+                        helperText={formik.touched.name && formik.errors.name}
+                        variant="outlined"
+                        sx={{ my: 1 }}
+                    />
+                    <TextField
+                        id="otp"
+                        name="otp"
+                        label="OTP"
+                        value={formik.values.otp}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        type="text"
+                        error={formik.touched.otp && Boolean(formik.errors.otp)}
+                        helperText={formik.touched.otp && formik.errors.otp}
+                        variant="outlined"
+                    />
+
+                    <LoadingButton
+                        variant="contained"
+                        sx={{ mt: 1, textTransform: 'none' }}
+                        type="submit"
+                        loading={formik.isSubmitting}
+                        size="medium"
+                    >
+                        Sign Up
+                    </LoadingButton>
+                </form>
+            </AuthComponentsWrapper>
         </>
     );
 }

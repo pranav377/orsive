@@ -19,7 +19,7 @@ defmodule Rograph.Auth.User do
 
     field(:last_active, :utc_datetime)
     field(:joined, :utc_datetime)
-    field(:setup_complete, :boolean)
+    field(:setup_complete, :boolean, default: false)
     field(:preferred_languages, {:array, :string})
     many_to_many(:channels, Rograph.Chat.Channel, join_through: "users_channels")
     many_to_many(:typing_channels, Rograph.Chat.Channel, join_through: "typing_users_channels")
