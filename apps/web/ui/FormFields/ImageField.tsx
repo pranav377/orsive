@@ -3,13 +3,15 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ImageIcon from '@mui/icons-material/Image';
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 export default function ImageField(props: {
     setFieldValue: any;
     name: string;
 }) {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (
         <div
@@ -43,7 +45,7 @@ export default function ImageField(props: {
                     >
                         {previewImage ? (
                             <>
-                                <img
+                                <motion.img
                                     style={{
                                         height: '100%',
                                         width: 'auto',
@@ -51,10 +53,37 @@ export default function ImageField(props: {
                                     }}
                                     src={previewImage}
                                     alt="user selected image"
+                                    initial={{
+                                        opacity: 0,
+                                    }}
+                                    animate={{
+                                        opacity: 1,
+                                    }}
+                                    exit={{
+                                        opacity: 0,
+                                    }}
                                 />
                             </>
                         ) : (
-                            <>
+                            <motion.div
+                                initial={{
+                                    opacity: 0,
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                }}
+                                exit={{
+                                    opacity: 0,
+                                }}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    height: '100%',
+                                    width: '100%',
+                                }}
+                            >
                                 <ImageIcon
                                     sx={{
                                         height: '25%',
@@ -62,11 +91,12 @@ export default function ImageField(props: {
                                     }}
                                 />
                                 Select an Image
-                            </>
+                            </motion.div>
                         )}
                     </Box>
                 </Box>
                 <input
+                    ref={fileInputRef}
                     type="file"
                     accept="image/*"
                     style={{
@@ -82,19 +112,34 @@ export default function ImageField(props: {
                 />
             </label>
             {previewImage && (
-                <IconButton
-                    sx={{
+                <motion.div
+                    initial={{
+                        opacity: 0,
+                    }}
+                    animate={{
+                        opacity: 1,
+                    }}
+                    exit={{
+                        opacity: 0,
+                    }}
+                    style={{
                         position: 'absolute',
                         top: 0,
                         right: 0,
                     }}
-                    onClick={() => {
-                        setPreviewImage(null);
-                        props.setFieldValue(props.name, null);
-                    }}
                 >
-                    <CloseIcon></CloseIcon>
-                </IconButton>
+                    <IconButton
+                        onClick={() => {
+                            setPreviewImage(null);
+                            props.setFieldValue(props.name, null);
+                            if (fileInputRef.current) {
+                                fileInputRef.current.value = '';
+                            }
+                        }}
+                    >
+                        <CloseIcon></CloseIcon>
+                    </IconButton>
+                </motion.div>
             )}
         </div>
     );
