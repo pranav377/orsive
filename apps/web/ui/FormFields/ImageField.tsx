@@ -4,14 +4,12 @@ import IconButton from '@mui/material/IconButton';
 import ImageIcon from '@mui/icons-material/Image';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
-import useAnimate from '@/hooks/new/useAnimate';
 
 export default function ImageField(props: {
     setFieldValue: any;
     name: string;
 }) {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    const { animate } = useAnimate();
 
     return (
         <div
@@ -75,13 +73,11 @@ export default function ImageField(props: {
                         display: 'none',
                     }}
                     onChange={(event: any) => {
-                        animate(() => {
-                            const [file] = event.target.files;
-                            props.setFieldValue(props.name, file);
-                            if (file) {
-                                setPreviewImage(URL.createObjectURL(file));
-                            }
-                        });
+                        const [file] = event.target.files;
+                        props.setFieldValue(props.name, file);
+                        if (file) {
+                            setPreviewImage(URL.createObjectURL(file));
+                        }
                     }}
                 />
             </label>
@@ -93,10 +89,8 @@ export default function ImageField(props: {
                         right: 0,
                     }}
                     onClick={() => {
-                        animate(() => {
-                            setPreviewImage(null);
-                            props.setFieldValue(props.name, null);
-                        });
+                        setPreviewImage(null);
+                        props.setFieldValue(props.name, null);
                     }}
                 >
                     <CloseIcon></CloseIcon>
