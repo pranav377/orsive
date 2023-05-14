@@ -14,6 +14,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useRouter } from 'next/navigation';
 import relativeDate from '@/technique/relativeDate';
 import AvatarActiveBadge from './AvatarActiveBadge';
+import HomeComponentsWrapper from '@/ui/HomeComponentsWrapper';
 
 const channel = {
     id: '4c1f9518-dff9-11ed-b5ea-0242ac120002',
@@ -33,38 +34,53 @@ export default function Channel() {
     const router = useRouter();
 
     return (
-        <Box
-            sx={{
-                backgroundColor: colors.slate[800],
-                display: 'flex',
-                alignItems: 'center',
-                py: 1,
-                px: 0.5,
-            }}
-        >
-            <IconButton onClick={() => router.push('/chat')}>
-                <ArrowBackIcon
-                    style={{
-                        height: theme.spacing(4),
-                        width: theme.spacing(4),
-                    }}
-                />
-            </IconButton>
-            <ListItem
+        <HomeComponentsWrapper>
+            <Box
                 sx={{
+                    backgroundColor: colors.slate[800],
+                    display: 'flex',
+                    alignItems: 'center',
+                    py: 1,
                     px: 0.5,
                 }}
             >
-                <ListItemAvatar>
-                    {channel.metadata.isActive ? (
-                        <AvatarActiveBadge
-                            overlap="circular"
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'right',
-                            }}
-                            variant="dot"
-                        >
+                <IconButton onClick={() => router.push('/chat')}>
+                    <ArrowBackIcon
+                        style={{
+                            height: theme.spacing(4),
+                            width: theme.spacing(4),
+                        }}
+                    />
+                </IconButton>
+                <ListItem
+                    sx={{
+                        px: 0.5,
+                    }}
+                >
+                    <ListItemAvatar>
+                        {channel.metadata.isActive ? (
+                            <AvatarActiveBadge
+                                overlap="circular"
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right',
+                                }}
+                                variant="dot"
+                            >
+                                <Avatar
+                                    sx={{
+                                        width: theme.spacing(6),
+                                        height: theme.spacing(6),
+                                    }}
+                                >
+                                    <Image
+                                        src={`${channel.metadata.avatar}`}
+                                        alt={channel.metadata.name}
+                                        fill
+                                    />
+                                </Avatar>
+                            </AvatarActiveBadge>
+                        ) : (
                             <Avatar
                                 sx={{
                                     width: theme.spacing(6),
@@ -77,40 +93,27 @@ export default function Channel() {
                                     fill
                                 />
                             </Avatar>
-                        </AvatarActiveBadge>
-                    ) : (
-                        <Avatar
-                            sx={{
-                                width: theme.spacing(6),
-                                height: theme.spacing(6),
-                            }}
-                        >
-                            <Image
-                                src={`${channel.metadata.avatar}`}
-                                alt={channel.metadata.name}
-                                fill
-                            />
-                        </Avatar>
-                    )}
-                </ListItemAvatar>
-                <Box
-                    sx={{
-                        width: '100%',
-                    }}
-                >
-                    <Typography variant="body1">
-                        {channel.metadata.name}
-                    </Typography>
+                        )}
+                    </ListItemAvatar>
+                    <Box
+                        sx={{
+                            width: '100%',
+                        }}
+                    >
+                        <Typography variant="body1">
+                            {channel.metadata.name}
+                        </Typography>
 
-                    <Typography variant="body2" color={'text.secondary'}>
-                        {channel.metadata.isActive
-                            ? 'Active'
-                            : `Active ${relativeDate(
-                                  new Date(channel.metadata.lastActive)
-                              )}`}
-                    </Typography>
-                </Box>
-            </ListItem>
-        </Box>
+                        <Typography variant="body2" color={'text.secondary'}>
+                            {channel.metadata.isActive
+                                ? 'Active'
+                                : `Active ${relativeDate(
+                                      new Date(channel.metadata.lastActive)
+                                  )}`}
+                        </Typography>
+                    </Box>
+                </ListItem>
+            </Box>
+        </HomeComponentsWrapper>
     );
 }

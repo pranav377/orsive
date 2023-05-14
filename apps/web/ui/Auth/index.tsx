@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { DISCORD_AUTH_URL } from '@/config';
 import { GOOGLE_AUTH_URL } from '@/config';
 import useHandleOAuthRedirect from '@/hooks/new/auth/useHandleOAuthRedirect';
+import AuthComponentsWrapper from '../AuthComponentsWrapper';
 
 export default function Auth() {
     const theme = useTheme();
@@ -48,7 +49,7 @@ export default function Auth() {
         }
         case 'unauthenticated': {
             return (
-                <>
+                <AuthComponentsWrapper>
                     <Box
                         sx={{
                             display: 'flex',
@@ -141,7 +142,7 @@ export default function Auth() {
                     </Box>
 
                     <Footer />
-                </>
+                </AuthComponentsWrapper>
             );
         }
     }

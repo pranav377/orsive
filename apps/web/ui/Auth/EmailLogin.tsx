@@ -23,6 +23,7 @@ import LOGIN_AUTH_EMAIL from '@/graphql/mutations/loginAuthEmail';
 import login from '@/technique/auth/login';
 import useUserState from '@/state/userState';
 import useSnackbars from '@/hooks/new/useSnackbars';
+import AuthComponentsWrapper from '../AuthComponentsWrapper';
 
 const steps = {
     check: ['Enter E-mail', 'Enter OTP'],
@@ -92,58 +93,61 @@ function EmailAuthComponent() {
     );
 
     return (
-        <EmailAuthContext.Provider value={{ activeStep, currForm, email }}>
-            <EmailAuthDispatchContext.Provider value={dispatch}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: '100%',
-                        width: '100%',
-                    }}
-                >
+        <AuthComponentsWrapper>
+            <EmailAuthContext.Provider value={{ activeStep, currForm, email }}>
+                <EmailAuthDispatchContext.Provider value={dispatch}>
                     <Box
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            justifyContent: 'center',
                             alignItems: 'center',
-                        }}
-                    >
-                        <LogoSVG
-                            style={{
-                                height: theme.spacing(6),
-                                width: theme.spacing(6),
-                            }}
-                        />
-                        <Typography variant="h6" sx={{ mt: 1 }}>
-                            {activeStep === 0 && 'Login or Sign up to continue'}
-                            {activeStep === 1 &&
-                                currForm === 'login' &&
-                                'Enter OTP'}
-                            {activeStep === 1 &&
-                                currForm === 'signup' &&
-                                'We are thrilled to welcome you here!'}
-                        </Typography>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            padding: 2,
-                            maxWidth: theme.spacing(48),
+                            justifyContent: 'center',
+                            height: '100%',
                             width: '100%',
                         }}
                     >
-                        <FormsRenderer currForm={currForm} />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <LogoSVG
+                                style={{
+                                    height: theme.spacing(6),
+                                    width: theme.spacing(6),
+                                }}
+                            />
+                            <Typography variant="h6" sx={{ mt: 1 }}>
+                                {activeStep === 0 &&
+                                    'Login or Sign up to continue'}
+                                {activeStep === 1 &&
+                                    currForm === 'login' &&
+                                    'Enter OTP'}
+                                {activeStep === 1 &&
+                                    currForm === 'signup' &&
+                                    'We are thrilled to welcome you here!'}
+                            </Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                padding: 2,
+                                maxWidth: theme.spacing(48),
+                                width: '100%',
+                            }}
+                        >
+                            <FormsRenderer currForm={currForm} />
+                        </Box>
                     </Box>
-                </Box>
 
-                <Footer fixed />
-            </EmailAuthDispatchContext.Provider>
-        </EmailAuthContext.Provider>
+                    <Footer fixed />
+                </EmailAuthDispatchContext.Provider>
+            </EmailAuthContext.Provider>
+        </AuthComponentsWrapper>
     );
 }
 

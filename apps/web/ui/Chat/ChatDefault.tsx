@@ -6,7 +6,6 @@ import Tab from '@mui/material/Tab';
 import Avatar from '@mui/material/Avatar';
 import Image from 'next/image';
 import Grid from '@mui/material/Grid';
-import Badge from '@mui/material/Badge';
 import { useTheme } from '@mui/material/styles';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -18,6 +17,7 @@ import {
 } from '@/ui/Navigation/Search';
 import { useState } from 'react';
 import AvatarActiveBadge from './AvatarActiveBadge';
+import HomeComponentsWrapper from '@/ui/HomeComponentsWrapper';
 
 export default function ChatDefault() {
     const theme = useTheme();
@@ -29,95 +29,97 @@ export default function ChatDefault() {
     };
 
     return (
-        <Box
-            sx={{
-                p: 1.5,
-                height: '100%',
-                overflow: 'scroll',
-            }}
-        >
-            <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="Online and Stories tabs"
-            >
-                <Tab label="Online" />
-            </Tabs>
-
-            <Search
+        <HomeComponentsWrapper>
+            <Box
                 sx={{
-                    height: (theme) => theme.spacing(4),
-                    my: 2,
-                    marginRight: 0,
-                    marginLeft: 0,
+                    p: 1.5,
+                    height: '100%',
+                    overflow: 'scroll',
                 }}
             >
-                <SearchIconWrapper>
-                    <SearchIcon
-                        sx={{
-                            height: 0.7,
-                        }}
-                    />
-                </SearchIconWrapper>
-                <StyledInputBase
-                    placeholder="Search"
-                    inputProps={{ 'aria-label': 'search' }}
-                />
-            </Search>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="Online and Stories tabs"
+                >
+                    <Tab label="Online" />
+                </Tabs>
 
-            <Grid container spacing={2}>
-                {onlineFriends.map((friend, idx) => (
-                    <Grid
-                        item
-                        key={idx}
-                        sx={
-                            {
-                                // mt: idx % 2 === 0 ? 0 : 1.5,
-                            }
-                        }
-                    >
-                        <AvatarActiveBadge
-                            overlap="circular"
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'right',
+                <Search
+                    sx={{
+                        height: (theme) => theme.spacing(4),
+                        my: 2,
+                        marginRight: 0,
+                        marginLeft: 0,
+                    }}
+                >
+                    <SearchIconWrapper>
+                        <SearchIcon
+                            sx={{
+                                height: 0.7,
                             }}
-                            variant="dot"
-                        >
-                            <Avatar
-                                key={idx}
-                                sx={{
-                                    width: theme.spacing(8),
-                                    height: theme.spacing(8),
-                                    boxShadow: theme.shadows[9],
-                                    mt: idx % 2 === 0 ? 0 : 1.5,
-                                }}
-                            >
-                                <Image
-                                    src={`${friend.avatar}?random=${idx}`}
-                                    alt={friend.name}
-                                    fill
-                                />
-                            </Avatar>
-                        </AvatarActiveBadge>
-                    </Grid>
-                ))}
-            </Grid>
+                        />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                        placeholder="Search"
+                        inputProps={{ 'aria-label': 'search' }}
+                    />
+                </Search>
 
-            <Fab
-                color="primary"
-                aria-label="add a new channel (single or group)"
-                sx={{
-                    position: 'fixed',
-                    bottom: 20,
-                    right: '5%',
-                    zIndex: 1,
-                    boxShadow: theme.shadows[6],
-                }}
-            >
-                <AddIcon />
-            </Fab>
-        </Box>
+                <Grid container spacing={2}>
+                    {onlineFriends.map((friend, idx) => (
+                        <Grid
+                            item
+                            key={idx}
+                            sx={
+                                {
+                                    // mt: idx % 2 === 0 ? 0 : 1.5,
+                                }
+                            }
+                        >
+                            <AvatarActiveBadge
+                                overlap="circular"
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right',
+                                }}
+                                variant="dot"
+                            >
+                                <Avatar
+                                    key={idx}
+                                    sx={{
+                                        width: theme.spacing(8),
+                                        height: theme.spacing(8),
+                                        boxShadow: theme.shadows[9],
+                                        mt: idx % 2 === 0 ? 0 : 1.5,
+                                    }}
+                                >
+                                    <Image
+                                        src={`${friend.avatar}?random=${idx}`}
+                                        alt={friend.name}
+                                        fill
+                                    />
+                                </Avatar>
+                            </AvatarActiveBadge>
+                        </Grid>
+                    ))}
+                </Grid>
+
+                <Fab
+                    color="primary"
+                    aria-label="add a new channel (single or group)"
+                    sx={{
+                        position: 'fixed',
+                        bottom: 20,
+                        right: '5%',
+                        zIndex: 1,
+                        boxShadow: theme.shadows[6],
+                    }}
+                >
+                    <AddIcon />
+                </Fab>
+            </Box>
+        </HomeComponentsWrapper>
     );
 }
 
