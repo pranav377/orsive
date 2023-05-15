@@ -34,12 +34,12 @@ body::-webkit-scrollbar {
     position: fixed;
     top: 64px;
     left: 240px;
-    height: 40px;
-    width: 40px;
+    height: 20px;
+    width: 20px;
     border-top-left-radius: 50%;
-    box-shadow: -20px 0 0 0 #020617;
+    box-shadow: -10px 0 0 0 #020617;
     background: none;
-    /* z-index: 9999; */
+    z-index: 1;
 }
 
 .floating {

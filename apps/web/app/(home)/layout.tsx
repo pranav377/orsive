@@ -51,7 +51,7 @@ export default function HomeLayout({
                     position: 'relative',
                     height: '100%',
                     paddingTop: (theme) =>
-                        (theme.mixins.toolbar.minHeight as number) / 7,
+                        (theme.mixins.toolbar.minHeight as number) / 7.5,
                 }}
             >
                 {children}
