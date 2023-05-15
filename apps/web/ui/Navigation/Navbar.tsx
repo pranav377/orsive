@@ -43,8 +43,10 @@ export default function Navbar() {
                         sx={{
                             height: (theme) => theme.spacing(4),
                             [theme.breakpoints.up('lg')]: {
-                                marginRight: 'auto',
-                                marginLeft: 'auto',
+                                // marginRight: 'auto',
+                                // marginLeft: 'auto',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
                             },
                         }}
                     >
@@ -63,7 +65,11 @@ export default function Navbar() {
 
                     {currUser.is === 'loading' && (
                         <>
-                            <CircularProgress />
+                            <CircularProgress
+                                sx={{
+                                    ml: 'auto',
+                                }}
+                            />
                         </>
                     )}
 

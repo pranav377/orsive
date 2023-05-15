@@ -1,7 +1,7 @@
 # Got from -> https://github.com/virkillz/hash_color_avatar_elixir/blob/master/lib/hash_color_avatar.ex
 
 defmodule Rograph.HashColorAvatar do
-  @default_color :pastel
+  @default_color :random
   @default_shape :circle
   @default_size 100
   @default_saturation 50
