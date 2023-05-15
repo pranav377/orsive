@@ -425,8 +425,6 @@ function EmailSignupFormComponent() {
                             [error.field]: error.message,
                         });
                     }
-
-                    debugger;
                 })
                 .catch(() => {
                     helpers.setErrors({

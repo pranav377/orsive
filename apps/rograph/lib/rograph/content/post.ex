@@ -5,6 +5,8 @@ defmodule Rograph.Content.Post do
   alias Rograph.Content.Image
   alias Rograph.Content.Comment
 
+  @timestamps_opts [type: :utc_datetime]
+
   schema "posts" do
     belongs_to(:user, User, type: :string)
     belongs_to(:orsic, Orsic)

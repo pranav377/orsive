@@ -161,7 +161,7 @@ function CreateImageDialog(props: {
             <DialogTitle id="create-image-dialog-title">
                 {'Post an image'}
             </DialogTitle>
-            <DialogContent>
+            <DialogContent sx={{ p: 1 }}>
                 <form
                     style={{
                         display: 'flex',

@@ -4,6 +4,9 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
+import Image from 'next/image';
 
 import LogoSVG from '@/components/svgs/logo.svg';
 import { useTheme } from '@mui/material/styles';
@@ -14,9 +17,12 @@ import {
     StyledInputBase,
 } from '@/ui/Navigation/Search';
 import Link from 'next/link';
+import useUserState from '@/state/userState';
+import { CircularProgress } from '@mui/material';
 
 export default function Navbar() {
     const theme = useTheme();
+    const currUser = useUserState();
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar
@@ -54,17 +60,40 @@ export default function Navbar() {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            ml: 'auto',
-                        }}
-                        LinkComponent={Link}
-                        href="/auth"
-                        color="primary"
-                    >
-                        Login
-                    </Button>
+
+                    {currUser.is === 'loading' && (
+                        <>
+                            <CircularProgress />
+                        </>
+                    )}
+
+                    {currUser.is === 'unauthenticated' && (
+                        <Button
+                            variant="contained"
+                            sx={{
+                                ml: 'auto',
+                            }}
+                            LinkComponent={Link}
+                            href="/auth"
+                            color="primary"
+                        >
+                            Login
+                        </Button>
+                    )}
+
+                    {currUser.is === 'authenticated' && (
+                        <IconButton sx={{ p: 0 }}>
+                            <Avatar
+                                aria-label={`${currUser.name} (${currUser.username})`}
+                            >
+                                <Image
+                                    src={currUser.avatar}
+                                    alt={currUser.name}
+                                    fill
+                                />
+                            </Avatar>
+                        </IconButton>
+                    )}
                 </Toolbar>
             </AppBar>
         </Box>
