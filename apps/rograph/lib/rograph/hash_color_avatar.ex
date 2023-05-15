@@ -1,7 +1,7 @@
 # Got from -> https://github.com/virkillz/hash_color_avatar_elixir/blob/master/lib/hash_color_avatar.ex
 
 defmodule Rograph.HashColorAvatar do
-  @default_color :random
+  @default_color "random"
   @default_shape :circle
   @default_size 100
   @default_saturation 50
@@ -137,7 +137,7 @@ defmodule Rograph.HashColorAvatar do
 
   """
   def gen_avatar(rawtext, options \\ []) do
-    text = if rawtext == nil, do: "V K", else: rawtext
+    text = if rawtext == nil, do: "J D", else: rawtext
 
     color = Keyword.get(options, :color, @default_color)
     shape = Keyword.get(options, :shape, @default_shape)

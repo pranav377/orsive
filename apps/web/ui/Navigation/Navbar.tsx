@@ -43,8 +43,6 @@ export default function Navbar() {
                         sx={{
                             height: (theme) => theme.spacing(4),
                             [theme.breakpoints.up('lg')]: {
-                                // marginRight: 'auto',
-                                // marginLeft: 'auto',
                                 left: '50%',
                                 transform: 'translateX(-50%)',
                             },
@@ -88,7 +86,7 @@ export default function Navbar() {
                     )}
 
                     {currUser.is === 'authenticated' && (
-                        <IconButton sx={{ p: 0 }}>
+                        <IconButton sx={{ p: 0, ml: 'auto' }}>
                             <Avatar
                                 aria-label={`${currUser.name} (${currUser.username})`}
                             >

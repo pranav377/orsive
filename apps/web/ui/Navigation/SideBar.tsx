@@ -12,11 +12,15 @@ import routes from './routes';
 
 import { useTheme } from '@mui/material/styles';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import colors from '@/technique/colors';
 
 export const drawerWidth = 240;
 
 export default function SideBar() {
     const theme = useTheme();
+    const currentRoute = usePathname();
+
     return (
         <Drawer
             variant="permanent"
@@ -49,9 +53,16 @@ export default function SideBar() {
                                 sx={{
                                     p: 1.2,
                                     borderRadius: theme.spacing(4),
+                                    '&.Mui-selected': {
+                                        backgroundColor: colors.slate[800],
+                                    },
+                                    '&.Mui-selected:hover': {
+                                        backgroundColor: colors.slate[800],
+                                    },
                                 }}
                                 LinkComponent={Link}
                                 href={route.route}
+                                selected={currentRoute === route.route}
                             >
                                 <ListItemIcon
                                     sx={{

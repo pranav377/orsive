@@ -1,19 +1,19 @@
 'use client';
 
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
 import SvgIcon from '@mui/material/SvgIcon';
-
+import Link from 'next/link';
 import routes from './routes';
+import { usePathname } from 'next/navigation';
 
 export default function BottomBar() {
-    const [value, setValue] = React.useState('recents');
+    const currentRoute = usePathname();
+    const [value, setValue] = useState(currentRoute);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
+    useEffect(() => setValue(currentRoute), [currentRoute]);
 
     return (
         <Paper
@@ -28,12 +28,14 @@ export default function BottomBar() {
             }}
             elevation={1}
         >
-            <BottomNavigation value={value} onChange={handleChange}>
+            <BottomNavigation value={value}>
                 {routes.map((route, idx) => (
                     <BottomNavigationAction
+                        LinkComponent={Link}
+                        href={route.route}
                         key={idx}
                         label={route.name}
-                        value={route.name}
+                        value={route.route}
                         icon={<SvgIcon>{route.icon}</SvgIcon>}
                     />
                 ))}
