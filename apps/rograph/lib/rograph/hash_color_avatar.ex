@@ -158,10 +158,10 @@ defmodule Rograph.HashColorAvatar do
 
     case shape do
       "rect" ->
-        '<svg width="#{size}" height="#{size}"><rect width="#{size}" height="#{size}" fill="#{background_color}" /><text fill="white" x="50%" y="65%" text-anchor="middle" style="font: bold #{fontsize}px sans-serif;" >#{get_initial(text)}</text></svg>'
+        '<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="#{size}" height="#{size}"><rect width="#{size}" height="#{size}" fill="#{background_color}" /><text fill="white" x="50%" y="65%" text-anchor="middle" style="font: bold #{fontsize}px sans-serif;" >#{get_initial(text)}</text></svg>'
 
       _other ->
-        '<svg width="#{size}" height="#{size}"><circle cx="#{diameter}" cy="#{diameter}" r="#{diameter}" stroke="white" stroke-width="4" fill="#{background_color}" /><text fill="white" x="50%" y="67%" text-anchor="middle" style="font: bold #{fontsize}px sans-serif;" >#{get_initial(text)}</text></svg>'
+        '<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="#{size}" height="#{size}"><circle cx="#{diameter}" cy="#{diameter}" r="#{diameter}" stroke="white" stroke-width="4" fill="#{background_color}" /><text fill="white" x="50%" y="67%" text-anchor="middle" style="font: bold #{fontsize}px sans-serif;" >#{get_initial(text)}</text></svg>'
     end
   end
 
