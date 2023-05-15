@@ -6,6 +6,17 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
 import HomeComponentsWrapper from '@/ui/HomeComponentsWrapper';
+import Drawer from '@mui/material/Drawer';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+import Link from 'next/link';
+
+const commentsDrawerWidth = '25%';
 
 export default function ImagesPageLayout(props: { children: React.ReactNode }) {
     const { children } = props;
@@ -41,6 +52,46 @@ export default function ImagesPageLayout(props: { children: React.ReactNode }) {
                 </IconButton>
             </Box>
             {children}
+
+            <Drawer
+                variant="permanent"
+                anchor="right"
+                sx={{
+                    width: commentsDrawerWidth,
+                    flexShrink: 0,
+                    '& .MuiDrawer-root': {
+                        position: 'absolute',
+                    },
+                    [`& .MuiDrawer-paper`]: {
+                        width: commentsDrawerWidth,
+                        boxSizing: 'border-box',
+                        position: 'absolute',
+                        backgroundColor: colors.slate[800],
+                    },
+                    display: {
+                        xs: 'none',
+                        lg: 'block',
+                    },
+                }}
+                PaperProps={{
+                    sx: {
+                        border: 0,
+                    },
+                }}
+            >
+                <Toolbar />
+                <Box sx={{ overflow: 'auto' }}>
+                    <List
+                        sx={{
+                            flex: 1 / 4,
+                            height: '100%',
+                            overflowY: 'scroll',
+                            position: 'sticky',
+                            padding: 0,
+                        }}
+                    ></List>
+                </Box>
+            </Drawer>
         </HomeComponentsWrapper>
     );
 }

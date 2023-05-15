@@ -11,6 +11,7 @@ defmodule RographWeb.Graphql.Schema do
     end
 
     import_fields(:auth_queries)
+    import_fields(:content_queries)
   end
 
   mutation do

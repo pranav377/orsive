@@ -1,7 +1,9 @@
-export default function ImagePage() {
+import ContentImage from '@/ui/Content/Image';
+
+export default function ImagePage({ params }: { params: { slug: string } }) {
     return (
-        <div>
-            <h1>Image Page</h1>
-        </div>
+        <>
+            <ContentImage />
+        </>
     );
 }

@@ -32,6 +32,13 @@ defmodule RographWeb.Graphql.Schema.Types.ContentType do
     field(:content, non_null(:string))
   end
 
+  object :content_queries do
+    field :get_image, :image_type do
+      arg(:slug, non_null(:string))
+      resolve(&Resolvers.ContentQueries.get_image/3)
+    end
+  end
+
   object :content_mutations do
     field :create_image, :image_type do
       middleware(Middleware.BlockUnauthenticatedMiddleware)
