@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import useSnackbars from '../useSnackbars';
 import { useEffect } from 'react';
 import login from '@/technique/auth/login';
@@ -10,6 +10,7 @@ const useHandleOAuthRedirect = () => {
     const authParams = useSearchParams();
     const { handleLoginWelcome, displayLoginError } = useSnackbars();
     const user = useUserState();
+    const router = useRouter();
 
     useEffect(() => {
         if (authParams) {
@@ -29,10 +30,12 @@ const useHandleOAuthRedirect = () => {
                     token: userAndToken.token,
                 });
 
+                router.replace('/home');
+
                 handleLoginWelcome(userAndToken.name);
             }
         }
-    }, [authParams, handleLoginWelcome, displayLoginError, user.is]);
+    }, [authParams, handleLoginWelcome, displayLoginError, user.is, router]);
 
     return { currUser: user };
 };

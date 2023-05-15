@@ -27,6 +27,8 @@ import { useFormik } from 'formik';
 import ImageField from '@/ui/FormFields/ImageField';
 import { useMutation } from '@apollo/client';
 import CREATE_IMAGE from '@/graphql/mutations/createImage';
+import invariant from 'tiny-invariant';
+import { useRouter } from 'next/navigation';
 
 const actions = [
     { icon: <ImageIcon />, name: 'Image' },
@@ -132,10 +134,12 @@ function CreateImageDialog(props: {
 }) {
     const { fullScreen, open, setOpen } = props;
     const [createImage] = useMutation(CREATE_IMAGE);
+    const router = useRouter();
 
     const formik = useFormik({
         initialValues: {
             image: null,
+            description: undefined,
         },
         validationSchema: POST_IMAGE_SCHEMA,
         onSubmit: (values, helpers) => {
@@ -143,7 +147,11 @@ function CreateImageDialog(props: {
                 variables: values,
             })
                 .then((result) => {
-                    console.log(result.data);
+                    invariant(result.data?.createImage);
+                    const imagePost = result.data.createImage.post;
+                    router.push(`/images/${imagePost.slug}`);
+                    formik.resetForm();
+                    setOpen(false);
                 })
                 .finally(() => helpers.setSubmitting(false));
         },
@@ -177,6 +185,17 @@ function CreateImageDialog(props: {
                         label="Description (optional)"
                         name="description"
                         variant="outlined"
+                        value={formik.values.description}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={
+                            formik.touched.description &&
+                            Boolean(formik.errors.description)
+                        }
+                        helperText={
+                            formik.touched.description &&
+                            formik.errors.description
+                        }
                     />
                 </form>
             </DialogContent>
