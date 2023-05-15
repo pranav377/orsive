@@ -15,9 +15,8 @@ services:
             - 5000:5000
             - 19000:19000
         command: /bin/sh -c "while sleep 1000; do :; done"
-        depends_on:
-            - mongodb
             - meilisearch
+            - crdb
         env_file:
             - .env.dev
             - .env.local
@@ -41,13 +40,12 @@ services:
             - 7700:7700
         restart: unless-stopped
 
-    # Setup (MongoDB, Meilisearch)
+    # Setup (Meilisearch)
     setup:
         build:
             context: .
             dockerfile: setup.Dockerfile
         depends_on:
-            - mongodb
             - meilisearch
         restart: 'no'
         volumes:
