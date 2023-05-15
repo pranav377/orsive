@@ -57,7 +57,8 @@ defmodule Rograph.MixProject do
       {:cors_plug, "~> 3.0"},
       {:ueberauth, "~> 0.10.5"},
       {:ueberauth_google, "~> 0.10"},
-      {:ueberauth_discord, "~> 0.7.0"}
+      {:ueberauth_discord, "~> 0.7.0"},
+      {:ex_image_info, "~> 0.2.4"}
     ]
   end
 

@@ -1,7 +1,7 @@
-defmodule Rograph.Uploaders.UserAvatar do
+defmodule Rograph.Uploaders.ImageUploader do
   use Arc.Definition
-  alias Rograph.Uploaders.UserAvatar
-  alias RographWeb.Uploaders.Methods
+  alias Rograph.Uploaders.ImageUploader
+  alias Rograph.Uploaders.Methods
 
   @acl :public_read
 
@@ -20,7 +20,7 @@ defmodule Rograph.Uploaders.UserAvatar do
 
   # Whitelist file extensions:
   def validate({file, _}) do
-    ~w(.jpeg .jpg .png .gif .tiff .bmp .raw .psd .eps .ai .svg .pdf .webp .heif .ico .tga .pbm .pgm .ppm .jif .jfif .jp2 .jps .jxr .miff .mng .otb .pam .pcd .pcx .pfm .pict .pvr .ras .sgi .wbmp .xbm .xcf .xpm .yuv)
+    ~w(.bmp .gif .ico .jpeg .jpg .jp2 .png .pnm .psd .tiff .webp)
     |> Enum.member?(Path.extname(file.file_name))
   end
 
@@ -36,7 +36,7 @@ defmodule Rograph.Uploaders.UserAvatar do
 
   # Override the storage directory:
   def storage_dir(version, {file, scope}) do
-    "uploads/avatars/#{scope.id}"
+    "uploads/images/#{scope.id}"
   end
 
   # Provide a default URL if there hasn't been a file uploaded
@@ -54,21 +54,16 @@ defmodule Rograph.Uploaders.UserAvatar do
   end
 
   # returns relative file url in the end
-  def save_file!(%{name: name, binary: binary}) do
-    identifier = Methods.generate_identifier(name, 12)
 
-    {:ok, filename} =
-      UserAvatar.store(
-        {%{
-           filename: name,
-           binary: binary
-         }, %{id: identifier}}
-      )
+  def save_file!(%Plug.Upload{filename: upload_filename, path: _path} = upload) do
+    identifier = Methods.generate_identifier(upload_filename, 12)
+
+    {:ok, filename} = ImageUploader.store({upload, %{id: identifier}})
 
     Methods.generate_url(%{
-      filename: name,
+      filename: filename,
       identifier: identifier,
-      container: "avatars"
+      container: "images"
     })
   end
 end

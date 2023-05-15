@@ -1,4 +1,4 @@
-defmodule RographWeb.Uploaders.Methods do
+defmodule Rograph.Uploaders.Methods do
   def generate_identifier(name, length \\ 8) do
     identifier =
       :crypto.strong_rand_bytes(length)

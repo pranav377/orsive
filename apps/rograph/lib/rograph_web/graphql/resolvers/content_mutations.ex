@@ -1,18 +1,46 @@
 defmodule RographWeb.Graphql.Resolvers.ContentMutations do
+  alias Rograph.Uploaders.ImageUploader
+  alias Rograph.Content.Post
+  alias Rograph.Content.Image
+  alias Rograph.Repo
+  alias RographWeb.Graphql.HandleChangesetError
+
   def create_image(
         _parent,
-        %{
-          description: title,
-          image: image
-        },
+        # no pattern matching here as description is optional
+        args,
         %{
           context: %{
             user: user
           }
         }
       ) do
-    IO.inspect(image)
+    image_url = ImageUploader.save_file!(args.image)
 
-    {:ok, %{}}
+    {_, width, height, _} = ExImageInfo.info(File.read!(args.image.path))
+
+    post_changeset = %Post{}
+
+    changeset =
+      %Image{}
+      |> Image.changeset(
+        %{
+          image: image_url,
+          width: width,
+          height: height,
+          description: Map.get(args, :description)
+        },
+        user,
+        post_changeset
+      )
+      |> Repo.insert()
+
+    case changeset do
+      {:ok, image} ->
+        {:ok, image}
+
+      {:error, changeset} ->
+        {:error, HandleChangesetError.handle(changeset)}
+    end
   end
 end
