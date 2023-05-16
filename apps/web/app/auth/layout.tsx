@@ -4,20 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import useUserState from '@/state/userState';
 import { useRouter } from 'next/navigation';
-
-const LoadingComponent = () => (
-    <Box
-        sx={{
-            display: 'flex',
-            width: '100%',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-        }}
-    >
-        <CircularProgress />
-    </Box>
-);
+import LoadingComponent from '@/ui/LoadingComponent';
 
 export default function AuthLayout(props: { children: React.ReactNode }) {
     const currUser = useUserState();

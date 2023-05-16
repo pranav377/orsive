@@ -7,110 +7,78 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
 import Drawer from '@mui/material/Drawer';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { ImageType } from '@/gql/graphql';
 
 const commentsDrawerWidth = 300;
 
-export default function ContentImage() {
+export default function ContentImage(props: { image: ImageType }) {
     const theme = useTheme();
     const router = useRouter();
 
     return (
         <>
-            <AnimatePresence>
-                <motion.div
-                    initial={{
-                        opacity: 0,
-                        x: 15,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        x: 0,
-                    }}
-                    exit={{
-                        opacity: 0,
-                        x: -15,
+            <Box
+                sx={{
+                    backgroundColor: colors.slate[800],
+                    display: 'flex',
+                    alignItems: 'center',
+                    py: 1,
+                    px: 0.5,
+                }}
+            >
+                <IconButton
+                    onClick={() => {
+                        if (window && window.history.length > 2) {
+                            router.back();
+                        } else {
+                            router.push('/home');
+                        }
                     }}
                 >
-                    <Box
-                        sx={{
-                            backgroundColor: colors.slate[800],
-                            display: 'flex',
-                            alignItems: 'center',
-                            py: 1,
-                            px: 0.5,
+                    <ArrowBackIcon
+                        style={{
+                            height: theme.spacing(4),
+                            width: theme.spacing(4),
                         }}
-                    >
-                        <IconButton
-                            onClick={() => {
-                                if (window && window.history.length > 2) {
-                                    router.back();
-                                } else {
-                                    router.push('/home');
-                                }
-                            }}
-                        >
-                            <ArrowBackIcon
-                                style={{
-                                    height: theme.spacing(4),
-                                    width: theme.spacing(4),
-                                }}
-                            />
-                        </IconButton>
-                    </Box>
+                    />
+                </IconButton>
+            </Box>
 
-                    {/* Main Components here */}
-                </motion.div>
-                <motion.div
-                    initial={{
-                        opacity: 0,
-                        x: -15,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        x: 0,
-                    }}
-                    exit={{
-                        opacity: 0,
-                        x: 15,
-                    }}
-                >
-                    <Drawer
-                        variant="permanent"
-                        anchor="right"
-                        open
-                        sx={{
-                            width: commentsDrawerWidth,
-                            flexShrink: 0,
-                            '& .MuiDrawer-root': {
-                                position: 'absolute',
-                            },
-                            [`& .MuiDrawer-paper`]: {
-                                width: commentsDrawerWidth,
-                                boxSizing: 'border-box',
-                                position: 'absolute',
-                                backgroundColor: colors.slate[800],
-                            },
-                            display: {
-                                xs: 'none',
-                                lg: 'block',
-                            },
-                        }}
-                        SlideProps={{
-                            style: {
-                                transition: 'none !important',
-                            },
-                        }}
-                        PaperProps={{
-                            sx: {
-                                border: 0,
-                            },
-                        }}
-                    ></Drawer>
-                </motion.div>
-            </AnimatePresence>
+            {/* Main Components here */}
+
+            <Drawer
+                variant="permanent"
+                anchor="right"
+                open
+                sx={{
+                    width: commentsDrawerWidth,
+                    flexShrink: 0,
+                    '& .MuiDrawer-root': {
+                        position: 'absolute',
+                    },
+                    [`& .MuiDrawer-paper`]: {
+                        width: commentsDrawerWidth,
+                        boxSizing: 'border-box',
+                        position: 'absolute',
+                        backgroundColor: colors.slate[800],
+                    },
+                    display: {
+                        xs: 'none',
+                        lg: 'block',
+                    },
+                }}
+                SlideProps={{
+                    style: {
+                        transition: 'none !important',
+                    },
+                }}
+                PaperProps={{
+                    sx: {
+                        border: 0,
+                    },
+                }}
+            ></Drawer>
         </>
     );
 }
