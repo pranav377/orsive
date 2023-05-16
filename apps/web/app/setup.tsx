@@ -8,7 +8,6 @@ import { SnackbarProvider, closeSnackbar } from 'notistack';
 import CheckAuth from '@/ui/Auth/CheckAuth';
 import SetupComplete from '@/ui/Auth/SetupComplete';
 import { ApolloProvider } from '@apollo/client';
-import { AnimatePresence } from 'framer-motion';
 
 export default function Setup({ children }: { children: React.ReactNode }) {
     return (
@@ -17,27 +16,23 @@ export default function Setup({ children }: { children: React.ReactNode }) {
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
-                    <AnimatePresence>
-                        <body id="__orsive">
-                            <SetupComplete />
-                            <SnackbarProvider
-                                maxSnack={1}
-                                action={(snackbarId) => (
-                                    <Button
-                                        color="secondary"
-                                        size="small"
-                                        onClick={() =>
-                                            closeSnackbar(snackbarId)
-                                        }
-                                    >
-                                        Dismiss
-                                    </Button>
-                                )}
-                            >
-                                {children}
-                            </SnackbarProvider>
-                        </body>
-                    </AnimatePresence>
+                    <body id="__orsive">
+                        <SetupComplete />
+                        <SnackbarProvider
+                            maxSnack={1}
+                            action={(snackbarId) => (
+                                <Button
+                                    color="secondary"
+                                    size="small"
+                                    onClick={() => closeSnackbar(snackbarId)}
+                                >
+                                    Dismiss
+                                </Button>
+                            )}
+                        >
+                            {children}
+                        </SnackbarProvider>
+                    </body>
                 </ThemeProvider>
             </StyledEngineProvider>
         </ApolloProvider>
