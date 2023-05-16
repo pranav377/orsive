@@ -15,9 +15,15 @@ const commentsDrawerWidth = 300;
 export default function ContentImage(props: { image: ImageType }) {
     const theme = useTheme();
     const router = useRouter();
+    const { image } = props;
 
     return (
-        <>
+        <div
+            style={{
+                overflow: 'hidden',
+                height: '100%',
+            }}
+        >
             <Box
                 sx={{
                     backgroundColor: colors.slate[800],
@@ -47,38 +53,30 @@ export default function ContentImage(props: { image: ImageType }) {
 
             {/* Main Components here */}
 
-            <Drawer
-                variant="permanent"
-                anchor="right"
-                open
+            <Box
                 sx={{
-                    width: commentsDrawerWidth,
-                    flexShrink: 0,
-                    '& .MuiDrawer-root': {
-                        position: 'absolute',
-                    },
-                    [`& .MuiDrawer-paper`]: {
-                        width: commentsDrawerWidth,
-                        boxSizing: 'border-box',
-                        position: 'absolute',
-                        backgroundColor: colors.slate[800],
-                    },
-                    display: {
-                        xs: 'none',
-                        lg: 'block',
-                    },
+                    aspectRatio: `${image.width}/${image.height}`,
+                    maxHeight: theme.breakpoints.values.sm,
+                    maxWidth: '100%',
+                    width: 'auto',
+                    position: 'relative',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    mt: 1,
                 }}
-                SlideProps={{
-                    style: {
-                        transition: 'none !important',
-                    },
-                }}
-                PaperProps={{
-                    sx: {
-                        border: 0,
-                    },
-                }}
-            ></Drawer>
-        </>
+            >
+                <Image
+                    src={image.image}
+                    alt={
+                        image.description ||
+                        `Image posted by ${image.post.user.username}`
+                    }
+                    fill
+                    style={{
+                        objectFit: 'contain',
+                    }}
+                />
+            </Box>
+        </div>
     );
 }
