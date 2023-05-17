@@ -29,7 +29,6 @@ export default function MobileNavbar() {
     return (
         <Box
             sx={{
-                flexGrow: 1,
                 display: {
                     lg: 'none',
                 },

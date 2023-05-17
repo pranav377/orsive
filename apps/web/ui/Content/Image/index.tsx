@@ -12,6 +12,17 @@ import Image from 'next/image';
 import { ImageType } from '@/gql/graphql';
 import useAppBarHeight from '@/hooks/new/useAppBarHeight';
 import { desktopSidebarWidth } from '@/ui/Navigation/DesktopSidebar';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import Avatar from '@mui/material/Avatar';
+import CardMedia from '@mui/material/CardMedia';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CardContent from '@mui/material/CardContent';
+import Linkify from 'react-linkify';
+import Link from 'next/link';
+import Typography from '@mui/material/Typography';
+import relativeDate from '@/technique/relativeDate';
+import HomeComponentsWrapper from '@/ui/HomeComponentsWrapper';
 
 const commentsDrawerWidth = 300;
 
@@ -20,6 +31,7 @@ export default function ContentImage(props: { image: ImageType }) {
     const router = useRouter();
     const { image } = props;
     const appBarHeight = useAppBarHeight();
+    const uploadedByUser = image.post.user;
 
     return (
         <>
@@ -59,36 +71,116 @@ export default function ContentImage(props: { image: ImageType }) {
                                 }}
                             />
                         </IconButton>
+
+                        <Typography
+                            variant="h6"
+                            component="div"
+                            sx={{
+                                flexGrow: 1,
+                                ml: 1,
+                            }}
+                        >
+                            {image.description ||
+                                `Image posted by ${image.post.user.username}`}
+                        </Typography>
                     </Toolbar>
                 </AppBar>
             </Box>
 
             {/* Main Components here */}
 
-            <Box
-                sx={{
-                    aspectRatio: `${image.width}/${image.height}`,
-                    maxHeight: theme.breakpoints.values.sm,
-                    maxWidth: '100%',
-                    width: 'auto',
-                    position: 'relative',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    mt: 1,
-                }}
-            >
-                <Image
-                    src={image.image}
-                    alt={
-                        image.description ||
-                        `Image posted by ${image.post.user.username}`
-                    }
-                    fill
-                    style={{
-                        objectFit: 'contain',
+            <HomeComponentsWrapper>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        mt: 0.5,
                     }}
-                />
-            </Box>
+                >
+                    <Card
+                        sx={{
+                            maxWidth: theme.spacing(96),
+                            width: '100%',
+                            borderRadius: 1,
+                            background: colors.slate[950],
+                            boxShadow: 0,
+                            my: 1,
+                        }}
+                    >
+                        <CardHeader
+                            avatar={
+                                <Avatar
+                                    aria-label={`${uploadedByUser.name} (${uploadedByUser.username})`}
+                                >
+                                    <Image
+                                        src={uploadedByUser.avatar}
+                                        alt={`${uploadedByUser.name} (${uploadedByUser.username})`}
+                                        fill
+                                    />
+                                </Avatar>
+                            }
+                            action={
+                                <IconButton aria-label="settings">
+                                    <MoreVertIcon />
+                                </IconButton>
+                            }
+                            title={uploadedByUser.name}
+                            subheader={`@${uploadedByUser.username}`}
+                        />
+
+                        <CardMedia>
+                            <Image
+                                src={image.image}
+                                alt="Paella dish"
+                                width={image.width}
+                                height={image.height}
+                                style={{ width: '100%', height: 'auto' }}
+                                placeholder="blur"
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAAC"
+                            />
+                        </CardMedia>
+
+                        <CardContent>
+                            {image.description && (
+                                <Linkify
+                                    componentDecorator={(
+                                        decoratedHref,
+                                        decoratedText,
+                                        key
+                                    ) => (
+                                        <Link
+                                            key={key}
+                                            href={decoratedHref}
+                                            rel="noopener noreferrer"
+                                        >
+                                            {decoratedText}
+                                        </Link>
+                                    )}
+                                >
+                                    <Typography
+                                        variant="body1"
+                                        color="text.primary"
+                                    >
+                                        {image.description}
+                                    </Typography>
+                                </Linkify>
+                            )}
+
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{
+                                    textAlign: 'right',
+                                }}
+                            >
+                                Posted{' '}
+                                {relativeDate(new Date(image.post.insertedAt))}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Box>
+            </HomeComponentsWrapper>
         </>
     );
 }
