@@ -1,4 +1,4 @@
-import EmailLogin from '@/ui/Auth/EmailLogin';
+import EmailAuth from '@/ui/Auth/EmailAuth';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function Login() {
     return (
         <>
-            <EmailLogin />
+            <EmailAuth />
         </>
     );
 }

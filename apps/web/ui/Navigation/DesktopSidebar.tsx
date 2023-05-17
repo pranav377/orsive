@@ -47,44 +47,53 @@ export default function DesktopSidebar() {
             <Toolbar />
             <Box sx={{ overflow: 'auto' }}>
                 <List>
-                    {routes.map((route, idx) => (
-                        <ListItem key={idx}>
-                            <ListItemButton
-                                sx={{
-                                    p: 1.2,
-                                    borderRadius: theme.spacing(4),
-                                    '&.Mui-selected': {
-                                        backgroundColor: colors.slate[800],
-                                    },
-                                    '&.Mui-selected:hover': {
-                                        backgroundColor: colors.slate[800],
-                                    },
-                                }}
-                                LinkComponent={Link}
-                                href={route.route}
-                                selected={currentRoute === route.route}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 0,
-                                        mr: 1.5,
-                                        height: theme.spacing(4),
-                                        width: theme.spacing(4),
-                                    }}
-                                >
-                                    {route.icon}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primaryTypographyProps={{
-                                        sx: {
-                                            fontSize: theme.spacing(2.5),
-                                        },
-                                    }}
-                                    primary={route.name}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                    {routes.map((route, idx) => {
+                        if (!route.mobileOnly) {
+                            return (
+                                <ListItem key={idx}>
+                                    <ListItemButton
+                                        sx={{
+                                            p: 1.2,
+                                            borderRadius: theme.spacing(4),
+                                            '&.Mui-selected': {
+                                                backgroundColor:
+                                                    colors.slate[800],
+                                            },
+                                            '&.Mui-selected:hover': {
+                                                backgroundColor:
+                                                    colors.slate[800],
+                                            },
+                                        }}
+                                        LinkComponent={Link}
+                                        href={route.route}
+                                        selected={currentRoute === route.route}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 0,
+                                                mr: 1.5,
+                                                height: theme.spacing(4),
+                                                width: theme.spacing(4),
+                                            }}
+                                        >
+                                            {route.icon}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primaryTypographyProps={{
+                                                sx: {
+                                                    fontSize:
+                                                        theme.spacing(2.5),
+                                                },
+                                            }}
+                                            primary={route.name}
+                                        />
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        } else {
+                            return null;
+                        }
+                    })}
                 </List>
             </Box>
         </Drawer>

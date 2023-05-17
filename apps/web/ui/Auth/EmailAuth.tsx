@@ -11,7 +11,14 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import LoadingButton from '@mui/lab/LoadingButton';
 import * as yup from 'yup';
-import { Dispatch, createContext, useContext, useReducer, memo } from 'react';
+import {
+    Dispatch,
+    createContext,
+    useContext,
+    useReducer,
+    memo,
+    useState,
+} from 'react';
 import BackBar from '../Navigation/BackBar';
 import { useRouter } from 'next/navigation';
 import Footer from '@/ui/Navigation/Footer';
@@ -24,6 +31,7 @@ import login from '@/technique/auth/login';
 import useUserState from '@/state/userState';
 import useSnackbars from '@/hooks/new/useSnackbars';
 import AuthComponentsWrapper from '../AuthComponentsWrapper';
+import { useTimer } from 'react-timer-hook';
 
 const steps = {
     check: ['Enter E-mail', 'Enter OTP'],
@@ -372,27 +380,19 @@ const EMAIL_SIGNUP_SCHEMA = yup.object({
         .length(7, 'OTP should be 7 characters long'),
 });
 
+function getOneMinuteTime() {
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 60);
+
+    return time;
+}
+
 function EmailSignupFormComponent() {
     const data = useContext(EmailAuthContext);
     const dispatch = useContext(EmailAuthDispatchContext);
-    const [signupAuthEmail, _signupAuthEmailResult] = useMutation(
-        SIGNUP_AUTH_EMAIL,
-        {
-            onError: (errors) => {
-                if (errors.graphQLErrors[0].originalError) {
-                    const error = errors.graphQLErrors[0].originalError as any;
-                    formik.setErrors({
-                        [error.field]: error.message,
-                    });
-                } else {
-                    formik.setErrors({
-                        name: 'Something went wrong. Try again',
-                    });
-                }
-            },
-            errorPolicy: 'all',
-        }
-    );
+    const [signupAuthEmail] = useMutation(SIGNUP_AUTH_EMAIL, {
+        errorPolicy: 'all',
+    });
 
     const { handleLoginWelcome } = useSnackbars();
     const router = useRouter();
@@ -421,6 +421,15 @@ function EmailSignupFormComponent() {
                     } else {
                         invariant(result.errors[0]);
                         const error = result.errors[0] as any;
+                        if (error.errors) {
+                            invariant(error.errors[0]);
+                            const validation_error = error.errors[0] as any;
+                            helpers.setErrors({
+                                [validation_error.field]:
+                                    validation_error.message,
+                            });
+                            return;
+                        }
                         helpers.setErrors({
                             [error.field]: error.message,
                         });
@@ -433,6 +442,19 @@ function EmailSignupFormComponent() {
                 })
                 .finally(() => helpers.setSubmitting(false));
         },
+    });
+
+    const [sendOtp, { loading: sendOtpLoading }] = useMutation(SEND_AUTH_OTP, {
+        variables: {
+            email: data.email,
+        },
+    });
+
+    const [otpButtonDisabled, setOtpButtonDisabled] = useState(true);
+
+    const { restart, seconds } = useTimer({
+        expiryTimestamp: getOneMinuteTime(),
+        onExpire: () => setOtpButtonDisabled(false),
     });
 
     return (
@@ -503,6 +525,25 @@ function EmailSignupFormComponent() {
                         helperText={formik.touched.otp && formik.errors.otp}
                         variant="outlined"
                     />
+
+                    <Box sx={{ display: 'flex', alignItems: 'center', my: 1 }}>
+                        <LoadingButton
+                            disabled={otpButtonDisabled}
+                            sx={{
+                                mr: 0.5,
+                            }}
+                            loading={sendOtpLoading}
+                            onClick={() => {
+                                sendOtp().finally(() => {
+                                    setOtpButtonDisabled(true);
+                                    restart(getOneMinuteTime());
+                                });
+                            }}
+                        >
+                            Resend OTP
+                        </LoadingButton>
+                        <Typography>{seconds}</Typography>
+                    </Box>
 
                     <LoadingButton
                         variant="contained"
