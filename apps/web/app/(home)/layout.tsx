@@ -1,37 +1,8 @@
 'use client';
-
-import Navbar from '@/ui/Navigation/Navbar';
-import SideBar, { drawerWidth } from '@/ui/Navigation/SideBar';
+import DesktopComponents from '@/ui/Layouts/DesktopComponents';
+import useAppBarHeight from '@/hooks/new/useAppBarHeight';
 import Box from '@mui/material/Box';
-import { useMediaQuery, useTheme } from '@mui/material';
-
-function useAppBarHeight(): number {
-    const {
-        mixins: { toolbar },
-        breakpoints,
-    } = useTheme();
-    const toolbarDesktopQuery = breakpoints.up('sm');
-    const toolbarLandscapeQuery = `${breakpoints.up(
-        'xs'
-    )} and (orientation: landscape)`;
-    const isDesktop = useMediaQuery(toolbarDesktopQuery);
-    const isLandscape = useMediaQuery(toolbarLandscapeQuery);
-    let currentToolbarMinHeight;
-    if (isDesktop) {
-        currentToolbarMinHeight = toolbar[toolbarDesktopQuery];
-    } else if (isLandscape) {
-        currentToolbarMinHeight = toolbar[toolbarLandscapeQuery];
-    } else {
-        currentToolbarMinHeight = toolbar;
-    }
-    return (
-        (
-            currentToolbarMinHeight as {
-                minHeight: number;
-            }
-        ).minHeight / 8
-    );
-}
+import { desktopSidebarWidth } from '@/ui/Navigation/DesktopSidebar';
 
 export default function HomeLayout({
     children,
@@ -41,13 +12,12 @@ export default function HomeLayout({
     const appBarHeight = useAppBarHeight();
     return (
         <>
-            <Navbar />
-            <SideBar />
+            <DesktopComponents />
             <Box
                 sx={{
                     marginLeft: {
                         xs: 0,
-                        lg: `${drawerWidth}px`,
+                        lg: `${desktopSidebarWidth}px`,
                     },
                     position: 'relative',
                     height: '100%',

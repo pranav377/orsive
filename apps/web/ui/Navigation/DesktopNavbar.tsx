@@ -20,11 +20,19 @@ import Link from 'next/link';
 import useUserState from '@/state/userState';
 import { CircularProgress } from '@mui/material';
 
-export default function Navbar() {
+export default function DesktopNavbar() {
     const theme = useTheme();
     const currUser = useUserState();
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box
+            sx={{
+                flexGrow: 1,
+                display: {
+                    xs: 'none',
+                    lg: 'block',
+                },
+            }}
+        >
             <AppBar
                 position="fixed"
                 elevation={0}

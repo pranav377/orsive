@@ -15,9 +15,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import colors from '@/technique/colors';
 
-export const drawerWidth = 240;
+export const desktopSidebarWidth = 240;
 
-export default function SideBar() {
+export default function DesktopSidebar() {
     const theme = useTheme();
     const currentRoute = usePathname();
 
@@ -25,10 +25,10 @@ export default function SideBar() {
         <Drawer
             variant="permanent"
             sx={{
-                width: drawerWidth,
+                width: desktopSidebarWidth,
                 flexShrink: 0,
                 [`& .MuiDrawer-paper`]: {
-                    width: drawerWidth,
+                    width: desktopSidebarWidth,
                     boxSizing: 'border-box',
                 },
                 display: {
