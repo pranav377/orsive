@@ -58,7 +58,11 @@ defmodule Rograph.MixProject do
       {:ueberauth, "~> 0.10.5"},
       {:ueberauth_google, "~> 0.10"},
       {:ueberauth_discord, "~> 0.7.0"},
-      {:ex_image_info, "~> 0.2.4"}
+      {:ex_image_info, "~> 0.2.4"},
+      {:html_sanitize_ex, "~> 1.4"},
+      {:floki, "~> 0.34.2"},
+      {:datex, "~> 1.0"},
+      {:fastimage, "~> 0.0.7"}
     ]
   end
 

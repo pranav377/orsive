@@ -15,8 +15,12 @@ services:
             - 5000:5000
             - 19000:19000
         command: /bin/sh -c "while sleep 1000; do :; done"
+
+        depends_on:
             - meilisearch
             - crdb
+            - gorse-master
+
         env_file:
             - .env.dev
             - .env.local
