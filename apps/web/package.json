@@ -44,7 +44,7 @@
         "meilisearch": "^0.25.0",
         "moment": "^2.29.1",
         "mui-file-input": "^2.0.0",
-        "next": "^13.4.1",
+        "next": "^13.4.2",
         "next-pwa": "^5.6.0",
         "next-seo": "^5.1.0",
         "next-sitemap": "^2.5.20",

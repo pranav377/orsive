@@ -21,17 +21,17 @@ import useUserState from '@/state/userState';
 import { CircularProgress } from '@mui/material';
 import useAppBarHeight from '@/hooks/new/useAppBarHeight';
 
-export default function DesktopNavbar() {
+export default function MobileNavbar() {
     const theme = useTheme();
     const currUser = useUserState();
     const appBarHeight = useAppBarHeight();
+
     return (
         <Box
             sx={{
                 flexGrow: 1,
                 display: {
-                    xs: 'none',
-                    lg: 'block',
+                    lg: 'none',
                 },
                 paddingBottom: appBarHeight,
             }}

@@ -6,9 +6,12 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
-import Drawer from '@mui/material/Drawer';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import Image from 'next/image';
 import { ImageType } from '@/gql/graphql';
+import useAppBarHeight from '@/hooks/new/useAppBarHeight';
+import { desktopSidebarWidth } from '@/ui/Navigation/DesktopSidebar';
 
 const commentsDrawerWidth = 300;
 
@@ -16,39 +19,48 @@ export default function ContentImage(props: { image: ImageType }) {
     const theme = useTheme();
     const router = useRouter();
     const { image } = props;
+    const appBarHeight = useAppBarHeight();
 
     return (
-        <div
-            style={{
-                overflow: 'hidden',
-                height: '100%',
-            }}
-        >
+        <>
             <Box
                 sx={{
-                    backgroundColor: colors.slate[800],
-                    display: 'flex',
-                    alignItems: 'center',
-                    py: 1,
-                    px: 0.5,
+                    flexGrow: 1,
+                    paddingBottom: appBarHeight,
                 }}
             >
-                <IconButton
-                    onClick={() => {
-                        if (window && window.history.length > 2) {
-                            router.back();
-                        } else {
-                            router.push('/home');
-                        }
+                <AppBar
+                    position="fixed"
+                    elevation={0}
+                    sx={{
+                        left: {
+                            lg: desktopSidebarWidth,
+                        },
+                        top: {
+                            lg: appBarHeight * 8,
+                        },
+                        zIndex: theme.zIndex.drawer + 1,
                     }}
                 >
-                    <ArrowBackIcon
-                        style={{
-                            height: theme.spacing(4),
-                            width: theme.spacing(4),
-                        }}
-                    />
-                </IconButton>
+                    <Toolbar>
+                        <IconButton
+                            onClick={() => {
+                                if (window && window.history.length > 2) {
+                                    router.back();
+                                } else {
+                                    router.push('/home');
+                                }
+                            }}
+                        >
+                            <ArrowBackIcon
+                                style={{
+                                    height: theme.spacing(4),
+                                    width: theme.spacing(4),
+                                }}
+                            />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
             </Box>
 
             {/* Main Components here */}
@@ -77,6 +89,6 @@ export default function ContentImage(props: { image: ImageType }) {
                     }}
                 />
             </Box>
-        </div>
+        </>
     );
 }
