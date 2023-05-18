@@ -20,6 +20,7 @@ import DialogActions from '@mui/material/DialogActions';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import TextField from '@mui/material/TextField';
+import RichEditor from '@/ui/FormFields/RichEditor';
 
 import ImageIcon from '@mui/icons-material/Image';
 import OrsicIcon from '@mui/icons-material/Feed';
@@ -43,6 +44,7 @@ function CreatePosts() {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [createImageOpen, setCreateImageOpen] = useState(false);
+    const [createOrsicOpen, setCreateOrsicOpen] = useState(false);
 
     return (
         <>
@@ -72,8 +74,11 @@ function CreatePosts() {
                             tooltip: 'red',
                         }}
                         onClick={() => {
+                            console.log(action);
                             if (action.name === 'Image') {
                                 setCreateImageOpen(true);
+                            } else if (action.name === 'Orsic') {
+                                setCreateOrsicOpen(true);
                             }
                         }}
                         FabProps={{
@@ -92,6 +97,12 @@ function CreatePosts() {
                 fullScreen={fullScreen}
                 open={createImageOpen}
                 setOpen={setCreateImageOpen}
+            />
+
+            <CreateOrsicDialog
+                fullScreen={fullScreen}
+                open={createOrsicOpen}
+                setOpen={setCreateOrsicOpen}
             />
         </>
     );
@@ -181,6 +192,54 @@ function CreateImageDialog(props: {
                     startIcon={<AddIcon />}
                     loading={formik.isSubmitting}
                     disabled={formik.isSubmitting}
+                >
+                    Post
+                </LoadingButton>
+            </DialogActions>
+        </Dialog>
+    );
+}
+
+export const POST_ORSIC_SCHEMA = yup.object({
+    content: yup.string().required('Content is required'),
+});
+
+function CreateOrsicDialog(props: {
+    fullScreen: boolean;
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
+}) {
+    const { fullScreen, open, setOpen } = props;
+
+    return (
+        <Dialog
+            fullScreen={fullScreen}
+            fullWidth={true}
+            maxWidth={'sm'}
+            open={open}
+            onClose={() => setOpen(false)}
+            aria-labelledby="create-image-dialog-title"
+        >
+            <DialogTitle id="create-image-dialog-title">
+                {'Post an image'}
+            </DialogTitle>
+            <DialogContent sx={{ p: 1 }}>
+                <form
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <RichEditor />
+                </form>
+            </DialogContent>
+            <DialogActions>
+                <LoadingButton
+                    // onClick={() => formik.submitForm()}
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    // loading={formik.isSubmitting}
+                    // disabled={formik.isSubmitting}
                 >
                     Post
                 </LoadingButton>

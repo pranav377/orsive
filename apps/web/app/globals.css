@@ -62,3 +62,7 @@ body::-webkit-scrollbar {
         transform: translate(0, -0px);
     }
 }
+
+.ProseMirror {
+    outline: none;
+}
