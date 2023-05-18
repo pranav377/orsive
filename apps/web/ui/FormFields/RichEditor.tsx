@@ -1,52 +1,45 @@
 'use client';
-
-import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import { Editor } from '@tinymce/tinymce-react';
+import { useRef } from 'react';
 
 export default function RichEditor() {
-    const editor = useEditor({
-        extensions: [
-            StarterKit.configure({
-                heading: {
-                    levels: [1, 2],
-                },
-            }),
-        ],
-        content: '<p>Hello World! 🌎️</p>',
-        autofocus: true,
-    });
+    const editorRef = useRef<Editor | null>(null);
 
     return (
         <>
-            {editor && (
-                <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-                    <button
-                        onClick={() =>
-                            editor.chain().focus().toggleBold().run()
-                        }
-                        className={editor.isActive('bold') ? 'is-active' : ''}
-                    >
-                        bold
-                    </button>
-                    <button
-                        onClick={() =>
-                            editor.chain().focus().toggleItalic().run()
-                        }
-                        className={editor.isActive('italic') ? 'is-active' : ''}
-                    >
-                        italic
-                    </button>
-                    <button
-                        onClick={() =>
-                            editor.chain().focus().toggleStrike().run()
-                        }
-                        className={editor.isActive('strike') ? 'is-active' : ''}
-                    >
-                        strike
-                    </button>
-                </BubbleMenu>
-            )}
-            <EditorContent editor={editor} />
+            <Editor
+                apiKey="your-api-key"
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                initialValue="<p>This is the initial content of the editor.</p>"
+                init={{
+                    height: '60vh',
+                    menubar: false,
+                    plugins: ['image', 'link'],
+                    toolbar: 'undo redo bold link image | blocks',
+                    contextmenu: false,
+                    block_formats:
+                        'Paragraph=p; Header 1=h1; Header 2=h2; Header 3=h3',
+                    content_style: `
+            ::-webkit-scrollbar {
+              width: 0.2rem;
+            }
+            
+            ::-webkit-scrollbar-track {
+              background: #0f172a;
+            }
+            
+            ::-webkit-scrollbar-thumb {
+              background: #2563eb;
+            }
+
+            img {
+              max-width: 100%;
+            }
+            `,
+                    skin: 'oxide-dark',
+                    content_css: 'dark',
+                }}
+            />
         </>
     );
 }

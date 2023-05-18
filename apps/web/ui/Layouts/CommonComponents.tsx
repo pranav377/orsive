@@ -42,7 +42,7 @@ export default function CommonComponents() {
 
 function CreatePosts() {
     const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
     const [createImageOpen, setCreateImageOpen] = useState(false);
     const [createOrsicOpen, setCreateOrsicOpen] = useState(false);
 
@@ -153,7 +153,7 @@ function CreateImageDialog(props: {
             aria-labelledby="create-image-dialog-title"
         >
             <DialogTitle id="create-image-dialog-title">
-                {'Post an image'}
+                {'Post an Image'}
             </DialogTitle>
             <DialogContent sx={{ p: 1 }}>
                 <form
@@ -215,13 +215,13 @@ function CreateOrsicDialog(props: {
         <Dialog
             fullScreen={fullScreen}
             fullWidth={true}
-            maxWidth={'sm'}
+            maxWidth={'md'}
             open={open}
             onClose={() => setOpen(false)}
             aria-labelledby="create-image-dialog-title"
         >
             <DialogTitle id="create-image-dialog-title">
-                {'Post an image'}
+                {'Post an Orsic'}
             </DialogTitle>
             <DialogContent sx={{ p: 1 }}>
                 <form
