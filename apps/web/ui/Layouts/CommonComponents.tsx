@@ -21,6 +21,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import TextField from '@mui/material/TextField';
 import RichEditor from '@/ui/FormFields/RichEditor';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 import ImageIcon from '@mui/icons-material/Image';
 import OrsicIcon from '@mui/icons-material/Feed';
@@ -154,6 +156,18 @@ function CreateImageDialog(props: {
         >
             <DialogTitle id="create-image-dialog-title">
                 {'Post an Image'}
+                <IconButton
+                    aria-label="close"
+                    onClick={() => setOpen(false)}
+                    sx={{
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
             </DialogTitle>
             <DialogContent sx={{ p: 1 }}>
                 <form
@@ -233,6 +247,18 @@ function CreateOrsicDialog(props: {
         >
             <DialogTitle id="create-image-dialog-title">
                 {'Post an Orsic'}
+                <IconButton
+                    aria-label="close"
+                    onClick={() => setOpen(false)}
+                    sx={{
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
             </DialogTitle>
             <DialogContent sx={{ p: 1 }}>
                 <form
