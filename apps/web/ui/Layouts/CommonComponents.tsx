@@ -181,7 +181,14 @@ function CreateImageDialog(props: {
                         name="image"
                     />
                     <TextField
-                        sx={{ mt: 1 }}
+                        sx={{
+                            mt: 1,
+                            maxWidth: (theme) => theme.spacing(96),
+                            display: 'block',
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                        }}
+                        fullWidth
                         label="Description (optional)"
                         name="description"
                         variant="outlined"
