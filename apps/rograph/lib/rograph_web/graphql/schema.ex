@@ -18,6 +18,7 @@ defmodule RographWeb.Graphql.Schema do
     import_fields(:chat_mutations)
     import_fields(:auth_mutations)
     import_fields(:content_mutations)
+    import_fields(:editor_mutations)
   end
 
   subscription do

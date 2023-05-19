@@ -1,4 +1,6 @@
 defmodule RographWeb.Graphql.Resolvers.EditorResolver do
+  alias Rograph.Uploaders.ImageUploader
+
   def editor_image_upload(
         _parent,
         %{

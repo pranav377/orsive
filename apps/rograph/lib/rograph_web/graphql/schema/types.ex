@@ -6,4 +6,5 @@ defmodule RographWeb.Graphql.Schema.Types do
   import_types(Types.ChatType)
   import_types(Types.AuthType)
   import_types(Types.ContentType)
+  import_types(Types.EditorType)
 end

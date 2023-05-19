@@ -211,6 +211,17 @@ function CreateOrsicDialog(props: {
 }) {
     const { fullScreen, open, setOpen } = props;
 
+    const formik = useFormik({
+        initialValues: {
+            content: '<p>Start Writing from here.</p>',
+        },
+        validationSchema: POST_ORSIC_SCHEMA,
+        onSubmit: (values, helpers) => {
+            console.log(values);
+            helpers.setSubmitting(false);
+        },
+    });
+
     return (
         <Dialog
             fullScreen={fullScreen}
@@ -230,16 +241,19 @@ function CreateOrsicDialog(props: {
                         flexDirection: 'column',
                     }}
                 >
-                    <RichEditor />
+                    <RichEditor
+                        name="content"
+                        setFieldValue={formik.setFieldValue}
+                    />
                 </form>
             </DialogContent>
             <DialogActions>
                 <LoadingButton
-                    // onClick={() => formik.submitForm()}
+                    onClick={() => formik.submitForm()}
                     variant="contained"
                     startIcon={<AddIcon />}
-                    // loading={formik.isSubmitting}
-                    // disabled={formik.isSubmitting}
+                    loading={formik.isSubmitting}
+                    disabled={formik.isSubmitting}
                 >
                     Post
                 </LoadingButton>

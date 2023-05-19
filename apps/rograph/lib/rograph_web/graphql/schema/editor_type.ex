@@ -1,9 +1,8 @@
-defmodule RographWeb.Graphql.Schema.EditorType do
+defmodule RographWeb.Graphql.Schema.Types.EditorType do
   use Absinthe.Schema.Notation
 
   alias RographWeb.Graphql.Resolvers
   alias RographWeb.Graphql.Middleware
-  import_types(Absinthe.Plug.Types)
 
   object :editor_image_upload_type do
     field(:file, non_null(:string))

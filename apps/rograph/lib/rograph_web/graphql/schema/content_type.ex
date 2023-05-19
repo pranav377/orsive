@@ -3,7 +3,6 @@ defmodule RographWeb.Graphql.Schema.Types.ContentType do
 
   alias RographWeb.Graphql.Middleware
   alias RographWeb.Graphql.Resolvers
-  import_types(Absinthe.Plug.Types)
 
   object :post_type do
     field(:id, non_null(:id))

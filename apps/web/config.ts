@@ -7,7 +7,14 @@ type INFINITE_SCROLL_SCREENS =
     | 'profile'
     | 'following'
     | 'moderation';
+const SUPPORTED_IMAGE_EXTENSIONS =
+    '.bmp,.gif,.ico,.jpeg,.jpg,.jp2,.png,.pnm,.psd,.tiff,.webp';
 
-export { GOOGLE_AUTH_URL, DISCORD_AUTH_URL, GRAPHQL_URL };
+export {
+    GOOGLE_AUTH_URL,
+    DISCORD_AUTH_URL,
+    GRAPHQL_URL,
+    SUPPORTED_IMAGE_EXTENSIONS,
+};
 
 export type { INFINITE_SCROLL_SCREENS };

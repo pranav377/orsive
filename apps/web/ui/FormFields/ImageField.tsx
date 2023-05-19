@@ -5,6 +5,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import CloseIcon from '@mui/icons-material/Close';
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { SUPPORTED_IMAGE_EXTENSIONS } from '@/config';
 
 export default function ImageField(props: {
     setFieldValue: any;
@@ -98,7 +99,7 @@ export default function ImageField(props: {
                 <input
                     ref={fileInputRef}
                     type="file"
-                    accept="image/*"
+                    accept={SUPPORTED_IMAGE_EXTENSIONS}
                     style={{
                         display: 'none',
                     }}
