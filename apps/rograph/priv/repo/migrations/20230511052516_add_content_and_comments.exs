@@ -11,6 +11,7 @@ defmodule Rograph.Repo.Migrations.AddContentAndComments do
 
     create table(:orsics) do
       add(:title, :text, null: true)
+      add(:image, :text, null: true)
       add(:content, :text)
     end
 

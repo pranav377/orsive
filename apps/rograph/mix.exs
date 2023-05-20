@@ -19,7 +19,7 @@ defmodule Rograph.MixProject do
   def application do
     [
       mod: {Rograph.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpoison]
     ]
   end
 
@@ -62,7 +62,7 @@ defmodule Rograph.MixProject do
       {:html_sanitize_ex, "~> 1.4"},
       {:floki, "~> 0.34.2"},
       {:datex, "~> 1.0"},
-      {:fastimage, "~> 0.0.7"}
+      {:httpoison, "~> 2.0"}
     ]
   end
 
