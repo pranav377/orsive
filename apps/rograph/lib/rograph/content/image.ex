@@ -19,6 +19,7 @@ defmodule Rograph.Content.Image do
     image
     |> cast(attrs, [:image, :width, :height, :description])
     |> validate_required([:image, :width, :height])
+    |> validate_length(:description, max: 255)
     |> put_assoc(
       :post,
       change(post_changeset, %{

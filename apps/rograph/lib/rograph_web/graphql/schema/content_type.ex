@@ -46,6 +46,13 @@ defmodule RographWeb.Graphql.Schema.Types.ContentType do
       resolve(&Resolvers.ContentMutations.create_image/3)
     end
 
+    field :update_image, :image_type do
+      middleware(Middleware.BlockUnauthenticatedMiddleware)
+      arg(:description, :string)
+      arg(:image, :upload)
+      resolve(&Resolvers.ContentMutations.update_image/3)
+    end
+
     field :create_orsic, :orsic_type do
       middleware(Middleware.BlockUnauthenticatedMiddleware)
       arg(:content, non_null(:string))

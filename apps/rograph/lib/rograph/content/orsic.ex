@@ -48,8 +48,17 @@ defmodule Rograph.Content.Orsic do
     title =
       case Enum.at(all_titles, 0) do
         # "#{formatted_datetime} - #{user.name} Posted An Orsic"
-        nil -> nil
-        title -> Floki.text(title)
+        nil ->
+          nil
+
+        title ->
+          extracted_title = Floki.text(title)
+
+          if String.length(extracted_title) > 100 do
+            String.slice(extracted_title, 0, 100) <> "..."
+          else
+            extracted_title
+          end
       end
 
     put_change(changeset, :title, title)
