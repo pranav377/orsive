@@ -24,7 +24,7 @@ defmodule Rograph.Content.Orsic do
       :post,
       change(post_changeset, %{
         user: user,
-        slug: Helper.generate_slug(Map.get(attrs, :description))
+        slug: Helper.generate_slug(Map.get(attrs, :title))
       })
     )
   end
@@ -42,8 +42,8 @@ defmodule Rograph.Content.Orsic do
 
     all_titles = Floki.find(document, "h1")
 
-    curr_datetime = DateTime.utc_now()
-    formatted_datetime = Datex.Date.format_date(curr_datetime, "MONTH_NAME_SHORT DATE YYYY")
+    # curr_datetime = DateTime.utc_now()
+    # formatted_datetime = Datex.Date.format_date(curr_datetime, "MONTH_NAME_SHORT DATE YYYY")
 
     title =
       case Enum.at(all_titles, 0) do
@@ -66,13 +66,16 @@ defmodule Rograph.Content.Orsic do
 
     all_images = Floki.find(document, "img")
 
-    case Enum.at(all_images, 0) do
-      nil ->
-        nil
+    img_src =
+      case Enum.at(all_images, 0) do
+        nil ->
+          nil
 
-      first_image ->
-        [img_src] = Floki.attribute(first_image, "src")
-        put_change(changeset, :og_image, img_src)
-    end
+        first_image ->
+          [img_src] = Floki.attribute(first_image, "src")
+          img_src
+      end
+
+    put_change(changeset, :og_image, img_src)
   end
 end

@@ -1,9 +1,12 @@
 'use client';
+import Box from '@mui/material/Box';
 import { GraphQLClient } from '@/app/GraphQLClient';
 import EDITOR_IMAGE_UPLOAD from '@/graphql/mutations/editorImageUpload';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import invariant from 'tiny-invariant';
+import colors from '@/technique/colors';
+import LoadingComponent from '@/ui/LoadingComponent';
 
 export default function RichEditor(props: {
     setFieldValue: any;
@@ -11,18 +14,28 @@ export default function RichEditor(props: {
 }) {
     const { setFieldValue, name } = props;
     const editorRef = useRef<any>(null);
+    const [loading, setLoading] = useState(true);
 
     return (
-        <>
+        <Box
+            sx={{
+                height: '60vh',
+                overflow: 'hidden',
+            }}
+        >
+            {loading && <RichEditorSkeleton />}
             <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY || 'dummy-api-key'}
-                onInit={(evt, editor) => (editorRef.current = editor)}
+                onInit={(evt, editor) => {
+                    editorRef.current = editor;
+                    setLoading(false);
+                }}
                 initialValue="<p>Start writing from here.</p>"
                 onEditorChange={() => {
                     setFieldValue(name, editorRef.current.getContent());
                 }}
                 init={{
-                    height: '60vh',
+                    height: '100%',
                     menubar: false,
                     plugins: ['image', 'link'],
                     toolbar: 'bold link image | blocks',
@@ -76,6 +89,20 @@ export default function RichEditor(props: {
                         }),
                 }}
             />
-        </>
+        </Box>
+    );
+}
+
+function RichEditorSkeleton() {
+    return (
+        <Box
+            sx={{
+                height: '100%',
+                backgroundColor: colors.slate[900],
+                borderRadius: 2,
+            }}
+        >
+            <LoadingComponent />
+        </Box>
     );
 }

@@ -28,6 +28,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import OrsicIcon from '@mui/icons-material/Feed';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import CREATE_ORSIC from '@/graphql/mutations/createOrsic';
 
 const actions = [
     { icon: <ImageIcon />, name: 'Image' },
@@ -137,7 +138,7 @@ function CreateImageDialog(props: {
                 .then((result) => {
                     invariant(result.data?.createImage);
                     const imagePost = result.data.createImage.post;
-                    router.push(`/images/${imagePost.slug}`);
+                    router.push(`/image/${imagePost.slug}`);
                     formik.resetForm();
                     setOpen(false);
                 })
@@ -232,13 +233,22 @@ function CreateOrsicDialog(props: {
 }) {
     const { fullScreen, open, setOpen } = props;
 
+    const [createOrsic] = useMutation(CREATE_ORSIC);
+    const router = useRouter();
+
     const formik = useFormik({
         initialValues: {
             content: '<p>Start Writing from here.</p>',
         },
         validationSchema: POST_ORSIC_SCHEMA,
         onSubmit: (values, helpers) => {
-            console.log(values);
+            createOrsic({
+                variables: values,
+            }).then((result) => {
+                invariant(result.data?.createOrsic);
+                const orsicPost = result.data.createOrsic.post;
+                router.push(`/orsic/${orsicPost.slug}`);
+            });
             helpers.setSubmitting(false);
         },
     });
