@@ -66,3 +66,8 @@ body::-webkit-scrollbar {
 .ProseMirror {
     outline: none;
 }
+
+#nprogress {
+    position: relative;
+    z-index: 9999999;
+}

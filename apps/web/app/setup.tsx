@@ -8,6 +8,7 @@ import { SnackbarProvider, closeSnackbar } from 'notistack';
 import CheckAuth from '@/ui/Auth/CheckAuth';
 import SetupComplete from '@/ui/Auth/SetupComplete';
 import { ApolloProvider } from '@apollo/client';
+import ProgressBar from 'next-nprogress-bar';
 
 export default function Setup({ children }: { children: React.ReactNode }) {
     return (
@@ -17,6 +18,12 @@ export default function Setup({ children }: { children: React.ReactNode }) {
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
                     <body id="__orsive">
+                        <ProgressBar
+                            appDirectory
+                            options={{
+                                showSpinner: false,
+                            }}
+                        />
                         <SetupComplete />
                         <SnackbarProvider
                             maxSnack={1}
