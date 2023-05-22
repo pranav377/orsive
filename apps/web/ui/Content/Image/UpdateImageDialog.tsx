@@ -21,7 +21,7 @@ import LoadingComponent from '@/ui/LoadingComponent';
 import { useRouter } from 'next/navigation';
 
 export const UPDATE_IMAGE_SCHEMA = yup.object({
-    description: yup.string().max(255, 'Description is too long'),
+    description: yup.string().max(255, 'Description is too long').nullable(),
     image: yup.mixed(),
 });
 
@@ -57,7 +57,7 @@ function UpdateImageDialogComponent(props: {
         initialValues: {
             slug: slug,
             image: undefined,
-            description: undefined,
+            description: '',
         },
         validationSchema: UPDATE_IMAGE_SCHEMA,
         onSubmit: (values, helpers) => {
