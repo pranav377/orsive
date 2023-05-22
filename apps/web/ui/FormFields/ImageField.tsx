@@ -10,8 +10,12 @@ import { SUPPORTED_IMAGE_EXTENSIONS } from '@/config';
 export default function ImageField(props: {
     setFieldValue: any;
     name: string;
+    defaultPreviewImage?: string;
 }) {
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const { setFieldValue, name, defaultPreviewImage } = props;
+    const [previewImage, setPreviewImage] = useState<string | null>(
+        defaultPreviewImage ? defaultPreviewImage : null
+    );
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (
@@ -105,7 +109,7 @@ export default function ImageField(props: {
                     }}
                     onChange={(event: any) => {
                         const [file] = event.target.files;
-                        props.setFieldValue(props.name, file);
+                        setFieldValue(name, file);
                         if (file) {
                             setPreviewImage(URL.createObjectURL(file));
                         }
@@ -132,7 +136,7 @@ export default function ImageField(props: {
                     <IconButton
                         onClick={() => {
                             setPreviewImage(null);
-                            props.setFieldValue(props.name, null);
+                            setFieldValue(name, null);
                             if (fileInputRef.current) {
                                 fileInputRef.current.value = '';
                             }

@@ -48,6 +48,7 @@ defmodule RographWeb.Graphql.Schema.Types.ContentType do
 
     field :update_image, :image_type do
       middleware(Middleware.BlockUnauthenticatedMiddleware)
+      arg(:slug, non_null(:string))
       arg(:description, :string)
       arg(:image, :upload)
       resolve(&Resolvers.ContentMutations.update_image/3)

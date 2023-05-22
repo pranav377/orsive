@@ -3,8 +3,10 @@ defmodule RographWeb.Graphql.Resolvers.ContentMutations do
   alias Rograph.Content.Post
   alias Rograph.Content.Image
   alias Rograph.Content.Orsic
+  alias Rograph.Content.Helper
   alias Rograph.Repo
   alias RographWeb.Graphql.HandleChangesetError
+  import Ecto.Query
 
   def create_image(
         _parent,
@@ -20,20 +22,20 @@ defmodule RographWeb.Graphql.Resolvers.ContentMutations do
 
     {_, width, height, _} = ExImageInfo.info(File.read!(args.image.path))
 
-    post_changeset = %Post{}
+    description = Map.get(args, :description)
 
     changeset =
       %Image{}
-      |> Image.changeset(
-        %{
-          image: image_url,
-          width: width,
-          height: height,
-          description: Map.get(args, :description)
-        },
-        user,
-        post_changeset
-      )
+      |> Image.changeset(%{
+        image: image_url,
+        width: width,
+        height: height,
+        description: description,
+        post: %{
+          user: user,
+          slug: Helper.generate_slug(description)
+        }
+      })
       |> Repo.insert()
 
     case changeset do
@@ -47,7 +49,7 @@ defmodule RographWeb.Graphql.Resolvers.ContentMutations do
 
   def update_image(
         _parent,
-        # no pattern matching here as both fields can be null
+        # no pattern matching here as description and image are optional
         args,
         %{
           context: %{
@@ -55,10 +57,19 @@ defmodule RographWeb.Graphql.Resolvers.ContentMutations do
           }
         }
       ) do
+    prev_image =
+      Repo.one!(
+        from(i in Image,
+          join: p in assoc(i, :post),
+          where: p.slug == ^args.slug,
+          preload: [post: :user]
+        )
+      )
+
     %{image_url: image_url, width: width, height: height} =
-      case args.image do
+      case Map.get(args, :image) do
         nil ->
-          %{image_url: nil, width: nil, height: nil}
+          %{image_url: prev_image.image, width: prev_image.width, height: prev_image.height}
 
         _ ->
           image_url = ImageUploader.save_file!(args.image)
@@ -68,12 +79,12 @@ defmodule RographWeb.Graphql.Resolvers.ContentMutations do
       end
 
     changeset =
-      %Image{}
+      prev_image
       |> Image.changeset(%{
-        image_url: image_url,
+        image: image_url,
         width: width,
         height: height,
-        description: Map.get(args, :description)
+        description: Map.get(args, :description, prev_image.description)
       })
       |> Repo.update()
 

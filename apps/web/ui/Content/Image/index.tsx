@@ -23,8 +23,11 @@ import Link from 'next/link';
 import Typography from '@mui/material/Typography';
 import relativeDate from '@/technique/relativeDate';
 import HomeComponentsWrapper from '@/ui/HomeComponentsWrapper';
-
-const commentsDrawerWidth = 300;
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { useState } from 'react';
+import useUserState from '@/state/userState';
+import UpdateImageDialog from './UpdateImageDialog';
 
 export default function ContentImage(props: { image: ImageType }) {
     const theme = useTheme();
@@ -32,6 +35,18 @@ export default function ContentImage(props: { image: ImageType }) {
     const { image } = props;
     const appBarHeight = useAppBarHeight();
     const uploadedByUser = image.post.user;
+
+    const [optionsAnchorEl, setOptionsAnchorEl] = useState<null | HTMLElement>(
+        null
+    );
+
+    const currUserId = useUserState((user) => user.id);
+
+    const closeOptionsMenu = () => {
+        setOptionsAnchorEl(null);
+    };
+
+    const [updateImageOpen, setUpdateImageOpen] = useState(false);
 
     return (
         <>
@@ -87,8 +102,6 @@ export default function ContentImage(props: { image: ImageType }) {
                 </AppBar>
             </Box>
 
-            {/* Main Components here */}
-
             <HomeComponentsWrapper>
                 <Box
                     sx={{
@@ -121,12 +134,53 @@ export default function ContentImage(props: { image: ImageType }) {
                                 </Avatar>
                             }
                             action={
-                                <IconButton aria-label="settings">
+                                <IconButton
+                                    aria-label="options menu"
+                                    onClick={(e) => {
+                                        setOptionsAnchorEl(e.currentTarget);
+                                    }}
+                                >
                                     <MoreVertIcon />
                                 </IconButton>
                             }
                             title={uploadedByUser.name}
                             subheader={`@${uploadedByUser.username}`}
+                        />
+
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={optionsAnchorEl}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(optionsAnchorEl)}
+                            onClose={closeOptionsMenu}
+                        >
+                            <MenuItem onClick={closeOptionsMenu}>
+                                Share
+                            </MenuItem>
+                            {currUserId === uploadedByUser.id && (
+                                <MenuItem
+                                    onClick={() => {
+                                        setUpdateImageOpen(true);
+                                        closeOptionsMenu();
+                                    }}
+                                >
+                                    Edit
+                                </MenuItem>
+                            )}
+                        </Menu>
+
+                        <UpdateImageDialog
+                            open={updateImageOpen}
+                            setOpen={setUpdateImageOpen}
+                            slug={image.post.slug}
                         />
 
                         <CardMedia>

@@ -1,6 +1,7 @@
 defmodule Rograph.Content.Image do
   use Ecto.Schema
   alias Rograph.Content.Post
+  alias Rograph.Auth.User
   alias Rograph.Content.Helper
 
   import Ecto.Changeset
@@ -15,17 +16,11 @@ defmodule Rograph.Content.Image do
   end
 
   @doc false
-  def changeset(image, attrs, user, post_changeset \\ %Post{}) do
+  def changeset(image, attrs) do
     image
     |> cast(attrs, [:image, :width, :height, :description])
     |> validate_required([:image, :width, :height])
     |> validate_length(:description, max: 255)
-    |> put_assoc(
-      :post,
-      change(post_changeset, %{
-        user: user,
-        slug: Helper.generate_slug(Map.get(attrs, :description))
-      })
-    )
+    |> cast_assoc(:post)
   end
 end

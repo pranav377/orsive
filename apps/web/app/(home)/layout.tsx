@@ -2,7 +2,7 @@
 import DesktopComponents from '@/ui/Layouts/DesktopComponents';
 import Box from '@mui/material/Box';
 import { desktopSidebarWidth } from '@/ui/Navigation/DesktopSidebar';
-import CommonComponents from '@/ui/Layouts/CommonComponents';
+import MainUploadPostsSpeedDial from '@/ui/Layouts/MainUploadPostsSpeedDial';
 import { usePathname } from 'next/navigation';
 import MobileNavbar from '@/ui/Navigation/MobileNavbar';
 import MobileBottomBar from '@/ui/Navigation/MobileBottomBar';
@@ -40,7 +40,7 @@ export default function HomeLayout({
                 <MobileBottomBar />
             )}
             {showCommonComponentsRoutes.includes(currRoute || '') && (
-                <CommonComponents />
+                <MainUploadPostsSpeedDial />
             )}
         </>
     );
