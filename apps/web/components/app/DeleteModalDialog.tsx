@@ -11,6 +11,7 @@ export default function DeleteModalDialog(props: {
     setDeleteOpen: any;
     uploadedByUsername: string;
     delete: any;
+    deletePostByMod: any;
 }) {
     const user = useUser();
     const dispatch = useDispatch();
@@ -34,6 +35,16 @@ export default function DeleteModalDialog(props: {
                             dispatch(
                                 ContentStateActions.setShowLoginDialog(true)
                             );
+                        } else if (user.isMod) {
+                            toast
+                                .promise(props.deletePostByMod(), {
+                                    loading: 'Deleting....',
+                                    success: 'Deleted Successfully',
+                                    error: 'Unable to delete',
+                                })
+                                .then(() => {
+                                    props.setDeleteOpen(false);
+                                });
                         } else if (user.username !== props.uploadedByUsername) {
                             toast.error("You don't own the post😑");
                         } else {

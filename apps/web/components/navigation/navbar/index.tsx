@@ -185,20 +185,6 @@ function ProfileDropdown() {
                         >
                             Sign out
                         </Button>
-                        {user.isMod && (
-                            <Link
-                                href={`/moderation`}
-                                passHref
-                                onClick={() => {
-                                    setIsOpen(false);
-                                }}
-                                className={
-                                    'ripple-bg-slate-800 w-full rounded-md p-2 text-left text-sm font-medium'
-                                }
-                            >
-                                Moderation Bay
-                            </Link>
-                        )}
                         <Link
                             href={`/support`}
                             passHref

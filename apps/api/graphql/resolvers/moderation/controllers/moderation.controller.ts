@@ -156,6 +156,8 @@ export async function DeletePost(args: ReportHandleInterface, user: User) {
                     parentPostId: imagePost!.post!.id,
                 },
             });
+
+            return 'image deleted successfully';
         }
 
         case 'orsic': {
@@ -170,7 +172,7 @@ export async function DeletePost(args: ReportHandleInterface, user: User) {
                 })
             );
 
-            deleteItem(orsicPost!.post!.id, post);
+            deleteItem(orsicPost!.post!.id, orsicPost);
 
             await prisma.orsic.delete({
                 where: { slug: orsicPost.slug },
@@ -181,6 +183,8 @@ export async function DeletePost(args: ReportHandleInterface, user: User) {
                     parentPostId: orsicPost!.post!.id,
                 },
             });
+
+            return 'orsic deleted successfully';
         }
 
         case 'comment': {
@@ -210,8 +214,8 @@ export async function DeletePost(args: ReportHandleInterface, user: User) {
                     id: comment!.id,
                 },
             });
+
+            return 'comment deleted successfully';
         }
     }
-
-    return 'success';
 }
