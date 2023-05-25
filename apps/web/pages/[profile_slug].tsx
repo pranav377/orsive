@@ -1,6 +1,6 @@
 import TopBar from '../components/app/TopBar';
 import { useProfilePage } from '../hooks/pages/profile/useProfilePage';
-import { CalendarIcon } from '@heroicons/react/solid';
+import { CalendarIcon, ExclamationIcon } from '@heroicons/react/solid';
 import Spinner from '../components/app/Spinner';
 import EditProfile from '../components/forms/profile/EditProfile';
 import Moment from 'react-moment';
@@ -17,6 +17,11 @@ import { Layout } from '../components/app/Layout';
 import { nFormatter } from '../components/app/nFormatter';
 import { ContentStateActions } from '../store/slices/contentSlice';
 import Image from 'next/image';
+import Button from '../components/base/button';
+import ModalDialog from '../components/app/Dialog';
+import { toast } from 'react-hot-toast';
+import { useModUserDelete } from '../hooks/app/moderation/useModUserDelete';
+import { useState } from 'react';
 
 export interface ProfileType {
     username: string;
@@ -42,6 +47,8 @@ export default function Profile() {
         profileQuery,
         router,
     } = useProfilePage();
+
+    const [deleteUserOpen, setDeleteUserOpen] = useState(false);
 
     if (profileQuery.loading) {
         return (
@@ -214,6 +221,26 @@ export default function Profile() {
                                                 format="MMMM YYYY"
                                             />
                                         </div>
+                                        {user.isMod &&
+                                            !profile.roles.includes('Mod') &&
+                                            !profile.roles.includes(
+                                                'Staff'
+                                            ) && (
+                                                <Button
+                                                    className="ripple-bg-slate-900 mt-1"
+                                                    onClick={() => {
+                                                        setDeleteUserOpen(true);
+                                                    }}
+                                                >
+                                                    Delete User
+                                                </Button>
+                                            )}
+
+                                        <DeleteUserModalDialog
+                                            deleteOpen={deleteUserOpen}
+                                            setDeleteOpen={setDeleteUserOpen}
+                                            username={profile.username}
+                                        />
                                     </div>
 
                                     <div className="flex flex-col p-2 md:ml-auto">
@@ -264,4 +291,45 @@ export default function Profile() {
     }
 
     return null;
+}
+
+function DeleteUserModalDialog(props: {
+    deleteOpen: boolean;
+    setDeleteOpen: any;
+    username: string;
+}) {
+    const { deleteUserByMod } = useModUserDelete(props.username);
+
+    return (
+        <ModalDialog
+            open={props.deleteOpen}
+            setOpen={props.setDeleteOpen}
+            icon={
+                <ExclamationIcon
+                    className="h-6 w-6 text-red-600"
+                    aria-hidden="true"
+                />
+            }
+            heading="Delete"
+            description="Are you sure you want to delete this user?"
+            button={
+                <Button
+                    onClick={() => {
+                        toast
+                            .promise(deleteUserByMod(), {
+                                loading: 'Deleting....',
+                                success: 'Deleted Successfully',
+                                error: 'Unable to delete',
+                            })
+                            .then(() => {
+                                props.setDeleteOpen(false);
+                            });
+                    }}
+                    className="ripple-bg-red-600 inline-flex w-full justify-center rounded-md px-4 py-2 text-base font-medium shadow-sm sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                    Delete
+                </Button>
+            }
+        />
+    );
 }

@@ -8,6 +8,7 @@ import DeleteModalDialog from '../../app/DeleteModalDialog';
 import ShareModal from '../../app/ShareModalDialog';
 import { useRouter } from 'next/router';
 import ReportDialog from '../../app/ReportDialog';
+import { useModPostDelete } from '../../../hooks/app/moderation/useModPostDelete';
 
 export default function Options(props: {
     delete: () => Promise<any>;
@@ -21,10 +22,13 @@ export default function Options(props: {
     const [shareOpen, setShareOpen] = useState(false);
     const router = useRouter();
 
+    const { deletePostByMod } = useModPostDelete(props.postId);
+
     return (
         <>
             <DeleteModalDialog
                 delete={props.delete}
+                deletePostByMod={deletePostByMod}
                 deleteOpen={deleteOpen}
                 setDeleteOpen={setDeleteOpen}
                 uploadedByUsername={props.uploadedByUsername}

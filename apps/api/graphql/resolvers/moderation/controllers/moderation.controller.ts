@@ -5,16 +5,13 @@ import { ReportReason } from '@prisma/client';
 import VoteScheduler from '../../../../systems/mod-vote-handler/voteScheduler';
 import GetObjOrNotFound from '../../../utils/getObjOrNotFound';
 import agenda from '../../../../systems/mod-vote-handler/poller/scheduler';
-import removeReport from '../../../../systems/mod-vote-handler/poller/actions/removeReport';
-import sendReputationToMods from '../../../../systems/mod-vote-handler/poller/actions/utils/sendReputationToMods';
-import removePost from '../../../../systems/mod-vote-handler/poller/actions/removePost';
 import {
     getPostData,
     POST_PRISMA_ARGS,
 } from '../../post/controllers/post.controller';
 import moment from 'moment';
 import { PAGINATION_SET_SIZE } from '../../../config';
-import hasUserVoted from '../../../utils/report/hasUserVoted';
+import deleteItem from '../../../utils/mepster/item/deleteItem';
 
 export interface AddReportInterface {
     post_id: string;
@@ -23,6 +20,10 @@ export interface AddReportInterface {
 
 export interface ReportHandleInterface {
     post_id: string;
+}
+
+export interface UserHandleInterface {
+    username: string;
 }
 
 export interface GetReportsArgs {
@@ -121,79 +122,166 @@ export async function DeleteReport(args: ReportHandleInterface, user: User) {
     return 'ok';
 }
 
-export async function ReportFavor(args: ReportHandleInterface, user: User) {
-    let report = GetObjOrNotFound(
-        await prisma.report.findFirst({
+export async function DeletePost(args: ReportHandleInterface) {
+    const post = GetObjOrNotFound(
+        await prisma.post.findUnique({
             where: {
-                postId: args.post_id,
+                id: args.post_id,
+            },
+            include: {
+                comment: true,
+                image: true,
+                orsic: true,
             },
         })
     );
 
-    let voteAlreadyExists = await hasUserVoted(report!.id, user.id);
+    switch (post.postType) {
+        case 'image': {
+            let imagePost = GetObjOrNotFound(
+                await prisma.image.findUnique({
+                    where: {
+                        slug: post.image!.slug,
+                    },
+                    include: {
+                        post: true,
+                    },
+                })
+            );
 
-    if (!voteAlreadyExists) {
-        await prisma.reportFavor.create({
-            data: {
-                reportId: report!.id,
-                modId: user.id,
-            },
-        });
+            deleteItem(imagePost!.post!.id, imagePost);
 
-        return 'ok';
-    } else {
-        throw new ApolloError('You have already voted!');
+            await prisma.image.delete({
+                where: { slug: imagePost.slug },
+            });
+
+            await prisma.comment.deleteMany({
+                where: {
+                    parentPostId: imagePost!.post!.id,
+                },
+            });
+        }
+
+        case 'orsic': {
+            let orsicPost = GetObjOrNotFound(
+                await prisma.orsic.findUnique({
+                    where: {
+                        slug: post.orsic!.slug,
+                    },
+                    include: {
+                        post: true,
+                    },
+                })
+            );
+
+            deleteItem(orsicPost!.post!.id, orsicPost);
+
+            await prisma.orsic.delete({
+                where: { slug: orsicPost.slug },
+            });
+
+            await prisma.comment.deleteMany({
+                where: {
+                    parentPostId: orsicPost!.post!.id,
+                },
+            });
+        }
+
+        case 'comment': {
+            let comment = GetObjOrNotFound(
+                await prisma.comment.findFirst({
+                    where: {
+                        post: {
+                            id: args.post_id,
+                        },
+                    },
+                    include: {
+                        post: true,
+                    },
+                })
+            );
+
+            if (!comment?.parentId) {
+                await prisma.comment.deleteMany({
+                    where: {
+                        parentId: comment!.id,
+                    },
+                });
+            }
+
+            await prisma.comment.delete({
+                where: {
+                    id: comment!.id,
+                },
+            });
+        }
     }
+    return 'success';
 }
 
-export async function ReportAgainst(args: ReportHandleInterface, user: User) {
-    let report = GetObjOrNotFound(
-        await prisma.report.findFirst({
-            where: {
-                postId: args.post_id,
+export async function DeleteUser(args: UserHandleInterface) {
+    const deletedUser = await prisma.profile.delete({
+        where: {
+            username: args.username,
+        },
+    });
+
+    const userOrsics = await prisma.orsic.findMany({
+        where: {
+            post: {
+                uploadedById: deletedUser.id,
             },
+        },
+        include: {
+            post: true,
+        },
+    });
+
+    await Promise.all(
+        userOrsics.map(async (orsic) => {
+            await DeletePost({
+                post_id: orsic.post!.id,
+            });
         })
     );
 
-    let voteAlreadyExists = await hasUserVoted(report!.id, user.id);
-
-    if (!voteAlreadyExists) {
-        await prisma.reportAgainst.create({
-            data: {
-                reportId: report!.id,
-                modId: user.id,
+    const userImages = await prisma.image.findMany({
+        where: {
+            post: {
+                uploadedById: deletedUser.id,
             },
-        });
+        },
+        include: {
+            post: true,
+        },
+    });
 
-        return 'ok';
-    } else {
-        throw new ApolloError('You have already voted!');
-    }
-}
-
-export async function ImmediateStaffFavorReport(args: ReportHandleInterface) {
-    let report = GetObjOrNotFound(
-        await prisma.report.findFirst({
-            where: {
-                postId: args.post_id,
-            },
+    await Promise.all(
+        userImages.map(async (image) => {
+            await DeletePost({
+                post_id: image.post!.id,
+            });
         })
     );
 
-    await removeReport(report!.id);
-    await sendReputationToMods(report!.id, 'favor');
-}
-
-export async function ImmediateStaffAgainstReport(args: ReportHandleInterface) {
-    let report = GetObjOrNotFound(
-        await prisma.report.findFirst({
-            where: {
-                postId: args.post_id,
+    const userComments = await prisma.comment.findMany({
+        where: {
+            post: {
+                uploadedById: deletedUser.id,
             },
+        },
+        include: {
+            post: true,
+        },
+    });
+
+    await Promise.all(
+        userComments.map(async (comment) => {
+            await DeletePost({
+                post_id: comment.post!.id,
+            });
         })
     );
 
-    await removePost(report!.postId, report!.reason);
-    await removeReport(report!.id);
-    await sendReputationToMods(report!.id, 'against');
+    return 'success';
 }

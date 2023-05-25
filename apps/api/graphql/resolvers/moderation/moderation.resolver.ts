@@ -5,14 +5,13 @@ import hasUserVotedPostId from '../../utils/report/hasUserVotedPostId';
 import {
     AddReport,
     AddReportInterface,
+    DeletePost,
     DeleteReport,
+    DeleteUser,
     GetReports,
     GetReportsArgs,
-    ImmediateStaffAgainstReport,
-    ImmediateStaffFavorReport,
-    ReportAgainst,
-    ReportFavor,
     ReportHandleInterface,
+    UserHandleInterface,
 } from './controllers/moderation.controller';
 
 const MODERATION_RESOLVERS = {
@@ -42,39 +41,15 @@ const MODERATION_RESOLVERS = {
 
             return DeleteReport(args, context.getUser());
         },
-
-        // Report voting for mods
-        reportFavor(_: void, args: ReportHandleInterface, context: any) {
+        deletePost(_: void, args: ReportHandleInterface, context: any) {
             IsUserMod(context);
 
-            return ReportFavor(args, context.getUser());
+            return DeletePost(args);
         },
-
-        reportAgainst(_: void, args: ReportHandleInterface, context: any) {
+        deleteUser(_: void, args: UserHandleInterface, context: any) {
             IsUserMod(context);
 
-            return ReportAgainst(args, context.getUser());
-        },
-
-        // Immediate reporting for staff
-        immediateStaffFavorReport(
-            _: void,
-            args: ReportHandleInterface,
-            context: any
-        ) {
-            IsUserStaffPlusMod(context);
-
-            return ImmediateStaffFavorReport(args);
-        },
-
-        immediateStaffAgainstReport(
-            _: void,
-            args: ReportHandleInterface,
-            context: any
-        ) {
-            IsUserStaffPlusMod(context);
-
-            return ImmediateStaffAgainstReport(args);
+            return DeleteUser(args);
         },
     },
 };
