@@ -12,6 +12,7 @@ import {
 import moment from 'moment';
 import { PAGINATION_SET_SIZE } from '../../../config';
 import deleteItem from '../../../utils/mepster/item/deleteItem';
+import deleteUserFromGorseAndSearch from '../../../utils/mepster/user/deleteUserFromGorseAndSearch';
 
 export interface AddReportInterface {
     post_id: string;
@@ -296,6 +297,8 @@ export async function DeleteUser(args: UserHandleInterface) {
             username: args.username,
         },
     });
+
+    deleteUserFromGorseAndSearch(user.id);
 
     return 'success';
 }
