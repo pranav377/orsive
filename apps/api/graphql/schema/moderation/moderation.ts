@@ -31,7 +31,7 @@ const MODERATION_SCHEMA = gql`
 
         # for moderators
         deletePost(post_id: ID!): String!
-        deleteUser(user_id: ID!): String!
+        deleteUser(username: String!): String!
     }
 `;
 

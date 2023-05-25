@@ -7,9 +7,11 @@ import {
     AddReportInterface,
     DeletePost,
     DeleteReport,
+    DeleteUser,
     GetReports,
     GetReportsArgs,
     ReportHandleInterface,
+    UserHandleInterface,
 } from './controllers/moderation.controller';
 
 const MODERATION_RESOLVERS = {
@@ -42,7 +44,12 @@ const MODERATION_RESOLVERS = {
         deletePost(_: void, args: ReportHandleInterface, context: any) {
             IsUserMod(context);
 
-            return DeletePost(args, context.getUser);
+            return DeletePost(args);
+        },
+        deleteUser(_: void, args: UserHandleInterface, context: any) {
+            IsUserMod(context);
+
+            return DeleteUser(args);
         },
     },
 };

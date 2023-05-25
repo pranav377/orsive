@@ -22,6 +22,10 @@ export interface ReportHandleInterface {
     post_id: string;
 }
 
+export interface UserHandleInterface {
+    username: string;
+}
+
 export interface GetReportsArgs {
     page?: number;
 }
@@ -118,7 +122,7 @@ export async function DeleteReport(args: ReportHandleInterface, user: User) {
     return 'ok';
 }
 
-export async function DeletePost(args: ReportHandleInterface, user: User) {
+export async function DeletePost(args: ReportHandleInterface) {
     const post = GetObjOrNotFound(
         await prisma.post.findUnique({
             where: {
@@ -156,8 +160,6 @@ export async function DeletePost(args: ReportHandleInterface, user: User) {
                     parentPostId: imagePost!.post!.id,
                 },
             });
-
-            return 'image deleted successfully';
         }
 
         case 'orsic': {
@@ -183,8 +185,6 @@ export async function DeletePost(args: ReportHandleInterface, user: User) {
                     parentPostId: orsicPost!.post!.id,
                 },
             });
-
-            return 'orsic deleted successfully';
         }
 
         case 'comment': {
@@ -214,8 +214,74 @@ export async function DeletePost(args: ReportHandleInterface, user: User) {
                     id: comment!.id,
                 },
             });
-
-            return 'comment deleted successfully';
         }
     }
+    return 'success';
+}
+
+export async function DeleteUser(args: UserHandleInterface) {
+    const deletedUser = await prisma.profile.delete({
+        where: {
+            username: args.username,
+        },
+    });
+
+    const userOrsics = await prisma.orsic.findMany({
+        where: {
+            post: {
+                uploadedById: deletedUser.id,
+            },
+        },
+        include: {
+            post: true,
+        },
+    });
+
+    await Promise.all(
+        userOrsics.map(async (orsic) => {
+            await DeletePost({
+                post_id: orsic.post!.id,
+            });
+        })
+    );
+
+    const userImages = await prisma.image.findMany({
+        where: {
+            post: {
+                uploadedById: deletedUser.id,
+            },
+        },
+        include: {
+            post: true,
+        },
+    });
+
+    await Promise.all(
+        userImages.map(async (image) => {
+            await DeletePost({
+                post_id: image.post!.id,
+            });
+        })
+    );
+
+    const userComments = await prisma.comment.findMany({
+        where: {
+            post: {
+                uploadedById: deletedUser.id,
+            },
+        },
+        include: {
+            post: true,
+        },
+    });
+
+    await Promise.all(
+        userComments.map(async (comment) => {
+            await DeletePost({
+                post_id: comment.post!.id,
+            });
+        })
+    );
+
+    return 'success';
 }
