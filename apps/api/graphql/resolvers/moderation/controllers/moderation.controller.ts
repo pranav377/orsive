@@ -220,16 +220,18 @@ export async function DeletePost(args: ReportHandleInterface) {
 }
 
 export async function DeleteUser(args: UserHandleInterface) {
-    const deletedUser = await prisma.profile.delete({
-        where: {
-            username: args.username,
-        },
-    });
+    const user = GetObjOrNotFound(
+        await prisma.profile.findUnique({
+            where: {
+                username: args.username,
+            },
+        })
+    );
 
     const userOrsics = await prisma.orsic.findMany({
         where: {
             post: {
-                uploadedById: deletedUser.id,
+                uploadedById: user.id,
             },
         },
         include: {
@@ -248,7 +250,7 @@ export async function DeleteUser(args: UserHandleInterface) {
     const userImages = await prisma.image.findMany({
         where: {
             post: {
-                uploadedById: deletedUser.id,
+                uploadedById: user.id,
             },
         },
         include: {
@@ -267,7 +269,7 @@ export async function DeleteUser(args: UserHandleInterface) {
     const userComments = await prisma.comment.findMany({
         where: {
             post: {
-                uploadedById: deletedUser.id,
+                uploadedById: user.id,
             },
         },
         include: {
@@ -282,6 +284,18 @@ export async function DeleteUser(args: UserHandleInterface) {
             });
         })
     );
+
+    await prisma.notification.deleteMany({
+        where: {
+            forUserId: user.id,
+        },
+    });
+
+    await prisma.profile.delete({
+        where: {
+            username: args.username,
+        },
+    });
 
     return 'success';
 }
